@@ -34,7 +34,7 @@ public class CarriageDecorationConversionRecipe extends Recipe
 
 			if ( Item . itemID == Items . ToolItemSet . itemID )
 			{
-				if ( Item . itemDamage == ToolItemSet . Types . Screwdriver . ordinal ( ) )
+				if ( Item . getItemDamage() == ToolItemSet . Types . Screwdriver . ordinal ( ) )
 				{
 					if ( ScrewdriverPresent )
 					{

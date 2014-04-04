@@ -36,7 +36,7 @@ public class CarriageTranslocatorLabelConversionRecipe extends Recipe
 			}
 			else if ( Item . itemID == Items . ToolItemSet . itemID )
 			{
-				if ( Item . itemDamage == ToolItemSet . Types . Screwdriver . ordinal ( ) )
+				if ( Item . getItemDamage() == ToolItemSet . Types . Screwdriver . ordinal ( ) )
 				{
 					if ( ScrewdriverPresent )
 					{

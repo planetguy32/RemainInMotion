@@ -1,6 +1,13 @@
 package JAKJ . RedstoneInMotion ;
 
-public abstract class CarriageDriveEntity extends TileEntity
+import com.iconmaster.aec.common.AetherCraft;
+
+import net.minecraftforge.common.ForgeDirection;
+import cofh.api.energy.IEnergyHandler;
+import cpw.mods.fml.common.Optional;
+
+@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
+public abstract class CarriageDriveEntity extends TileEntity implements IEnergyHandler
 {
 	public boolean Continuous ;
 
@@ -13,6 +20,8 @@ public abstract class CarriageDriveEntity extends TileEntity
 	public boolean Active ;
 
 	public int Tier ;
+	
+	public int energyStored=0;
 
 	@Override
 	public void WriteCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
@@ -27,6 +36,7 @@ public abstract class CarriageDriveEntity extends TileEntity
 		TagCompound . setBoolean ( "Active" , Active ) ;
 
 		TagCompound . setInteger ( "Tier" , Tier ) ;
+		TagCompound . setInteger ( "energyStored" , energyStored ) ;
 	}
 
 	@Override
@@ -50,6 +60,8 @@ public abstract class CarriageDriveEntity extends TileEntity
 		Active = TagCompound . getBoolean ( "Active" ) ;
 
 		Tier = TagCompound . getInteger ( "Tier" ) ;
+		
+		energyStored = TagCompound . getInteger ( "energyStored" ) ;
 	}
 
 	@Override
@@ -276,7 +288,13 @@ public abstract class CarriageDriveEntity extends TileEntity
 
 			double EnergyRequired = Package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
 
-			/* check for and consume energy */
+			int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
+			
+			if(powerConsumed>this.energyStored){
+				throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
+			}else{
+				this.energyStored-=powerConsumed;
+			}
 		}
 
 		return ( Package ) ;
@@ -339,4 +357,30 @@ public abstract class CarriageDriveEntity extends TileEntity
 	public abstract CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException ;
 
 	public abstract boolean Anchored ( ) ;
+	
+	
+	@Override
+	public int receiveEnergy(ForgeDirection from, int maxReceive,
+			boolean simulate) {
+		int toRecieve=Math.min(Configuration.powerCapacity-energyStored, maxReceive);
+		if(!simulate)
+			energyStored+=toRecieve;
+		return toRecieve;
+	}
+	
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate){
+		return 0;
+	}
+
+	public boolean canInterface(ForgeDirection from){
+		return Configuration.HardmodeActive;
+	}
+
+	public int getEnergyStored(ForgeDirection from){
+		return this.energyStored;
+	}
+
+	public int getMaxEnergyStored(ForgeDirection from) {
+		return Configuration.powerCapacity;
+	}
 }

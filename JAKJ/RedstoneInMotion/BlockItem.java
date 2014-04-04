@@ -17,7 +17,7 @@ public abstract class BlockItem extends net . minecraft . item . ItemBlock
 
 	public static int GetBlockType ( net . minecraft . item . ItemStack Item )
 	{
-		return ( Item . itemDamage ) ;
+		return ( Item . getItemDamage() ) ;
 	}
 
 	public void AddTooltip ( net . minecraft . item . ItemStack Item , java . util . List TooltipLines )

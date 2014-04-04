@@ -5,6 +5,8 @@ public class FrameCarriageEntity extends CarriageEntity
 	@Override
 	public void FillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
+		int seen=0;
+		
 		BlockRecordSet CarriagesToCheck = new BlockRecordSet ( ) ;
 
 		BlockRecordSet BlocksChecked = new BlockRecordSet ( ) ;
@@ -19,6 +21,7 @@ public class FrameCarriageEntity extends CarriageEntity
 
 		while ( CarriagesToCheck . size ( ) > 0 )
 		{
+			seen++;
 			BlockRecord CarriageRecord = CarriagesToCheck . pollFirst ( ) ;
 
 			for ( Directions TargetDirection : Directions . values ( ) )

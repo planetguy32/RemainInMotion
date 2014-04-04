@@ -14,7 +14,7 @@ public class CarriageItem extends BlockItem
 			return ( Item . stackTagCompound . getInteger ( "DecorationId" ) ) ;
 		}
 
-		return ( Item . itemDamage >>> 8 ) ;
+		return ( Item . getItemDamage() >>> 8 ) ;
 	}
 
 	public static int GetDecorationMeta ( net . minecraft . item . ItemStack Item )
@@ -24,7 +24,7 @@ public class CarriageItem extends BlockItem
 			return ( Item . stackTagCompound . getInteger ( "DecorationMeta" ) ) ;
 		}
 
-		return ( ( Item . itemDamage >>> 4 ) & 0xF ) ;
+		return ( ( Item . getItemDamage() >>> 4 ) & 0xF ) ;
 	}
 
 	public static int GetTier ( net . minecraft . item . ItemStack Item )

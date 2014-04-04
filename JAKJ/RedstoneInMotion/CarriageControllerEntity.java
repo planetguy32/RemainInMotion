@@ -1,5 +1,7 @@
 package JAKJ . RedstoneInMotion ;
 
+import net.minecraftforge.common.ForgeDirection;
+
 public class CarriageControllerEntity extends CarriageDriveEntity implements dan200 . computer . api . IPeripheral
 {
 	public Object ThreadLockObject = new Object ( ) ;
@@ -364,4 +366,5 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 
 		return ( Package ) ;
 	}
+	
 }

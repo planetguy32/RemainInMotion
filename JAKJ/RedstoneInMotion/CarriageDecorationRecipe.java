@@ -63,9 +63,9 @@ public class CarriageDecorationRecipe extends Recipe
 
 			DecorationId = Decoration . itemID ;
 
-			int DecorationMeta = Decoration . getItem ( ) . getMetadata ( Decoration . itemDamage ) ;
+			int DecorationMeta = Decoration . getItem ( ) . getMetadata ( Decoration . getItemDamage() ) ;
 
-			return ( CarriageItem . Stack ( Carriage . itemDamage , Tier , DecorationId , DecorationMeta ) ) ;
+			return ( CarriageItem . Stack ( Carriage . getItemDamage() , Tier , DecorationId , DecorationMeta ) ) ;
 		}
 
 		if ( Decoration != null )

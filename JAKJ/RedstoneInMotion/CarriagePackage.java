@@ -67,6 +67,7 @@ public class CarriagePackage
 
 	public void AddBlock ( BlockRecord Record ) throws CarriageMotionException
 	{
+		
 		if ( ( MotionDirection == Directions . PosY ) && ( Record . Y >= 254 ) )
 		{
 			throw ( new CarriageObstructionException ( "cannot move carriage above height limit" , Record . X , Record . Y , Record . Z ) ) ;

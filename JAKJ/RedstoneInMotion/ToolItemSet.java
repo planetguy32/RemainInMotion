@@ -32,7 +32,7 @@ public class ToolItemSet extends Item
 	@Override
 	public net . minecraft . item . ItemStack getContainerItemStack ( net . minecraft . item . ItemStack Item )
 	{
-		return ( Stack . New ( this , Item . itemDamage ) ) ;
+		return ( Stack . New ( this , Item.getItemDamage() ) ) ;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class ToolItemSet extends Item
 	{
 		try
 		{
-			switch ( Types . values ( ) [ Item . itemDamage ] )
+			switch ( Types . values ( ) [ Item.getItemDamage() ] )
 			{
 				case Screwdriver :
 
@@ -103,7 +103,7 @@ public class ToolItemSet extends Item
 
 		if ( Item . itemID == Items . ToolItemSet . itemID )
 		{
-			if ( Item . itemDamage == Types . Screwdriver . ordinal ( ) )
+			if ( Item . getItemDamage() == Types . Screwdriver . ordinal ( ) )
 			{
 				return ( true ) ;
 			}

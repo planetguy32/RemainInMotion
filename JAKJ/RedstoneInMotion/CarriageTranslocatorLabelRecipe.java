@@ -40,12 +40,12 @@ public class CarriageTranslocatorLabelRecipe extends Recipe
 			}
 			else if ( Item . itemID == net . minecraft . item . Item . dyePowder . itemID )
 			{
-				if ( DyesToAdd [ Item . itemDamage ] )
+				if ( DyesToAdd [ Item . getItemDamage() ] )
 				{
 					return ( null ) ;
 				}
 
-				DyesToAdd [ Item . itemDamage ] = true ;
+				DyesToAdd [ Item . getItemDamage() ] = true ;
 
 				DyeFound = true ;
 

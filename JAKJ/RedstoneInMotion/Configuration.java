@@ -44,6 +44,7 @@ public class Configuration extends Config
 		public static int MotionDuration = 20 ;
 
 		public static int TeleportationDuration = 20 * 8 ;
+		
 	}
 
 	public abstract static class Cosmetic
@@ -63,6 +64,10 @@ public class Configuration extends Config
 
 	public static boolean HardmodeActive = false ;
 
+	public static double PowerConsumptionFactor=0.0;
+	
+	public static int powerCapacity=10000;
+	
 	public enum TextureSets
 	{
 		JAKJ
@@ -276,7 +281,11 @@ public class Configuration extends Config
 		{
 			Category = "Hardmode" ;
 
-//			HardmodeActive = Boolean ( "Hardmode is activated" , HardmodeActive ) ;
+			HardmodeActive = Boolean ( "Hardmode is activated" , HardmodeActive ) ;
+			
+			PowerConsumptionFactor=Configuration.get(Category, "Power consumption factor", PowerConsumptionFactor).getDouble(PowerConsumptionFactor);
+			
+			powerCapacity=Configuration.get(Category, "Power capacity of carriages", powerCapacity).getInt(powerCapacity);
 		}
 
 		Configuration . save ( ) ;

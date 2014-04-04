@@ -14,7 +14,7 @@ public class CarriageDriveItem extends BlockItem
 			return ( Item . stackTagCompound . getBoolean ( "Private" ) ) ;
 		}
 
-		return ( ( ( Item . itemDamage >>> 4 ) & 0x1 ) == 1 ) ;
+		return ( ( ( Item . getItemDamage() >>> 4 ) & 0x1 ) == 1 ) ;
 	}
 
 	public static int GetLabel ( net . minecraft . item . ItemStack Item )
@@ -24,7 +24,7 @@ public class CarriageDriveItem extends BlockItem
 			return ( Item . stackTagCompound . getInteger ( "Label" ) ) ;
 		}
 
-		return ( Item . itemDamage >>> 5 ) ;
+		return ( Item . getItemDamage() >>> 5 ) ;
 	}
 
 	public static int GetTier ( net . minecraft . item . ItemStack Item )

@@ -28,7 +28,7 @@ public class SimpleItemSet extends Item
 	{
 		try
 		{
-			switch ( Types . values ( ) [ Item . itemDamage ] )
+			switch ( Types . values ( ) [ Item . getItemDamage() ] )
 			{
 				case CarriageCrosspiece :
 
