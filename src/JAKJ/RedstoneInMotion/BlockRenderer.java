@@ -71,9 +71,10 @@ public abstract class BlockRenderer implements cpw . mods . fml . client . regis
 			case INVENTORY :
 
 				return ( true ) ;
+		default:
+			return false;
 		}
 
-		return ( false ) ;
 	}
 
 	@Override

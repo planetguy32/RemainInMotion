@@ -10,10 +10,10 @@ public class CarriageDrive extends Block
 
 	public enum Types
 	{
-		Engine ,
-		Motor ,
-		Controller ,
-		Translocator ;
+		Engine(1.0),
+		Motor(1.01) ,
+		Controller(1.1) ,
+		Translocator(4.0) ;
 
 		public net . minecraft . util . Icon NormalIcon ;
 
@@ -23,14 +23,23 @@ public class CarriageDrive extends Block
 
 		public net . minecraft . util . Icon ContinuousActiveIcon ;
 
-		public double MaxBurden ;
+		public double MaxBurden =1000.0;
 
 		public double EnergyConsumption ;
+		
+		private Types(double energy){
+			this.EnergyConsumption=energy;
+		}
 	}
 
 	public enum Tiers
 	{
-		foo ;
+		wood (1.0,1.0);
+		
+		private Tiers(double burden, double power){
+			this.EnergyConsumptionFactor=power;
+			this.MaxBurdenFactor=burden;
+		}
 
 		public double MaxBurdenFactor ;
 
@@ -112,7 +121,7 @@ public class CarriageDrive extends Block
 		}
 		catch ( Throwable Throwable )
 		{
-			Throwable . printStackTrace ( ) ;
+			//Throwable . printStackTrace ( ) ; //Fix log spam with MapWriter
 
 			return ( Blocks . Spectre . getIcon ( 0 , 0 ) ) ;
 		}
@@ -150,6 +159,7 @@ public class CarriageDrive extends Block
 	@Override
 	public boolean onBlockActivated ( net . minecraft . world . World World , int X , int Y , int Z , net . minecraft . entity . player . EntityPlayer Player , int Side , float HitX , float HitY , float HitZ )
 	{
+		
 		if ( World . isRemote )
 		{
 			return ( false ) ;
@@ -162,7 +172,11 @@ public class CarriageDrive extends Block
 
 		try
 		{
-			( ( CarriageDriveEntity ) World . getBlockTileEntity ( X , Y , Z ) ) . HandleToolUsage ( Side , Player . isSneaking ( ) ) ;
+			CarriageDriveEntity cde=(  CarriageDriveEntity ) World . getBlockTileEntity ( X , Y , Z );
+			cde.lastUsingPlayer=Player;
+			System.out.println("Put player in CDE");
+			cde. HandleToolUsage ( Side , Player . isSneaking ( ) ) ;
+			
 		}
 		catch ( Throwable Throwable )
 		{

@@ -63,9 +63,12 @@ public class BlockRecord implements Comparable < BlockRecord >
 	public net . minecraft . tileentity . TileEntity Entity ;
 
 	public net . minecraft . nbt . NBTTagCompound EntityRecord ;
+	public net.minecraft.world.World World;
 
 	public void Identify ( net . minecraft . world . World World )
 	{
+		this.World=World;
+		
 		Id = World . getBlockId ( X , Y , Z ) ;
 
 		Meta = World . getBlockMetadata ( X , Y , Z ) ;

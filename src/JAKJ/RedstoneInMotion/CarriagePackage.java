@@ -127,7 +127,10 @@ public class CarriagePackage
 			}
 			else
 			{
+				
 				Cargo . add ( Record ) ;
+				
+				Mass+=Block.blocksList[Record.Id].getBlockHardness(Record.World, Record.X, Record.Y, Record.Z);
 			}
 		}
 	}
@@ -245,7 +248,7 @@ public class CarriagePackage
 				}
 			}
 		}
-		catch ( Throwable VanillaThrowable )
+		catch ( Exception VanillaThrowable )
 		{
 			try
 			{

@@ -1,7 +1,7 @@
 package JAKJ . RedstoneInMotion ;
 
-import com.iconmaster.aec.common.AetherCraft;
-
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Optional;
@@ -20,8 +20,10 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	public boolean Active ;
 
 	public int Tier ;
-	
+
 	public int energyStored=0;
+
+	public EntityPlayer lastUsingPlayer;
 
 	@Override
 	public void WriteCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
@@ -37,6 +39,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 		TagCompound . setInteger ( "Tier" , Tier ) ;
 		TagCompound . setInteger ( "energyStored" , energyStored ) ;
+		
 	}
 
 	@Override
@@ -60,8 +63,9 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		Active = TagCompound . getBoolean ( "Active" ) ;
 
 		Tier = TagCompound . getInteger ( "Tier" ) ;
-		
+
 		energyStored = TagCompound . getInteger ( "energyStored" ) ;
+		
 	}
 
 	@Override
@@ -81,6 +85,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	@Override
 	public void Setup ( net . minecraft . entity . player . EntityPlayer Player , net . minecraft . item . ItemStack Item )
 	{
+		lastUsingPlayer=Player;
 		Tier = CarriageDriveItem . GetTier ( Item ) ;
 	}
 
@@ -251,18 +256,25 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		}
 		catch ( CarriageMotionException Exception )
 		{
-			if ( Configuration . Debug . LogMotionExceptions )
+
+
+			String Message = "Drive at (" + xCoord + "," + yCoord + "," + zCoord + ") in dimension " + worldObj . provider . dimensionId + " failed to move carriage: " + Exception . getMessage ( ) ;
+
+			if ( Exception instanceof CarriageObstructionException )
 			{
-				String Message = "Drive at (" + xCoord + "," + yCoord + "," + zCoord + ") in dimension " + worldObj . provider . dimensionId + " failed to move carriage: " + Exception . getMessage ( ) ;
+				CarriageObstructionException ObstructionException = ( CarriageObstructionException ) Exception ;
 
-				if ( Exception instanceof CarriageObstructionException )
-				{
-					CarriageObstructionException ObstructionException = ( CarriageObstructionException ) Exception ;
+				Message += " - (" + ObstructionException . X + "," + ObstructionException . Y + "," + ObstructionException . Z + ")" ;
+			}
 
-					Message += " - (" + ObstructionException . X + "," + ObstructionException . Y + "," + ObstructionException . Z + ")" ;
-				}
-
+			if ( Configuration . Debug . LogMotionExceptions ){
 				Debug . Emit ( Message ) ;
+			}
+
+			if(this.lastUsingPlayer!=null){
+				ChatMessageComponent chatMessage=new ChatMessageComponent();
+				chatMessage.addText(Message);
+				this.lastUsingPlayer.sendChatToPlayer(chatMessage);
 			}
 		}
 	}
@@ -280,6 +292,8 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			{
 				double MaxBurden = CarriageDrive . Types . values ( ) [ Type ] . MaxBurden * CarriageDrive . Tiers . values ( ) [ Tier ] . MaxBurdenFactor ;
 
+				//System.out.println("Package mass: "+Package.Mass+", max burden "+ CarriageDrive . Types . values ( ) [ Type ] . MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . MaxBurdenFactor +" = "+MaxBurden);
+
 				if ( Package . Mass > MaxBurden )
 				{
 					throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( Package . Mass - MaxBurden ) ) + " units) for drive to handle" ) ) ;
@@ -289,7 +303,9 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			double EnergyRequired = Package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
 
 			int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
-			
+
+			//System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
+
 			if(powerConsumed>this.energyStored){
 				throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
 			}else{
@@ -357,8 +373,8 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	public abstract CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException ;
 
 	public abstract boolean Anchored ( ) ;
-	
-	
+
+
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
@@ -367,7 +383,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			energyStored+=toRecieve;
 		return toRecieve;
 	}
-	
+
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate){
 		return 0;
 	}

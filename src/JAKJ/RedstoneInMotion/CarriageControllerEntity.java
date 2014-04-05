@@ -1,8 +1,13 @@
 package JAKJ . RedstoneInMotion ;
 
+import cpw.mods.fml.common.Optional;
+import dan200.computercraft.api.lua.ILuaContext;
+import dan200.computercraft.api.peripheral.IComputerAccess;
+import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraftforge.common.ForgeDirection;
 
-public class CarriageControllerEntity extends CarriageDriveEntity implements dan200 . computer . api . IPeripheral
+@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+public class CarriageControllerEntity extends CarriageDriveEntity implements dan200.computercraft.api.peripheral.IPeripheral
 {
 	public Object ThreadLockObject = new Object ( ) ;
 
@@ -76,22 +81,6 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 	public String getType ( )
 	{
 		return ( "JAKJ_RIM_CarriageController" ) ;
-	}
-
-	@Override
-	public boolean canAttachToSide ( int Side )
-	{
-		return ( true ) ;
-	}
-
-	@Override
-	public void attach ( dan200 . computer . api . IComputerAccess Computer )
-	{
-	}
-
-	@Override
-	public void detach ( dan200 . computer . api . IComputerAccess Computer )
-	{
 	}
 
 	public enum Commands
@@ -207,13 +196,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		this . Anchored = Anchored ;
 	}
 
-	@Override
-	public synchronized Object [ ] callMethod ( dan200 . computer . api . IComputerAccess Computer , dan200 . computer . api . ILuaContext LuaContext , int MethodIndex , Object [ ] Arguments ) throws Exception
-	{
-		return ( callMethod ( Computer , MethodIndex , Arguments ) ) ;
-	}
-
-	public synchronized Object [ ] callMethod ( dan200 . computer . api . IComputerAccess Computer , int MethodIndex , Object [ ] Arguments ) throws Exception
+	public synchronized Object [ ] callMethod ( IComputerAccess computer , int MethodIndex , Object [ ] Arguments ) throws Exception
 	{
 		try
 		{
@@ -365,6 +348,27 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		Package . Finalize ( ) ;
 
 		return ( Package ) ;
+	}
+
+	@Override
+	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
+			int method, Object[] arguments) throws Exception {
+		return callMethod ( computer , method , arguments ) ;
+	}
+
+	@Override
+	public void attach(IComputerAccess computer) {
+		
+	}
+
+	@Override
+	public void detach(IComputerAccess computer) {
+		
+	}
+
+	@Override
+	public boolean equals(IPeripheral other) {
+		return other==this;
 	}
 	
 }
