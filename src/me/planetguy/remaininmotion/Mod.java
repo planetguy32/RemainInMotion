@@ -4,13 +4,13 @@ package me.planetguy.remaininmotion ;
 @cpw . mods . fml . common . network . NetworkMod ( clientSideRequired = true , serverSideRequired = false , channels = { Mod . Channel } , packetHandler = PacketManager . class )
 public class Mod
 {
-	public static final String Namespace = "JAKJ.RedstoneInMotion." ;
+	public static final String Namespace = "me.planetguy.remaininmotion." ;
 
 	public static final String Handle = "JAKJ_RedstoneInMotion" ;
 
 	public static final String Title = "Redstone In Motion" ;
 
-	public static final String Version = "2.3.0.0" ;
+	public static final String Version = "1.0.1" ;
 
 	public static final String Channel = "JAKJ_RIM" ;
 
