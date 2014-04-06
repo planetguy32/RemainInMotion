@@ -4,11 +4,24 @@ import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
 public class CarriageControllerEntity extends CarriageDriveEntity implements dan200.computercraft.api.peripheral.IPeripheral
 {
+	
+	static{
+		IPeripheralProvider ipp=new CarriageControllerPeripheralProvider();
+		try {
+			Reflection.EstablishMethod(Reflection.EstablishClass("dan200.computercraft.api.ComputerCraftAPI"), "registerPeripheralProvider", Class.forName("dan200.computercraft.api.peripheral.IPeripheralProvider")).invoke(null, ipp);
+		} catch (Exception e) {
+			System.out.println("Error enabling ComputerCraft integration! It probably won't work!");
+			e.printStackTrace();
+		}
+	}
+	
 	public Object ThreadLockObject = new Object ( ) ;
 
 	public boolean Simulating ;
@@ -81,6 +94,21 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 	public String getType ( )
 	{
 		return ( "JAKJ_RIM_CarriageController" ) ;
+	}
+
+	@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheralProvider", modid = "ComputerCraft")
+	private static final class CarriageControllerPeripheralProvider implements
+			IPeripheralProvider {
+		@Override
+		public IPeripheral getPeripheral(World world, int x, int y, int z,
+				int side) {
+			try{
+				return (IPeripheral) world.getBlockTileEntity(x, y, z);
+			}catch(Exception e){
+				e.printStackTrace();
+				return null;
+			}
+		}
 	}
 
 	public enum Commands
@@ -196,8 +224,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		this . Anchored = Anchored ;
 	}
 
-	public synchronized Object [ ] callMethod ( IComputerAccess computer , int MethodIndex , Object [ ] Arguments ) throws Exception
-	{
+    public Object[] callMethod( IComputerAccess computer, ILuaContext context, int MethodIndex, Object[] Arguments ) throws Exception{
 		try
 		{
 			switch ( Commands . values ( ) [ MethodIndex ] )
@@ -348,12 +375,6 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		Package . Finalize ( ) ;
 
 		return ( Package ) ;
-	}
-
-	@Override
-	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
-			int method, Object[] arguments) throws Exception {
-		return callMethod ( computer , method , arguments ) ;
 	}
 
 	@Override
