@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.block.material.Material;
+
 public abstract class Block extends net . minecraft . block . Block
 {
 	public int RenderId ;
@@ -42,13 +44,13 @@ public abstract class Block extends net . minecraft . block . Block
 		}
 	}
 
-	public Block ( int Id , net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , Class < ? extends TileEntity > ... TileEntityClasses )
+	public Block ( net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , Class < ? extends TileEntity > ... TileEntityClasses )
 	{
-		super ( Id , new net . minecraft . block . material . Material ( Template . blockMaterial . materialMapColor ) ) ;
+		super (Material.iron ) ;
 
-		setUnlocalizedName ( Mod . Handle + "_" + getClass ( ) . getSimpleName ( ) ) ;
+		setBlockName ( Mod . Handle + "_" + getClass ( ) . getSimpleName ( ) ) ;
 
-		setHardness ( Template . blockHardness ) ;
+		setHardness ( (Float) Reflection.stealField("blockHardness", Template) ) ;
 
 		setStepSound ( Template . stepSound ) ;
 
@@ -72,18 +74,11 @@ public abstract class Block extends net . minecraft . block . Block
 		public static String Hatchet = "axe" ;
 	}
 
-	public Block ( int Id , net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , String HarvestToolType , Class < ? extends TileEntity > ... TileEntityClasses )
+	public Block ( net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , String HarvestToolType , Class < ? extends TileEntity > ... TileEntityClasses )
 	{
-		this ( Id , Template , BlockItemClass , TileEntityClasses ) ;
-
-		net . minecraftforge . common . MinecraftForge . setBlockHarvestLevel ( this , HarvestToolType , 0 ) ;
+		this ( Template , BlockItemClass , TileEntityClasses ) ;
 
 		setCreativeTab ( CreativeTab . Instance ) ;
-	}
-
-	public static net . minecraft . block . Block Get ( int Id )
-	{
-		return ( net . minecraft . block . Block . blocksList [ Id ] ) ;
 	}
 
 	public void AddShowcaseStacks ( java . util . List Showcase )
@@ -91,7 +86,7 @@ public abstract class Block extends net . minecraft . block . Block
 	}
 
 	@Override
-	public void getSubBlocks ( int Id , net . minecraft . creativetab . CreativeTabs CreativeTab , java . util . List Showcase )
+	public void getSubBlocks (net . minecraft . creativetab . CreativeTabs CreativeTab , java . util . List Showcase )
 	{
 		AddShowcaseStacks ( Showcase ) ;
 	}
@@ -109,7 +104,7 @@ public abstract class Block extends net . minecraft . block . Block
 
 		try
 		{
-			( ( TileEntity ) World . getBlockTileEntity ( X , Y , Z ) ) . Setup ( ( net . minecraft . entity . player . EntityPlayer ) Entity , Item ) ;
+			( ( TileEntity ) World . getTileEntity ( X , Y , Z ) ) . Setup ( ( net . minecraft . entity . player . EntityPlayer ) Entity , Item ) ;
 		}
 		catch ( Throwable Throwable )
 		{
@@ -118,23 +113,20 @@ public abstract class Block extends net . minecraft . block . Block
 	}
 
 	@Override
-	public boolean removeBlockByPlayer ( net . minecraft . world . World World , net . minecraft . entity . player . EntityPlayer Player , int X , int Y , int Z )
+	public void breakBlock ( net . minecraft . world . World World , int X , int Y , int Z, net.minecraft.block.Block b, int idk)
 	{
 		if ( ! World . isRemote )
 		{
-			if ( ! Player . capabilities . isCreativeMode )
+			try
 			{
-				try
-				{
-					( ( TileEntity ) World . getBlockTileEntity ( X , Y , Z ) ) . EmitDrops ( this , World . getBlockMetadata ( X , Y , Z ) ) ;
-				}
-				catch ( Throwable Throwable )
-				{
-					Throwable . printStackTrace ( ) ;
-				}
+				( ( TileEntity ) World . getTileEntity ( X , Y , Z ) ) . EmitDrops ( this , World . getBlockMetadata ( X , Y , Z ) ) ;
+			}
+			catch ( Throwable Throwable )
+			{
+				Throwable . printStackTrace ( ) ;
 			}
 		}
 
-		return ( super . removeBlockByPlayer ( World , Player , X , Y , Z ) ) ;
+		super . breakBlock ( World , X , Y , Z, b, idk );
 	}
 }

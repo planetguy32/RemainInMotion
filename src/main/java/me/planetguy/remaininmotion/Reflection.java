@@ -62,4 +62,17 @@ public abstract class Reflection
 			return ( null ) ;
 		}
 	}
+	
+	public static Object stealField(String fieldName, Object obj){
+		try {
+			return EstablishField(obj.getClass(), fieldName).get(obj);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

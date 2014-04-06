@@ -1,20 +1,22 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.block.Block;
+
 public class CarriageItem extends BlockItem
 {
-	public CarriageItem ( int Id )
+	public CarriageItem (Block b )
 	{
-		super ( Id ) ;
+		super (b ) ;
 	}
 
-	public static int GetDecorationId ( net . minecraft . item . ItemStack Item )
+	public static Block GetDecorationId ( net . minecraft . item . ItemStack Item )
 	{
 		if ( Item . stackTagCompound != null )
 		{
-			return ( Item . stackTagCompound . getInteger ( "DecorationId" ) ) ;
+			return ( Block.getBlockById(Item . stackTagCompound . getInteger ( "DecorationId" ) )) ;
 		}
 
-		return ( Item . getItemDamage() >>> 8 ) ;
+		return ( Block.getBlockById(Item . getItemDamage() >>> 8 )) ;
 	}
 
 	public static int GetDecorationMeta ( net . minecraft . item . ItemStack Item )
@@ -56,7 +58,7 @@ public class CarriageItem extends BlockItem
 	}
 
 	@Override
-	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		try
 		{
@@ -161,7 +163,7 @@ public class CarriageItem extends BlockItem
 
 		try
 		{
-			TooltipLines . add ( "Decoration: " + Decoration . getItem ( ) . getItemDisplayName ( Decoration ) ) ;
+			TooltipLines . add ( "Decoration: " + Decoration . getItem ( ) . getItemStackDisplayName ( Decoration ) ) ;
 		}
 		catch ( Throwable Throwable )
 		{

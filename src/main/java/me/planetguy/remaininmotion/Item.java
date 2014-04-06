@@ -2,9 +2,9 @@ package me.planetguy.remaininmotion ;
 
 public abstract class Item extends net . minecraft . item . Item
 {
-	public Item ( int Id )
+	public Item ( )
 	{
-		super ( Id ) ;
+		super (  ) ;
 
 		setUnlocalizedName ( Mod . Handle + "_" + getClass ( ) . getSimpleName ( ) ) ;
 

@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.util.IIcon;
+
 public class Carriage extends Block
 {
 	public Carriage ( )
@@ -18,8 +20,8 @@ public class Carriage extends Block
 
 		public double Burden ;
 
-		public net . minecraft . util . Icon OpenIcon ;
-		public net . minecraft . util . Icon ClosedIcon ;
+		public IIcon OpenIcon ;
+		public IIcon ClosedIcon ;
 	}
 
 	public enum Tiers
@@ -31,7 +33,7 @@ public class Carriage extends Block
 		double CargoBurdenFactor ;
 	}
 
-	public static net . minecraft . util . Icon PlaceholderIcon ;
+	public static IIcon PlaceholderIcon ;
 
 	@Override
 	public void AddShowcaseStacks ( java . util . List Showcase )
@@ -56,7 +58,7 @@ public class Carriage extends Block
 	}
 
 	@Override
-	public net . minecraft . util . Icon getIcon ( int Side , int Meta )
+	public IIcon getIcon ( int Side , int Meta )
 	{
 		try
 		{
@@ -71,11 +73,11 @@ public class Carriage extends Block
 	}
 
 	@Override
-	public net . minecraft . util . Icon getBlockTexture ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
+	public IIcon getBlockTexture ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
 	{
 		try
 		{
-			CarriageEntity Carriage = ( CarriageEntity ) World . getBlockTileEntity ( X , Y , Z ) ;
+			CarriageEntity Carriage = ( CarriageEntity ) World . getTileEntity ( X , Y , Z ) ;
 
 			if ( ( Carriage . DecorationId != 0 ) && ( Carriage . SideClosed [ Side ] ) )
 			{
@@ -109,7 +111,7 @@ public class Carriage extends Block
 
 		try
 		{
-			( ( CarriageEntity ) World . getBlockTileEntity ( X , Y , Z ) ) . ToggleSide ( Side , Player . isSneaking ( ) ) ;
+			( ( CarriageEntity ) World . getTileEntity ( X , Y , Z ) ) . ToggleSide ( Side , Player . isSneaking ( ) ) ;
 		}
 		catch ( Throwable Throwable )
 		{

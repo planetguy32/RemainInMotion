@@ -1,7 +1,6 @@
 package me.planetguy.remaininmotion ;
 
 @cpw . mods . fml . common . Mod ( modid = Mod . Handle , name = Mod . Title , version = Mod . Version )
-@cpw . mods . fml . common . network . NetworkMod ( clientSideRequired = true , serverSideRequired = false , channels = { Mod . Channel } , packetHandler = PacketManager . class )
 public class Mod
 {
 	public static final String Namespace = "me.planetguy.remaininmotion." ;

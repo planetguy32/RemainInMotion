@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.block.material.Material;
+
 public class CarriagePackage
 {
 	public BlockPosition RenderCacheKey ;
@@ -18,7 +20,7 @@ public class CarriagePackage
 
 	public CarriagePackage ( CarriageDriveEntity Drive , CarriageEntity Anchor , Directions MotionDirection )
 	{
-		World = ( net . minecraft . world . WorldServer ) Drive . worldObj ;
+		World = ( net . minecraft . world . WorldServer ) Drive.getWorldObj() ;
 
 		DriveRecord = new BlockRecord ( Drive . xCoord , Drive . yCoord , Drive . zCoord ) ;
 
@@ -35,7 +37,7 @@ public class CarriagePackage
 
 	public boolean MatchesCarriageType ( BlockRecord Record )
 	{
-		if ( Record . Id == AnchorRecord . Id )
+		if ( Record.block == AnchorRecord.block )
 		{
 			if ( Record . Meta == AnchorRecord . Meta )
 			{
@@ -119,7 +121,7 @@ public class CarriagePackage
 
 		if ( Configuration . HardmodeActive )
 		{
-			if ( Record . Id == Blocks . Carriage . blockID )
+			if ( Record.block == Blocks . Carriage )
 			{
 				Carriages . add ( Record ) ;
 
@@ -130,7 +132,7 @@ public class CarriagePackage
 				
 				Cargo . add ( Record ) ;
 				
-				Mass+=Block.blocksList[Record.Id].getBlockHardness(Record.World, Record.X, Record.Y, Record.Z);
+				Mass+=Record.block.getBlockHardness(Record.World, Record.X, Record.Y, Record.Z);
 			}
 		}
 	}
@@ -156,7 +158,7 @@ public class CarriagePackage
 			return ;
 		}
 
-		if ( Block . Get ( World . getBlockId ( Record . X , Record . Y , Record . Z ) ) . blockMaterial . isLiquid ( ) )
+		if (((Material) Reflection.stealField("blockMaterial", World . getBlock ( Record . X , Record . Y , Record . Z ) )) . isLiquid ( ) )
 		{
 			if ( ObstructedByLiquids )
 			{

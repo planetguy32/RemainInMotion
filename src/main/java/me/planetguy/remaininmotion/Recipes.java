@@ -63,9 +63,9 @@ public abstract class Recipes
 
 			" I " , " I " , "LSL" ,
 
-			'I' , Stack . New ( net . minecraft . item . Item . ingotIron ) ,
-			'S' , Stack . New ( net . minecraft . block . Block . cobblestone ) ,
-			'L' , Stack . New ( net . minecraft . item . Item . leather )
+			'I' , Stack . New ( (Item) net . minecraft . item . Item .itemRegistry.getObject("ingotIron")   ) ,
+			'S' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("cobblestone") ) ,
+			'L' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("leather")   )
 		) ;
 	}
 
@@ -114,9 +114,9 @@ public abstract class Recipes
 
 			"RFR" , "FIF" , "RFR" ,
 
-			'R' , Stack . New ( net . minecraft . block . Block . blockRedstone ) ,
-			'F' , Stack . New ( net . minecraft . block . Block . furnaceIdle ) ,
-			'I' , Stack . New ( net . minecraft . block . Block . blockIron )
+			'R' , Stack . New ( (Block) net . minecraft . block . Block .blockRegistry.getObject("blockRedstone") ) ,
+			'F' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("furnaceIdle") ) ,
+			'I' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("blockIron") )
 		) ;
 
 		RegisterCarriageDriveRecipe
@@ -126,7 +126,7 @@ public abstract class Recipes
 			"TTT" , "TMT" , "TTT" ,
 
 			'M' , CarriageDriveItem . Stack ( CarriageDrive . Types . Motor . ordinal ( ) , 0 ) ,
-			'T' , Stack . New ( net . minecraft . block . Block . torchRedstoneActive )
+			'T' , Stack . New ( (Block) net . minecraft . block . Block . blockRegistry.getObject("torchRedstoneActive") )
 		) ;
 
 		RegisterCarriageDriveRecipe
@@ -136,9 +136,9 @@ public abstract class Recipes
 			"OOO" , "OEO" , "PCP" ,
 
 			'E' , CarriageDriveItem . Stack ( CarriageDrive . Types . Engine . ordinal ( ) , 0 ) ,
-			'O' , Stack . New ( net . minecraft . block . Block . obsidian ) ,
-			'P' , Stack . New ( net . minecraft . item . Item . enderPearl ) ,
-			'C' , Stack . New ( net . minecraft . item . Item . compass )
+			'O' , Stack . New ( (Block) net . minecraft . block .Block.blockRegistry.getObject("obsidian") ) ,
+			'P' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("enderPearl") ) ,
+			'C' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("compass") )
 		) ;
 
 		if ( ModInteraction . ComputerCraft . CarriageControllerEntity != null )
@@ -149,7 +149,7 @@ public abstract class Recipes
 
 				"RRR" , "RMR" , "RRR" ,
 
-				'R' , Stack . New ( net . minecraft . item . Item . redstoneRepeater ) ,
+				'R' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("redstoneRepeater") ) ,
 				'M' , CarriageDriveItem . Stack ( CarriageDrive . Types . Motor . ordinal ( ) , 0 )
 			) ;
 		}

@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.util.IIcon;
+
 public class CarriageDriveRenderer extends BlockRenderer
 {
 	public CarriageDriveRenderer ( )
@@ -83,7 +85,7 @@ public class CarriageDriveRenderer extends BlockRenderer
 	}
 
 	@Override
-	public net . minecraft . util . Icon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side )
+	public IIcon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side )
 	{
 		return ( Blocks . CarriageDrive . getIcon ( 0 , BlockItem . GetBlockType ( Item ) ) ) ;
 	}
