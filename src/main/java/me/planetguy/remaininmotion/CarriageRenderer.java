@@ -1,10 +1,12 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.util.IIcon;
+
 public class CarriageRenderer extends BlockRenderer
 {
 	public CarriageRenderer ( )
 	{
-		Blocks . Carriage . RenderId = Initialize ( Blocks . Carriage . blockID ) ;
+		Blocks . Carriage . RenderId = Initialize ( Blocks . Carriage ) ;
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class CarriageRenderer extends BlockRenderer
 	}
 
 	@Override
-	public net . minecraft . util . Icon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side )
+	public IIcon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side )
 	{
 		if ( Side != Directions . PosY )
 		{

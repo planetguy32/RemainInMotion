@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.util.IIcon;
+
 public class CarriageDrive extends Block
 {
 	public CarriageDrive ( )
@@ -15,13 +17,13 @@ public class CarriageDrive extends Block
 		Controller(1.1) ,
 		Translocator(4.0) ;
 
-		public net . minecraft . util . Icon NormalIcon ;
+		public IIcon NormalIcon ;
 
-		public net . minecraft . util . Icon ContinuousIcon ;
+		public IIcon ContinuousIcon ;
 
-		public net . minecraft . util . Icon NormalActiveIcon ;
+		public IIcon NormalActiveIcon ;
 
-		public net . minecraft . util . Icon ContinuousActiveIcon ;
+		public IIcon ContinuousActiveIcon ;
 
 		public double MaxBurden =1000.0;
 
@@ -46,15 +48,15 @@ public class CarriageDrive extends Block
 		public double EnergyConsumptionFactor ;
 	}
 
-	public static net . minecraft . util . Icon InactiveIcon ;
+	public static IIcon InactiveIcon ;
 
-	public static net . minecraft . util . Icon DyeIconSet ;
+	public static IIcon DyeIconSet ;
 
-	public static net . minecraft . util . Icon PublicIcon ;
+	public static IIcon PublicIcon ;
 
-	public static net . minecraft . util . Icon PrivateToSelfIcon ;
+	public static IIcon PrivateToSelfIcon ;
 
-	public static net . minecraft . util . Icon PrivateToOtherIcon ;
+	public static IIcon PrivateToOtherIcon ;
 
 	@Override
 	public void AddShowcaseStacks ( java . util . List Showcase )
@@ -113,7 +115,7 @@ public class CarriageDrive extends Block
 	}
 
 	@Override
-	public net . minecraft . util . Icon getIcon ( int Side , int Meta )
+	public IIcon getIcon ( int Side , int Meta )
 	{
 		try
 		{
@@ -128,11 +130,11 @@ public class CarriageDrive extends Block
 	}
 
 	@Override
-	public net . minecraft . util . Icon getBlockTexture ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
+	public IIcon getBlockTexture ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
 	{
 		try
 		{
-			CarriageDriveEntity Drive = ( CarriageDriveEntity ) World . getBlockTileEntity ( X , Y , Z ) ;
+			CarriageDriveEntity Drive = ( CarriageDriveEntity ) World . getTileEntity ( X , Y , Z ) ;
 
 			if ( Drive . SideClosed [ Side ] )
 			{
@@ -172,7 +174,7 @@ public class CarriageDrive extends Block
 
 		try
 		{
-			CarriageDriveEntity cde=(  CarriageDriveEntity ) World . getBlockTileEntity ( X , Y , Z );
+			CarriageDriveEntity cde=(  CarriageDriveEntity ) World . getTileEntity ( X , Y , Z );
 			cde.lastUsingPlayer=Player;
 			System.out.println("Put player in CDE");
 			cde. HandleToolUsage ( Side , Player . isSneaking ( ) ) ;
@@ -193,7 +195,7 @@ public class CarriageDrive extends Block
 	{
 		try
 		{
-			( ( CarriageDriveEntity ) World . getBlockTileEntity ( X , Y , Z ) ) . HandleNeighbourBlockChange ( ) ;
+			( ( CarriageDriveEntity ) World . getTileEntity ( X , Y , Z ) ) . HandleNeighbourBlockChange ( ) ;
 		}
 		catch ( Throwable Throwable )
 		{

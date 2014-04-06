@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.block.Block;
+
 public class BlockRecord implements Comparable < BlockRecord >
 {
 	public int X ;
@@ -56,7 +58,7 @@ public class BlockRecord implements Comparable < BlockRecord >
 		return ( Result ) ;
 	}
 
-	public int Id ;
+	public Block block ;
 
 	public int Meta ;
 
@@ -69,18 +71,18 @@ public class BlockRecord implements Comparable < BlockRecord >
 	{
 		this.World=World;
 		
-		Id = World . getBlockId ( X , Y , Z ) ;
+		block = World . getBlock ( X , Y , Z ) ;
 
 		Meta = World . getBlockMetadata ( X , Y , Z ) ;
 
-		Entity = World . getBlockTileEntity ( X , Y , Z ) ;
+		Entity = World . getTileEntity ( X , Y , Z ) ;
 	}
 
 	public static BlockRecord Identified ( TileEntity Anchor , int X , int Y , int Z )
 	{
 		BlockRecord Record = new BlockRecord ( X , Y , Z ) ;
 
-		Record . Identify ( Anchor . worldObj ) ;
+		Record . Identify ( Anchor . getWorldObj() ) ;
 
 		return ( Record ) ;
 	}

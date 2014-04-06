@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.util.IIcon;
+
 public class ToolItemSet extends Item
 {
 	public static int Id ;
@@ -8,7 +10,7 @@ public class ToolItemSet extends Item
 	{
 		Screwdriver ;
 
-		public net . minecraft . util . Icon Icon ;
+		public IIcon Icon ;
 
 		public net . minecraft . item . ItemStack Stack ( )
 		{

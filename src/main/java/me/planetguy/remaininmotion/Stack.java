@@ -1,11 +1,12 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.ItemStack;
+
 public abstract class Stack
 {
 	public static net . minecraft . item . ItemStack Tag ( net . minecraft . item . ItemStack Item )
 	{
-		Item . stackTagCompound = new net . minecraft . nbt . NBTTagCompound ( "tag" ) ;
-
+		Item . stackTagCompound = new net . minecraft . nbt . NBTTagCompound ( ) ;
 		return ( Item ) ;
 	}
 
@@ -16,24 +17,24 @@ public abstract class Stack
 		return ( Item ) ;
 	}
 
-	public static net . minecraft . item . ItemStack New ( int Id , int Damage , int Quantity )
+	public static net . minecraft . item . ItemStack New ( Block b , int Damage , int Quantity )
 	{
-		return ( new net . minecraft . item . ItemStack ( Id , Quantity , Damage ) ) ;
+		return ( new net . minecraft . item . ItemStack ( b , Quantity , Damage ) ) ;
 	}
 
-	public static net . minecraft . item . ItemStack New ( int Id , int Damage )
+	public static net . minecraft . item . ItemStack New ( Block b , int Damage )
 	{
-		return ( New ( Id , Damage , 1 ) ) ;
+		return ( New ( b , Damage , 1 ) ) ;
 	}
 
-	public static net . minecraft . item . ItemStack New ( int Id )
+	public static net . minecraft . item . ItemStack New ( Block b )
 	{
-		return ( New ( Id , 0 ) ) ;
+		return ( New ( b , 0 ) ) ;
 	}
 
 	public static net . minecraft . item . ItemStack New ( net . minecraft . item . Item Item , int Damage , int Quantity )
 	{
-		return ( New ( Item . itemID , Damage , Quantity ) ) ;
+		return ( new ItemStack ( Item , Damage , Quantity ) ) ;
 	}
 
 	public static net . minecraft . item . ItemStack New ( net . minecraft . item . Item Item , Enum Type , int Quantity )
@@ -58,7 +59,7 @@ public abstract class Stack
 
 	public static net . minecraft . item . ItemStack New ( net . minecraft . block . Block Block , int Damage , int Quantity )
 	{
-		return ( New ( Block . blockID , Damage , Quantity ) ) ;
+		return ( New ( Block , Damage , Quantity ) ) ;
 	}
 
 	public static net . minecraft . item . ItemStack New ( net . minecraft . block . Block Block , Enum Type , int Quantity )

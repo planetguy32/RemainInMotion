@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.IIcon;
+
 public abstract class BlockRenderer implements cpw . mods . fml . client . registry . ISimpleBlockRenderingHandler , net . minecraftforge . client . IItemRenderer
 {
 	public int RenderId ;
@@ -10,13 +13,13 @@ public abstract class BlockRenderer implements cpw . mods . fml . client . regis
 		return ( RenderId ) ;
 	}
 
-	public int Initialize ( int BlockId )
+	public int Initialize ( Block block )
 	{
 		RenderId = cpw . mods . fml . client . registry . RenderingRegistry . getNextAvailableRenderId ( ) ;
 
 		cpw . mods . fml . client . registry . RenderingRegistry . registerBlockHandler ( this ) ;
 
-		net . minecraftforge . client . MinecraftForgeClient . registerItemRenderer ( BlockId , this ) ;
+		net . minecraftforge . client . MinecraftForgeClient . registerItemRenderer ( new ItemBlock(block) , this ) ;
 
 		return ( RenderId ) ;
 	}
@@ -44,13 +47,13 @@ public abstract class BlockRenderer implements cpw . mods . fml . client . regis
 
 		RenderBlocks . renderStandardBlock ( Block , X , Y , Z ) ;
 
-		Render ( World . getBlockTileEntity ( X , Y , Z ) ) ;
+		Render ( World . getTileEntity ( X , Y , Z ) ) ;
 
 		return ( true ) ;
 	}
 
 	@Override
-	public boolean shouldRender3DInInventory ( )
+	public boolean shouldRender3DInInventory ( int id )
 	{
 		return ( true ) ;
 	}
@@ -83,7 +86,7 @@ public abstract class BlockRenderer implements cpw . mods . fml . client . regis
 		return ( true ) ;
 	}
 
-	public abstract net . minecraft . util . Icon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side ) ;
+	public abstract IIcon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side ) ;
 
 	@Override
 	public void renderItem ( ItemRenderType Type , net . minecraft . item . ItemStack Item , Object ... Arguments )
@@ -152,7 +155,7 @@ public abstract class BlockRenderer implements cpw . mods . fml . client . regis
 	public double TextureMaxU ;
 	public double TextureMaxV ;
 
-	public void SetTextureSpan ( net . minecraft . util . Icon Texture )
+	public void SetTextureSpan ( IIcon Texture )
 	{
 		TextureMinU = Texture . getInterpolatedU ( 0 ) ;
 		TextureMinV = Texture . getInterpolatedV ( 0 ) ;
