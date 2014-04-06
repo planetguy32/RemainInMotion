@@ -228,7 +228,7 @@ public class CarriagePackage
 			AssertNotObstruction ( PotentialObstruction ) ;
 		}
 
-		long WorldTime = World . worldInfo . getWorldTotalTime ( ) ;
+		long WorldTime = World.getWorldInfo() . getWorldTotalTime ( ) ;
 
 		try
 		{
@@ -248,8 +248,11 @@ public class CarriagePackage
 				}
 			}
 		}
-		catch ( Exception VanillaThrowable )
+		catch ( Throwable VanillaThrowable ) //Bad to catch throwable, but need to catch NoSuchFieldError to continue into MCPC+ handling
 		{
+			if(VanillaThrowable instanceof ThreadDeath){
+				throw((ThreadDeath)VanillaThrowable);
+			}
 			try
 			{
 				java . util . Set PendingBlockUpdateSet = ( java . util . Set ) ModInteraction . PendingBlockUpdateSetField . get ( World ) ;
