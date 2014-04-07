@@ -60,6 +60,8 @@ public class Configuration extends Config
 	public abstract static class Debug
 	{
 		public static boolean LogMotionExceptions = false ;
+		
+		public static boolean MuteMotionExceptions=true;
 	}
 
 	public static boolean HardmodeActive = false ;
@@ -276,6 +278,8 @@ public class Configuration extends Config
 			Category = "Debugging" ;
 
 			Debug . LogMotionExceptions = Boolean ( "Write carriage-motion errors to client/server log" , Debug . LogMotionExceptions ) ;
+			
+			Debug.MuteMotionExceptions = Boolean ( "Mute carriage-motion errors completely" , Debug.MuteMotionExceptions);
 		}
 
 		{

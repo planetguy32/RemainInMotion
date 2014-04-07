@@ -104,8 +104,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 				int side) {
 			try{
 				return (IPeripheral) world.getBlockTileEntity(x, y, z);
-			}catch(Exception e){
-				e.printStackTrace();
+			}catch(ClassCastException e){
 				return null;
 			}
 		}
@@ -281,15 +280,15 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 
 		try
 		{
-			do
+			while ( MotionDirection != null )
 			{
 				wait ( ) ;
 			}
-			while ( MotionDirection != null ) ;
+		
 		}
-		catch ( Throwable Throwable )
+		catch ( Exception exc )
 		{
-			throw ( new Exception ( Throwable ) ) ;
+			//exc.printStackTrace();
 		}
 
 		if ( Error == null )
