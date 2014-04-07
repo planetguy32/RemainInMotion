@@ -1,0 +1,7 @@
+"16x textures for RedstoneInMotion carriages and engines"
+
+by cubemelon
+
+License: WTFPL
+
+http://www.reddit.com/r/feedthebeast/comments/1hk323/16x_textures_for_redstoneinmotion_carriages_and/
