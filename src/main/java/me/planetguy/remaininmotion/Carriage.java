@@ -1,12 +1,15 @@
 package me.planetguy.remaininmotion ;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
 public class Carriage extends Block
 {
 	public Carriage ( )
 	{
-		super ( Configuration . BlockIds . Carriage , wood , CarriageItem . class , HarvestToolTypes . Hatchet ,
+		super ((net.minecraft.block.Block)Block.blockRegistry.getObject("oak_planks") , CarriageItem . class , HarvestToolTypes . Hatchet ,
 			FrameCarriageEntity . class , PlatformCarriageEntity . class , StructureCarriageEntity . class , SupportCarriageEntity . class , TemplateCarriageEntity . class ) ;
 	}
 
@@ -44,8 +47,8 @@ public class Carriage extends Block
 		}
 	}
 
-	@Override
-	public void registerIcons ( net . minecraft . client . renderer . texture . IconRegister IconRegister )
+	  @SideOnly(Side.CLIENT)
+	  public void registerBlockIcons(IIconRegister  IconRegister )
 	{
 		for ( Types Type : Types . values ( ) )
 		{
@@ -73,15 +76,15 @@ public class Carriage extends Block
 	}
 
 	@Override
-	public IIcon getBlockTexture ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
+	public IIcon getIcon ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
 	{
 		try
 		{
 			CarriageEntity Carriage = ( CarriageEntity ) World . getTileEntity ( X , Y , Z ) ;
 
-			if ( ( Carriage . DecorationId != 0 ) && ( Carriage . SideClosed [ Side ] ) )
+			if ( ( Carriage .decorationId != null ) && ( Carriage . SideClosed [ Side ] ) )
 			{
-				return ( net . minecraft . block . Block . blocksList [ Carriage . DecorationId ] . getIcon ( Side , Carriage . DecorationMeta ) ) ;
+				return ( Carriage .decorationId . getIcon ( Side , Carriage . DecorationMeta ) ) ;
 			}
 
 			Types Type = Types . values ( ) [ World . getBlockMetadata ( X , Y , Z ) ] ;

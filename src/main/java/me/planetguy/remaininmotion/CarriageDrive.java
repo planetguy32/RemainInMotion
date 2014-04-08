@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
 public class CarriageDrive extends Block
@@ -79,8 +82,8 @@ public class CarriageDrive extends Block
 		}
 	}
 
-	@Override
-	public void registerIcons ( net . minecraft . client . renderer . texture . IconRegister IconRegister )
+	  @SideOnly(Side.CLIENT)
+	    public void registerBlockIcons(IIconRegister  IconRegister )
 	{
 		for ( Types Type : Types . values ( ) )
 		{
@@ -130,7 +133,7 @@ public class CarriageDrive extends Block
 	}
 
 	@Override
-	public IIcon getBlockTexture ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
+	public IIcon getIcon ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
 	{
 		try
 		{

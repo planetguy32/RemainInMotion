@@ -1,6 +1,10 @@
 package me.planetguy.remaininmotion ;
 
+import java.util.HashSet;
+import java.util.TreeSet;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 
 public class CarriagePackage
 {
@@ -168,7 +172,7 @@ public class CarriagePackage
 			return ;
 		}
 
-		if ( ! ( ( net . minecraft . block . BlockFlowing ) net . minecraft . block . Block . waterMoving ) . blockBlocksFlow ( World , Record . X , Record . Y , Record . Z ) )
+		if ( ! World.getBlock(Record.X, Record.Y, Record.Z).canBeReplacedByLeaves(World, Record.X, Record.Y, Record.Z) )
 		{
 			if ( ObstructedByFragileBlocks )
 			{
@@ -198,7 +202,7 @@ public class CarriagePackage
 		PendingBlockUpdateRecord . setInteger ( "Y" , PendingBlockUpdate . yCoord ) ;
 		PendingBlockUpdateRecord . setInteger ( "Z" , PendingBlockUpdate . zCoord ) ;
 
-		PendingBlockUpdateRecord . setInteger ( "Id" , PendingBlockUpdate . blockID ) ;
+		PendingBlockUpdateRecord . setInteger ( "Id" , Block.getIdFromBlock(PendingBlockUpdate.func_151351_a()) ) ;
 
 		PendingBlockUpdateRecord . setInteger ( "Delay" , ( int ) ( PendingBlockUpdate . scheduledTime - WorldTime ) ) ;
 
@@ -234,7 +238,7 @@ public class CarriagePackage
 
 		try
 		{
-			java . util . Iterator PendingBlockUpdateSetIterator = World . pendingTickListEntriesTreeSet . iterator ( ) ;
+			java . util . Iterator PendingBlockUpdateSetIterator = ((TreeSet<BlockRecord>) Reflection.stealField("pendingTickListEntriesTreeSet", World)) . iterator ( ) ;
 
 			while ( PendingBlockUpdateSetIterator . hasNext ( ) )
 			{
@@ -244,7 +248,7 @@ public class CarriagePackage
 				{
 					PendingBlockUpdateSetIterator . remove ( ) ;
 
-					World . pendingTickListEntriesHashSet . remove ( PendingBlockUpdate ) ;
+					((HashSet<BlockRecord>) Reflection.stealField("pendingTickListEntriesHashSet", World)) . remove ( PendingBlockUpdate ) ;
 
 					StorePendingBlockUpdateRecord ( PendingBlockUpdate , WorldTime ) ;
 				}

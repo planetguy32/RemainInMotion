@@ -1,10 +1,19 @@
 package me.planetguy.remaininmotion ;
 
+import java.util.Iterator;
+import java.util.List;
+
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class CarriageDriveEntity extends TileEntity implements IEnergyHandler
@@ -150,9 +159,9 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 				continue ;
 			}
 
-			int Id = worldObj . getBlockId ( X , Y , Z ) ;
+			Block Id = (net.minecraft.block.Block) worldObj . getBlock ( X , Y , Z ) ;
 
-			if ( Id == Blocks . Carriage . blockID )
+			if ( Id == Blocks . Carriage )
 			{
 				if ( SideClosed [ Direction . ordinal ( ) ] )
 				{
@@ -168,7 +177,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 					CarriageDirection = Direction ;
 				}
 			}
-			else if ( net . minecraft . block . Block . blocksList [ Id ] . isProvidingWeakPower ( worldObj , X , Y , Z , Direction . ordinal ( ) ) > 0 )
+			else if ( Id . isProvidingWeakPower ( worldObj , X , Y , Z , Direction . ordinal ( ) ) > 0 )
 			{
 				if ( SignalDirection != null )
 				{
@@ -272,16 +281,15 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			}
 
 			if(this.lastUsingPlayer!=null){
-				ChatMessageComponent chatMessage=new ChatMessageComponent();
-				chatMessage.addText(Message);
-				this.lastUsingPlayer.sendChatToPlayer(chatMessage);
+				IChatComponent chatMessage=new ChatComponentText(Message);
+				this.lastUsingPlayer.addChatComponentMessage(chatMessage);
 			}
 		}
 	}
 
 	public CarriagePackage PreparePackage ( Directions MotionDirection ) throws CarriageMotionException
 	{
-		CarriageEntity Carriage = ( CarriageEntity ) worldObj . getBlockTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) ;
+		CarriageEntity Carriage = ( CarriageEntity ) worldObj . getTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) ;
 
 		CarriagePackage Package = GeneratePackage ( Carriage , CarriageDirection , MotionDirection ) ;
 
@@ -342,11 +350,11 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		{
 			if ( Package . NewPositions . contains ( Record ) )
 			{
-				SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Blocks . Spectre . blockID , Spectre . Types . Supportive . ordinal ( ) ) ;
+				SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Blocks . Spectre , Spectre . Types . Supportive . ordinal ( ) ) ;
 			}
 			else
 			{
-				SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , 0 , 0 ) ;
+				SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , null , 0 ) ;
 			}
 		}
 	}

@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
+
 public abstract class Registry
 {
 	public static void RegisterCustomRecipe ( net . minecraft . item . crafting . IRecipe Recipe )
@@ -44,7 +47,7 @@ public abstract class Registry
 
 	public static String TexturePrefix = "" ;
 
-	public static net . minecraft . util . Icon RegisterIcon ( net . minecraft . client . renderer . texture . IconRegister IconRegister , String Handle )
+	public static IIcon RegisterIcon ( IIconRegister IconRegister , String Handle )
 	{
 		return ( IconRegister . registerIcon ( Mod . Handle + ":" + TexturePrefix + Handle ) ) ;
 	}

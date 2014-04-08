@@ -16,4 +16,5 @@ public abstract class Blocks
 
 		Spectre = new Spectre ( ) ;
 	}
+
 }

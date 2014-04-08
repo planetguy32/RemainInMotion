@@ -22,7 +22,7 @@ public abstract class CarriageEntity extends TileEntity
 		Propagate ( ) ;
 	}
 
-	public int DecorationId ;
+	public net.minecraft.block.Block decorationId ;
 
 	public int DecorationMeta ;
 
@@ -31,7 +31,7 @@ public abstract class CarriageEntity extends TileEntity
 	@Override
 	public void Setup ( net . minecraft . entity . player . EntityPlayer Player , net . minecraft . item . ItemStack Item )
 	{
-		DecorationId = CarriageItem . GetDecorationId ( Item ) ;
+		decorationId = CarriageItem . GetDecorationId ( Item ) ;
 
 		DecorationMeta = CarriageItem . GetDecorationMeta ( Item ) ;
 
@@ -41,7 +41,7 @@ public abstract class CarriageEntity extends TileEntity
 	@Override
 	public void EmitDrops ( Block Block , int Meta )
 	{
-		EmitDrop ( Block , CarriageItem . Stack ( Meta , Tier , DecorationId , DecorationMeta ) ) ;
+		EmitDrop ( Block , CarriageItem . Stack ( Meta , Tier , decorationId , DecorationMeta ) ) ;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public abstract class CarriageEntity extends TileEntity
 			SideClosed [ Index ] = TagCompound . getBoolean ( "SideClosed" + Index ) ;
 		}
 
-		DecorationId = TagCompound . getInteger ( "DecorationId" ) ;
+		decorationId = (net.minecraft.block.Block) Block.blockRegistry.getObjectById(TagCompound . getInteger ( "DecorationId" )) ;
 
 		DecorationMeta = TagCompound . getInteger ( "DecorationMeta" ) ;
 
@@ -66,7 +66,7 @@ public abstract class CarriageEntity extends TileEntity
 			TagCompound . setBoolean ( "SideClosed" + Index , SideClosed [ Index ] ) ;
 		}
 
-		TagCompound . setInteger ( "DecorationId" , DecorationId ) ;
+		TagCompound . setInteger ( "DecorationId" , Block.blockRegistry.getIDForObject(decorationId) ) ;
 
 		TagCompound . setInteger ( "DecorationMeta" , DecorationMeta ) ;
 

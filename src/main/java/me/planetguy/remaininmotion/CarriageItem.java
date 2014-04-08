@@ -45,15 +45,18 @@ public class CarriageItem extends BlockItem
 
 	public static net . minecraft . item . ItemStack Stack ( int Type , int Tier )
 	{
-		return ( Stack ( Type , Tier , 0 , 0 ) ) ;
+		return ( Stack ( Type , Tier , null , 0 ) ) ;
 	}
 
-	public static net . minecraft . item . ItemStack Stack ( int Type , int Tier , int DecorationId , int DecorationMeta )
+	public static net . minecraft . item . ItemStack Stack ( int Type , int Tier , Block decorationId , int DecorationMeta )
 	{
 		net . minecraft . item . ItemStack Item = Stack . Tag ( Stack . New ( Blocks . Carriage , Type ) ) ;
 
-		Item . stackTagCompound . setInteger ( "DecorationId" , DecorationId ) ;
-
+		if(decorationId!=null){
+			Item . stackTagCompound . setInteger ( "DecorationId" , Block.blockRegistry.getIDForObject(decorationId) ) ;
+		}else{
+			Item . stackTagCompound . setInteger ( "DecorationId" , 0 ) ;
+		}
 		Item . stackTagCompound . setInteger ( "DecorationMeta" , DecorationMeta ) ;
 
 		Item . stackTagCompound . setInteger ( "Tier" , Tier ) ;

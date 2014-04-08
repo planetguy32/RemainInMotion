@@ -1,8 +1,10 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+
 public abstract class SneakyWorldUtil
 {
-	public static void SetBlock ( net . minecraft . world . World World , int X , int Y , int Z , int Id , int Meta )
+	public static void SetBlock ( net . minecraft . world . World World , int X , int Y , int Z , Block spectre , int Meta )
 	{
 		net . minecraft . world . chunk . Chunk Chunk = World . getChunkFromBlockCoords ( X , Z ) ;
 
@@ -10,18 +12,19 @@ public abstract class SneakyWorldUtil
 		int ChunkY = Y & 0xF ;
 		int ChunkZ = Z & 0xF ;
 
-		Chunk . removeChunkBlockTileEntity ( ChunkX , Y , ChunkZ ) ;
+		Chunk . removeTileEntity ( ChunkX , Y , ChunkZ ) ;
 
 		int LayerY = Y >> 4 ;
+		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Reflection.stealField("storageArrays", Chunk);
 
-		if ( Chunk . storageArrays [ LayerY ] == null )
+		if ( storageArrays [ LayerY ] == null )
 		{
-			Chunk . storageArrays [ LayerY ] = new net . minecraft . world . chunk . storage . ExtendedBlockStorage ( ( LayerY ) << 4 , ! World . provider . hasNoSky ) ;
+			storageArrays [ LayerY ] = new net . minecraft . world . chunk . storage . ExtendedBlockStorage ( ( LayerY ) << 4 , ! World . provider . hasNoSky ) ;
 		}
 
-		Chunk . storageArrays [ LayerY ] . setExtBlockID ( ChunkX , ChunkY , ChunkZ , Id ) ;
+		storageArrays [ LayerY ] . func_150818_a ( ChunkX , ChunkY , ChunkZ , spectre ) ;
 
-		Chunk . storageArrays [ LayerY ] . setExtBlockMetadata ( ChunkX , ChunkY , ChunkZ , Meta ) ;
+		storageArrays [ LayerY ] . setExtBlockMetadata ( ChunkX , ChunkY , ChunkZ , Meta ) ;
 
 		Chunk . isModified = true ;
 

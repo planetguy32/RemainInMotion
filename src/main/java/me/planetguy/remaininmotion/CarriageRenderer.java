@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
 
 public class CarriageRenderer extends BlockRenderer
@@ -42,9 +43,8 @@ public class CarriageRenderer extends BlockRenderer
 	{
 		if ( Side != Directions . PosY )
 		{
-			int DecorationId = CarriageItem . GetDecorationId ( Item ) ;
 
-			if ( DecorationId != 0 )
+			if ( DecorationId != null )
 			{
 				int DecorationMeta = CarriageItem . GetDecorationMeta ( Item ) ;
 
