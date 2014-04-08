@@ -4,9 +4,13 @@ import net.minecraft.block.Block;
 
 public class CarriageItem extends BlockItem
 {
+	
+	public static net.minecraft.item.Item instance;
+	
 	public CarriageItem (Block b )
 	{
 		super (b ) ;
+		instance=this;
 	}
 
 	public static Block GetDecorationId ( net . minecraft . item . ItemStack Item )
@@ -145,9 +149,9 @@ public class CarriageItem extends BlockItem
 			}
 		}
 
-		int DecorationId = GetDecorationId ( Item ) ;
+		Block DecorationId = GetDecorationId ( Item ) ;
 
-		if ( DecorationId == 0 )
+		if ( DecorationId==null )
 		{
 			return ;
 		}

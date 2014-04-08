@@ -16,7 +16,7 @@ public abstract class Core
 
 		Items . Initialize ( ) ;
 
-		CreativeTab . Initialize ( Blocks . Carriage . blockID ) ;
+		CreativeTab . Initialize ( CarriageItem.instance ) ;
 	}
 
 	public static void HandlePostInit ( )

@@ -87,7 +87,7 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 
 	public void MarkRenderRecordDirty ( )
 	{
-		worldObj . markBlockForRenderUpdate ( xCoord , yCoord , zCoord ) ;
+		worldObj . markBlockForUpdate ( xCoord , yCoord , zCoord ) ;
 	}
 
 	public void Initialize ( )
@@ -124,6 +124,6 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 
 	public void EmitDrop ( Block Block , net . minecraft . item . ItemStack Drop )
 	{
-		Block . dropBlockAsItem_do ( worldObj , xCoord , yCoord , zCoord , Drop ) ;
+		Block . dropBlockAsItem ( worldObj , xCoord , yCoord , zCoord , Drop ) ;
 	}
 }

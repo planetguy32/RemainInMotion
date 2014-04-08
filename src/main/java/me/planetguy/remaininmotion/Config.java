@@ -1,14 +1,16 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraftforge.common.config.Configuration;
+
 public abstract class Config
 {
-	public net . minecraftforge . common . Configuration Configuration ;
+	public Configuration Configuration ;
 
 	public String Category ;
 
 	public Config ( java . io . File File )
 	{
-		Configuration = new net . minecraftforge . common . Configuration ( File , true ) ;
+		Configuration = new Configuration ( File , true ) ;
 	}
 
 	public String String ( String Name , String Default )
@@ -47,13 +49,4 @@ public abstract class Config
 		return ( Value ) ;
 	}
 
-	public int BlockId ( String Name , int Default )
-	{
-		return ( Configuration . getBlock ( "Block IDs" , Name , Default ) . getInt ( Default ) ) ;
-	}
-
-	public int ItemId ( String Name , int Default )
-	{
-		return ( Configuration . getItem ( "Item IDs" , Name , Default ) . getInt ( Default ) ) ;
-	}
 }

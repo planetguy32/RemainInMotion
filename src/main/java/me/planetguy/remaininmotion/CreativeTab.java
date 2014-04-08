@@ -1,5 +1,9 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.Item;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class CreativeTab extends net . minecraft . creativetab . CreativeTabs
 {
 	public CreativeTab ( )
@@ -20,16 +24,17 @@ public class CreativeTab extends net . minecraft . creativetab . CreativeTabs
 		return ( Mod . Title ) ;
 	}
 
-	public int TabIconItemIndex ;
+	public Item TabIconItemIndex ;
 
-	public static void Initialize ( int TabIconItemIndex )
+	public static void Initialize ( Item TabIconItemIndex )
 	{
 		Instance . TabIconItemIndex = TabIconItemIndex ;
 	}
 
-	@Override
-	public int getTabIconItemIndex ( )
-	{
+	
+	 @SideOnly(Side.CLIENT)
+     public Item getTabIconItem()
+     {
 		return ( TabIconItemIndex ) ;
 	}
 }
