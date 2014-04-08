@@ -44,13 +44,13 @@ public class CarriageRenderer extends BlockRenderer
 		if ( Side != Directions . PosY )
 		{
 
-			if ( DecorationId != null )
+			if ( CarriageItem.GetDecorationId(Item) != null )
 			{
 				int DecorationMeta = CarriageItem . GetDecorationMeta ( Item ) ;
 
 				try
 				{
-					return ( Block . Get ( DecorationId ) . getIcon ( Side . ordinal ( ) , DecorationMeta ) ) ;
+					return ( CarriageItem.GetDecorationId(Item) . getIcon ( Side . ordinal ( ) , DecorationMeta ) ) ;
 				}
 				catch ( Throwable Throwable )
 				{

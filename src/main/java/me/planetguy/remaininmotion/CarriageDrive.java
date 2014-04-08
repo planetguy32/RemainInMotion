@@ -9,7 +9,7 @@ public class CarriageDrive extends Block
 {
 	public CarriageDrive ( )
 	{
-		super ( Configuration . BlockIds . CarriageDrive , blockIron , CarriageDriveItem . class , HarvestToolTypes . Pickaxe ,
+		super ( Block.getBlockFromName("iron_block") , CarriageDriveItem . class , HarvestToolTypes . Pickaxe ,
 			CarriageEngineEntity . class , CarriageMotorEntity . class , ModInteraction . ComputerCraft . CarriageControllerEntity , CarriageTranslocatorEntity . class ) ;
 	}
 
@@ -194,7 +194,7 @@ public class CarriageDrive extends Block
 	}
 
 	@Override
-	public void onNeighborBlockChange ( net . minecraft . world . World World , int X , int Y , int Z , int Id )
+	public void onNeighborBlockChange ( net . minecraft . world . World World , int X , int Y , int Z , net.minecraft.block.Block Id )
 	{
 		try
 		{

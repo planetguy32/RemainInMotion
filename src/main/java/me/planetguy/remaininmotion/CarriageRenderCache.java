@@ -28,7 +28,7 @@ public abstract class CarriageRenderCache
 			{
 				try
 				{
-					if ( ! net . minecraft . block . Block . blocksList [ Record . Id ] . canRenderInPass ( Pass ) )
+					if ( ! Record.block . canRenderInPass ( Pass ) )
 					{
 						continue ;
 					}
@@ -42,7 +42,7 @@ public abstract class CarriageRenderCache
 
 				try
 				{
-					BlockRenderer . renderBlockByRenderType ( net . minecraft . block . Block . blocksList [ Record . Id ] , Record . X , Record . Y , Record . Z ) ;
+					BlockRenderer . renderBlockByRenderType ( Record.block, Record . X , Record . Y , Record . Z ) ;
 				}
 				catch ( Throwable Throwable )
 				{

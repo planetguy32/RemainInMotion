@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion ;
 
 public abstract class Vanilla
 {
+	/*
 	public enum CoalTypes
 	{
 		Coal ,
@@ -9,9 +10,10 @@ public abstract class Vanilla
 
 		public net . minecraft . item . ItemStack Stack ( )
 		{
-			return ( Stack . New ( net . minecraft . item . Item . coal , this ) ) ;
+			return ( Stack . New ( ( net . minecraft . item . Item.itemRegistry).getObject("coal") , this ) ) ;
 		}
 	}
+	*/
 
 	public enum DyeTypes
 	{

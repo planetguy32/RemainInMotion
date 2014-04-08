@@ -5,6 +5,8 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public abstract class Block extends net . minecraft . block . Block
 {
@@ -133,4 +135,9 @@ public abstract class Block extends net . minecraft . block . Block
 
 		super . breakBlock ( World , X , Y , Z, b, idk );
 	}
+	
+    public void dropBlockAsItem(World p_149642_1_, int p_149642_2_, int p_149642_3_, int p_149642_4_, ItemStack p_149642_5_){
+    	super.dropBlockAsItem(p_149642_1_, p_149642_2_, p_149642_3_, p_149642_4_, p_149642_5_);
+    }
+
 }

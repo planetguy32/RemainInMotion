@@ -72,7 +72,7 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 		MaxY = Package . MaxY ;
 		MaxZ = Package . MaxZ ;
 
-		TargetDimension = Package . Translocator . worldObj . provider . dimensionId ;
+		TargetDimension = Package . Translocator.getWorldObj() . provider . dimensionId ;
 
 		MotionDirection = Directions . values ( ) [ 0 ] ;
 	}
@@ -160,7 +160,7 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 		{
 			try
 			{
-				( ( CarriageTranslocatorEntity ) worldObj . getBlockTileEntity ( DriveRecord . X , DriveRecord . Y , DriveRecord . Z ) ) . ToggleActivity ( ) ;
+				( ( CarriageTranslocatorEntity ) worldObj . getTileEntity ( DriveRecord . X , DriveRecord . Y , DriveRecord . Z ) ) . ToggleActivity ( ) ;
 			}
 			catch ( Throwable Throwable )
 			{

@@ -1,5 +1,9 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+
 public abstract class TileEntity extends net . minecraft . tileentity . TileEntity
 {
 	public void WriteCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
@@ -25,15 +29,15 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	}
 
 	@Override
-	public net . minecraft . network . packet . Packet132TileEntityData getDescriptionPacket ( )
+	public Packet getDescriptionPacket ( )
 	{
-		net . minecraft . network . packet . Packet132TileEntityData Packet = new net . minecraft . network . packet . Packet132TileEntityData ( xCoord , yCoord , zCoord , 0 , new net . minecraft . nbt . NBTTagCompound ( ) ) ;
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity ( xCoord , yCoord , zCoord , 0 , new net . minecraft . nbt . NBTTagCompound ( ) ) ;
 
-		WriteCommonRecord ( Packet . data ) ;
+		WriteCommonRecord ( packet.func_148857_g() ) ;
 
-		WriteClientRecord ( Packet . data ) ;
+		WriteClientRecord ( packet.func_148857_g() ) ;
 
-		return ( Packet ) ;
+		return ( packet ) ;
 	}
 
 	public void ReadCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
@@ -59,11 +63,11 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	}
 
 	@Override
-	public void onDataPacket ( net . minecraft . network . INetworkManager NetworkManager , net . minecraft . network . packet . Packet132TileEntityData Packet )
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
 	{
-		ReadCommonRecord ( Packet . data ) ;
+		ReadCommonRecord ( pkt.func_148857_g() ) ;
 
-		ReadClientRecord ( Packet . data ) ;
+		ReadClientRecord ( pkt .func_148857_g() ) ;
 
 		MarkRenderRecordDirty ( ) ;
 	}
@@ -122,8 +126,8 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	{
 	}
 
-	public void EmitDrop ( Block Block , net . minecraft . item . ItemStack Drop )
+	public void EmitDrop ( Block block , net . minecraft . item . ItemStack Drop )
 	{
-		Block . dropBlockAsItem ( worldObj , xCoord , yCoord , zCoord , Drop ) ;
+		block . dropBlockAsItem ( worldObj , xCoord , yCoord , zCoord , Drop ) ;
 	}
 }
