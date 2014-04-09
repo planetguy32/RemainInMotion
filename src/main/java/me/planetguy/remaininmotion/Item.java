@@ -1,5 +1,13 @@
 package me.planetguy.remaininmotion ;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+
 public abstract class Item extends net . minecraft . item . Item
 {
 	public Item ( )
@@ -19,8 +27,9 @@ public abstract class Item extends net . minecraft . item . Item
 	{
 	}
 
+    @SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems ( int Id , net . minecraft . creativetab . CreativeTabs CreativeTab , java . util . List Showcase )
+	public void getSubItems(net.minecraft.item.Item p_150895_1_, CreativeTabs p_150895_2_, List Showcase)
 	{
 		AddShowcaseStacks ( Showcase ) ;
 	}
@@ -36,7 +45,7 @@ public abstract class Item extends net . minecraft . item . Item
 	}
 
 	@Override
-	public boolean shouldPassSneakingClickToBlock ( net . minecraft . world . World World , int X , int Y , int Z )
+	public boolean doesSneakBypassUse ( net . minecraft . world . World World , int X , int Y , int Z ,EntityPlayer player)
 	{
 		return ( true ) ;
 	}

@@ -4,7 +4,7 @@ public class Spectre extends Block
 {
 	public Spectre ( )
 	{
-		super ( Configuration . BlockIds . Spectre , bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class ) ;
+		super ( (net.minecraft.block.Block)Block.blockRegistry.getObject("bedrock") , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class ) ;
 
 		RenderId = -1 ;
 	}

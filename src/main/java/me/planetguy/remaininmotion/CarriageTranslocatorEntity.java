@@ -49,7 +49,7 @@ public class CarriageTranslocatorEntity extends CarriageDriveEntity
 	{
 		super . Setup ( Player , Item ) ;
 
-		this . Player = CarriageDriveItem . GetPrivateFlag ( Item ) ? Player . username : "" ;
+		this . Player = CarriageDriveItem . GetPrivateFlag ( Item ) ? Player.getDisplayName() : "" ;
 		
 		Label = CarriageDriveItem . GetLabel ( Item ) ;
 
@@ -148,7 +148,7 @@ public class CarriageTranslocatorEntity extends CarriageDriveEntity
 
 			try
 			{
-				CarriageTranslocatorEntity Translocator = ( CarriageTranslocatorEntity ) WorldUtil . GetWorld ( Position . Dimension ) . getBlockTileEntity ( Position . X , Position . Y , Position . Z ) ;
+				CarriageTranslocatorEntity Translocator = ( CarriageTranslocatorEntity ) WorldUtil . GetWorld ( Position . Dimension ) . getTileEntity ( Position . X , Position . Y , Position . Z ) ;
 
 				if ( Translocator == this )
 				{

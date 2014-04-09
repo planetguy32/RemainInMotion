@@ -20,7 +20,7 @@ public class ToolItemSet extends Item
 
 	public ToolItemSet ( )
 	{
-		super ( Id ) ;
+		super ( ) ;
 
 		setMaxStackSize ( 1 ) ;
 	}
@@ -32,7 +32,7 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public net . minecraft . item . ItemStack getContainerItemStack ( net . minecraft . item . ItemStack Item )
+	public net . minecraft . item . ItemStack getContainerItem ( net . minecraft . item . ItemStack Item )
 	{
 		return ( Stack . New ( this , Item.getItemDamage() ) ) ;
 	}
@@ -44,7 +44,7 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		try
 		{
@@ -73,7 +73,7 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public void registerIcons ( net . minecraft . client . renderer . texture . IconRegister IconRegister )
+	public void registerIcons ( net . minecraft . client . renderer . texture . IIconRegister IconRegister )
 	{
 		for ( Types Type : Types . values ( ) )
 		{
@@ -82,7 +82,7 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public net . minecraft . util . Icon getIconFromDamage ( int Damage )
+	public net . minecraft . util . IIcon getIconFromDamage ( int Damage )
 	{
 		try
 		{
@@ -103,7 +103,7 @@ public class ToolItemSet extends Item
 			return ( false ) ;
 		}
 
-		if ( Item . itemID == Items . ToolItemSet . itemID )
+		if ( Item.getItem()  == Items . ToolItemSet )
 		{
 			if ( Item . getItemDamage() == Types . Screwdriver . ordinal ( ) )
 			{

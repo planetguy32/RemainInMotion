@@ -160,7 +160,7 @@ public class StructureCarriageEntity extends CarriageEntity
 	{
 		Record . Identify ( worldObj ) ;
 
-		if ( Record . Id == Blocks . Carriage . blockID )
+		if ( Record .block == Blocks . Carriage )
 		{
 			if ( Record . Meta == Carriage . Types . Structure . ordinal ( ) )
 			{

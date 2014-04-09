@@ -2,13 +2,13 @@ package me.planetguy.remaininmotion ;
 
 public class SpectreItem extends BlockItem
 {
-	public SpectreItem ( int Id )
+	public SpectreItem ( Block b )
 	{
-		super ( Id ) ;
+		super( b ) ;
 	}
 
 	@Override
-	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getItemStackDisplayName ( net . minecraft . item . ItemStack item )
 	{
 		return ( "Carriage Spectre" ) ;
 	}

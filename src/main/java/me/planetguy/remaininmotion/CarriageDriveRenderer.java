@@ -6,7 +6,7 @@ public class CarriageDriveRenderer extends BlockRenderer
 {
 	public CarriageDriveRenderer ( )
 	{
-		Blocks . CarriageDrive . RenderId = Initialize ( Blocks . CarriageDrive . blockID ) ;
+		Blocks . CarriageDrive . RenderId = Initialize ( Blocks . CarriageDrive ) ;
 	}
 
 	public void UseFullLabel ( )
@@ -23,12 +23,12 @@ public class CarriageDriveRenderer extends BlockRenderer
 		SubsectSideSpan ( MinH , MinV , MaxH , MaxV ) ;
 	}
 
-	public void UseFullIcon ( net . minecraft . util . Icon Icon )
+	public void UseFullIcon ( net . minecraft . util . IIcon Icon )
 	{
 		SetTextureSpan ( Icon ) ;
 	}
 
-	public void UsePartialIcon ( net . minecraft . util . Icon Icon , double MinU , double MinV , double MaxU , double MaxV )
+	public void UsePartialIcon ( net . minecraft . util . IIcon Icon , double MinU , double MinV , double MaxU , double MaxV )
 	{
 		UseFullIcon ( Icon ) ;
 
@@ -55,7 +55,7 @@ public class CarriageDriveRenderer extends BlockRenderer
 			}
 			else
 			{
-				if ( Translocator . Player . equals ( net . minecraft . client . Minecraft . getMinecraft ( ) . thePlayer . username ) )
+				if ( Translocator . Player . equals ( net . minecraft . client . Minecraft . getMinecraft ( ) . thePlayer.getDisplayName() ) )
 				{
 					UseFullIcon ( CarriageDrive . PrivateToSelfIcon ) ;
 				}

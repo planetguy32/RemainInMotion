@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.ItemBlock;
+
 public class CarriageDecorationRecipe extends Recipe
 {
 	@Override
@@ -20,7 +22,7 @@ public class CarriageDecorationRecipe extends Recipe
 				continue ;
 			}
 
-			if ( Item . itemID == Blocks . Carriage . blockID )
+			if ( Item .getItem() instanceof ItemBlock && ((ItemBlock)Item.getItem()).field_150939_a==Blocks.Carriage )
 			{
 				if ( Carriage != null )
 				{
@@ -47,9 +49,9 @@ public class CarriageDecorationRecipe extends Recipe
 
 		int Tier = CarriageItem . GetTier ( Carriage ) ;
 
-		int DecorationId = CarriageItem . GetDecorationId ( Carriage ) ;
+		net.minecraft.block.Block DecorationId = CarriageItem . GetDecorationId ( Carriage ) ;
 
-		if ( DecorationId == 0 )
+		if ( DecorationId == null )
 		{
 			if ( Decoration == null )
 			{
@@ -61,7 +63,7 @@ public class CarriageDecorationRecipe extends Recipe
 				return ( null ) ;
 			}
 
-			DecorationId = Decoration . itemID ;
+			DecorationId = ((ItemBlock)Decoration.getItem()).field_150939_a;
 
 			int DecorationMeta = Decoration . getItem ( ) . getMetadata ( Decoration . getItemDamage() ) ;
 

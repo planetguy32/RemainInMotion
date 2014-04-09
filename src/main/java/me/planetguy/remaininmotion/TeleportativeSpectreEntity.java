@@ -127,13 +127,13 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 	@Override
 	public void ScheduleShiftedBlockUpdate ( net . minecraft . nbt . NBTTagCompound PendingBlockUpdateRecord )
 	{
-		worldObj . scheduleBlockUpdateFromLoad
+		worldObj.scheduleBlockUpdateWithPriority
 		(
 			PendingBlockUpdateRecord . getInteger ( "X" ) + ShiftX ,
 			PendingBlockUpdateRecord . getInteger ( "Y" ) + ShiftY ,
 			PendingBlockUpdateRecord . getInteger ( "Z" ) + ShiftZ ,
 
-			PendingBlockUpdateRecord . getInteger ( "Id" ) ,
+			Block.getBlockById(PendingBlockUpdateRecord . getInteger ( "Id" )) ,
 
 			PendingBlockUpdateRecord . getInteger ( "Delay" ) ,
 

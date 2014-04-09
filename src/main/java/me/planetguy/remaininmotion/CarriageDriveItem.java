@@ -2,9 +2,9 @@ package me.planetguy.remaininmotion ;
 
 public class CarriageDriveItem extends BlockItem
 {
-	public CarriageDriveItem ( int Id )
+	public CarriageDriveItem ( Block b )
 	{
-		super ( Id ) ;
+		super ( b ) ;
 	}
 
 	public static boolean GetPrivateFlag ( net . minecraft . item . ItemStack Item )
@@ -66,7 +66,7 @@ public class CarriageDriveItem extends BlockItem
 	}
 
 	@Override
-	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		try
 		{

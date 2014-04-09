@@ -37,7 +37,7 @@ public abstract class Registry
 
 	public static void RegisterSmeltingRecipe ( net . minecraft . item . ItemStack Output , net . minecraft . item . ItemStack Input , float Xp )
 	{
-		net . minecraft . item . crafting . FurnaceRecipes . smelting ( ) . addSmelting ( Input . itemID , Input . getItemDamage() , Output , Xp ) ;
+		net . minecraft . item . crafting . FurnaceRecipes . smelting ( ) . func_151394_a ( Input, Output , Xp ) ;
 	}
 
 	public static void RegisterEventHandler ( Object EventHandler )

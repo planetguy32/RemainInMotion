@@ -15,6 +15,7 @@ public abstract class Vanilla
 	}
 	*/
 
+	/*
 	public enum DyeTypes
 	{
 		Black ( "dyeBlack" ) ,
@@ -43,7 +44,8 @@ public abstract class Vanilla
 
 		public net . minecraft . item . ItemStack Stack ( )
 		{
-			return ( Stack . New ( net . minecraft . item . Item . dyePowder , this ) ) ;
+			return ( Stack . New ( net . minecraft . item . Item.itemRegistry. , this ) ) ;
 		}
 	}
+	*/
 }

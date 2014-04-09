@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.nbt.NBTBase;
+
 public class TemplateCarriageEntity extends CarriageEntity
 {
 	public BlockRecordList Pattern ;
@@ -59,7 +61,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 		Record . Identify ( worldObj ) ;
 
-		if ( Record . Id == Blocks . Carriage . blockID )
+		if ( Record.block == Blocks . Carriage )
 		{
 			if ( Record . Meta == Carriage . Types . Template . ordinal ( ) )
 			{
@@ -213,7 +215,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 		if ( TagCompound . hasKey ( "Pattern" ) )
 		{
-			net . minecraft . nbt . NBTTagList PatternRecord = TagCompound . getTagList ( "Pattern" ) ;
+			net . minecraft . nbt . NBTTagList PatternRecord = TagCompound . getTagList ( "Pattern",9 ) ;
 
 			Pattern = new BlockRecordList ( ) ;
 
@@ -221,7 +223,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 			for ( int Index = 0 ; Index < PatternSize ; Index ++ )
 			{
-				net . minecraft . nbt . NBTTagCompound PatternBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) PatternRecord . tagAt ( Index ) ;
+				net . minecraft . nbt . NBTTagCompound PatternBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) PatternRecord . getCompoundTagAt ( Index ) ;
 
 				Pattern . add ( new BlockRecord ( PatternBlockRecord . getInteger ( "X" ) , PatternBlockRecord . getInteger ( "Y" ) , PatternBlockRecord . getInteger ( "Z" ) ) ) ;
 			}
