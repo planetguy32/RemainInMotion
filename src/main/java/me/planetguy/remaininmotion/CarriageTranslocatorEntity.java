@@ -220,26 +220,26 @@ public class CarriageTranslocatorEntity extends CarriageDriveEntity
 	{
 		for ( BlockRecord Record : Package . NewPositions )
 		{
-			SneakyWorldUtil . SetBlock ( worldObj , Record . X + xCoord , Record . Y + yCoord , Record . Z + zCoord , Blocks . Spectre . blockID , Spectre . Types . Supportive . ordinal ( ) ) ;
+			SneakyWorldUtil . SetBlock ( worldObj , Record . X + xCoord , Record . Y + yCoord , Record . Z + zCoord , Blocks . Spectre  , Spectre . Types . Supportive . ordinal ( ) ) ;
 
 			SneakyWorldUtil . SetBlock ( Package . Translocator . worldObj , Record . X + Package . Translocator . xCoord , Record . Y + Package . Translocator . yCoord , Record . Z + Package . Translocator . zCoord ,
-				Blocks . Spectre . blockID , Spectre . Types . Supportive . ordinal ( ) ) ;
+				Blocks . Spectre , Spectre . Types . Supportive . ordinal ( ) ) ;
 		}
 	}
-
+ 
 	@Override
 	public void EstablishSpectre ( CarriagePackage Package )
 	{
-		WorldUtil . SetBlock ( worldObj , Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z , Blocks . Spectre . blockID , Spectre . Types . Teleportative . ordinal ( ) ) ;
+		WorldUtil . SetBlock ( worldObj , Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z , Blocks . Spectre , Spectre . Types . Teleportative . ordinal ( ) ) ;
 
-		( ( TeleportativeSpectreEntity ) worldObj . getBlockTileEntity ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z ) ) . AbsorbSource ( Package ) ;
+		( ( TeleportativeSpectreEntity ) worldObj . getTileEntity ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z ) ) . AbsorbSource ( Package ) ;
 
 		int NewX = Package . AnchorRecord . X - xCoord + Package . Translocator . xCoord ;
 		int NewY = Package . AnchorRecord . Y - yCoord + Package . Translocator . yCoord ;
 		int NewZ = Package . AnchorRecord . Z - zCoord + Package . Translocator . zCoord ;
 
-		WorldUtil . SetBlock ( Package . Translocator . worldObj , NewX , NewY , NewZ , Blocks . Spectre . blockID , Spectre . Types . Teleportative . ordinal ( ) ) ;
+		WorldUtil . SetBlock ( Package . Translocator . worldObj , NewX , NewY , NewZ , Blocks . Spectre , Spectre . Types . Teleportative . ordinal ( ) ) ;
 
-		( ( TeleportativeSpectreEntity ) Package . Translocator . worldObj . getBlockTileEntity ( NewX , NewY , NewZ ) ) . AbsorbSink ( Package ) ;
+		( ( TeleportativeSpectreEntity ) Package . Translocator . worldObj . getTileEntity ( NewX , NewY , NewZ ) ) . AbsorbSink ( Package ) ;
 	}
 }

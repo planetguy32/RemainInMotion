@@ -18,7 +18,7 @@ public abstract class CarriagePackageBlacklist
 
 	public static boolean Lookup ( BlockRecord Block )
 	{
-		if ( BlacklistedIds . contains ( Block . Id ) )
+		if ( BlacklistedIds . contains ( net.minecraft.block.Block.getIdFromBlock(Block.block )) )
 		{
 			return ( true ) ;
 		}

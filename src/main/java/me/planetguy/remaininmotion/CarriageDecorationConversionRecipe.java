@@ -20,7 +20,7 @@ public class CarriageDecorationConversionRecipe extends Recipe
 				continue ;
 			}
 
-			if ( Item . itemID == Blocks . Carriage . blockID )
+			if ( Item.getItem() instanceof BlockItem )
 			{
 				if ( Carriage != null )
 				{
@@ -32,7 +32,7 @@ public class CarriageDecorationConversionRecipe extends Recipe
 				continue ;
 			}
 
-			if ( Item . itemID == Items . ToolItemSet . itemID )
+			if ( Item.getItem()  == Items . ToolItemSet )
 			{
 				if ( Item . getItemDamage() == ToolItemSet . Types . Screwdriver . ordinal ( ) )
 				{
@@ -65,9 +65,9 @@ public class CarriageDecorationConversionRecipe extends Recipe
 			return ( null ) ;
 		}
 
-		int DecorationId = CarriageItem . GetDecorationId ( Carriage ) ;
+		net.minecraft.block.Block DecorationId = CarriageItem . GetDecorationId ( Carriage ) ;
 
-		if ( DecorationId == 0 )
+		if ( DecorationId == null )
 		{
 			return ( null ) ;
 		}

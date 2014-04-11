@@ -8,13 +8,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
-import cofh.api.energy.IEnergyHandler;
+//import cofh.api.energy.IEnergyHandler; //Until RF
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
-public abstract class CarriageDriveEntity extends TileEntity implements IEnergyHandler
+//@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
+public abstract class CarriageDriveEntity extends TileEntity// implements IEnergyHandler //Until RF
 {
 	public boolean Continuous ;
 
@@ -361,7 +361,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	{
 		for ( BlockRecord Record : Package . Body )
 		{
-			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , Record . Id , 0 ) ;
+			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , Record.block , 0 ) ;
 		}
 	}
 
@@ -371,9 +371,9 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		int CarriageY = Package . AnchorRecord . Y + Package . MotionDirection . DeltaY ;
 		int CarriageZ = Package . AnchorRecord . Z + Package . MotionDirection . DeltaZ ;
 
-		WorldUtil . SetBlock ( worldObj , CarriageX , CarriageY , CarriageZ , Blocks . Spectre . blockID , Spectre . Types . Motive . ordinal ( ) ) ;
+		WorldUtil . SetBlock ( worldObj , CarriageX , CarriageY , CarriageZ , Blocks . Spectre , Spectre . Types . Motive . ordinal ( ) ) ;
 
-		( ( MotiveSpectreEntity ) worldObj . getBlockTileEntity ( CarriageX , CarriageY , CarriageZ ) ) . Absorb ( Package ) ;
+		( ( MotiveSpectreEntity ) worldObj . getTileEntity ( CarriageX , CarriageY , CarriageZ ) ) . Absorb ( Package ) ;
 	}
 
 	public abstract CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException ;
@@ -381,6 +381,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	public abstract boolean Anchored ( ) ;
 
 
+	/*
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive,
 			boolean simulate) {
@@ -405,4 +406,6 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return Configuration.powerCapacity;
 	}
+	
+	*/
 }

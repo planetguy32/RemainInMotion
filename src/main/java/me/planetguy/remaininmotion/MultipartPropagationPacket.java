@@ -37,7 +37,7 @@ public abstract class MultipartPropagationPacket
 
 		for ( int Index = 0 ; Index < Body . tagCount ( ) ; Index ++ )
 		{
-			net . minecraft . nbt . NBTTagCompound Tag = ( net . minecraft . nbt . NBTTagCompound ) Body . tagAt ( Index ) ;
+			net . minecraft . nbt . NBTTagCompound Tag = ( net . minecraft . nbt . NBTTagCompound ) Body . getCompoundTagAt ( Index) ;
 
 			World . setBlock ( Tag . getInteger ( "X" ) , Tag . getInteger ( "Y" ) , Tag . getInteger ( "Z" ) , Block.getBlockById(Id) , 0 , 0 ) ;
 		}

@@ -66,7 +66,7 @@ public class CarriageDriveItem extends BlockItem
 	}
 
 	@Override
-	public String getDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		try
 		{

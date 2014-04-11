@@ -6,7 +6,6 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 
 @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
 public class CarriageControllerEntity extends CarriageDriveEntity implements dan200.computercraft.api.peripheral.IPeripheral
@@ -103,7 +102,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		public IPeripheral getPeripheral(World world, int x, int y, int z,
 				int side) {
 			try{
-				return (IPeripheral) world.getBlockTileEntity(x, y, z);
+				return (IPeripheral) world.getTileEntity(x, y, z);
 			}catch(ClassCastException e){
 				return null;
 			}
