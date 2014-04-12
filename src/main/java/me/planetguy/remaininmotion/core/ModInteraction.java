@@ -1,4 +1,7 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
+
+import me.planetguy.remaininmotion.CarriageControllerEntity;
+import me.planetguy.remaininmotion.util.Reflection;
 
 public abstract class ModInteraction
 {
@@ -14,11 +17,11 @@ public abstract class ModInteraction
 
 	public abstract static class ComputerCraft
 	{
-		public static Class CarriageControllerEntity ;
+		public static Class carriageControllerEntity ;
 
 		public static void Establish ( )
 		{
-			CarriageControllerEntity = Reflection . EstablishClass ( Mod . Namespace + "CarriageControllerEntity" ) ;
+			carriageControllerEntity = CarriageControllerEntity.class;
 		}
 	}
 

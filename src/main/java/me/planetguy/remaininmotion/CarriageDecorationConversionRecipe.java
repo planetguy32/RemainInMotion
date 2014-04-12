@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Recipe;
+
 public class CarriageDecorationConversionRecipe extends Recipe
 {
 	@Override

@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Configuration;
+
 public abstract class CarriagePackageBlacklist
 {
 	public static java . util . HashSet < Integer > BlacklistedIds = new java . util . HashSet < Integer > ( ) ;

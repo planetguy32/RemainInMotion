@@ -1,5 +1,9 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.base.TileEntity;
+import me.planetguy.remaininmotion.util.CarriageMotionException;
+
 public abstract class CarriageEntity extends TileEntity
 {
 	@Override

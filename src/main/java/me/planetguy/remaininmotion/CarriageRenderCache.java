@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.util.Reflection;
+
 public abstract class CarriageRenderCache
 {
 	public static class RenderRecord
@@ -69,9 +71,9 @@ public abstract class CarriageRenderCache
 
 			Render . Translate
 			(
-				net . minecraft . client . renderer . tileentity . TileEntityRenderer . instance . staticPlayerX ,
-				net . minecraft . client . renderer . tileentity . TileEntityRenderer . instance . staticPlayerY ,
-				net . minecraft . client . renderer . tileentity . TileEntityRenderer . instance . staticPlayerZ
+				net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . staticPlayerX ,
+				net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . staticPlayerY ,
+				net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . staticPlayerZ
 			) ;
 
 			for ( BlockRecord Record : TileEntities )
@@ -87,14 +89,15 @@ public abstract class CarriageRenderCache
 
 				try
 				{
-					net . minecraft . client . renderer . tileentity . TileEntityRenderer . instance . renderTileEntity ( Record . Entity , 0 ) ;
+					net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . renderTileEntity ( Record . Entity , 0 ) ;
 				}
 				catch ( Throwable Throwable )
 				{
 					Throwable . printStackTrace ( ) ;
 				}
 
-				if ( net . minecraft . client . renderer . Tessellator . instance . isDrawing )
+				if ( (Boolean)Reflection.stealField(net . minecraft . client . renderer . Tessellator . instance, "isDrawing" ))
+						
 				{
 					try
 					{

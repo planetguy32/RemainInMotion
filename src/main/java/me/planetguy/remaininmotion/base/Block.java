@@ -1,7 +1,11 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.base ;
 
 import java.util.List;
 
+import me.planetguy.remaininmotion.BlockItem;
+import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -56,7 +60,7 @@ public abstract class Block extends net . minecraft . block . Block
 
 		setBlockName ( Mod . Handle + "_" + getClass ( ) . getSimpleName ( ) ) ;
 
-		setHardness ( (Float) Reflection.stealField("blockHardness", Template) ) ;
+		setHardness ( (Float) Reflection.stealField(Template, "blockHardness") ) ;
 
 		setStepSound ( Template . stepSound ) ;
 

@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Mod;
+
 public abstract class Debug
 {
 	public static String Label = "*-*-* " + Mod . Title . toUpperCase ( ) + " *-*-*" ;

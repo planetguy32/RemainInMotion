@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
 
 import net.minecraftforge.common.config.Configuration;
 

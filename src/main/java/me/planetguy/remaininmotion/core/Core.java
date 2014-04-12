@@ -1,4 +1,10 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
+
+import me.planetguy.remaininmotion.CarriageItem;
+import me.planetguy.remaininmotion.CarriagePackageBlacklist;
+import me.planetguy.remaininmotion.CarriageTranslocatorEntity;
+import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.Items;
 
 public abstract class Core
 {
@@ -31,6 +37,7 @@ public abstract class Core
 		CarriageTranslocatorEntity . ActiveTranslocatorSets . clear ( ) ;
 	}
 
+	/*
 	public static void HandlePacket ( int Type , net . minecraft . nbt . NBTTagCompound Body , cpw . mods . fml . common . network . Player Player )
 	{
 		switch ( PacketTypes . values ( ) [ Type ] )
@@ -48,4 +55,5 @@ public abstract class Core
 				break ;
 		}
 	}
+	*/
 }

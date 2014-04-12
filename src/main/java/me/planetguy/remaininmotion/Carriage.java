@@ -2,6 +2,8 @@ package me.planetguy.remaininmotion ;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 

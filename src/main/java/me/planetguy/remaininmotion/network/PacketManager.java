@@ -1,4 +1,7 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.network ;
+
+import me.planetguy.remaininmotion.core.Core;
+import me.planetguy.remaininmotion.core.Mod;
 
 public class PacketManager implements cpw . mods . fml . common . network . IPacketHandler
 {
@@ -41,7 +44,7 @@ public class PacketManager implements cpw . mods . fml . common . network . IPac
 
 	public static void BroadcastPacketFromBlock ( int X , int Y , int Z , int Dimension , Enum Type , net . minecraft . nbt . NBTTagCompound Body )
 	{
-		cpw . mods . fml . common . network . PacketDispatcher . sendPacketToAllAround ( X + 0.5 , Y + 0.5 , Z + 0.5 , 64 , Dimension , GeneratePacket ( Type , Body ) ) ;
+		ChannelHandler. . sendPacketToAllAround ( X + 0.5 , Y + 0.5 , Z + 0.5 , 64 , Dimension , GeneratePacket ( Type , Body ) ) ;
 	}
 
 	public static void SendPacketToPlayer ( net . minecraft . entity . player . EntityPlayerMP Player , Enum Type , net . minecraft . nbt . NBTTagCompound Body )

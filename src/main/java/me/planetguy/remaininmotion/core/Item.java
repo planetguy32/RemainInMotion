@@ -1,10 +1,11 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
 
 import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import me.planetguy.remaininmotion.CreativeTab;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 

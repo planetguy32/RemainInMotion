@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
 
 public abstract class Recipe implements net . minecraft . item . crafting . IRecipe
 {

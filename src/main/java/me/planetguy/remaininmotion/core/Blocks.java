@@ -1,4 +1,8 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
+
+import me.planetguy.remaininmotion.Carriage;
+import me.planetguy.remaininmotion.CarriageDrive;
+import me.planetguy.remaininmotion.Spectre;
 
 public abstract class Blocks
 {

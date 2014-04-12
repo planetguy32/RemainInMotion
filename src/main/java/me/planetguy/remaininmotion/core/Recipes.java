@@ -1,4 +1,22 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
+
+import me.planetguy.remaininmotion.Carriage;
+import me.planetguy.remaininmotion.CarriageDecorationConversionRecipe;
+import me.planetguy.remaininmotion.CarriageDecorationRecipe;
+import me.planetguy.remaininmotion.CarriageDrive;
+import me.planetguy.remaininmotion.CarriageDriveItem;
+import me.planetguy.remaininmotion.CarriageItem;
+import me.planetguy.remaininmotion.CarriageTranslocatorLabelConversionRecipe;
+import me.planetguy.remaininmotion.CarriageTranslocatorLabelRecipe;
+import me.planetguy.remaininmotion.Registry;
+import me.planetguy.remaininmotion.SimpleItemSet;
+import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.ToolItemSet.Types;
+import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.base.Stack;
+import me.planetguy.remaininmotion.core.ModInteraction.ComputerCraft;
+import me.planetguy.remaininmotion.util.Vanilla;
+import me.planetguy.remaininmotion.util.Vanilla.DyeTypes;
 
 public abstract class Recipes
 {
@@ -141,7 +159,7 @@ public abstract class Recipes
 			'C' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("compass") )
 		) ;
 
-		if ( ModInteraction . ComputerCraft . CarriageControllerEntity != null )
+		if ( ModInteraction . ComputerCraft .carriageControllerEntity != null )
 		{
 			RegisterCarriageDriveRecipe
 			(

@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.util.CarriageMotionException;
+
 public class StructureCarriageEntity extends CarriageEntity
 {
 	public enum EdgeTypes

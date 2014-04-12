@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.util.Vanilla;
 import net.minecraft.util.IIcon;
 
 public class CarriageDriveRenderer extends BlockRenderer

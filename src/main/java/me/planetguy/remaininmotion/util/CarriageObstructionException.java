@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.util ;
 
 public class CarriageObstructionException extends CarriageMotionException
 {

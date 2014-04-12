@@ -1,5 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.util ;
 
+import me.planetguy.remaininmotion.GameUtil;
 import net.minecraft.block.Block;
 
 public abstract class WorldUtil

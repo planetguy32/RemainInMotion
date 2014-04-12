@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.util.CarriageMotionException;
+
 public class PlatformCarriageEntity extends CarriageEntity
 {
 	public void FailBecauseOverburdened ( ) throws CarriageMotionException

@@ -1,4 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
+
+import me.planetguy.remaininmotion.ClientSetupProxy;
 
 @cpw . mods . fml . common . Mod ( modid = Mod . Handle , name = Mod . Title , version = Mod . Version )
 public class Mod

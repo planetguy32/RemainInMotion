@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.base ;
 
 import net.minecraft.item.ItemStack;
 

@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.Block;
+
 public class SpectreItem extends BlockItem
 {
 	public SpectreItem ( Block b )

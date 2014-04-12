@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Recipe;
 import net.minecraft.item.ItemBlock;
 
 public class CarriageDecorationRecipe extends Recipe

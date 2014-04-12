@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Configuration;
+
 public class TeleportativeSpectreRenderer extends TileEntityRenderer
 {
 	@Override

@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
 

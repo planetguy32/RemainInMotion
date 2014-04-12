@@ -5,6 +5,9 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import me.planetguy.remaininmotion.util.CarriageMotionException;
+import me.planetguy.remaininmotion.util.CarriageObstructionException;
+import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.world.World;
 
 @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")

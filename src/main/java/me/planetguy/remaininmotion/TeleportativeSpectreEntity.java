@@ -1,5 +1,10 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.util.WorldUtil;
+
 public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 {
 	public boolean Source ;

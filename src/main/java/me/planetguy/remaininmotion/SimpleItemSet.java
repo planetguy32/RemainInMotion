@@ -1,12 +1,17 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.IIcon;
+import me.planetguy.remaininmotion.base.Stack;
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Item;
+
 public class SimpleItemSet extends Item
 {
-	public static int Id ;
 
 	public SimpleItemSet ( )
 	{
-		super ( Id ) ;
+		super ( ) ;
 	}
 
 	public enum Types
@@ -15,7 +20,7 @@ public class SimpleItemSet extends Item
 		CarriagePanel ,
 		CarriageFramework ;
 
-		public net . minecraft . util . Icon Icon ;
+		public IIcon Icon ;
 
 		public net . minecraft . item . ItemStack Stack ( )
 		{
@@ -24,7 +29,7 @@ public class SimpleItemSet extends Item
 	}
 
 	@Override
-	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		try
 		{
@@ -61,7 +66,7 @@ public class SimpleItemSet extends Item
 	}
 
 	@Override
-	public void registerIcons ( net . minecraft . client . renderer . texture . IconRegister IconRegister )
+	public void registerIcons ( IIconRegister IconRegister )
 	{
 		for ( Types Type : Types . values ( ) )
 		{
@@ -70,7 +75,7 @@ public class SimpleItemSet extends Item
 	}
 
 	@Override
-	public net . minecraft . util . Icon getIconFromDamage ( int Damage )
+	public IIcon getIconFromDamage ( int Damage )
 	{
 		try
 		{

@@ -1,4 +1,11 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.network ;
+
+import me.planetguy.remaininmotion.BlockPosition;
+import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.BlockRecordSet;
+import me.planetguy.remaininmotion.CarriageDriveEntity;
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.CarriageRenderCache;
 
 public abstract class RenderPacket
 {
@@ -38,7 +45,7 @@ public abstract class RenderPacket
 				Package . AnchorRecord . X - Package . DriveRecord . X + Package . Translocator . xCoord ,
 				Package . AnchorRecord . Y - Package . DriveRecord . Y + Package . Translocator . yCoord ,
 				Package . AnchorRecord . Z - Package . DriveRecord . Z + Package . Translocator . zCoord ,
-				Package . Translocator . worldObj . provider . dimensionId ,
+				Package . Translocator.getWorldObj() . provider . dimensionId ,
 				PacketTypes . Render ,
 				Packet
 			) ;
@@ -67,7 +74,7 @@ public abstract class RenderPacket
 
 		int Dimension = Packet . getInteger ( "Dimension" ) ;
 
-		net . minecraft . nbt . NBTTagList Body = Packet . getTagList ( "Body" ) ;
+		net . minecraft . nbt . NBTTagList Body = Packet . getTagList ( "Body", 0 ) ;
 
 		BlockRecordSet Blocks = new BlockRecordSet ( ) ;
 
@@ -75,7 +82,7 @@ public abstract class RenderPacket
 
 		for ( int Index = 0 ; Index < Body . tagCount ( ) ; Index ++ )
 		{
-			net . minecraft . nbt . NBTTagCompound Tag = ( net . minecraft . nbt . NBTTagCompound ) Body . tagAt ( Index ) ;
+			net . minecraft . nbt . NBTTagCompound Tag = ( net . minecraft . nbt . NBTTagCompound ) Body.getCompoundTagAt( Index ) ;
 
 			BlockRecord Record = new BlockRecord ( Tag . getInteger ( "X" ) , Tag . getInteger ( "Y" ) , Tag . getInteger ( "Z" ) ) ;
 

@@ -1,4 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.util ;
+
+import me.planetguy.remaininmotion.core.Configuration;
 
 public class CarriageMotionException extends Exception
 {

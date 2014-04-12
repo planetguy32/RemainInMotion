@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.util.CarriageMotionException;
+import me.planetguy.remaininmotion.util.CarriageObstructionException;
+
 public class CarriageMotorEntity extends CarriageDriveEntity
 {
 	@Override

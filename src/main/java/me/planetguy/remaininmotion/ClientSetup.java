@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.TileEntity;
+
 public class ClientSetup extends ClientSetupProxy
 {
 	public void RegisterTileEntityRenderer ( TileEntityRenderer Renderer , Class < ? extends TileEntity > ... EntityClasses )

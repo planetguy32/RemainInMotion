@@ -3,6 +3,13 @@ package me.planetguy.remaininmotion ;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.util.CarriageMotionException;
+import me.planetguy.remaininmotion.util.CarriageObstructionException;
+import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 
@@ -162,7 +169,7 @@ public class CarriagePackage
 			return ;
 		}
 
-		if (((Material) Reflection.stealField("blockMaterial", World . getBlock ( Record . X , Record . Y , Record . Z ) )) . isLiquid ( ) )
+		if (((Material) Reflection.stealField(World . getBlock ( Record . X , Record . Y , Record . Z ), "blockMaterial" )) . isLiquid ( ) )
 		{
 			if ( ObstructedByLiquids )
 			{
@@ -238,7 +245,7 @@ public class CarriagePackage
 
 		try
 		{
-			java . util . Iterator PendingBlockUpdateSetIterator = ((TreeSet<BlockRecord>) Reflection.stealField("pendingTickListEntriesTreeSet", World)) . iterator ( ) ;
+			java . util . Iterator PendingBlockUpdateSetIterator = ((TreeSet<BlockRecord>) Reflection.stealField(World, "pendingTickListEntriesTreeSet")) . iterator ( ) ;
 
 			while ( PendingBlockUpdateSetIterator . hasNext ( ) )
 			{
@@ -248,7 +255,7 @@ public class CarriagePackage
 				{
 					PendingBlockUpdateSetIterator . remove ( ) ;
 
-					((HashSet<BlockRecord>) Reflection.stealField("pendingTickListEntriesHashSet", World)) . remove ( PendingBlockUpdate ) ;
+					((HashSet<BlockRecord>) Reflection.stealField(World, "pendingTickListEntriesHashSet")) . remove ( PendingBlockUpdate ) ;
 
 					StorePendingBlockUpdateRecord ( PendingBlockUpdate , WorldTime ) ;
 				}

@@ -1,5 +1,7 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.network ;
 
+import me.planetguy.remaininmotion.MotiveSpectreEntity;
+import me.planetguy.remaininmotion.base.Block;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 

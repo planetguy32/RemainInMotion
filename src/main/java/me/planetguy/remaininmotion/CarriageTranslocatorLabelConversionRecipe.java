@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Recipe;
+
 public class CarriageTranslocatorLabelConversionRecipe extends Recipe
 {
 	@Override

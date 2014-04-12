@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.Stack;
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Configuration;
 import net.minecraft.block.Block;
 
 public class CarriageItem extends BlockItem

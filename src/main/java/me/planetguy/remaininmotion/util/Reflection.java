@@ -1,4 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.util ;
+
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class Reflection
 {
@@ -63,13 +65,33 @@ public abstract class Reflection
 		}
 	}
 	
-	public static Object stealField(String fieldName, Object obj){
+	public static Object stealField(Object obj, String fieldName){
 		try {
 			return EstablishField(obj.getClass(), fieldName).get(obj);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Object runMethod(Object obj, String method, Object...objects){
+		try {
+			Class[] classes=new Class[objects.length];
+			for(int i=0; i<objects.length; i++){
+				classes[i]=objects[i].getClass();
+			}
+			return EstablishMethod(obj.getClass(), method, classes).invoke(obj, objects);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

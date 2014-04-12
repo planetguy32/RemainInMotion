@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.util.CarriageMotionException;
+
 public class FrameCarriageEntity extends CarriageEntity
 {
 	@Override

@@ -1,4 +1,11 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.core ;
+
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.CarriagePackageBlacklist;
+import me.planetguy.remaininmotion.MotiveSpectreEntity;
+import me.planetguy.remaininmotion.Registry;
+import me.planetguy.remaininmotion.SimpleItemSet;
+import me.planetguy.remaininmotion.ToolItemSet;
 
 public class Configuration extends Config
 {
@@ -143,19 +150,6 @@ public class Configuration extends Config
 
 	public void Process ( )
 	{
-		{
-			BlockIds . Carriage = BlockId ( "Carriages" , 1123 ) ;
-
-			BlockIds . CarriageDrive = BlockId ( "Carriage Drives" , 1124 ) ;
-
-			BlockIds . Spectre = BlockId ( "Motive Spectre" , 1125 ) ;
-		}
-
-		{
-			ToolItemSet . Id = ItemId ( "Tools" , 11235 ) ;
-
-			SimpleItemSet . Id = ItemId ( "Simple Items" , 11236 ) ;
-		}
 
 		{
 			Category = "Carriage" ;

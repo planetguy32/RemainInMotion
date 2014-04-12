@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.TileEntity;
 import net.minecraft.block.Block;
 
 public class BlockRecord implements Comparable < BlockRecord >

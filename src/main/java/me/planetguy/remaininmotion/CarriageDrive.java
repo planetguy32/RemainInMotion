@@ -2,6 +2,9 @@ package me.planetguy.remaininmotion ;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.ModInteraction;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
@@ -10,7 +13,7 @@ public class CarriageDrive extends Block
 	public CarriageDrive ( )
 	{
 		super ( Block.getBlockFromName("iron_block") , CarriageDriveItem . class , HarvestToolTypes . Pickaxe ,
-			CarriageEngineEntity . class , CarriageMotorEntity . class , ModInteraction . ComputerCraft . CarriageControllerEntity , CarriageTranslocatorEntity . class ) ;
+			CarriageEngineEntity . class , CarriageMotorEntity . class , ModInteraction . ComputerCraft .carriageControllerEntity , CarriageTranslocatorEntity . class ) ;
 	}
 
 	public enum Types
@@ -66,7 +69,7 @@ public class CarriageDrive extends Block
 	{
 		for ( Types Type : Types . values ( ) )
 		{
-			if ( ( Type == Types . Controller ) && ( ModInteraction . ComputerCraft . CarriageControllerEntity == null ) )
+			if ( ( Type == Types . Controller ) && ( ModInteraction . ComputerCraft .carriageControllerEntity == null ) )
 			{
 				continue ;
 			}
@@ -89,7 +92,7 @@ public class CarriageDrive extends Block
 		{
 			if ( Type == Types . Controller )
 			{
-				if ( ModInteraction . ComputerCraft . CarriageControllerEntity == null )
+				if ( ModInteraction . ComputerCraft .carriageControllerEntity == null )
 				{
 					continue ;
 				}

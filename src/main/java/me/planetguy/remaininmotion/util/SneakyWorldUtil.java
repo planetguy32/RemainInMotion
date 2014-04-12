@@ -1,5 +1,8 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.util ;
 
+import java.util.List;
+
+import net.minecraft.block.Block;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public abstract class SneakyWorldUtil
@@ -15,7 +18,7 @@ public abstract class SneakyWorldUtil
 		Chunk . removeTileEntity ( ChunkX , Y , ChunkZ ) ;
 
 		int LayerY = Y >> 4 ;
-		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Reflection.stealField("storageArrays", Chunk);
+		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Reflection.stealField(Chunk, "storageArrays");
 
 		if ( storageArrays [ LayerY ] == null )
 		{
@@ -33,16 +36,16 @@ public abstract class SneakyWorldUtil
 
 	public static void SetTileEntity ( net . minecraft . world . World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )
 	{
-		if ( World . scanningTileEntities )
+		if ( (Boolean)Reflection.stealField(World,"field_147481_N"))
 		{
-			World . addedTileEntityList . add ( Entity ) ;
+			((List)Reflection.stealField(World ,"addedTileEntityList")) . add ( Entity ) ;
 		}
 		else
 		{
 			World . loadedTileEntityList . add ( Entity ) ;
 		}
 
-		World . getChunkFromBlockCoords ( X , Z ) . setChunkBlockTileEntity ( X & 0xF , Y , Z & 0xF , Entity ) ;
+		World . getChunkFromBlockCoords ( X , Z ) . func_150812_a ( X & 0xF , Y , Z & 0xF , Entity ) ;
 	}
 
 	/* out of context, this is woefully redundant and inefficient, and really needs to be fixed */
@@ -69,40 +72,40 @@ public abstract class SneakyWorldUtil
 		}
 		else
 		{
-			if ( Chunk . getBlockLightOpacity ( ChunkX , Y , ChunkZ ) > 0 )
+			if ( (Integer)Reflection.runMethod(Chunk, "getBlockLightOpacity",ChunkX , Y , ChunkZ ) > 0 )
 			{
 				if ( Y >= HeightMapValue )
 				{
-					Chunk . relightBlock ( ChunkX , Y + 1 , ChunkZ ) ;
+					Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y + 1 , ChunkZ ) ;
 				}
 			}
 			else if ( Y == HeightMapValue - 1 )
 			{
-				Chunk . relightBlock ( ChunkX , Y , ChunkZ ) ;
+				Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y , ChunkZ ) ;
 			}
 
-			Chunk . propagateSkylightOcclusion ( ChunkX , ChunkZ ) ;
+			Reflection.runMethod(Chunk,"propagateSkylightOcclusion",  ChunkX , ChunkZ ) ;
 		}
 
-		World . updateAllLightTypes ( X , Y , Z ) ;
+		World . func_147451_t ( X , Y , Z ) ;
 	}
 
-	public static void NotifyBlocks ( net . minecraft . world . World World , int X , int Y , int Z , int OldId , int NewId )
+	public static void NotifyBlocks ( net . minecraft . world . World World , int X , int Y , int Z , Block OldId , Block NewId )
 	{
 		World . notifyBlockChange ( X , Y , Z , OldId ) ;
 
-		if ( NewId == 0 )
+		if ( NewId == null )
 		{
 			return ;
 		}
 
-		if ( ( World . getBlockTileEntity ( X , Y , Z ) != null ) || ( Block . Get ( NewId ) . hasComparatorInputOverride ( ) ) )
+		if ( ( World . getTileEntity ( X , Y , Z ) != null ) || ( NewId. hasComparatorInputOverride ( ) ) )
 		{
-			World . func_96440_m ( X , Y , Z , NewId ) ;
+			World . func_147453_f ( X , Y , Z , NewId ) ;
 		}
 	}
 
-	public static void RefreshBlock ( net . minecraft . world . World World , int X , int Y , int Z , int OldId , int NewId )
+	public static void RefreshBlock ( net . minecraft . world . World World , int X , int Y , int Z , net.minecraft.block.Block OldId , Block NewId )
 	{
 		UpdateLighting ( World , X , Y , Z ) ;
 

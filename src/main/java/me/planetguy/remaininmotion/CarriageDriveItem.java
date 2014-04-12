@@ -1,5 +1,11 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.base.Stack;
+import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.util.Vanilla;
+
 public class CarriageDriveItem extends BlockItem
 {
 	public CarriageDriveItem ( Block b )
