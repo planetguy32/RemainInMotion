@@ -1,7 +1,9 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.util.Reflection;
 
 public abstract class CarriagePackageBlacklist
 {
@@ -9,24 +11,24 @@ public abstract class CarriagePackageBlacklist
 
 	public static java . util . HashSet < Integer > BlacklistedIdAndMetaPairs = new java . util . HashSet < Integer > ( ) ;
 
-	public static void Add ( int Id )
+	public static void Add ( Block b )
 	{
-		BlacklistedIds . add ( Id ) ;
+		BlacklistedIds . add ( Block.getIdFromBlock(b) ) ;
 	}
 
-	public static void Add ( int Id , int Meta )
+	public static void Add ( Block b , int Meta )
 	{
-		BlacklistedIdAndMetaPairs . add ( ( Id << 4 ) | Meta ) ;
+		BlacklistedIdAndMetaPairs . add ( ( Block.getIdFromBlock(b) << 4 ) | Meta ) ;
 	}
 
-	public static boolean Lookup ( BlockRecord Block )
+	public static boolean Lookup ( BlockRecord block )
 	{
-		if ( BlacklistedIds . contains ( net.minecraft.block.Block.getIdFromBlock(Block.block )) )
+		if ( BlacklistedIds . contains ( net.minecraft.block.Block.getIdFromBlock(block.block )) )
 		{
 			return ( true ) ;
 		}
 
-		if ( BlacklistedIdAndMetaPairs . contains ( ( Block . Id << 4 ) | Block . Meta ) )
+		if ( BlacklistedIdAndMetaPairs . contains ( ( Block.getIdFromBlock(block.block) << 4 ) | block . Meta ) )
 		{
 			return ( true ) ;
 		}
@@ -36,34 +38,35 @@ public abstract class CarriagePackageBlacklist
 
 	public static void Initialize ( )
 	{
-		Add ( Blocks . Spectre . blockID ) ;
+		Add ( Blocks . Spectre ) ;
 
 		if ( Configuration . Carriage . BlacklistBedrock )
 		{
-			Add ( net . minecraft . block . Block . bedrock . blockID ) ;
+			Add ( Block.getBlockFromName("bedrock") ) ;
 		}
 
 		if ( Configuration . Carriage . BlacklistByPiston )
 		{
-			Add ( net . minecraft . block . Block . obsidian . blockID ) ;
+			Add ( Block.getBlockFromName("obsidian")) ;
 
-			for ( net . minecraft . block . Block Block : net . minecraft . block . Block . blocksList )
+			for ( Object o:Block.blockRegistry.getKeys())
 			{
-				if ( Block == null )
+				Block b=(Block) Block.blockRegistry.getObject(o);
+				if ( b == null )
 				{
 					continue ;
 				}
 
-				if ( Block . blockHardness < 0 )
+				if ( (Double)Reflection.stealField(b, "blockHardness") < 0 )
 				{
-					Add ( Block . blockID ) ;
+					Add ( b ) ;
 
 					continue ;
 				}
 
-				if ( Block . getMobilityFlag ( ) == 2 )
+				if ( b . getMobilityFlag ( ) == 2 )
 				{
-					Add ( Block . blockID ) ;
+					Add ( b ) ;
 
 					continue ;
 				}

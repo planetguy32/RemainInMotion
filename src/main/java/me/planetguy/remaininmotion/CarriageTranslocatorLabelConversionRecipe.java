@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.Item;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Recipe;
 
@@ -16,30 +17,30 @@ public class CarriageTranslocatorLabelConversionRecipe extends Recipe
 
 		for ( int Index = 0 ; Index < InventorySize ; Index ++ )
 		{
-			net . minecraft . item . ItemStack Item = Inventory . getStackInSlot ( Index ) ;
+			net . minecraft . item . ItemStack itemStack = Inventory . getStackInSlot ( Index ) ;
 
-			if ( Item == null )
+			if ( itemStack == null )
 			{
 				continue ;
 			}
 
-			if ( Item . itemID == Blocks . CarriageDrive . blockID )
+			if ( itemStack.getItem() == Item.getItemFromBlock(Blocks . CarriageDrive) )
 			{
-				if ( BlockItem . GetBlockType ( Item ) == CarriageDrive . Types . Translocator . ordinal ( ) )
+				if ( BlockItem . GetBlockType ( itemStack ) == CarriageDrive . Types . Translocator . ordinal ( ) )
 				{
 					if ( Drive != null )
 					{
 						return ( null ) ;
 					}
 
-					Drive = Item ;
+					Drive = itemStack ;
 
 					continue ;
 				}
 			}
-			else if ( Item . itemID == Items . ToolItemSet . itemID )
+			else if ( itemStack.getItem() == Items . ToolItemSet )
 			{
-				if ( Item . getItemDamage() == ToolItemSet . Types . Screwdriver . ordinal ( ) )
+				if ( itemStack . getItemDamage() == ToolItemSet . Types . Screwdriver . ordinal ( ) )
 				{
 					if ( ScrewdriverPresent )
 					{

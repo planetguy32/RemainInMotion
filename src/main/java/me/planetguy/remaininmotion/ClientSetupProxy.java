@@ -4,10 +4,7 @@ import me.planetguy.remaininmotion.core.Mod;
 
 public class ClientSetupProxy
 {
-	public static final String ClientSideClassName = ClientSetup.class.getCanonicalName();
-	public static final String ServerSideClassName = ClientSetupProxy.class.getCanonicalName();
-
-	@cpw . mods . fml . common . SidedProxy ( clientSide = ClientSideClassName , serverSide = ServerSideClassName )
+	@cpw . mods . fml . common . SidedProxy ( clientSide = "me.planetguy.remaininmotion.ClientSetup" , serverSide = "me.planetguy.remaininmotion.ClientSetupProxy" )
 	public static ClientSetupProxy Instance ;
 
 	public void Execute ( )

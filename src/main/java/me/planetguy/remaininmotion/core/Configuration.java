@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.core ;
 
+import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.CarriagePackageBlacklist;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
@@ -167,14 +168,14 @@ public class Configuration extends Config
 						{
 							if ( BlacklistItemElements . length == 1 )
 							{
-								CarriagePackageBlacklist . Add ( Integer . parseInt ( BlacklistItemElements [ 0 ] ) ) ;
+								CarriagePackageBlacklist . Add ( Block.getBlockFromName( BlacklistItemElements [ 0 ] ) ) ;
 
 								continue ;
 							}
 
 							if ( BlacklistItemElements . length == 2 )
 							{
-								CarriagePackageBlacklist . Add ( Integer . parseInt ( BlacklistItemElements [ 0 ] ) , Integer . parseInt ( BlacklistItemElements [ 1 ] ) ) ;
+								CarriagePackageBlacklist . Add ( Block.getBlockFromName( BlacklistItemElements [ 0 ] ) , Integer . parseInt ( BlacklistItemElements [ 1 ] ) ) ;
 
 								continue ;
 							}

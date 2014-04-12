@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.Item;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Recipe;
 import me.planetguy.remaininmotion.util.Vanilla;
@@ -21,41 +22,41 @@ public class CarriageTranslocatorLabelRecipe extends Recipe
 
 		for ( int Index = 0 ; Index < InventorySize ; Index ++ )
 		{
-			net . minecraft . item . ItemStack Item = Inventory . getStackInSlot ( Index ) ;
+			net . minecraft . item . ItemStack itemStack = Inventory . getStackInSlot ( Index ) ;
 
-			if ( Item == null )
+			if ( itemStack == null )
 			{
 				continue ;
 			}
 
-			if ( Item . itemID == Blocks . CarriageDrive . blockID )
+			if ( itemStack.getItem() == Item.getItemFromBlock(Blocks . CarriageDrive ))
 			{
-				if ( BlockItem . GetBlockType ( Item ) == CarriageDrive . Types . Translocator . ordinal ( ) )
+				if ( BlockItem . GetBlockType ( itemStack ) == CarriageDrive . Types . Translocator . ordinal ( ) )
 				{
 					if ( Drive != null )
 					{
 						return ( null ) ;
 					}
 
-					Drive = Item ;
+					Drive = itemStack ;
 
 					continue ;
 				}
 			}
-			else if ( Item . itemID == net . minecraft . item . Item . dyePowder . itemID )
+			else if ( itemStack.getItem() == net . minecraft . item . Item.itemRegistry.getObject("dye") )
 			{
-				if ( DyesToAdd [ Item . getItemDamage() ] )
+				if ( DyesToAdd [ itemStack . getItemDamage() ] )
 				{
 					return ( null ) ;
 				}
 
-				DyesToAdd [ Item . getItemDamage() ] = true ;
+				DyesToAdd [ itemStack . getItemDamage() ] = true ;
 
 				DyeFound = true ;
 
 				continue ;
 			}
-			else if ( Item . itemID == net . minecraft . item . Item . comparator . itemID )
+			else if ( itemStack .getItem() == net . minecraft . item . Item.itemRegistry.getObject("comparator"))
 			{
 				if ( ComparatorPresent == true )
 				{
