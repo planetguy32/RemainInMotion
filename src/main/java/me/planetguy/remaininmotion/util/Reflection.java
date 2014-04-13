@@ -79,6 +79,7 @@ public abstract class Reflection
 	}
 	
 	public static Object runMethod(Object obj, String method, Object...objects){
+		if(obj!=null)
 		try {
 			Class[] classes=new Class[objects.length];
 			for(int i=0; i<objects.length; i++){
@@ -86,13 +87,12 @@ public abstract class Reflection
 			}
 			return EstablishMethod(obj.getClass(), method, classes).invoke(obj, objects);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
 		return null;
