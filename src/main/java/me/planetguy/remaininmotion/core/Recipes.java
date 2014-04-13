@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.core ;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import me.planetguy.remaininmotion.Carriage;
 import me.planetguy.remaininmotion.CarriageDecorationConversionRecipe;
 import me.planetguy.remaininmotion.CarriageDecorationRecipe;
@@ -12,7 +14,6 @@ import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.SimpleItemSet;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.ToolItemSet.Types;
-import me.planetguy.remaininmotion.base.Block;
 import me.planetguy.remaininmotion.base.Stack;
 import me.planetguy.remaininmotion.core.ModInteraction.ComputerCraft;
 import me.planetguy.remaininmotion.util.Vanilla;
@@ -30,6 +31,7 @@ public abstract class Recipes
 
 		RegisterCarriageDriveRecipes ( ) ;
 
+		/*
 		Registry . RegisterCustomRecipe ( new CarriageDecorationRecipe ( ) ) ;
 
 		Registry . RegisterCustomRecipe ( new CarriageTranslocatorLabelRecipe ( ) ) ;
@@ -37,6 +39,7 @@ public abstract class Recipes
 		Registry . RegisterCustomRecipe ( new CarriageDecorationConversionRecipe ( ) ) ;
 
 		Registry . RegisterCustomRecipe ( new CarriageTranslocatorLabelConversionRecipe ( ) ) ;
+		*/
 	}
 
 	public static void RegisterSimpleItemRecipes ( )
@@ -82,8 +85,8 @@ public abstract class Recipes
 			" I " , " I " , "LSL" ,
 
 			'I' , Stack . New ( (Item) net . minecraft . item . Item .itemRegistry.getObject("ingotIron")   ) ,
-			'S' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("cobblestone") ) ,
-			'L' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("leather")   )
+			'S' , Stack . New ( (net.minecraft.block.Block) net . minecraft . block . Block.blockRegistry.getObjectById(4) ) ,
+			'L' , Stack . New ( (net.minecraft.item.Item) net . minecraft . item . Item.itemRegistry.getObject("leather")   )
 		) ;
 	}
 
@@ -155,8 +158,8 @@ public abstract class Recipes
 
 			'E' , CarriageDriveItem . Stack ( CarriageDrive . Types . Engine . ordinal ( ) , 0 ) ,
 			'O' , Stack . New ( (Block) net . minecraft . block .Block.blockRegistry.getObject("obsidian") ) ,
-			'P' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("enderPearl") ) ,
-			'C' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("compass") )
+			'P' , Stack . New ( (Item) net . minecraft . item . Item.getItemById(368) ) ,
+			'C' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObjectById(345) )
 		) ;
 
 		if ( ModInteraction . ComputerCraft .carriageControllerEntity != null )

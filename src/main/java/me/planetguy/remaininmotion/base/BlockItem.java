@@ -1,10 +1,8 @@
-package me.planetguy.remaininmotion ;
-
-import net.minecraft.block.Block;
+package me.planetguy.remaininmotion.base ;
 
 public abstract class BlockItem extends net . minecraft . item . ItemBlock
 {
-	public BlockItem ( Block Id )
+	public BlockItem ( net.minecraft.block.Block Id )
 	{
 		super ( Id ) ;
 

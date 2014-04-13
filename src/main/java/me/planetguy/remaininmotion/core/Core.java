@@ -1,10 +1,13 @@
 package me.planetguy.remaininmotion.core ;
 
+import net.minecraft.entity.player.EntityPlayer;
 import me.planetguy.remaininmotion.CarriageItem;
 import me.planetguy.remaininmotion.CarriagePackageBlacklist;
 import me.planetguy.remaininmotion.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.Items;
+import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
+import me.planetguy.remaininmotion.network.RenderPacket;
 
 public abstract class Core
 {
@@ -37,8 +40,8 @@ public abstract class Core
 		CarriageTranslocatorEntity . ActiveTranslocatorSets . clear ( ) ;
 	}
 
-	/*
-	public static void HandlePacket ( int Type , net . minecraft . nbt . NBTTagCompound Body , cpw . mods . fml . common . network . Player Player )
+	
+	public static void HandlePacket ( int Type , net . minecraft . nbt . NBTTagCompound Body , EntityPlayer Player )
 	{
 		switch ( PacketTypes . values ( ) [ Type ] )
 		{
@@ -55,5 +58,10 @@ public abstract class Core
 				break ;
 		}
 	}
-	*/
+	
+	public enum PacketTypes{
+		Render,
+		MultipartPropagation
+	}
+	
 }

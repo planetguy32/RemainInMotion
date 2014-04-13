@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion ;
 
 import net.minecraft.item.Item;
+import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Recipe;
 

@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.base ;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public abstract class Stack
@@ -17,7 +18,7 @@ public abstract class Stack
 		return ( Item ) ;
 	}
 
-	public static net . minecraft . item . ItemStack New ( Block b , int Damage , int Quantity )
+	public static net . minecraft . item . ItemStack New ( net.minecraft.block.Block b , int Damage , int Quantity )
 	{
 		return ( new net . minecraft . item . ItemStack ( b , Quantity , Damage ) ) ;
 	}
@@ -55,11 +56,6 @@ public abstract class Stack
 	public static net . minecraft . item . ItemStack New ( net . minecraft . item . Item Item )
 	{
 		return ( New ( Item , 0 ) ) ;
-	}
-
-	public static net . minecraft . item . ItemStack New ( net . minecraft . block . Block Block , int Damage , int Quantity )
-	{
-		return ( New ( Block , Damage , Quantity ) ) ;
 	}
 
 	public static net . minecraft . item . ItemStack New ( net . minecraft . block . Block Block , Enum Type , int Quantity )

@@ -32,6 +32,7 @@ public class Mod
 	@cpw . mods . fml . common . Mod . EventHandler
 	public void PostInit ( cpw . mods . fml . common . event . FMLPostInitializationEvent Event )
 	{
+		
 		ClientSetupProxy . Instance . Execute ( ) ;
 
 		Core . HandlePostInit ( ) ;

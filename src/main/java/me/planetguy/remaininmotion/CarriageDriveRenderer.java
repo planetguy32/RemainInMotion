@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.util.Vanilla;

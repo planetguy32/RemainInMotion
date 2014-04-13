@@ -97,7 +97,7 @@ public abstract class ModInteraction
 		ForgeMultipart . Establish ( ) ;
 
 		{
-			PendingBlockUpdateSetField = Reflection . EstablishField ( net . minecraft . world . WorldServer . class , "tickEntryQueue" ) ;
+			PendingBlockUpdateSetField = Reflection . EstablishField ( net . minecraft . world . WorldServer . class , "pendingTickListEntriesHashSet" ) ;
 
 			RemovePendingBlockUpdate = Reflection . EstablishMethod ( net . minecraft . world . WorldServer . class , "removeNextTickIfNeeded" , net . minecraft . world . NextTickListEntry . class ) ;
 		}

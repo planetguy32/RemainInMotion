@@ -1,10 +1,11 @@
 package me.planetguy.remaininmotion ;
 
 import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.base.BlockItem;
 
 public class SpectreItem extends BlockItem
 {
-	public SpectreItem ( Block b )
+	public SpectreItem ( net.minecraft.block.Block b )
 	{
 		super( b ) ;
 	}

@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.base.Stack;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
@@ -10,7 +11,7 @@ public class CarriageItem extends BlockItem
 	
 	public static net.minecraft.item.Item instance;
 	
-	public CarriageItem (Block b )
+	public CarriageItem (net.minecraft.block.Block b )
 	{
 		super (b ) ;
 		instance=this;

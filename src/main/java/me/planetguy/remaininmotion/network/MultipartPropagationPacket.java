@@ -11,7 +11,7 @@ public abstract class MultipartPropagationPacket
 	{
 		net . minecraft . nbt . NBTTagCompound Packet = new net . minecraft . nbt . NBTTagCompound ( ) ;
 
-		Packet . setInteger ( "Id" , MotiveSpectreEntity . MultipartContainerBlockId ) ;
+		Packet . setInteger ( "Id" , Block.getIdFromBlock(MotiveSpectreEntity . MultipartContainerBlockId ) );
 
 		net . minecraft . nbt . NBTTagList Body = new net . minecraft . nbt . NBTTagList ( ) ;
 
@@ -28,7 +28,7 @@ public abstract class MultipartPropagationPacket
 
 		Packet . setTag ( "Body" , Body ) ;
 
-		PacketManager . SendPacketToPlayer ( Player , PacketTypes . MultipartPropagation , Packet ) ;
+		ChannelHandler . sendPacketToPlayer ( Player , PacketTypes . MultipartPropagation , Packet ) ;
 	}
 
 	public static void Handle ( net . minecraft . nbt . NBTTagCompound Packet , net . minecraft . world . World World )

@@ -1,19 +1,21 @@
 package me.planetguy.remaininmotion ;
 
 import cpw.mods.fml.common.Optional;
+/*
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
+*/
 import me.planetguy.remaininmotion.util.CarriageMotionException;
 import me.planetguy.remaininmotion.util.CarriageObstructionException;
 import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.world.World;
 
-@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
-public class CarriageControllerEntity extends CarriageDriveEntity implements dan200.computercraft.api.peripheral.IPeripheral
+//@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
+public class CarriageControllerEntity extends CarriageDriveEntity //implements dan200.computercraft.api.peripheral.IPeripheral
 {
-	
+	/*
 	static{
 		IPeripheralProvider ipp=new CarriageControllerPeripheralProvider();
 		try {
@@ -23,6 +25,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 			e.printStackTrace();
 		}
 	}
+	*/
 	
 	public Object ThreadLockObject = new Object ( ) ;
 
@@ -92,6 +95,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		return ( Anchored ) ;
 	}
 
+	/*
 	@Override
 	public String getType ( )
 	{
@@ -306,6 +310,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		return ( new Object [ ] { false , Error . getMessage ( ) , ObstructionX , ObstructionY , ObstructionZ } ) ;
 	}
 
+*/
 	public void Move ( ) throws CarriageMotionException
 	{
 		if ( Active )
@@ -377,6 +382,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 
 		return ( Package ) ;
 	}
+	/*
 
 	@Override
 	public void attach(IComputerAccess computer) {
@@ -392,5 +398,5 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 	public boolean equals(IPeripheral other) {
 		return other==this;
 	}
-	
+	*/
 }

@@ -293,7 +293,7 @@ public class CarriagePackage
 
 					StorePendingBlockUpdateRecord ( PendingBlockUpdate , WorldTime ) ;
 
-					ModInteraction . RemovePendingBlockUpdate . invoke ( World , PendingBlockUpdate ) ;
+					PendingBlockUpdateSet.remove(PendingBlockUpdate);
 				}
 			}
 			catch ( Throwable McpcThrowable )

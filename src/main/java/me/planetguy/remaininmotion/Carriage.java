@@ -11,7 +11,7 @@ public class Carriage extends Block
 {
 	public Carriage ( )
 	{
-		super ((net.minecraft.block.Block)Block.blockRegistry.getObject("oak_planks") , CarriageItem . class , HarvestToolTypes . Hatchet ,
+		super ((net.minecraft.block.Block)Block.blockRegistry.getObjectById(5) , CarriageItem . class , HarvestToolTypes . Hatchet ,
 			FrameCarriageEntity . class , PlatformCarriageEntity . class , StructureCarriageEntity . class , SupportCarriageEntity . class , TemplateCarriageEntity . class ) ;
 	}
 

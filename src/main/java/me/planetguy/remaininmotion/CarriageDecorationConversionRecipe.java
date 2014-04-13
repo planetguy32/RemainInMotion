@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.core.Recipe;
 
 public class CarriageDecorationConversionRecipe extends Recipe

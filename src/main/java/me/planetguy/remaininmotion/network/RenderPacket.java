@@ -38,9 +38,9 @@ public abstract class RenderPacket
 
 		if ( Package . MotionDirection == null )
 		{
-			PacketManager . BroadcastPacketFromBlock ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z , Package . World . provider . dimensionId , PacketTypes . Render , Packet ) ;
+			ChannelHandler . BroadcastPacketFromBlock ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z , Package . World . provider . dimensionId , PacketTypes . Render , Packet ) ;
 
-			PacketManager . BroadcastPacketFromBlock
+			ChannelHandler . BroadcastPacketFromBlock
 			(
 				Package . AnchorRecord . X - Package . DriveRecord . X + Package . Translocator . xCoord ,
 				Package . AnchorRecord . Y - Package . DriveRecord . Y + Package . Translocator . yCoord ,
@@ -52,7 +52,7 @@ public abstract class RenderPacket
 		}
 		else
 		{
-			PacketManager . BroadcastPacketFromBlock
+			ChannelHandler . BroadcastPacketFromBlock
 			(
 				Package . AnchorRecord . X + Package . MotionDirection . DeltaX ,
 				Package . AnchorRecord . Y + Package . MotionDirection . DeltaY ,
