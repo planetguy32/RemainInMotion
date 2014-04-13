@@ -1,0 +1,17 @@
+*-*-* THINGS HIGH ON THE PRIORITY LIST *-*-*
+
+Redoing translocator labels and other things to use a GUI instead of trying to draw on the block.
+
+An optional "hardcore" mode involving tiered crafting and power consumption, for people who want this mod to be expensive to use.
+
+*_*_* THINGS TO BE WORKED ON LATER *-*-*
+
+The ability to prevent individual blocks/items from being registered.
+
+A config option to let a carriage treat blacklisted blocks as simple obstructions instead of completely aborting the motion.
+
+The ability to selectively whitelist/blacklist blocks in-game for each drive, in addition to the overall config-file blacklist. These blocks will always be treated as simple obstructions instead of completely aborting the motion, regardless of the setting in the config file.
+
+A form of "sticky carpeting" to allow finer control over where on a carriage entities are grabbed.
+
+Different styles of controlling player position during carriage movement, to try to allow more freedom.
