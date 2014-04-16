@@ -9,20 +9,6 @@ public class SimpleItemSet extends Item
 		super ( Id ) ;
 	}
 
-	public enum Types
-	{
-		CarriageCrosspiece ,
-		CarriagePanel ,
-		CarriageFramework ;
-
-		public net . minecraft . util . Icon Icon ;
-
-		public net . minecraft . item . ItemStack Stack ( )
-		{
-			return ( Stack . New ( Items . SimpleItemSet , this ) ) ;
-		}
-	}
-
 	@Override
 	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
 	{

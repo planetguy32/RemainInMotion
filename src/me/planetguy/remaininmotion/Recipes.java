@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public abstract class Recipes
 {
 	public static void Register ( )
@@ -25,7 +28,7 @@ public abstract class Recipes
 	{
 		Registry . RegisterShapedDictionaryRecipe
 		(
-			SimpleItemSet . Types . CarriageCrosspiece . Stack ( ) ,
+			Types . CarriageCrosspiece . Stack ( ) ,
 
 			"S S" , " S " , "S S" ,
 
@@ -34,24 +37,24 @@ public abstract class Recipes
 
 		Registry . RegisterShapedDictionaryRecipe
 		(
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
+			Types . CarriagePanel . Stack ( ) ,
 
 			"SSS" , "SCS" , "SSS" ,
 
 			'S' , "stickWood" ,
-			'C' , SimpleItemSet . Types . CarriageCrosspiece . Stack ( )
+			'C' , Types . CarriageCrosspiece . Stack ( )
 		) ;
 
 		Registry . RegisterShapelessRecipe
 		(
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
 
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( )
+			Types . CarriagePanel . Stack ( ) ,
+			Types . CarriagePanel . Stack ( ) ,
+			Types . CarriagePanel . Stack ( ) ,
+			Types . CarriagePanel . Stack ( ) ,
+			Types . CarriagePanel . Stack ( ) ,
+			Types . CarriagePanel . Stack ( )
 		) ;
 	}
 
@@ -75,17 +78,29 @@ public abstract class Recipes
 		(
 			Stack . Resize ( CarriageItem . Stack ( CarriageType . ordinal ( ) , 0 ) , 8 ) ,
 
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
+			Types . CarriageFramework . Stack ( ) ,
 
 			DyeType . Handle
 		) ;
+		
+		
+		//allow dyeing carriages one at a time
+		Registry . RegisterShapelessDictionaryRecipe
+		(
+			Stack . Resize ( CarriageItem . Stack ( CarriageType . ordinal ( ) , 0 ) , 8 ) ,
+
+			Types . CarriageFramework . Stack ( ) ,
+
+			DyeType . Handle
+		) ;
+		
 	}
 
 	public static void RegisterCarriageRecipes ( )
@@ -99,6 +114,17 @@ public abstract class Recipes
 		RegisterCarriageRecipe ( Carriage . Types . Support , Vanilla . DyeTypes . Lime ) ;
 
 		RegisterCarriageRecipe ( Carriage . Types . Template , Vanilla . DyeTypes . Purple ) ;
+		
+		GameRegistry.addRecipe(new ItemStack(Items.hollowCarriage, 8), 
+				"ccc", 
+				"c c",
+				"ccc",
+				Character.valueOf('c'), new ItemStack(Blocks.Carriage, 1, 0));
+		
+		//allow un-dyeing carriages
+		GameRegistry.addShapelessRecipe(Types . CarriageFramework . Stack ( ) ,
+				Blocks.Carriage);
+		
 	}
 
 	public static void RegisterCarriageDriveRecipe ( CarriageDrive . Types Type , Object ... BasePattern )

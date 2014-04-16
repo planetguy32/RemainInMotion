@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import codechicken.multipart.BlockMultipart;
 import codechicken.multipart.TileMultipart;
 import net.minecraft.tileentity.TileEntity;
 
@@ -36,21 +37,26 @@ public class CarriagePackage
 		this . MotionDirection = MotionDirection ;
 	}
 
-	public boolean MatchesCarriageType ( BlockRecord Record )
+	public boolean MatchesCarriageType ( BlockRecord record )
 	{
-		TileEntity te=Record.World.getBlockTileEntity(Record.X, Record.Y, Record.Z);
-		if(te instanceof TileMultipart){
-			return TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
+		boolean pass=false;
+		if(Block.blocksList[AnchorRecord.Id] instanceof BlockMultipart){
+			pass=pass|| record.Id==Blocks.Carriage.blockID
+					&& record.Meta==0;
 		}
-		if ( Record . Id == AnchorRecord . Id )
+		TileEntity te=record.World.getBlockTileEntity(record.X, record.Y, record.Z);
+		if(te instanceof TileMultipart ){
+			pass=pass|| TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
+		}
+		if ( record . Id == AnchorRecord . Id )
 		{
-			if ( Record . Meta == AnchorRecord . Meta )
+			if ( record . Meta == AnchorRecord . Meta )
 			{
-				return ( true ) ;
+				pass=true ;
 			}
 		}
 
-		return ( false ) ;
+		return ( pass ) ;
 	}
 
 	public BlockRecordSet Body = new BlockRecordSet ( ) ;
