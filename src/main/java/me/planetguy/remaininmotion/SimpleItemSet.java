@@ -13,27 +13,13 @@ public class SimpleItemSet extends Item
 	{
 		super ( ) ;
 	}
-
-	public enum Types
-	{
-		CarriageCrosspiece ,
-		CarriagePanel ,
-		CarriageFramework ;
-
-		public IIcon Icon ;
-
-		public net . minecraft . item . ItemStack Stack ( )
-		{
-			return ( Stack . New ( Items . SimpleItemSet , this ) ) ;
-		}
-	}
-
+	
 	@Override
 	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		try
 		{
-			switch ( Types . values ( ) [ Item . getItemDamage() ] )
+			switch ( SimplePartTypes . values ( ) [ Item . getItemDamage() ] )
 			{
 				case CarriageCrosspiece :
 
@@ -59,7 +45,7 @@ public class SimpleItemSet extends Item
 	@Override
 	public void AddShowcaseStacks ( java . util . List Showcase )
 	{
-		for ( Types Type : Types . values ( ) )
+		for ( SimplePartTypes Type : SimplePartTypes . values ( ) )
 		{
 			Showcase . add ( Stack . New ( this , Type ) ) ;
 		}
@@ -68,7 +54,7 @@ public class SimpleItemSet extends Item
 	@Override
 	public void registerIcons ( IIconRegister IconRegister )
 	{
-		for ( Types Type : Types . values ( ) )
+		for ( SimplePartTypes Type : SimplePartTypes . values ( ) )
 		{
 			Type . Icon = Registry . RegisterIcon ( IconRegister , Type . name ( ) ) ;
 		}
@@ -79,7 +65,7 @@ public class SimpleItemSet extends Item
 	{
 		try
 		{
-			return ( Types . values ( ) [ Damage ] . Icon ) ;
+			return ( SimplePartTypes . values ( ) [ Damage ] . Icon ) ;
 		}
 		catch ( Throwable Throwable )
 		{

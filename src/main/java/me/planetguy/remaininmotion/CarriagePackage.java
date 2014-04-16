@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import codechicken.multipart.BlockMultipart;
+import codechicken.multipart.TileMultipart;
+import net.minecraft.tileentity.TileEntity;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -29,7 +32,7 @@ public class CarriagePackage
 
 	public Directions MotionDirection ;
 
-	public CarriagePackage ( CarriageDriveEntity Drive , CarriageEntity Anchor , Directions MotionDirection )
+	public CarriagePackage ( CarriageDriveEntity Drive , net.minecraft.tileentity.TileEntity Anchor , Directions MotionDirection )
 	{
 		World = ( net . minecraft . world . WorldServer ) Drive.getWorldObj() ;
 
@@ -46,17 +49,26 @@ public class CarriagePackage
 		this . MotionDirection = MotionDirection ;
 	}
 
-	public boolean MatchesCarriageType ( BlockRecord Record )
+	public boolean MatchesCarriageType ( BlockRecord record )
 	{
-		if ( Record.block == AnchorRecord.block )
+		boolean pass=false;
+		if(AnchorRecord.block instanceof BlockMultipart){
+			pass=pass || record.block==Blocks.Carriage
+					&& record.Meta==0;
+		}
+		TileEntity te=record.World.getTileEntity(record.X, record.Y, record.Z);
+		if(te instanceof TileMultipart ){
+			pass=pass|| TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
+		}
+		if ( record.block == AnchorRecord.block )
 		{
-			if ( Record . Meta == AnchorRecord . Meta )
+			if ( record . Meta == AnchorRecord . Meta )
 			{
-				return ( true ) ;
+				pass=true ;
 			}
 		}
 
-		return ( false ) ;
+		return ( pass ) ;
 	}
 
 	public BlockRecordSet Body = new BlockRecordSet ( ) ;

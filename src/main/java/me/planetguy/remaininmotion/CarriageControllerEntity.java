@@ -6,10 +6,14 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
+<<<<<<< HEAD:src/me/planetguy/remaininmotion/CarriageControllerEntity.java
+import net.minecraft.tileentity.TileEntity;
+=======
 */
 import me.planetguy.remaininmotion.util.CarriageMotionException;
 import me.planetguy.remaininmotion.util.CarriageObstructionException;
 import me.planetguy.remaininmotion.util.Reflection;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 //@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft")
@@ -334,7 +338,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 	}
 
 	@Override
-	public CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
+	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
 	{
 		CarriagePackage Package ;
 
@@ -350,9 +354,9 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 				throw ( new CarriageMotionException ( "cannot pull carriage into controller in anchored mode" ) ) ;
 			}
 
-			Package = new CarriagePackage ( this , Carriage , MotionDirection ) ;
-
-			Carriage . FillPackage ( Package ) ;
+			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
+			
+			TEAccessUtil.fillPackage(Package, carriage ) ;
 
 			if ( Package . Body . contains ( Package . DriveRecord ) )
 			{
@@ -366,7 +370,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 		}
 		else
 		{
-			Package = new CarriagePackage ( this , Carriage , MotionDirection ) ;
+			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
 
 			Package . AddBlock ( Package . DriveRecord ) ;
 
@@ -374,8 +378,9 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 			{
 				Package . AddPotentialObstruction ( Package . DriveRecord . NextInDirection ( MotionDirection ) ) ;
 			}
+			
+			TEAccessUtil.fillPackage(Package, carriage ) ;
 
-			Carriage . FillPackage ( Package ) ;
 		}
 
 		Package . Finalize ( ) ;

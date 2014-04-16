@@ -93,9 +93,10 @@ public class Carriage extends Block
 
 			return ( Carriage . SideClosed [ Side ] ? Type . ClosedIcon : Type . OpenIcon ) ;
 		}
-		catch ( Throwable Throwable )
+		catch ( Throwable t )
 		{
-			Throwable . printStackTrace ( ) ;
+			if(!(t instanceof ArrayIndexOutOfBoundsException))
+				t . printStackTrace ( ) ;
 
 			return ( Blocks . Spectre . getIcon ( 0 , 0 ) ) ;
 		}

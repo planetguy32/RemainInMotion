@@ -10,14 +10,19 @@ import me.planetguy.remaininmotion.CarriageDriveItem;
 import me.planetguy.remaininmotion.CarriageItem;
 import me.planetguy.remaininmotion.CarriageTranslocatorLabelConversionRecipe;
 import me.planetguy.remaininmotion.CarriageTranslocatorLabelRecipe;
+import me.planetguy.remaininmotion.Items;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.SimpleItemSet;
+import me.planetguy.remaininmotion.SimplePartTypes;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.ToolItemSet.Types;
 import me.planetguy.remaininmotion.base.Stack;
 import me.planetguy.remaininmotion.core.ModInteraction.ComputerCraft;
 import me.planetguy.remaininmotion.util.Vanilla;
 import me.planetguy.remaininmotion.util.Vanilla.DyeTypes;
+
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class Recipes
 {
@@ -39,74 +44,86 @@ public abstract class Recipes
 		Registry . RegisterCustomRecipe ( new CarriageDecorationConversionRecipe ( ) ) ;
 
 		Registry . RegisterCustomRecipe ( new CarriageTranslocatorLabelConversionRecipe ( ) ) ;
-		*/
+		 */
 	}
 
 	public static void RegisterSimpleItemRecipes ( )
 	{
 		Registry . RegisterShapedDictionaryRecipe
 		(
-			SimpleItemSet . Types . CarriageCrosspiece . Stack ( ) ,
+				SimplePartTypes . CarriageCrosspiece . Stack ( ) ,
 
-			"S S" , " S " , "S S" ,
+				"S S" , " S " , "S S" ,
 
-			'S' , "stickWood"
-		) ;
+				'S' , "stickWood"
+				) ;
 
 		Registry . RegisterShapedDictionaryRecipe
 		(
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
+				SimplePartTypes . CarriagePanel . Stack ( ) ,
 
-			"SSS" , "SCS" , "SSS" ,
+				"SSS" , "SCS" , "SSS" ,
 
-			'S' , "stickWood" ,
-			'C' , SimpleItemSet . Types . CarriageCrosspiece . Stack ( )
-		) ;
+				'S' , "stickWood" ,
+				'C' , SimplePartTypes . CarriageCrosspiece . Stack ( )
+				) ;
 
 		Registry . RegisterShapelessRecipe
 		(
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
 
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( ) ,
-			SimpleItemSet . Types . CarriagePanel . Stack ( )
-		) ;
+				SimplePartTypes . CarriagePanel . Stack ( ) ,
+				SimplePartTypes . CarriagePanel . Stack ( ) ,
+				SimplePartTypes . CarriagePanel . Stack ( ) ,
+				SimplePartTypes . CarriagePanel . Stack ( ) ,
+				SimplePartTypes . CarriagePanel . Stack ( ) ,
+				SimplePartTypes . CarriagePanel . Stack ( )
+				) ;
 	}
 
 	public static void RegisterToolItemRecipes ( )
 	{
 		Registry . RegisterShapedRecipe
 		(
-			ToolItemSet . Types . Screwdriver . Stack ( ) ,
+				ToolItemSet . Types . Screwdriver . Stack ( ) ,
 
-			" I " , " I " , "LSL" ,
+				" I " , " I " , "LSL" ,
 
-			'I' , Stack . New ( (Item) net . minecraft . item . Item .itemRegistry.getObject("ingotIron")   ) ,
-			'S' , Stack . New ( (net.minecraft.block.Block) net . minecraft . block . Block.blockRegistry.getObjectById(4) ) ,
-			'L' , Stack . New ( (net.minecraft.item.Item) net . minecraft . item . Item.itemRegistry.getObject("leather")   )
-		) ;
+				'I' , Stack . New ( (Item) net . minecraft . item . Item .itemRegistry.getObject("ingotIron")   ) ,
+				'S' , Stack . New ( (net.minecraft.block.Block) net . minecraft . block . Block.blockRegistry.getObjectById(4) ) ,
+				'L' , Stack . New ( (net.minecraft.item.Item) net . minecraft . item . Item.itemRegistry.getObject("leather")   )
+				) ;
 	}
 
 	public static void RegisterCarriageRecipe ( Carriage . Types CarriageType , Vanilla . DyeTypes DyeType )
 	{
 		Registry . RegisterShapelessDictionaryRecipe
 		(
-			Stack . Resize ( CarriageItem . Stack ( CarriageType . ordinal ( ) , 0 ) , 8 ) ,
+				Stack . Resize ( CarriageItem . Stack ( CarriageType . ordinal ( ) , 0 ) , 8 ) ,
 
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
-			SimpleItemSet . Types . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
 
-			DyeType . Handle
-		) ;
+				DyeType . Handle
+				) ;
+
+
+		//allow dyeing carriages one at a time
+		Registry . RegisterShapelessDictionaryRecipe
+		(
+				Stack . Resize ( CarriageItem . Stack ( CarriageType . ordinal ( ) , 0 ) , 8 ) ,
+
+				SimplePartTypes . CarriageFramework . Stack ( ) ,
+
+				DyeType . Handle
+				) ;
+
 	}
 
 	public static void RegisterCarriageRecipes ( )
@@ -120,6 +137,17 @@ public abstract class Recipes
 		RegisterCarriageRecipe ( Carriage . Types . Support , Vanilla . DyeTypes . Lime ) ;
 
 		RegisterCarriageRecipe ( Carriage . Types . Template , Vanilla . DyeTypes . Purple ) ;
+
+		GameRegistry.addRecipe(new ItemStack(Items.hollowCarriage, 8), 
+				"ccc", 
+				"c c",
+				"ccc",
+				Character.valueOf('c'), new ItemStack(Blocks.Carriage, 1, 0));
+
+		//allow un-dyeing carriages
+		GameRegistry.addShapelessRecipe(SimplePartTypes . CarriageFramework . Stack ( ) ,
+				Blocks.Carriage);
+
 	}
 
 	public static void RegisterCarriageDriveRecipe ( CarriageDrive . Types Type , Object ... BasePattern )
@@ -131,48 +159,48 @@ public abstract class Recipes
 	{
 		RegisterCarriageDriveRecipe
 		(
-			CarriageDrive . Types . Motor ,
+				CarriageDrive . Types . Motor ,
 
-			"RFR" , "FIF" , "RFR" ,
+				"RFR" , "FIF" , "RFR" ,
 
-			'R' , Stack . New ( (Block) net . minecraft . block . Block .blockRegistry.getObject("blockRedstone") ) ,
-			'F' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("furnaceIdle") ) ,
-			'I' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("blockIron") )
-		) ;
-
-		RegisterCarriageDriveRecipe
-		(
-			CarriageDrive . Types . Engine ,
-
-			"TTT" , "TMT" , "TTT" ,
-
-			'M' , CarriageDriveItem . Stack ( CarriageDrive . Types . Motor . ordinal ( ) , 0 ) ,
-			'T' , Stack . New ( (Block) net . minecraft . block . Block . blockRegistry.getObject("torchRedstoneActive") )
-		) ;
+				'R' , Stack . New ( (Block) net . minecraft . block . Block .blockRegistry.getObject("blockRedstone") ) ,
+				'F' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("furnaceIdle") ) ,
+				'I' , Stack . New ( (Block) net . minecraft . block . Block.blockRegistry.getObject("blockIron") )
+				) ;
 
 		RegisterCarriageDriveRecipe
 		(
-			CarriageDrive . Types . Translocator ,
+				CarriageDrive . Types . Engine ,
 
-			"OOO" , "OEO" , "PCP" ,
+				"TTT" , "TMT" , "TTT" ,
 
-			'E' , CarriageDriveItem . Stack ( CarriageDrive . Types . Engine . ordinal ( ) , 0 ) ,
-			'O' , Stack . New ( (Block) net . minecraft . block .Block.blockRegistry.getObject("obsidian") ) ,
-			'P' , Stack . New ( (Item) net . minecraft . item . Item.getItemById(368) ) ,
-			'C' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObjectById(345) )
-		) ;
+				'M' , CarriageDriveItem . Stack ( CarriageDrive . Types . Motor . ordinal ( ) , 0 ) ,
+				'T' , Stack . New ( (Block) net . minecraft . block . Block . blockRegistry.getObject("torchRedstoneActive") )
+				) ;
+
+		RegisterCarriageDriveRecipe
+		(
+				CarriageDrive . Types . Translocator ,
+
+				"OOO" , "OEO" , "PCP" ,
+
+				'E' , CarriageDriveItem . Stack ( CarriageDrive . Types . Engine . ordinal ( ) , 0 ) ,
+				'O' , Stack . New ( (Block) net . minecraft . block .Block.blockRegistry.getObject("obsidian") ) ,
+				'P' , Stack . New ( (Item) net . minecraft . item . Item.getItemById(368) ) ,
+				'C' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObjectById(345) )
+				) ;
 
 		if ( ModInteraction . ComputerCraft .carriageControllerEntity != null )
 		{
 			RegisterCarriageDriveRecipe
 			(
-				CarriageDrive . Types . Controller ,
+					CarriageDrive . Types . Controller ,
 
-				"RRR" , "RMR" , "RRR" ,
+					"RRR" , "RMR" , "RRR" ,
 
-				'R' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("redstoneRepeater") ) ,
-				'M' , CarriageDriveItem . Stack ( CarriageDrive . Types . Motor . ordinal ( ) , 0 )
-			) ;
+					'R' , Stack . New ( (Item) net . minecraft . item . Item.itemRegistry.getObject("redstoneRepeater") ) ,
+					'M' , CarriageDriveItem . Stack ( CarriageDrive . Types . Motor . ordinal ( ) , 0 )
+					) ;
 		}
 	}
 }

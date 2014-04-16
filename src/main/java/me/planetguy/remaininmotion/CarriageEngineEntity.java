@@ -1,13 +1,14 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.tileentity.TileEntity;
 import me.planetguy.remaininmotion.util.CarriageMotionException;
 
 public class CarriageEngineEntity extends CarriageDriveEntity
 {
 	@Override
-	public CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
+	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
 	{
-		CarriagePackage Package = new CarriagePackage ( this , Carriage , MotionDirection ) ;
+		CarriagePackage Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
 
 		Package . AddBlock ( Package . DriveRecord ) ;
 
@@ -16,8 +17,8 @@ public class CarriageEngineEntity extends CarriageDriveEntity
 			Package . AddPotentialObstruction ( Package . DriveRecord . NextInDirection ( MotionDirection ) ) ;
 		}
 
-		Carriage . FillPackage ( Package ) ;
-
+		TEAccessUtil.fillPackage(Package, carriage ) ;
+		
 		Package . Finalize ( ) ;
 
 		return ( Package ) ;
