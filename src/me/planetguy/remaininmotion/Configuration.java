@@ -155,6 +155,8 @@ public class Configuration extends Config
 			ToolItemSet . Id = ItemId ( "Tools" , 11235 ) ;
 
 			SimpleItemSet . Id = ItemId ( "Simple Items" , 11236 ) ;
+			
+			Items . hollowCarriageId = ItemId ( "Hollow carriage" , 11237 ) ;
 		}
 
 		{

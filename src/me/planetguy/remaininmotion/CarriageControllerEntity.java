@@ -5,6 +5,7 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -327,7 +328,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 	}
 
 	@Override
-	public CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
+	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
 	{
 		CarriagePackage Package ;
 
@@ -343,9 +344,9 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 				throw ( new CarriageMotionException ( "cannot pull carriage into controller in anchored mode" ) ) ;
 			}
 
-			Package = new CarriagePackage ( this , Carriage , MotionDirection ) ;
-
-			Carriage . FillPackage ( Package ) ;
+			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
+			
+			TEAccessUtil.fillPackage(Package, carriage ) ;
 
 			if ( Package . Body . contains ( Package . DriveRecord ) )
 			{
@@ -359,7 +360,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		}
 		else
 		{
-			Package = new CarriagePackage ( this , Carriage , MotionDirection ) ;
+			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
 
 			Package . AddBlock ( Package . DriveRecord ) ;
 
@@ -367,8 +368,9 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 			{
 				Package . AddPotentialObstruction ( Package . DriveRecord . NextInDirection ( MotionDirection ) ) ;
 			}
+			
+			TEAccessUtil.fillPackage(Package, carriage ) ;
 
-			Carriage . FillPackage ( Package ) ;
 		}
 
 		Package . Finalize ( ) ;

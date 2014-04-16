@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.tileentity.TileEntity;
+
 public class CarriageTranslocatorEntity extends CarriageDriveEntity
 {
 	public String Player ;
@@ -191,11 +193,11 @@ public class CarriageTranslocatorEntity extends CarriageDriveEntity
 	}
 
 	@Override
-	public CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
+	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
 	{
-		CarriagePackage Package = new CarriagePackage ( this , Carriage , null ) ;
+		CarriagePackage Package = new CarriagePackage ( this , carriage , null ) ;
 
-		Carriage . FillPackage ( Package ) ;
+		TEAccessUtil.fillPackage(Package , carriage) ;
 
 		if ( Package . Body . contains ( Package . DriveRecord ) )
 		{

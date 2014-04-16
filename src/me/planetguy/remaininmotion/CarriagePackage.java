@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import codechicken.multipart.TileMultipart;
+import net.minecraft.tileentity.TileEntity;
+
 public class CarriagePackage
 {
 	public BlockPosition RenderCacheKey ;
@@ -16,7 +19,7 @@ public class CarriagePackage
 
 	public Directions MotionDirection ;
 
-	public CarriagePackage ( CarriageDriveEntity Drive , CarriageEntity Anchor , Directions MotionDirection )
+	public CarriagePackage ( CarriageDriveEntity Drive , net.minecraft.tileentity.TileEntity Anchor , Directions MotionDirection )
 	{
 		World = ( net . minecraft . world . WorldServer ) Drive . worldObj ;
 
@@ -35,6 +38,10 @@ public class CarriagePackage
 
 	public boolean MatchesCarriageType ( BlockRecord Record )
 	{
+		TileEntity te=Record.World.getBlockTileEntity(Record.X, Record.Y, Record.Z);
+		if(te instanceof TileMultipart){
+			return TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
+		}
 		if ( Record . Id == AnchorRecord . Id )
 		{
 			if ( Record . Meta == AnchorRecord . Meta )

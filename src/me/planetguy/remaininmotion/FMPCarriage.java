@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.block.Block;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import codechicken.lib.lighting.LazyLightMatrix;
@@ -20,11 +21,15 @@ import codechicken.multipart.JCuboidPart;
 import codechicken.multipart.JIconHitEffects;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.TMultiPart;
+import codechicken.multipart.minecraft.McBlockPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.Optional;
 
-public class FMPCarriage extends TMultiPart implements JNormalOcclusion{
+public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 
+	public static FMPCarriage instance;
+	
 	static final double l=1.0/8;
 	
 	public static final Cuboid6[] cubeOutsideEdges=new Cuboid6[]{ //not most efficient, but understandable, system;
@@ -87,6 +92,16 @@ public class FMPCarriage extends TMultiPart implements JNormalOcclusion{
 		return Mod.Handle+"_carriage";
 	}
 	
+	public Cuboid6 getBounds(){
+		return Cuboid6.full;
+	}
+	
+
+	@Override
+	public Block getBlock() {
+		return Blocks.Carriage;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	private static class Renderer implements IMicroMaterialRender{
 		
@@ -109,25 +124,21 @@ public class FMPCarriage extends TMultiPart implements JNormalOcclusion{
 
 		@Override
 		public World world() {
-			// TODO Auto-generated method stub
 			return world;
 		}
 
 		@Override
 		public int x() {
-			// TODO Auto-generated method stub
 			return pos.x;
 		}
 
 		@Override
 		public int y() {
-			// TODO Auto-generated method stub
 			return pos.y;
 		}
 
 		@Override
 		public int z() {
-			// TODO Auto-generated method stub
 			return pos.z;
 		}
 		
@@ -139,5 +150,4 @@ public class FMPCarriage extends TMultiPart implements JNormalOcclusion{
         }
         
 	}
-
 }

@@ -1,9 +1,11 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.tileentity.TileEntity;
+
 public class CarriageMotorEntity extends CarriageDriveEntity
 {
 	@Override
-	public CarriagePackage GeneratePackage ( CarriageEntity Carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
+	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
 	{
 		if ( MotionDirection == CarriageDirection )
 		{
@@ -15,9 +17,9 @@ public class CarriageMotorEntity extends CarriageDriveEntity
 			throw ( new CarriageMotionException ( "motor cannot pull carriage into itself" ) ) ;
 		}
 
-		CarriagePackage Package = new CarriagePackage ( this , Carriage , MotionDirection ) ;
+		CarriagePackage Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
 
-		Carriage . FillPackage ( Package ) ;
+		TEAccessUtil.fillPackage(Package, carriage ) ;
 
 		if ( Package . Body . contains ( Package . DriveRecord ) )
 		{
