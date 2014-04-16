@@ -34,7 +34,7 @@ public abstract class Items
 
 	public static SimpleItemSet SimpleItemSet ;
 
-	public static JItemMultiPart hollowCarriage;
+	public static net.minecraft.item.Item hollowCarriage;
 
 	public static int hollowCarriageId;
 
