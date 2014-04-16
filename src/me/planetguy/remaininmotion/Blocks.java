@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
@@ -30,7 +31,6 @@ public abstract class Blocks
 			}
 			
 		}, new String[]{"FMPCarriage"});
-		
 		
 		
 	}

@@ -12,7 +12,7 @@ public abstract class TEAccessUtil {
 			((CarriageEntity)carriage).FillPackage(package1);
 		}else if(carriage instanceof TileMultipart){
 			if(getFMPCarriage((TileMultipart) carriage)!=null)
-			fillFramePackage(package1, carriage.worldObj);
+				fillFramePackage(package1, carriage.worldObj);
 		}
 	}
 
@@ -55,15 +55,17 @@ public abstract class TEAccessUtil {
 			{
 				BlockRecord TargetRecord = CarriageRecord . NextInDirection ( TargetDirection ) ;
 
-				if ( ( ( FrameCarriageEntity ) CarriageRecord . Entity ) . SideClosed [ TargetDirection . ordinal ( ) ] )
-				{
-					if ( TargetDirection == Package . MotionDirection )
-					{
-						Package . AddPotentialObstruction ( TargetRecord ) ;
-					}
+				if(CarriageRecord.Entity instanceof FrameCarriageEntity)
 
-					continue ;
-				}
+					if ( ( ( FrameCarriageEntity ) CarriageRecord . Entity ) . SideClosed [ TargetDirection . ordinal ( ) ] )
+					{
+						if ( TargetDirection == Package . MotionDirection )
+						{
+							Package . AddPotentialObstruction ( TargetRecord ) ;
+						}
+
+						continue ;
+					}
 
 				if ( ! BlocksChecked . add ( TargetRecord ) )
 				{

@@ -30,6 +30,8 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 
 	public static FMPCarriage instance;
 	
+	private Renderer renderer=new Renderer();
+	
 	static final double l=1.0/8;
 	
 	public static final Cuboid6[] cubeOutsideEdges=new Cuboid6[]{ //not most efficient, but understandable, system;
@@ -89,7 +91,7 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 	
 	@Override
 	public String getType() {
-		return Mod.Handle+"_carriage";
+		return "FMPCarriage";
 	}
 	
 	public Cuboid6 getBounds(){
@@ -100,6 +102,11 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 	@Override
 	public Block getBlock() {
 		return Blocks.Carriage;
+	}
+	
+	@Override
+	public void renderStatic(Vector3 pos, LazyLightMatrix llm, int pass){
+		renderer.renderCovers(this.world(), pos, llm, pass);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -142,8 +149,8 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 			return pos.z;
 		}
 		
-        public void renderCovers(World world, BlockCoord pos, Vector3 t, LazyLightMatrix olm, int material){
-            IMicroMaterial microMaterial = MicroMaterialRegistry.getMaterial(material);
+        public void renderCovers(World world, Vector3 t, LazyLightMatrix olm, int material){
+            IMicroMaterial microMaterial = MicroMaterialRegistry.getMaterial("tile.wood");
             for(Cuboid6 c:cubeOutsideEdges){
         		JMicroblockClient.renderCuboid(t, olm, microMaterial, c, 0, this);
         	}
