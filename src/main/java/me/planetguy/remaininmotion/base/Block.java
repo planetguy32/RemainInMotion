@@ -62,7 +62,7 @@ public abstract class Block extends net . minecraft . block . Block
 		try{
 			setHardness ( (Float) Reflection.stealField(Template, "blockHardness") ) ;
 		}catch(NullPointerException npe){
-			npe.printStackTrace();
+			//npe.printStackTrace();
 			setHardness(1.0f);
 		}
 		setStepSound ( Template . stepSound ) ;

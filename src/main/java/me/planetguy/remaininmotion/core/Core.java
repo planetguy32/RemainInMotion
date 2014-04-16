@@ -26,12 +26,12 @@ public abstract class Core
 		Items . Initialize ( ) ;
 
 		CreativeTab . Initialize ( CarriageItem.instance ) ;
+		
+		Recipes . Register ( ) ;
 	}
 
 	public static void HandlePostInit ( )
 	{
-		Recipes . Register ( ) ;
-
 		CarriagePackageBlacklist . Initialize ( ) ;
 	}
 

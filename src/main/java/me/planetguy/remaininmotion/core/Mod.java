@@ -20,20 +20,22 @@ public class Mod
 	{
 		( new Configuration ( Event . getSuggestedConfigurationFile ( ) ) ) . Process ( ) ;
 
-		Core . HandlePreInit ( ) ;
+		Core . HandleInit ( ) ;
 	}
 
 	@cpw . mods . fml . common . Mod . EventHandler
 	public void Init ( cpw . mods . fml . common . event . FMLInitializationEvent Event )
 	{
-		Core . HandleInit ( ) ;
+		//Core . HandleInit ( ) ;
+		
+		ClientSetupProxy . Instance . Execute ( ) ;
 	}
 
 	@cpw . mods . fml . common . Mod . EventHandler
 	public void PostInit ( cpw . mods . fml . common . event . FMLPostInitializationEvent Event )
 	{
 		
-		ClientSetupProxy . Instance . Execute ( ) ;
+		
 
 		Core . HandlePostInit ( ) ;
 	}

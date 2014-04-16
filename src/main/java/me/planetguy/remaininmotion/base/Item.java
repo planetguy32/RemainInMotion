@@ -2,11 +2,13 @@ package me.planetguy.remaininmotion.base ;
 
 import java.util.List;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.RIMLog;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -15,14 +17,18 @@ public abstract class Item extends net . minecraft . item . Item
 	public Item ( )
 	{
 		super (  ) ;
+		
+		String name=Mod . Handle + "_" + getClass ( ) . getSimpleName ( );
 
-		setUnlocalizedName ( Mod . Handle + "_" + getClass ( ) . getSimpleName ( ) ) ;
+		setUnlocalizedName ( name ) ;
 
 		setHasSubtypes ( true ) ;
 
 		setCreativeTab ( CreativeTab . Instance ) ;
-
-		cpw . mods . fml . common . registry . GameRegistry . registerItem ( this , getUnlocalizedName ( ) , Mod . Handle ) ;
+		
+		GameRegistry.registerItem(this, name);
+		
+		RIMLog.t(Item.getIdFromItem(this)); //item ID is 4096
 	}
 
 	public void AddShowcaseStacks ( java . util . List Showcase )

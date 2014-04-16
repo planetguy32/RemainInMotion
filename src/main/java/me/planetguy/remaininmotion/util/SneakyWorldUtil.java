@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.util ;
 
 import java.util.List;
 
+import me.planetguy.remaininmotion.core.RIMLog;
 import net.minecraft.block.Block;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
@@ -24,8 +25,11 @@ public abstract class SneakyWorldUtil
 		{
 			storageArrays [ LayerY ] = new net . minecraft . world . chunk . storage . ExtendedBlockStorage ( ( LayerY ) << 4 , ! World . provider . hasNoSky ) ;
 		}
-
-		storageArrays [ LayerY ] . func_150818_a ( ChunkX , ChunkY , ChunkZ , spectre ) ;
+		
+		RIMLog.dump(spectre);
+		
+		if(spectre!=null)
+			storageArrays [ LayerY ] . func_150818_a ( ChunkX , ChunkY , ChunkZ , spectre ) ;
 
 		storageArrays [ LayerY ] . setExtBlockMetadata ( ChunkX , ChunkY , ChunkZ , Meta ) ;
 
@@ -72,7 +76,8 @@ public abstract class SneakyWorldUtil
 		}
 		else
 		{
-			if ( (Integer)Reflection.runMethod(Chunk, "getBlockLightOpacity",ChunkX , Y , ChunkZ ) > 0 )
+			Object o=Reflection.runMethod(Chunk, "getBlockLightOpacity",ChunkX , Y , ChunkZ );
+			if ( o!=null&&(Integer)o > 0 )
 			{
 				if ( Y >= HeightMapValue )
 				{
