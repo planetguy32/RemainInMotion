@@ -69,10 +69,8 @@ public abstract class Reflection
 		try {
 			return EstablishField(obj.getClass(), fieldName).get(obj);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
