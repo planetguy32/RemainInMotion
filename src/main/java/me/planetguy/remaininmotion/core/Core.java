@@ -13,10 +13,7 @@ public abstract class Core
 {
 	public static void HandlePreInit ( )
 	{
-	}
-
-	public static void HandleInit ( )
-	{
+		
 		ModInteraction . Establish ( ) ;
 
 		CreativeTab . Prepare ( ) ;
@@ -24,6 +21,12 @@ public abstract class Core
 		Blocks . Initialize ( ) ;
 
 		Items . Initialize ( ) ;
+		
+	}
+
+	public static void HandleInit ( )
+	{
+
 
 		CreativeTab . Initialize ( CarriageItem.instance ) ;
 	}

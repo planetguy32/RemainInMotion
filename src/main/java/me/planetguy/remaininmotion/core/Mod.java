@@ -9,9 +9,9 @@ public class Mod
 
 	public static final String Handle = "JAKJ_RedstoneInMotion" ;
 
-	public static final String Title = "Redstone In Motion" ;
+	public static final String Title = "Remain In Motion" ;
 
-	public static final String Version = "1.0.1" ;
+	public static final String Version = "2.0.0" ;
 
 	public static final String Channel = "JAKJ_RIM" ;
 

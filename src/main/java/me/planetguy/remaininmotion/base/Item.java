@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.base ;
 
 import java.util.List;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -22,7 +23,7 @@ public abstract class Item extends net . minecraft . item . Item
 
 		setCreativeTab ( CreativeTab . Instance ) ;
 
-		cpw . mods . fml . common . registry . GameRegistry . registerItem ( this , getUnlocalizedName ( ) , Mod . Handle ) ;
+		GameRegistry.registerItem( this , getUnlocalizedName ( ) ) ;
 	}
 
 	public void AddShowcaseStacks ( java . util . List Showcase )
