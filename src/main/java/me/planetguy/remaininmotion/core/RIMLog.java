@@ -9,11 +9,11 @@ public class RIMLog {
 	}
 
 	public static void dump(Object o){
-		dump(o,0);
+		dump(o,2);
 	}
 
 	private static void dump(Object o, int iteration){
-		if(iteration>4)return;
+		if(!(iteration>0))return;
 		String prefix="";
 		for(int i=0; i<iteration; i++){
 			prefix+="   ";
@@ -25,7 +25,7 @@ public class RIMLog {
 				try{
 					Object subObj=f.get(o);
 					t(prefix+subObj.toString());
-					dump(subObj, iteration+1);
+					dump(subObj, iteration-1);
 				}catch(Exception e){}
 
 			}

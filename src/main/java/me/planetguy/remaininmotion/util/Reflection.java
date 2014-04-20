@@ -1,6 +1,9 @@
 package me.planetguy.remaininmotion.util ;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import me.planetguy.remaininmotion.core.RIMLog;
 
 public abstract class Reflection
 {
@@ -64,7 +67,7 @@ public abstract class Reflection
 			return ( null ) ;
 		}
 	}
-	
+
 	public static Object stealField(Object obj, String fieldName){
 		try {
 			return EstablishField(obj.getClass(), fieldName).get(obj);
@@ -72,10 +75,13 @@ public abstract class Reflection
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
+		} catch (NullPointerException npe){
+			//npe.printStackTrace();
+			//throw(npe);
 		}
 		return null;
 	}
-	
+
 	public static Object runMethod(Object obj, String method, Object...objects){
 		if(obj!=null)
 		try {
@@ -83,7 +89,11 @@ public abstract class Reflection
 			for(int i=0; i<objects.length; i++){
 				classes[i]=objects[i].getClass();
 			}
-			return EstablishMethod(obj.getClass(), method, classes).invoke(obj, objects);
+			Method m=EstablishMethod(obj.getClass(), method, classes);
+			if(m==null){
+				System.out.println("Null method! Oh noes!");
+			}else
+				return m.invoke(obj, objects);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {

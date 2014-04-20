@@ -28,6 +28,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<RiMPacket>{
 	}
 
 	public ChannelHandler() {
+		this.addDiscriminator(31, RiMPacket.class);
 		this.addDiscriminator(0, RiMPacket.class);
 	}
 

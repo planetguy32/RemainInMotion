@@ -29,7 +29,7 @@ public class RiMPacket {
 	
 	public void writeBytes(ByteBuf bytes) throws IOException {
 		bytes.setInt(0, type);
-		bytes.setBytes(0, CompressedStreamTools.compress(body));
+		bytes.setBytes(8, CompressedStreamTools.compress(body));
 	}
 	
 	public void executeClient(EntityPlayer player) {

@@ -181,7 +181,11 @@ public class CarriagePackage
 			return ;
 		}
 
-		if (((Material) Reflection.stealField(World . getBlock ( Record . X , Record . Y , Record . Z ), "blockMaterial" )) . isLiquid ( ) )
+		net.minecraft.block.Block b=World . getBlock ( Record . X , Record . Y , Record . Z );
+		if(b==null)
+			return;
+		Material m=(Material) Reflection.stealField(b, "blockMaterial" );
+		if (m!=null && m . isLiquid ( ) )
 		{
 			if ( ObstructedByLiquids )
 			{
@@ -191,7 +195,7 @@ public class CarriagePackage
 			return ;
 		}
 
-		if ( ! World.getBlock(Record.X, Record.Y, Record.Z).canBeReplacedByLeaves(World, Record.X, Record.Y, Record.Z) )
+		if ( !b.canBeReplacedByLeaves(World, Record.X, Record.Y, Record.Z) )
 		{
 			if ( ObstructedByFragileBlocks )
 			{

@@ -26,9 +26,10 @@ public abstract class Item extends net . minecraft . item . Item
 
 		setCreativeTab ( CreativeTab . Instance ) ;
 		
-		GameRegistry.registerItem(this, name);
+		GameRegistry.registerItem(this, getUnlocalizedName());
 		
 		RIMLog.t(Item.getIdFromItem(this)); //item ID is 4096
+
 	}
 
 	public void AddShowcaseStacks ( java . util . List Showcase )

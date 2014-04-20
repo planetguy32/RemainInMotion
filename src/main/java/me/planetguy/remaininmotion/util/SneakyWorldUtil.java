@@ -25,29 +25,36 @@ public abstract class SneakyWorldUtil
 		{
 			storageArrays [ LayerY ] = new net . minecraft . world . chunk . storage . ExtendedBlockStorage ( ( LayerY ) << 4 , ! World . provider . hasNoSky ) ;
 		}
-		
-		RIMLog.dump(spectre);
-		
-		if(spectre!=null)
+
+		//RIMLog.dump(spectre);
+
+		if(spectre!=null){
+
 			storageArrays [ LayerY ] . func_150818_a ( ChunkX , ChunkY , ChunkZ , spectre ) ;
 
-		storageArrays [ LayerY ] . setExtBlockMetadata ( ChunkX , ChunkY , ChunkZ , Meta ) ;
+			storageArrays [ LayerY ] . setExtBlockMetadata ( ChunkX , ChunkY , ChunkZ , Meta ) ;
 
-		Chunk . isModified = true ;
+			Chunk . isModified = true ;
 
-		World . markBlockForUpdate ( X , Y , Z ) ;
+			World . markBlockForUpdate ( X , Y , Z ) ;
+		}
 	}
 
 	public static void SetTileEntity ( net . minecraft . world . World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )
 	{
-		if ( (Boolean)Reflection.stealField(World,"field_147481_N"))
-		{
-			((List)Reflection.stealField(World ,"addedTileEntityList")) . add ( Entity ) ;
+		try{
+			if ( (Boolean)Reflection.stealField(World,"field_147481_N"))
+			{
+				((List)Reflection.stealField(World ,"addedTileEntityList")) . add ( Entity ) ;
+			}
+			else
+			{
+				World . loadedTileEntityList . add ( Entity ) ;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		else
-		{
-			World . loadedTileEntityList . add ( Entity ) ;
-		}
+
 
 		World . getChunkFromBlockCoords ( X , Z ) . func_150812_a ( X & 0xF , Y , Z & 0xF , Entity ) ;
 	}
@@ -55,44 +62,55 @@ public abstract class SneakyWorldUtil
 	/* out of context, this is woefully redundant and inefficient, and really needs to be fixed */
 	public static void UpdateLighting ( net . minecraft . world . World World , int X , int Y , int Z )
 	{
-		net . minecraft . world . chunk . Chunk Chunk = World . getChunkFromBlockCoords ( X , Z ) ;
+		try{
+			net . minecraft . world . chunk . Chunk Chunk = World . getChunkFromBlockCoords ( X , Z ) ;
 
-		int ChunkX = X & 0xF ;
-		int ChunkY = Y & 0xF ;
-		int ChunkZ = Z & 0xF ;
+			int ChunkX = X & 0xF ;
+			int ChunkY = Y & 0xF ;
+			int ChunkZ = Z & 0xF ;
 
-		int HeightMapIndex = ChunkZ << 4 | ChunkX ;
+			int HeightMapIndex = ChunkZ << 4 | ChunkX ;
 
-		if ( Y >= Chunk . precipitationHeightMap [ HeightMapIndex ] - 1 )
-		{
-			Chunk . precipitationHeightMap [ HeightMapIndex ] = -999 ;
-		}
-
-		int HeightMapValue = Chunk . heightMap [ HeightMapIndex ] ;
-
-		if ( Y >= HeightMapValue )
-		{
-			Chunk . generateSkylightMap ( ) ;
-		}
-		else
-		{
-			Object o=Reflection.runMethod(Chunk, "getBlockLightOpacity",ChunkX , Y , ChunkZ );
-			if ( o!=null&&(Integer)o > 0 )
+			if ( Y >= Chunk . precipitationHeightMap [ HeightMapIndex ] - 1 )
 			{
-				if ( Y >= HeightMapValue )
+				Chunk . precipitationHeightMap [ HeightMapIndex ] = -999 ;
+			}
+
+			int HeightMapValue = Chunk . heightMap [ HeightMapIndex ] ;
+
+			if ( Y >= HeightMapValue )
+			{
+				Chunk . generateSkylightMap ( ) ;
+			}
+			else
+			{
+				Object o=Reflection.runMethod(Chunk, "getBlockLightOpacity",ChunkX , Y , ChunkZ );
+				if ( o!=null&&(Integer)o > 0 )
 				{
-					Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y + 1 , ChunkZ ) ;
+					Chunk . generateSkylightMap ( ) ;
+				}
+				else if(Chunk!=null)
+				{
+					if ( (Integer) Reflection.runMethod(Chunk, "func_150808_b",ChunkX , Y , ChunkZ )> 0 )
+					{
+						if ( Y >= HeightMapValue )
+						{
+							Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y + 1 , ChunkZ ) ;
+						}
+					}
+					else if ( Y == HeightMapValue - 1 )
+					{
+						Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y , ChunkZ ) ;
+					}
+
+					Reflection.runMethod(Chunk,"propagateSkylightOcclusion",  ChunkX , ChunkZ ) ;
 				}
 			}
-			else if ( Y == HeightMapValue - 1 )
-			{
-				Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y , ChunkZ ) ;
-			}
 
-			Reflection.runMethod(Chunk,"propagateSkylightOcclusion",  ChunkX , ChunkZ ) ;
+			World . func_147451_t ( X , Y , Z ) ;
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-
-		World . func_147451_t ( X , Y , Z ) ;
 	}
 
 	public static void NotifyBlocks ( net . minecraft . world . World World , int X , int Y , int Z , Block OldId , Block NewId )
