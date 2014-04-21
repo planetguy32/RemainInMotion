@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+<<<<<<< HEAD:src/me/planetguy/remaininmotion/ClientSetup.java
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -9,7 +10,6 @@ import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 import org.lwjgl.opengl.GL11;
 
-import codechicken.core.CommonUtils;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.TextureUtils;
 import codechicken.lib.vec.Vector3;
@@ -18,7 +18,9 @@ import codechicken.microblock.MicroblockClass;
 import codechicken.microblock.MicroblockClassRegistry;
 import codechicken.microblock.MicroMaterialRegistry.IMicroMaterial;
 import codechicken.multipart.JItemMultiPart;
-import cpw.mods.fml.common.FMLCommonHandler;
+=======
+import me.planetguy.remaininmotion.base.TileEntity;
+>>>>>>> 98ce934fa8adaa9996508250d82fa78ffb003353:src/main/java/me/planetguy/remaininmotion/ClientSetup.java
 
 public class ClientSetup extends ClientSetupProxy
 {
@@ -33,8 +35,6 @@ public class ClientSetup extends ClientSetupProxy
 	@Override
 	public void Execute ( )
 	{
-		if(!FMLCommonHandler.instance().getSide().isClient())
-			return;
 		RegisterTileEntityRenderer ( new MotiveSpectreRenderer ( ) , MotiveSpectreEntity . class ) ;
 
 		RegisterTileEntityRenderer ( new TeleportativeSpectreRenderer ( ) , TeleportativeSpectreEntity . class ) ;

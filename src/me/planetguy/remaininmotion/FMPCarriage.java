@@ -8,17 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.util.Icon;
-import net.minecraft.world.World;
 import codechicken.lib.lighting.LazyLightMatrix;
-import codechicken.lib.render.CCModel;
 import codechicken.lib.render.Vertex5;
-import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
-import codechicken.microblock.IMicroMaterialRender;
-import codechicken.microblock.JMicroblockClient;
-import codechicken.microblock.MicroMaterialRegistry;
-import codechicken.microblock.MicroMaterialRegistry.IMicroMaterial;
 import codechicken.multipart.JCuboidPart;
 import codechicken.multipart.JIconHitEffects;
 import codechicken.multipart.JNormalOcclusion;
@@ -26,13 +19,20 @@ import codechicken.multipart.TMultiPart;
 import codechicken.multipart.minecraft.McBlockPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 
 public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 
 	public static FMPCarriage instance;
 
-	final Renderer renderer=new Renderer();
+	@SideOnly(Side.CLIENT)
+	FMPRenderer renderer;
+	
+	public FMPCarriage(){
+		if(FMLCommonHandler.instance().getSide().isClient())
+			renderer=new FMPRenderer();
+	}
 
 	static final double l=1.5/8;
 
@@ -118,58 +118,10 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 		return Blocks.Carriage;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void renderStatic(Vector3 pos, LazyLightMatrix llm, int pass){
 		renderer.renderCovers(this.world(), pos, llm, pass);
-	}
-
-	@SideOnly(Side.CLIENT)
-	private static class Renderer implements IMicroMaterialRender{
-
-		BlockCoord pos=new BlockCoord();
-
-		public CCModel generateModel(){
-			CCModel ccm=CCModel.quadModel(12*8);
-			for(int i=0; i<12; i++){
-				ccm.generateBlock(i*8, cubeOutsideEdges[i]);
-			}
-			return ccm;
-		}
-
-		private World world;
-
-		@Override
-		public Cuboid6 getRenderBounds() {
-			return Cuboid6.full;
-		}
-
-		@Override
-		public World world() {
-			return world;
-		}
-
-		@Override
-		public int x() {
-			return pos.x;
-		}
-
-		@Override
-		public int y() {
-			return pos.y;
-		}
-
-		@Override
-		public int z() {
-			return pos.z;
-		}
-
-		public void renderCovers(World world, Vector3 t, LazyLightMatrix olm, int material){
-			IMicroMaterial microMaterial = MicroMaterialRegistry.getMaterial("tile.wood");
-			for(Cuboid6 c:cubeOutsideEdges){
-				JMicroblockClient.renderCuboid(t, olm, microMaterial, c, 0, this);
-			}
-		}
-
 	}
 
 }
