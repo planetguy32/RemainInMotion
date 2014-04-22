@@ -2,7 +2,12 @@ package me.planetguy.remaininmotion;
 
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
+<<<<<<< HEAD:src/main/java/me/planetguy/remaininmotion/TEAccessUtil.java
 import me.planetguy.remaininmotion.util.CarriageMotionException;
+=======
+import cpw.mods.fml.common.Optional;
+import me.planetguy.remaininmotion.fmp.FMPCarriage;
+>>>>>>> 6eb56ea... FMP dependency is now "soft": It won't crash if you don't have FMP. (Development will still require it, though.):src/me/planetguy/remaininmotion/TEAccessUtil.java
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -11,12 +16,25 @@ public abstract class TEAccessUtil {
 	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
 		if(carriage instanceof me.planetguy.remaininmotion.CarriageEntity){
 			((CarriageEntity)carriage).FillPackage(package1);
+<<<<<<< HEAD:src/main/java/me/planetguy/remaininmotion/TEAccessUtil.java
 		}else if(carriage instanceof TileMultipart){
 			if(getFMPCarriage((TileMultipart) carriage)!=null)
 				fillFramePackage(package1, carriage.getWorldObj());
 		}
+=======
+		}else
+			try{
+				if(carriage instanceof TileMultipart){
+					if(getFMPCarriage((TileMultipart) carriage)!=null)
+						fillFramePackage(package1, carriage.worldObj);
+				}
+			}catch(Error noFmpStuff){
+
+			}
+>>>>>>> 6eb56ea... FMP dependency is now "soft": It won't crash if you don't have FMP. (Development will still require it, though.):src/me/planetguy/remaininmotion/TEAccessUtil.java
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	public static FMPCarriage getFMPCarriage(TileMultipart tmp){
 		FMPCarriage result=null;
 		for(TMultiPart part:((TileMultipart) tmp).jPartList()){
@@ -26,8 +44,19 @@ public abstract class TEAccessUtil {
 		}
 		return result;
 	}
-
-	public static boolean isAnchored(TileEntity drive) {
+	
+	public static boolean isFmpCarriage(TileEntity te){
+		try{
+			if(te instanceof TileMultipart){
+				TileMultipart tm=(TileMultipart) te;
+				for(TMultiPart part:tm.jPartList()){
+					if(part instanceof FMPCarriage){
+						return true;
+					}
+				}
+			}
+		}catch(Error e){
+		}
 		return false;
 	}
 
