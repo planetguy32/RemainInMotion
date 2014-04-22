@@ -1,7 +1,11 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.fmp;
 
 import java.util.List;
 
+import me.planetguy.remaininmotion.Configuration;
+import me.planetguy.remaininmotion.Items;
+import me.planetguy.remaininmotion.Mod;
+import me.planetguy.remaininmotion.Configuration.Cosmetic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;

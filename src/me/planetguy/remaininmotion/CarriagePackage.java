@@ -40,22 +40,28 @@ public class CarriagePackage
 	public boolean MatchesCarriageType ( BlockRecord record )
 	{
 		boolean pass=false;
-		if(Block.blocksList[AnchorRecord.Id] instanceof BlockMultipart){
-			pass=pass|| record.Id==Blocks.Carriage.blockID
-					&& record.Meta==0;
-		}
-		TileEntity te=record.World.getBlockTileEntity(record.X, record.Y, record.Z);
-		if(te instanceof TileMultipart ){
-			pass=pass|| TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
-		}
-		if ( record . Id == AnchorRecord . Id )
-		{
-			if ( record . Meta == AnchorRecord . Meta )
+		try{ //in case of Error
+			
+			if(Block.blocksList[AnchorRecord.Id] instanceof BlockMultipart){
+				//check if started at FMP carriage and have frame carriage
+				pass=pass|| record.Id==Blocks.Carriage.blockID
+						&& record.Meta==0;
+			}
+			
+			//check if started at frame carriage and have FMP carriage
+			TileEntity te=record.World.getBlockTileEntity(record.X, record.Y, record.Z);
+			if(te instanceof TileMultipart ){
+				pass=pass|| TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
+			}
+		}finally{
+			if ( record . Id == AnchorRecord . Id )
 			{
-				pass=true ;
+				if ( record . Meta == AnchorRecord . Meta )
+				{
+					pass=true ;
+				}
 			}
 		}
-
 		return ( pass ) ;
 	}
 
@@ -80,7 +86,7 @@ public class CarriagePackage
 
 	public void AddBlock ( BlockRecord Record ) throws CarriageMotionException
 	{
-		
+
 		if ( ( MotionDirection == Directions . PosY ) && ( Record . Y >= 254 ) )
 		{
 			throw ( new CarriageObstructionException ( "cannot move carriage above height limit" , Record . X , Record . Y , Record . Z ) ) ;
@@ -140,9 +146,9 @@ public class CarriagePackage
 			}
 			else
 			{
-				
+
 				Cargo . add ( Record ) ;
-				
+
 				Mass+=Block.blocksList[Record.Id].getBlockHardness(Record.World, Record.X, Record.Y, Record.Z);
 			}
 		}

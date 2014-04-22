@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.fmp;
 
 import net.minecraft.world.World;
 import codechicken.lib.lighting.LazyLightMatrix;

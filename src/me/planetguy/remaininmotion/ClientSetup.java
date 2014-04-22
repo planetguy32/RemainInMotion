@@ -1,23 +1,5 @@
 package me.planetguy.remaininmotion ;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
-
-import org.lwjgl.opengl.GL11;
-
-import codechicken.core.CommonUtils;
-import codechicken.lib.render.CCRenderState;
-import codechicken.lib.render.TextureUtils;
-import codechicken.lib.vec.Vector3;
-import codechicken.microblock.MicroMaterialRegistry;
-import codechicken.microblock.MicroblockClass;
-import codechicken.microblock.MicroblockClassRegistry;
-import codechicken.microblock.MicroMaterialRegistry.IMicroMaterial;
-import codechicken.multipart.JItemMultiPart;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientSetup extends ClientSetupProxy

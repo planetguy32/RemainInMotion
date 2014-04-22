@@ -3,7 +3,6 @@ package me.planetguy.remaininmotion ;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
-import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Optional;
@@ -154,14 +153,9 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 			int Id = worldObj . getBlockId ( X , Y , Z ) ;
 			net.minecraft.tileentity.TileEntity te=worldObj.getBlockTileEntity(X,Y,Z);
-			if(te instanceof TileMultipart){
-				TileMultipart tm=(TileMultipart) te;
-				for(TMultiPart part:tm.jPartList()){
-					if(part instanceof FMPCarriage){
-						CarriageDirection = Direction ;
-					}
-				}
-			}
+
+			if(TEAccessUtil.isFmpCarriage(te))
+				CarriageDirection=Direction;
 
 			if ( Id == Blocks . Carriage . blockID )
 			{
@@ -292,78 +286,80 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 	public CarriagePackage PreparePackage ( Directions MotionDirection ) throws CarriageMotionException
 	{
-		if(worldObj . getBlockTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) instanceof TileMultipart){
-			
-			TileMultipart Carriage = ( TileMultipart ) worldObj . getBlockTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) ;
+		try{
+			if(worldObj . getBlockTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) instanceof TileMultipart){
 
-			CarriagePackage Package = GeneratePackage ( Carriage , CarriageDirection , MotionDirection ) ;
+				TileMultipart Carriage = ( TileMultipart ) worldObj . getBlockTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) ;
 
-			if ( Configuration . HardmodeActive )
-			{
-				int Type = worldObj . getBlockMetadata ( xCoord , yCoord , zCoord ) ;
+				CarriagePackage Package = GeneratePackage ( Carriage , CarriageDirection , MotionDirection ) ;
 
+				if ( Configuration . HardmodeActive )
 				{
-					double MaxBurden = CarriageDrive . Types . values ( ) [ Type ] . MaxBurden * CarriageDrive . Tiers . values ( ) [ Tier ] . MaxBurdenFactor ;
+					int Type = worldObj . getBlockMetadata ( xCoord , yCoord , zCoord ) ;
 
-					//System.out.println("Package mass: "+Package.Mass+", max burden "+ CarriageDrive . Types . values ( ) [ Type ] . MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . MaxBurdenFactor +" = "+MaxBurden);
-
-					if ( Package . Mass > MaxBurden )
 					{
-						throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( Package . Mass - MaxBurden ) ) + " units) for drive to handle" ) ) ;
+						double MaxBurden = CarriageDrive . Types . values ( ) [ Type ] . MaxBurden * CarriageDrive . Tiers . values ( ) [ Tier ] . MaxBurdenFactor ;
+
+						//System.out.println("Package mass: "+Package.Mass+", max burden "+ CarriageDrive . Types . values ( ) [ Type ] . MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . MaxBurdenFactor +" = "+MaxBurden);
+
+						if ( Package . Mass > MaxBurden )
+						{
+							throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( Package . Mass - MaxBurden ) ) + " units) for drive to handle" ) ) ;
+						}
+					}
+
+					double EnergyRequired = Package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
+
+					int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
+
+					//System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
+
+					if(powerConsumed>this.energyStored){
+						throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
+					}else{
+						this.energyStored-=powerConsumed;
 					}
 				}
-
-				double EnergyRequired = Package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
-
-				int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
-
-				//System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
-
-				if(powerConsumed>this.energyStored){
-					throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
-				}else{
-					this.energyStored-=powerConsumed;
-				}
+				return ( Package ) ;
 			}
+		}catch(Error e){
 
-			return ( Package ) ;
-			
-		}else{
-
-			CarriageEntity Carriage = ( CarriageEntity ) worldObj . getBlockTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) ;
-
-			CarriagePackage Package = GeneratePackage ( Carriage , CarriageDirection , MotionDirection ) ;
-
-			if ( Configuration . HardmodeActive )
-			{
-				int Type = worldObj . getBlockMetadata ( xCoord , yCoord , zCoord ) ;
-
-				{
-					double MaxBurden = CarriageDrive . Types . values ( ) [ Type ] . MaxBurden * CarriageDrive . Tiers . values ( ) [ Tier ] . MaxBurdenFactor ;
-
-					//System.out.println("Package mass: "+Package.Mass+", max burden "+ CarriageDrive . Types . values ( ) [ Type ] . MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . MaxBurdenFactor +" = "+MaxBurden);
-
-					if ( Package . Mass > MaxBurden )
-					{
-						throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( Package . Mass - MaxBurden ) ) + " units) for drive to handle" ) ) ;
-					}
-				}
-
-				double EnergyRequired = Package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
-
-				int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
-
-				//System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
-
-				if(powerConsumed>this.energyStored){
-					throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
-				}else{
-					this.energyStored-=powerConsumed;
-				}
-			}
-
-			return ( Package ) ;
 		}
+
+		CarriageEntity Carriage = ( CarriageEntity ) worldObj . getBlockTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ) ;
+
+		CarriagePackage Package = GeneratePackage ( Carriage , CarriageDirection , MotionDirection ) ;
+
+		if ( Configuration . HardmodeActive )
+		{
+			int Type = worldObj . getBlockMetadata ( xCoord , yCoord , zCoord ) ;
+
+			{
+				double MaxBurden = CarriageDrive . Types . values ( ) [ Type ] . MaxBurden * CarriageDrive . Tiers . values ( ) [ Tier ] . MaxBurdenFactor ;
+
+				//System.out.println("Package mass: "+Package.Mass+", max burden "+ CarriageDrive . Types . values ( ) [ Type ] . MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . MaxBurdenFactor +" = "+MaxBurden);
+
+				if ( Package . Mass > MaxBurden )
+				{
+					throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( Package . Mass - MaxBurden ) ) + " units) for drive to handle" ) ) ;
+				}
+			}
+
+			double EnergyRequired = Package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
+
+			int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
+
+			//System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
+
+			if(powerConsumed>this.energyStored){
+				throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
+			}else{
+				this.energyStored-=powerConsumed;
+			}
+
+
+		}
+		return ( Package ) ;
 	}
 
 	public BlockPosition GeneratePositionObject ( )

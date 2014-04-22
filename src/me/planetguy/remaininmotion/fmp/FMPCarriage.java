@@ -1,9 +1,10 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.fmp;
 
 import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
+import me.planetguy.remaininmotion.Blocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
