@@ -8,12 +8,14 @@ import me.planetguy.remaininmotion.Blocks;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.Items;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.Mod.Handle+"_HollowCarriages")
+@Mod(modid = me.planetguy.remaininmotion.Mod.Handle+"_HollowCarriages", dependencies="after:"+me.planetguy.remaininmotion.Mod.Handle)
 public class HollowCarriagesMod {
 	
 	@Optional.Method(modid = "ForgeMultipart")
@@ -37,12 +39,16 @@ public class HollowCarriagesMod {
 			
 		}, new String[]{"FMPCarriage"});
 		
+		
+	}
+	
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent ev){
 		GameRegistry.addRecipe(new ItemStack(Items.hollowCarriage, 8), 
 				"ccc", 
 				"c c",
 				"ccc",
 				Character.valueOf('c'), new ItemStack(Blocks.Carriage, 1, 0));
-		
 	}
 
 }
