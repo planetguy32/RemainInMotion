@@ -37,6 +37,15 @@ public class HollowCarriagesMod {
 			
 		}, new String[]{"FMPCarriage"});
 		
+<<<<<<< HEAD
+=======
+		
+	}
+	
+	@Optional.Method(modid = "ForgeMultipart")
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent ev){
+>>>>>>> b389a86... Fixed running without FMP, and added config property to not drop everything upon encountering a banned block.
 		GameRegistry.addRecipe(new ItemStack(Items.hollowCarriage, 8), 
 				"ccc", 
 				"c c",
