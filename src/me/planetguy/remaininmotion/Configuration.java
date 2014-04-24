@@ -20,6 +20,8 @@ public class Configuration extends Config
 		public static boolean BlacklistBedrock = true ;
 
 		public static boolean BlacklistByPiston = false ;
+		
+		public static boolean stopIfBlacklistedBlock=true;
 	}
 
 	public abstract static class CarriageDrive
@@ -206,6 +208,8 @@ public class Configuration extends Config
 			Carriage . BlacklistBedrock = Boolean ( "Carriages refuse to move bedrock (DANGEROUS IF FALSE)" , Carriage . BlacklistBedrock ) ;
 
 			Carriage . BlacklistByPiston = Boolean ( "Carriages refuse to move blocks that pistons cannot move" , Carriage . BlacklistByPiston ) ;
+		
+			Carriage.stopIfBlacklistedBlock = Boolean ( "Stop carriage motion upon finding blacklisted block" , Carriage .stopIfBlacklistedBlock ) ;
 		}
 
 		{

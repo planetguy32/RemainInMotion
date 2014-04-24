@@ -86,7 +86,7 @@ public class CarriagePackage
 
 	public void AddBlock ( BlockRecord Record ) throws CarriageMotionException
 	{
-
+		
 		if ( ( MotionDirection == Directions . PosY ) && ( Record . Y >= 254 ) )
 		{
 			throw ( new CarriageObstructionException ( "cannot move carriage above height limit" , Record . X , Record . Y , Record . Z ) ) ;
@@ -99,6 +99,8 @@ public class CarriagePackage
 
 		if ( CarriagePackageBlacklist . Lookup ( Record ) )
 		{
+			if(!Configuration.Carriage.stopIfBlacklistedBlock)
+				return;
 			throw ( new CarriageObstructionException ( "carriage contains system-wide blacklisted block" , Record . X , Record . Y , Record . Z ) ) ;
 		}
 

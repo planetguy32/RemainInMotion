@@ -42,6 +42,7 @@ public class HollowCarriagesMod {
 		
 	}
 	
+	@Optional.Method(modid = "ForgeMultipart")
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent ev){
 		GameRegistry.addRecipe(new ItemStack(Items.hollowCarriage, 8), 
