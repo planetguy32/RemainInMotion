@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.planetguy.remaininmotion.core.RIMLog;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public abstract class SneakyWorldUtil
@@ -28,16 +29,17 @@ public abstract class SneakyWorldUtil
 
 		//RIMLog.dump(spectre);
 
-		if(spectre!=null){
+		if(spectre==null)
+			spectre=Blocks.air;
 
-			storageArrays [ LayerY ] . func_150818_a ( ChunkX , ChunkY , ChunkZ , spectre ) ;
+		storageArrays [ LayerY ] . func_150818_a ( ChunkX , ChunkY , ChunkZ , spectre ) ;
 
-			storageArrays [ LayerY ] . setExtBlockMetadata ( ChunkX , ChunkY , ChunkZ , Meta ) ;
+		storageArrays [ LayerY ] . setExtBlockMetadata ( ChunkX , ChunkY , ChunkZ , Meta ) ;
 
-			Chunk . isModified = true ;
+		Chunk . isModified = true ;
 
-			World . markBlockForUpdate ( X , Y , Z ) ;
-		}
+		World . markBlockForUpdate ( X , Y , Z ) ;
+
 	}
 
 	public static void SetTileEntity ( net . minecraft . world . World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )

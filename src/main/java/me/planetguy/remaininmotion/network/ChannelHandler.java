@@ -23,9 +23,10 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<RiMPacket>{
 
 	public static EnumMap<Side, FMLEmbeddedChannel> channels;
 
-	static{
+	public static void init(){
 		channels = NetworkRegistry.INSTANCE.newChannel(Mod.Handle, new ChannelHandler());	
 	}
+	
 
 	public ChannelHandler() {
 		this.addDiscriminator(31, RiMPacket.class);

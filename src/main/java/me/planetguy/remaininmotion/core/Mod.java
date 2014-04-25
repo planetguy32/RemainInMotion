@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion.core ;
 
 import me.planetguy.remaininmotion.ClientSetupProxy;
+import me.planetguy.remaininmotion.network.ChannelHandler;
 
 @cpw . mods . fml . common . Mod ( modid = Mod . Handle , name = Mod . Title , version = Mod . Version )
 public class Mod
@@ -29,6 +30,8 @@ public class Mod
 		Core . HandleInit ( ) ;
 		
 		ClientSetupProxy . Instance . Execute ( ) ;
+		
+		ChannelHandler.init();
 	}
 
 	@cpw . mods . fml . common . Mod . EventHandler
