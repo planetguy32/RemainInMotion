@@ -1,16 +1,12 @@
 package me.planetguy.remaininmotion.fmp;
 
-import java.io.File;
-
-import net.minecraft.item.Item;
+import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
-import me.planetguy.remaininmotion.Blocks;
-import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.api.RiMRegistry;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,7 +16,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.Mod.Handle+"_HollowCarriages", dependencies="after:"+me.planetguy.remaininmotion.Mod.Handle+";after:ForgeMultipart")
+@Mod(modid = me.planetguy.remaininmotion.core.Mod.Handle+"_HollowCarriages", dependencies="after:"+me.planetguy.remaininmotion.core.Mod.Handle+";after:ForgeMultipart")
 public class HollowCarriagesMod {
 	
 	boolean alive;
@@ -30,15 +26,10 @@ public class HollowCarriagesMod {
 	@Optional.Method(modid = "ForgeMultipart")
 	@Mod . EventHandler
 	public void init (FMLPreInitializationEvent event ){
-		Configuration cfg=new Configuration(event.getSuggestedConfigurationFile());
-		cfg.load();
-		hollowCarriageId=cfg.getItem("Hollow carriage", 11237).getInt(11237);
-		cfg.save();
-		
 		alive=Loader.isModLoaded("ForgeMultipart");
 		if(!alive)return;
-		hollowCarriage=new FMPCarriageItem(HollowCarriagesMod.hollowCarriageId);
-		hollowCarriage.setUnlocalizedName(me.planetguy.remaininmotion.Mod.Handle+":hollowCarriage");
+		hollowCarriage=new FMPCarriageItem();
+		hollowCarriage.setUnlocalizedName(me.planetguy.remaininmotion.core.Mod.Handle+":hollowCarriage");
 		
 		GameRegistry.registerItem(hollowCarriage, "Hollow carriage");
 
@@ -63,7 +54,7 @@ public class HollowCarriagesMod {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent ev){
 		if(!alive)return;
-		hollowCarriage.tabToDisplayOn=CreativeTab.Instance;
+		hollowCarriage.setCreativeTab(CreativeTab.Instance);
 		GameRegistry.addRecipe(new ItemStack(HollowCarriagesMod.hollowCarriage, 8), 
 				"ccc", 
 				"c c",

@@ -2,13 +2,14 @@ package me.planetguy.remaininmotion.fmp;
 
 import java.util.List;
 
-import me.planetguy.remaininmotion.Configuration;
+import javax.swing.Icon;
+
 import me.planetguy.remaininmotion.Items;
-import me.planetguy.remaininmotion.Mod;
-import me.planetguy.remaininmotion.Configuration.Cosmetic;
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.Mod;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Vector3;
@@ -17,9 +18,6 @@ import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.TMultiPart;
 
 final class FMPCarriageItem extends JItemMultiPart {
-	FMPCarriageItem(int id) {
-		super(id);
-	}
 
 	@Override
 	public TMultiPart newPart(ItemStack arg0, EntityPlayer arg1,
@@ -32,7 +30,7 @@ final class FMPCarriageItem extends JItemMultiPart {
 		return Mod.Handle+":"+"FMPCarriage";
 	}
 
-	public Icon getIconFromDamage(int dmg){
+	public IIcon getIconFromDamage(int dmg){
 		return Items.SimpleItemSet.getIconFromDamage(2);
 	}
 

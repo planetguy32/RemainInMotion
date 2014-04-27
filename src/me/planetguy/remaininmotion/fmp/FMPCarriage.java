@@ -5,6 +5,10 @@ import java.util.Iterator;
 import org.lwjgl.opengl.GL11;
 
 import me.planetguy.remaininmotion.Blocks;
+import me.planetguy.remaininmotion.CarriageMotionException;
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.TEAccessUtil;
+import me.planetguy.remaininmotion.api.Moveable;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -23,7 +27,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 
-public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
+@Optional.Interface(iface="JNormalOcclusion", modid="ForgeMultipart")
+public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveable{
 
 	public static FMPCarriage instance;
 
@@ -56,6 +61,7 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 
 	};
 
+	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public Iterable<Cuboid6> getOcclusionBoxes() {
 		return new Iterable(){
@@ -74,6 +80,7 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 		};
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	public Iterable<Cuboid6> getCollisionBoxes() {
 		return new Iterable(){
 
@@ -104,25 +111,35 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 		};
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public String getType() {
 		return "FMPCarriage";
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	public Cuboid6 getBounds(){
 		return Cuboid6.full;
 	}
 
-
+	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public Block getBlock() {
 		return Blocks.Carriage;
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void renderStatic(Vector3 pos, LazyLightMatrix llm, int pass){
 		renderer.renderCovers(this.world(), pos, llm, pass);
+	}
+
+	@Optional.Method(modid = "ForgeMultipart")
+	@Override
+	public void fillPackage(CarriagePackage _package)
+			throws CarriageMotionException {
+		TEAccessUtil.fillFramePackage(_package, this.world());
 	}
 
 }

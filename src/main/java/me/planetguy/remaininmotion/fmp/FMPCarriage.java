@@ -1,25 +1,20 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.fmp;
 
 import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.TEAccessUtil;
+import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import codechicken.lib.lighting.LightMatrix;
-import codechicken.lib.render.CCModel;
 import codechicken.lib.render.Vertex5;
-import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
-import codechicken.microblock.IMicroMaterialRender;
-import codechicken.microblock.MicroMaterialRegistry;
-import codechicken.microblock.MicroMaterialRegistry.IMicroMaterial;
-import codechicken.microblock.MicroblockRender;
 import codechicken.multipart.JCuboidPart;
 import codechicken.multipart.JIconHitEffects;
 import codechicken.multipart.JNormalOcclusion;
@@ -29,11 +24,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.common.Optional;
 
-public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
+public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveable{
 
 	public static FMPCarriage instance;
 
-	final Renderer renderer=new Renderer();
+	final FMPCarriageRenderer renderer=new FMPCarriageRenderer();
 
 	static final double l=1.5/8;
 
@@ -125,53 +120,10 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion{
 		return true;
 	}
 
-	@SideOnly(Side.CLIENT)
-	private static class Renderer implements IMicroMaterialRender{
-
-		BlockCoord pos=new BlockCoord();
-
-		public CCModel generateModel(){
-			CCModel ccm=CCModel.quadModel(12*8);
-			for(int i=0; i<12; i++){
-				ccm.generateBlock(i*8, cubeOutsideEdges[i]);
-			}
-			return ccm;
-		}
-
-		private World world;
-
-		@Override
-		public Cuboid6 getRenderBounds() {
-			return Cuboid6.full;
-		}
-
-		@Override
-		public World world() {
-			return world;
-		}
-
-		@Override
-		public int x() {
-			return pos.x;
-		}
-
-		@Override
-		public int y() {
-			return pos.y;
-		}
-
-		@Override
-		public int z() {
-			return pos.z;
-		}
-
-		public void renderCovers(World world, Vector3 t, LightMatrix olm, int material){
-			IMicroMaterial microMaterial = MicroMaterialRegistry.getMaterial("tile.wood");
-			for(Cuboid6 c:cubeOutsideEdges){
-				MicroblockRender.renderCuboid(t, microMaterial,0, c, 0);
-			}
-		}
-
+	@Override
+	public void fillPackage(CarriagePackage _package)
+			throws me.planetguy.remaininmotion.util.CarriageMotionException {
+		TEAccessUtil.fillFramePackage(_package, this.world());
 	}
 
 }

@@ -1,8 +1,5 @@
 package me.planetguy.remaininmotion ;
 
-import codechicken.multipart.BlockMultipart;
-import codechicken.multipart.TileMultipart;
-import net.minecraft.tileentity.TileEntity;
 
 public class CarriagePackage
 {
@@ -39,30 +36,7 @@ public class CarriagePackage
 
 	public boolean MatchesCarriageType ( BlockRecord record )
 	{
-		boolean pass=false;
-		try{ //in case of Error
-			
-			if(Block.blocksList[AnchorRecord.Id] instanceof BlockMultipart){
-				//check if started at FMP carriage and have frame carriage
-				pass=pass|| record.Id==Blocks.Carriage.blockID
-						&& record.Meta==0;
-			}
-			
-			//check if started at frame carriage and have FMP carriage
-			TileEntity te=record.World.getBlockTileEntity(record.X, record.Y, record.Z);
-			if(te instanceof TileMultipart ){
-				pass=pass|| TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
-			}
-		}finally{
-			if ( record . Id == AnchorRecord . Id )
-			{
-				if ( record . Meta == AnchorRecord . Meta )
-				{
-					pass=true ;
-				}
-			}
-		}
-		return ( pass ) ;
+		return CarriageMatchers.matches(Block.blocksList[record.Id], record.Meta, record.Entity, this);
 	}
 
 	public BlockRecordSet Body = new BlockRecordSet ( ) ;
@@ -204,6 +178,7 @@ public class CarriagePackage
 
 	public void AddPotentialObstruction ( BlockRecord Record )
 	{
+		System.out.println("Record="+Record+", PO="+PotentialObstructions);
 		PotentialObstructions . add ( Record ) ;
 	}
 

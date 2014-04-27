@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+
 public class Configuration extends Config
 {
 	public abstract static class BlockIds
@@ -158,7 +159,6 @@ public class Configuration extends Config
 
 			SimpleItemSet . Id = ItemId ( "Simple Items" , 11236 ) ;
 			
-			Items . hollowCarriageId = ItemId ( "Hollow carriage" , 11237 ) ;
 		}
 
 		{

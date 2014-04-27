@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.carriage.CarriageEntity;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.fmp.FMPCarriage;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.util.CarriageMotionException;
 import me.planetguy.remaininmotion.util.CarriageObstructionException;

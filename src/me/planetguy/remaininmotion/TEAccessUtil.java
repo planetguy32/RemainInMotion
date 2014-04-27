@@ -1,55 +1,15 @@
 package me.planetguy.remaininmotion;
 
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-import me.planetguy.remaininmotion.carriage.CarriageEntity;
-import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
-import me.planetguy.remaininmotion.fmp.FMPCarriage;
-import me.planetguy.remaininmotion.util.CarriageMotionException;
-import cpw.mods.fml.common.Optional;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+
 public abstract class TEAccessUtil {
 
-	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
-		if(carriage instanceof me.planetguy.remaininmotion.carriage.CarriageEntity){
-			((CarriageEntity)carriage).FillPackage(package1);
-		}else
-			try{
-				if(carriage instanceof TileMultipart){
-					if(getFMPCarriage((TileMultipart) carriage)!=null)
-						fillFramePackage(package1, carriage.getWorldObj());
-				}
-			}catch(Error noFmpStuff){
-
-			}
-	}
-
-	@Optional.Method(modid = "ForgeMultipart")
-	public static FMPCarriage getFMPCarriage(TileMultipart tmp){
-		FMPCarriage result=null;
-		for(TMultiPart part:((TileMultipart) tmp).jPartList()){
-			if(part instanceof FMPCarriage){
-				result=(FMPCarriage) part;
-			}
-		}
-		return result;
-	}
 	
-	public static boolean isFmpCarriage(TileEntity te){
-		try{
-			if(te instanceof TileMultipart){
-				TileMultipart tm=(TileMultipart) te;
-				for(TMultiPart part:tm.jPartList()){
-					if(part instanceof FMPCarriage){
-						return true;
-					}
-				}
-			}
-		}catch(Error e){
-		}
-		return false;
+	
+	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
+		CarriageMatchers.getMover(Block.blocksList[package1.AnchorRecord.Id], package1.AnchorRecord.Meta, package1.AnchorRecord.Entity).fillPackage(package1);
 	}
 
 	public static void fillFramePackage ( CarriagePackage Package, World worldObj ) throws CarriageMotionException
