@@ -39,7 +39,7 @@ public abstract class Block extends net . minecraft . block . Block
 		catch ( Throwable Throwable )
 		{
 			
-			System.out.println(Arrays.toString(TileEntityClasses));
+			System.out.println("Meta: "+Meta+","+Arrays.toString(TileEntityClasses));
 
 			return ( null ) ;
 		}

@@ -1,8 +1,5 @@
 package me.planetguy.remaininmotion ;
 
-import codechicken.multipart.BlockMultipart;
-import codechicken.multipart.TileMultipart;
-import net.minecraft.tileentity.TileEntity;
 
 public class CarriagePackage
 {
@@ -181,6 +178,7 @@ public class CarriagePackage
 
 	public void AddPotentialObstruction ( BlockRecord Record )
 	{
+		System.out.println("Record="+Record+", PO="+PotentialObstructions);
 		PotentialObstructions . add ( Record ) ;
 	}
 

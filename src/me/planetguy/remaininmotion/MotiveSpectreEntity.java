@@ -165,7 +165,7 @@ public class MotiveSpectreEntity extends TileEntity
 			}
 		}
 
-/*		for ( BlockRecord Record : MultipartTilesToInitialize )
+		for ( BlockRecord Record : MultipartTilesToInitialize )
 		{
 			try
 			{
@@ -175,7 +175,7 @@ public class MotiveSpectreEntity extends TileEntity
 			{
 				Throwable . printStackTrace ( ) ;
 			}
-		}*/
+		}
 
 		if ( ModInteraction . ForgeMultipart . MultipartHelper_sendDescPacket != null )
 		{

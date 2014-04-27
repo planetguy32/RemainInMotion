@@ -1,9 +1,5 @@
 package me.planetguy.remaininmotion;
 
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-import cpw.mods.fml.common.Optional;
-import me.planetguy.remaininmotion.api.Moveable;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

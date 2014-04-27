@@ -32,10 +32,6 @@ final class FMPCarriageItem extends JItemMultiPart {
 		return Mod.Handle+":"+"FMPCarriage";
 	}
 
-	public String getItemDisplayName(ItemStack stack){
-		return "Multipart Carriage";
-	}
-
 	public Icon getIconFromDamage(int dmg){
 		return Items.SimpleItemSet.getIconFromDamage(2);
 	}
