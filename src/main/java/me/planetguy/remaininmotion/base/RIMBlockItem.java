@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.base ;
 
-public abstract class BlockItem extends net . minecraft . item . ItemBlock
+public abstract class RIMBlockItem extends net . minecraft . item . ItemBlock
 {
-	public BlockItem ( net.minecraft.block.Block Id )
+	public RIMBlockItem ( net.minecraft.block.Block Id )
 	{
 		super ( Id ) ;
 

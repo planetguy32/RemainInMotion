@@ -53,7 +53,7 @@ public abstract class Block extends net . minecraft . block . Block
 		}
 	}
 
-	public Block ( net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , Class < ? extends TileEntity > ... TileEntityClasses )
+	public Block ( net . minecraft . block . Block Template , Class < ? extends RIMBlockItem > BlockItemClass , Class < ? extends TileEntity > ... TileEntityClasses )
 	{
 		super (Material.iron ) ;
 
@@ -87,7 +87,7 @@ public abstract class Block extends net . minecraft . block . Block
 		public static String Hatchet = "axe" ;
 	}
 
-	public Block ( net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , String HarvestToolType , Class < ? extends TileEntity > ... TileEntityClasses )
+	public Block ( net . minecraft . block . Block Template , Class < ? extends RIMBlockItem > BlockItemClass , String HarvestToolType , Class < ? extends TileEntity > ... TileEntityClasses )
 	{
 		this ( Template , BlockItemClass , TileEntityClasses ) ;
 

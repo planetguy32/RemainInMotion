@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion ;
 
 import me.planetguy.remaininmotion.base.Block;
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.RIMBlockItem;
 
-public class SpectreItem extends BlockItem
+public class SpectreItem extends RIMBlockItem
 {
 	public SpectreItem ( net.minecraft.block.Block b )
 	{

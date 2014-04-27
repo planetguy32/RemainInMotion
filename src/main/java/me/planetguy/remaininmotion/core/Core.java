@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion.core ;
 
 import net.minecraft.entity.player.EntityPlayer;
-import me.planetguy.remaininmotion.CarriageItem;
 import me.planetguy.remaininmotion.CarriagePackageBlacklist;
 import me.planetguy.remaininmotion.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.Items;
+import me.planetguy.remaininmotion.carriage.CarriageItem;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
 import me.planetguy.remaininmotion.network.RenderPacket;
 

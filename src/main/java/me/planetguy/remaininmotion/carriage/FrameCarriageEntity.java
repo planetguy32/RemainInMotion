@@ -1,5 +1,7 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.carriage ;
 
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.TEAccessUtil;
 import me.planetguy.remaininmotion.util.CarriageMotionException;
 
 public class FrameCarriageEntity extends CarriageEntity

@@ -1,6 +1,9 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.carriage ;
 
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.Items;
+import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.ToolItemSet.Types;
+import me.planetguy.remaininmotion.base.RIMBlockItem;
 import me.planetguy.remaininmotion.core.Recipe;
 
 public class CarriageDecorationConversionRecipe extends Recipe
@@ -23,7 +26,7 @@ public class CarriageDecorationConversionRecipe extends Recipe
 				continue ;
 			}
 
-			if ( Item.getItem() instanceof BlockItem )
+			if ( Item.getItem() instanceof RIMBlockItem )
 			{
 				if ( Carriage != null )
 				{
@@ -75,6 +78,6 @@ public class CarriageDecorationConversionRecipe extends Recipe
 			return ( null ) ;
 		}
 
-		return ( CarriageItem . Stack ( BlockItem . GetBlockType ( Carriage ) , 0 , DecorationId , CarriageItem . GetDecorationMeta ( Carriage ) ) ) ;
+		return ( CarriageItem . Stack ( RIMBlockItem . GetBlockType ( Carriage ) , 0 , DecorationId , CarriageItem . GetDecorationMeta ( Carriage ) ) ) ;
 	}
 }

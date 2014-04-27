@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion ;
 
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.RIMBlockItem;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.util.Vanilla;
@@ -91,6 +91,6 @@ public class CarriageDriveRenderer extends BlockRenderer
 	@Override
 	public IIcon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side )
 	{
-		return ( Blocks . CarriageDrive . getIcon ( 0 , BlockItem . GetBlockType ( Item ) ) ) ;
+		return ( Blocks . CarriageDrive . getIcon ( 0 , RIMBlockItem . GetBlockType ( Item ) ) ) ;
 	}
 }

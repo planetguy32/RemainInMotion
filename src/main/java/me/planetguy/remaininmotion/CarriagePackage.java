@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.carriage.Carriage;
+import me.planetguy.remaininmotion.carriage.CarriageEntity;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;

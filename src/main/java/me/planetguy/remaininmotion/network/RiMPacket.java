@@ -24,15 +24,19 @@ public class RiMPacket {
 	}
 
 	public void readBytes(ByteBuf bytes) throws IOException {
+		System.out.println("Length="+bytes.readableBytes());
 		if(!(bytes instanceof EmptyByteBuf)){
-			this.type=bytes.readInt();
 			this.body=CompressedStreamTools.decompress(bytes.array());
+			this.type=body.getInteger("packetType");
 		}
 	}
 
 	public void writeBytes(ByteBuf bytes) throws IOException {
-		bytes.setInt(0, type);
-		bytes.setBytes(4, CompressedStreamTools.compress(body));
+		System.out.println("Length="+bytes.readableBytes());
+		body.setInteger("packetType", type);
+		bytes.writeBytes(CompressedStreamTools.compress(body));
+		System.out.println("Length="+bytes.readableBytes());
+
 	}
 
 	public void executeClient(EntityPlayer player) {

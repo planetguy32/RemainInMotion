@@ -2,6 +2,8 @@ package me.planetguy.remaininmotion;
 
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
+import me.planetguy.remaininmotion.carriage.CarriageEntity;
+import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
 import me.planetguy.remaininmotion.util.CarriageMotionException;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +12,7 @@ import net.minecraft.world.World;
 public abstract class TEAccessUtil {
 
 	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
-		if(carriage instanceof me.planetguy.remaininmotion.CarriageEntity){
+		if(carriage instanceof me.planetguy.remaininmotion.carriage.CarriageEntity){
 			((CarriageEntity)carriage).FillPackage(package1);
 		}else
 			try{

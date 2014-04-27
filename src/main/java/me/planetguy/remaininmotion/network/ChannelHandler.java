@@ -40,10 +40,10 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<RiMPacket>{
 
 	@Override
 	public void decodeInto(ChannelHandlerContext ctx, ByteBuf data, RiMPacket packet) {
+		System.out.println("Got packet "+packet.body);
 		try {
 			packet.readBytes(data);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		switch (FMLCommonHandler.instance().getEffectiveSide()) {
@@ -60,13 +60,13 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<RiMPacket>{
 	public static void BroadcastPacketFromBlock ( int X , int Y , int Z , int Dimension , Enum Type , net . minecraft . nbt . NBTTagCompound Body )
 	{
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
-		channels.get(Side.SERVER).writeOutbound(new RiMPacket(Body));
+		channels.get(Side.SERVER).writeAndFlush(new RiMPacket(Body));
 	}
 	
 	public static void sendPacketToPlayer(EntityPlayerMP player , PacketTypes pt , NBTTagCompound tag){
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
-		channels.get(Side.SERVER).writeOutbound(new RiMPacket(tag));
+		channels.get(Side.SERVER).writeAndFlush(new RiMPacket(tag));
 	}
 	
 

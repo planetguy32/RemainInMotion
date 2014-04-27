@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion.core ;
 
-import me.planetguy.remaininmotion.Carriage;
 import me.planetguy.remaininmotion.CarriageDrive;
 import me.planetguy.remaininmotion.FMPCarriage;
 import me.planetguy.remaininmotion.Spectre;
+import me.planetguy.remaininmotion.carriage.Carriage;
 
 import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.multipart.MultiPartRegistry;

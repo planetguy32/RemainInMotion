@@ -1,6 +1,9 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.carriage ;
 
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.BlockRenderer;
+import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.base.RIMBlockItem;
 import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
@@ -31,7 +34,7 @@ public class CarriageRenderer extends BlockRenderer
 
 			SetSideSpan ( 0 , 0 , 1 , 1 ) ;
 
-			SetTextureSpan ( me.planetguy.remaininmotion . Carriage . PlaceholderIcon ) ;
+			SetTextureSpan ( me.planetguy.remaininmotion.carriage.Carriage . PlaceholderIcon ) ;
 
 			for ( BlockRecord Record : Carriage . Pattern )
 			{
@@ -61,6 +64,6 @@ public class CarriageRenderer extends BlockRenderer
 			}
 		}
 
-		return ( Blocks . Carriage . getIcon ( 0 , BlockItem . GetBlockType ( Item ) ) ) ;
+		return ( Blocks . Carriage . getIcon ( 0 , RIMBlockItem . GetBlockType ( Item ) ) ) ;
 	}
 }

@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion ;
 
 import me.planetguy.remaininmotion.base.TileEntity;
+import me.planetguy.remaininmotion.carriage.CarriageRenderer;
 
 public class ClientSetup extends ClientSetupProxy
 {

@@ -1,7 +1,9 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.carriage ;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import me.planetguy.remaininmotion.Registry;
+import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.Block;
 import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -33,9 +35,9 @@ public class Carriage extends Block
 	{
 		foo ;
 
-		double CarriageBurdenFactor ;
+		public double CarriageBurdenFactor ;
 
-		double CargoBurdenFactor ;
+		public double CargoBurdenFactor ;
 	}
 
 	public static IIcon PlaceholderIcon ;

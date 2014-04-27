@@ -1,6 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.carriage ;
 
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.RIMBlockItem;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Recipe;
 import net.minecraft.item.ItemBlock;
@@ -78,6 +78,6 @@ public class CarriageDecorationRecipe extends Recipe
 			return ( null ) ;
 		}
 
-		return ( CarriageItem . Stack ( BlockItem . GetBlockType ( Carriage ) , Tier ) ) ;
+		return ( CarriageItem . Stack ( RIMBlockItem . GetBlockType ( Carriage ) , Tier ) ) ;
 	}
 }

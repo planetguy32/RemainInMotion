@@ -1,0 +1,4 @@
+for f in me/planetguy/remaininmotion/*
+do 
+   merge main/java/$f $f main/java/$f 
+done

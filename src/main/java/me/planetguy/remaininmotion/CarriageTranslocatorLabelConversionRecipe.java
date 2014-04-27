@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion ;
 
 import net.minecraft.item.Item;
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.RIMBlockItem;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Recipe;
 
@@ -27,7 +27,7 @@ public class CarriageTranslocatorLabelConversionRecipe extends Recipe
 
 			if ( itemStack.getItem() == Item.getItemFromBlock(Blocks . CarriageDrive) )
 			{
-				if ( BlockItem . GetBlockType ( itemStack ) == CarriageDrive . Types . Translocator . ordinal ( ) )
+				if ( RIMBlockItem . GetBlockType ( itemStack ) == CarriageDrive . Types . Translocator . ordinal ( ) )
 				{
 					if ( Drive != null )
 					{
@@ -72,6 +72,6 @@ public class CarriageTranslocatorLabelConversionRecipe extends Recipe
 			return ( null ) ;
 		}
 
-		return ( CarriageDriveItem . Stack ( BlockItem . GetBlockType ( Drive ) , 0 , CarriageDriveItem . GetPrivateFlag ( Drive ) , CarriageDriveItem . GetLabel ( Drive ) ) ) ;
+		return ( CarriageDriveItem . Stack ( RIMBlockItem . GetBlockType ( Drive ) , 0 , CarriageDriveItem . GetPrivateFlag ( Drive ) , CarriageDriveItem . GetLabel ( Drive ) ) ) ;
 	}
 }

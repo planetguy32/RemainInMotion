@@ -1,5 +1,7 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.carriage ;
 
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.Block;
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.util.CarriageMotionException;
