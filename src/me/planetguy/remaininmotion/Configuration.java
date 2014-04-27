@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion ;
 
-import me.planetguy.remaininmotion.fmp.HollowCarriagesMod;
 
 public class Configuration extends Config
 {
@@ -160,7 +159,6 @@ public class Configuration extends Config
 
 			SimpleItemSet . Id = ItemId ( "Simple Items" , 11236 ) ;
 			
-			HollowCarriagesMod . hollowCarriageId = ItemId ( "Hollow carriage" , 11237 ) ;
 		}
 
 		{

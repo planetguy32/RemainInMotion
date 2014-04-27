@@ -1,7 +1,10 @@
 package me.planetguy.remaininmotion.fmp;
 
+import java.io.File;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
@@ -24,8 +27,14 @@ public class HollowCarriagesMod {
 	public static int hollowCarriageId;
 	public static net.minecraft.item.Item hollowCarriage;
 	
+	@Optional.Method(modid = "ForgeMultipart")
 	@Mod . EventHandler
 	public void init (FMLPreInitializationEvent event ){
+		Configuration cfg=new Configuration(event.getSuggestedConfigurationFile());
+		cfg.load();
+		hollowCarriageId=cfg.getItem("Hollow carriage", 11237).getInt(11237);
+		cfg.save();
+		
 		alive=Loader.isModLoaded("ForgeMultipart");
 		if(!alive)return;
 		hollowCarriage=new FMPCarriageItem(HollowCarriagesMod.hollowCarriageId);
@@ -50,6 +59,7 @@ public class HollowCarriagesMod {
 		RiMRegistry.registerMatcher(new FMPCarriageMatcher());
 	}
 	
+	@Optional.Method(modid = "ForgeMultipart")
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent ev){
 		if(!alive)return;
