@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.api.Moveable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
@@ -154,10 +155,18 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			int Id = worldObj . getBlockId ( X , Y , Z ) ;
 			net.minecraft.tileentity.TileEntity te=worldObj.getBlockTileEntity(X,Y,Z);
 
-			if(TEAccessUtil.isFmpCarriage(te))
-				CarriageDirection=Direction;
-
-			if ( Id == Blocks . Carriage . blockID )
+			Moveable m=CarriageMatchers.getMover(Block.blocksList[Id], worldObj.getBlockMetadata(X, Y, Z), te);
+			if(m!=null)
+				if ( CarriageDirection != null )
+				{
+					CarriageDirectionValid = false ;
+				}
+				else
+				{
+					CarriageDirection = Direction ;
+				}
+			//TODO hook up new system
+			/*if ( Id == Blocks . Carriage . blockID )
 			{
 				if ( SideClosed [ Direction . ordinal ( ) ] )
 				{
@@ -173,7 +182,8 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 					CarriageDirection = Direction ;
 				}
 			}
-			else if ( net . minecraft . block . Block . blocksList [ Id ] . isProvidingWeakPower ( worldObj , X , Y , Z , Direction . ordinal ( ) ) > 0 )
+			else */
+			if ( net . minecraft . block . Block . blocksList [ Id ] . isProvidingWeakPower ( worldObj , X , Y , Z , Direction . ordinal ( ) ) > 0 )
 			{
 				if ( SignalDirection != null )
 				{

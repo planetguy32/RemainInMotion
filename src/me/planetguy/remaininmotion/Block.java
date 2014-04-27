@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import java.util.Arrays;
+
 public abstract class Block extends net . minecraft . block . Block
 {
 	public int RenderId ;
@@ -36,7 +38,8 @@ public abstract class Block extends net . minecraft . block . Block
 		}
 		catch ( Throwable Throwable )
 		{
-			Throwable . printStackTrace ( ) ;
+			
+			System.out.println(Arrays.toString(TileEntityClasses));
 
 			return ( null ) ;
 		}

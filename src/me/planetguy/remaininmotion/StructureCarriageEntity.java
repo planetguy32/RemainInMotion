@@ -298,11 +298,11 @@ public class StructureCarriageEntity extends CarriageEntity
 	}
 
 	@Override
-	public void FillPackage ( CarriagePackage Package ) throws CarriageMotionException
+	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
 		if ( EdgeType != null )
 		{
-			FollowEdgeToCorner ( EdgeType , this , EdgeType . Neg ) . FillPackage ( Package ) ;
+			FollowEdgeToCorner ( EdgeType , this , EdgeType . Neg ) . fillPackage ( Package ) ;
 
 			return ;
 		}

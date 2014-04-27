@@ -8,7 +8,7 @@ public class PlatformCarriageEntity extends CarriageEntity
 	}
 
 	@Override
-	public void FillPackage ( CarriagePackage Package ) throws CarriageMotionException
+	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
 		BlockRecordSet CarriagesToCheck = new BlockRecordSet ( ) ;
 

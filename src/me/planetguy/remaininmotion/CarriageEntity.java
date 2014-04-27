@@ -1,6 +1,8 @@
 package me.planetguy.remaininmotion ;
 
-public abstract class CarriageEntity extends TileEntity
+import me.planetguy.remaininmotion.api.Moveable;
+
+public abstract class CarriageEntity extends TileEntity implements Moveable
 {
 	@Override
 	public boolean canUpdate ( )
@@ -73,5 +75,5 @@ public abstract class CarriageEntity extends TileEntity
 		TagCompound . setInteger ( "Tier" , Tier ) ;
 	}
 
-	public abstract void FillPackage ( CarriagePackage Package ) throws CarriageMotionException ;
+	public abstract void fillPackage ( CarriagePackage Package ) throws CarriageMotionException ;
 }

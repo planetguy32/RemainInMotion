@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.api.RiMRegistry;
+
 public abstract class Core
 {
 	public static void HandlePreInit ( )
@@ -17,6 +19,8 @@ public abstract class Core
 		Items . Initialize ( ) ;
 
 		CreativeTab . Initialize ( Blocks . Carriage . blockID ) ;
+		
+		RiMRegistry.registerMatcher(new DefaultCarriageMatcher());
 	}
 
 	public static void HandlePostInit ( )
@@ -28,24 +32,28 @@ public abstract class Core
 
 	public static void HandleServerStopping ( )
 	{
-		CarriageTranslocatorEntity . ActiveTranslocatorSets . clear ( ) ;
+		try{
+			CarriageTranslocatorEntity . ActiveTranslocatorSets . clear ( ) ;
+		}catch(Error e){
+			//e.printStackTrace();
+		}
 	}
 
 	public static void HandlePacket ( int Type , net . minecraft . nbt . NBTTagCompound Body , cpw . mods . fml . common . network . Player Player )
 	{
 		switch ( PacketTypes . values ( ) [ Type ] )
 		{
-			case Render :
+		case Render :
 
-				RenderPacket . Handle ( Body , ( ( net . minecraft . entity . player . EntityPlayer ) Player ) . worldObj ) ;
+			RenderPacket . Handle ( Body , ( ( net . minecraft . entity . player . EntityPlayer ) Player ) . worldObj ) ;
 
-				break ;
+			break ;
 
-			case MultipartPropagation :
+		case MultipartPropagation :
 
-				MultipartPropagationPacket . Handle ( Body , ( ( net . minecraft . entity . player . EntityPlayer ) Player ) . worldObj ) ;
+			MultipartPropagationPacket . Handle ( Body , ( ( net . minecraft . entity . player . EntityPlayer ) Player ) . worldObj ) ;
 
-				break ;
+			break ;
 		}
 	}
 }

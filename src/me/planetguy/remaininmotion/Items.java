@@ -8,10 +8,6 @@ public abstract class Items
 
 	public static SimpleItemSet SimpleItemSet ;
 
-	public static net.minecraft.item.Item hollowCarriage;
-
-	public static int hollowCarriageId;
-
 	public static void Initialize ( )
 	{
 		ToolItemSet = new ToolItemSet ( ) ;
