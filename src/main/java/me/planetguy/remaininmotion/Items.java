@@ -37,48 +37,11 @@ public abstract class Items
 
 	public static SimpleItemSet SimpleItemSet ;
 
-	public static net.minecraft.item.Item hollowCarriage;
-
-	public static int hollowCarriageId;
-
 	public static void Initialize ( )
 	{
 		ToolItemSet = new ToolItemSet ( ) ;
 		
 		SimpleItemSet = new SimpleItemSet ( ) ;
-
-		hollowCarriage=new JItemMultiPart(){
-
-			@Override
-			public TMultiPart newPart(ItemStack arg0, EntityPlayer arg1,
-					World arg2, BlockCoord arg3, int arg4, Vector3 arg5) {
-				return MultiPartRegistry.createPart("FMPCarriage", false);
-			}
-
-			@Override
-			public String getUnlocalizedName(){
-				return Mod.Handle+":"+"FMPCarriage";
-			}
-			
-			public String getItemDisplayName(ItemStack stack){
-				return "Multipart Carriage";
-			}
-
-			public IIcon getIconFromDamage(int dmg){
-				return SimpleItemSet.getIconFromDamage(2);
-			}
-			
-		    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List l, boolean par4) {
-				if ( Configuration . Cosmetic . ShowHelpInTooltips )return;
-				l . add ( "Carries blocks directly touching it." ) ;
-				l.add("Supports Forge Multipart.");
-			}
-
-		};
-
-		LanguageRegistry.addName(hollowCarriage, "Hollow carriage");
-
-		hollowCarriage.setCreativeTab(CreativeTab.Instance);
 
 	}
 }

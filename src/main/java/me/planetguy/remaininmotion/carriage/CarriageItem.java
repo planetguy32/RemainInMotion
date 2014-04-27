@@ -5,6 +5,7 @@ import me.planetguy.remaininmotion.base.Stack;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
 import net.minecraft.block.Block;
+import net.minecraft.util.IIcon;
 
 public class CarriageItem extends RIMBlockItem
 {

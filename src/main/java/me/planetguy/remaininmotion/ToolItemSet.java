@@ -86,11 +86,11 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public net . minecraft . util . IIcon getIconFromDamage ( int Damage )
+	public net . minecraft . util . IIcon getIconFromDamage( int Damage )
 	{
 		try
 		{
-			return ( Types . values ( ) [ Damage ] . Icon ) ;
+			return ( Types . values ( ) [ 0 ] . Icon ) ;
 		}
 		catch ( Throwable Throwable )
 		{

@@ -137,13 +137,7 @@ public abstract class Recipes
 		RegisterCarriageRecipe ( Carriage . Types . Support , Vanilla . DyeTypes . Lime ) ;
 
 		RegisterCarriageRecipe ( Carriage . Types . Template , Vanilla . DyeTypes . Purple ) ;
-
-		GameRegistry.addRecipe(new ItemStack(Items.hollowCarriage, 8), 
-				"ccc", 
-				"c c",
-				"ccc",
-				Character.valueOf('c'), new ItemStack(Blocks.Carriage, 1, 0));
-
+		
 		//allow un-dyeing carriages
 		GameRegistry.addShapelessRecipe(SimplePartTypes . CarriageFramework . Stack ( ) ,
 				Blocks.Carriage);

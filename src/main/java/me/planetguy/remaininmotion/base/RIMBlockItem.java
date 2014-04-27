@@ -29,4 +29,5 @@ public abstract class RIMBlockItem extends net . minecraft . item . ItemBlock
 	{
 		AddTooltip ( Item , TooltipLines ) ;
 	}
+	
 }

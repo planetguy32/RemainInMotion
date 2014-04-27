@@ -26,18 +26,6 @@ public abstract class Blocks
 
 		Spectre = new Spectre ( ) ;
 
-		MultiPartRegistry.registerParts(new IPartFactory(){
-
-			@Override
-			public TMultiPart createPart(String arg0, boolean arg1) {
-				if(arg0.equals("FMPCarriage"))
-					return new FMPCarriage();
-				return null;
-			}
-
-		}, new String[]{"FMPCarriage"});
-
-
 	}
 
 }
