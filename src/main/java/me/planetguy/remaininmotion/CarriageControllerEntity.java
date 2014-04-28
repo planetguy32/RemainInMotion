@@ -113,11 +113,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 		public IPeripheral getPeripheral(World world, int x, int y, int z,
 				int side) {
 			try{
-<<<<<<< HEAD:src/main/java/me/planetguy/remaininmotion/CarriageControllerEntity.java
 				return (IPeripheral) world.getTileEntity(x, y, z);
-=======
-				return (IPeripheral) world.getBlockTileEntity(x, y, z);
->>>>>>> f44dadc... Fixed some bugs related to computer control (crash and console spam):src/me/planetguy/remaininmotion/CarriageControllerEntity.java
 			}catch(ClassCastException e){
 				return null;
 			}
@@ -360,7 +356,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 
 			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
 			
-			TEAccessUtil.fillPackage(Package, carriage ) ;
+			CarriagePackageUtil.fillPackage(Package, carriage ) ;
 
 			if ( Package . Body . contains ( Package . DriveRecord ) )
 			{
@@ -383,8 +379,8 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 				Package . AddPotentialObstruction ( Package . DriveRecord . NextInDirection ( MotionDirection ) ) ;
 			}
 			
-			TEAccessUtil.fillPackage(Package, carriage ) ;
-
+			CarriagePackageUtil.fillPackage(Package, carriage ) ;
+			
 		}
 
 		Package . Finalize ( ) ;

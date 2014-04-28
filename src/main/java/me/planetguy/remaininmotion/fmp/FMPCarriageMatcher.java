@@ -15,7 +15,8 @@ public class FMPCarriageMatcher implements CarriageMatcher{
 		return entity1 instanceof me.planetguy.remaininmotion.carriage.FrameCarriageEntity
 				&&isFmpCarriage(entity2)
 				||(entity2 instanceof me.planetguy.remaininmotion.carriage.FrameCarriageEntity
-				&&isFmpCarriage(entity1));
+				&&isFmpCarriage(entity1))
+				||isFmpCarriage(entity1)&&isFmpCarriage(entity2);
 
 	}
 

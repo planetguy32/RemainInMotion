@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.util ;
 
 import me.planetguy.remaininmotion.GameUtil;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 public abstract class WorldUtil
 {
@@ -21,6 +22,8 @@ public abstract class WorldUtil
 
 	public static void SetBlock ( net . minecraft . world . World World , int X , int Y , int Z , Block Id , int Meta )
 	{
+		if(Id==null)
+			Id=Blocks.air;
 		World . setBlock ( X , Y , Z , Id , Meta , 0x3 ) ;
 	}
 }

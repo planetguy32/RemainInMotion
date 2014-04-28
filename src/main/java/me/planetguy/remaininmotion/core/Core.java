@@ -46,6 +46,8 @@ public abstract class Core
 	
 	public static void HandlePacket ( int Type , net . minecraft . nbt . NBTTagCompound Body , EntityPlayer Player )
 	{
+		
+		RIMLog.t("Got packet "+Type);
 		switch ( PacketTypes . values ( ) [ Type ] )
 		{
 			case Render :

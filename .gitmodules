@@ -1,0 +1,3 @@
+[submodule "ForgeMultipart"]
+	path = ForgeMultipart
+	url = https://github.com/Chicken-Bones/ForgeMultipart.git

@@ -179,7 +179,7 @@ public class CarriageItem extends RIMBlockItem
 		}
 		catch ( Throwable Throwable )
 		{
-			Throwable . printStackTrace ( ) ;
+			//Throwable . printStackTrace ( ) ;
 
 			TooltipLines . add ( "Decoration: <invalid>" ) ;
 		}

@@ -53,24 +53,7 @@ public class CarriagePackage
 
 	public boolean MatchesCarriageType ( BlockRecord record )
 	{
-		boolean pass=false;
-		if(AnchorRecord.block instanceof BlockMultipart){
-			pass=pass || record.block==Blocks.Carriage
-					&& record.Meta==0;
-		}
-		TileEntity te=record.World.getTileEntity(record.X, record.Y, record.Z);
-		if(te instanceof TileMultipart ){
-			pass=pass|| TEAccessUtil.getFMPCarriage((TileMultipart) te) != null;
-		}
-		if ( record.block == AnchorRecord.block )
-		{
-			if ( record . Meta == AnchorRecord . Meta )
-			{
-				pass=true ;
-			}
-		}
-
-		return ( pass ) ;
+		return CarriageMatchers.matches(record.block, record.Meta, record.Entity, this);
 	}
 
 	public BlockRecordSet Body = new BlockRecordSet ( ) ;

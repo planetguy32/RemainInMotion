@@ -93,7 +93,7 @@ public abstract class SneakyWorldUtil
 				}
 				else if(Chunk!=null)
 				{
-					if ( (Integer) Reflection.runMethod(Chunk, "func_150808_b",ChunkX , Y , ChunkZ )> 0 )
+					if ( Chunk.func_150808_b(ChunkX , Y , ChunkZ )> 0 )
 					{
 						if ( Y >= HeightMapValue )
 						{

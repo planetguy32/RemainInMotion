@@ -9,23 +9,18 @@ public class RIMLog {
 	}
 
 	public static void dump(Object o){
-		dump(o,2);
+		dump(o,4, "");
 	}
 
-	private static void dump(Object o, int iteration){
+	private static void dump(Object o, int iteration, String start){
 		if(!(iteration>0))return;
-		String prefix="";
-		for(int i=0; i<iteration; i++){
-			prefix+="   ";
-		}
-		t(o);
+		t(start+o);
 		if(o!=null){ //Don't dump null's fields
 			for(Field f:o.getClass().getDeclaredFields()){
 				f.setAccessible(true);
 				try{
 					Object subObj=f.get(o);
-					t(prefix+subObj.toString());
-					dump(subObj, iteration-1);
+					dump(subObj, iteration-1, start+f.getName()+"      ");
 				}catch(Exception e){}
 
 			}

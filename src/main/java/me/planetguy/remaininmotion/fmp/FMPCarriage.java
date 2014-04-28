@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.lwjgl.opengl.GL11;
 
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.TEAccessUtil;
+import me.planetguy.remaininmotion.CarriagePackageUtil;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.block.Block;
@@ -123,7 +123,7 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 	@Override
 	public void fillPackage(CarriagePackage _package)
 			throws me.planetguy.remaininmotion.util.CarriageMotionException {
-		TEAccessUtil.fillFramePackage(_package, this.world());
+		CarriagePackageUtil.fillFramePackage(_package, this.world());
 	}
 
 }
