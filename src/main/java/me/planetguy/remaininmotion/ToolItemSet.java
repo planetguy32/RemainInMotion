@@ -4,11 +4,11 @@ import me.planetguy.remaininmotion.base.Item;
 import me.planetguy.remaininmotion.base.Stack;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.ModInteraction;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class ToolItemSet extends Item
 {
-	public static int Id ;
 
 	public enum Types
 	{
@@ -50,13 +50,14 @@ public class ToolItemSet extends Item
 	@Override
 	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
 	{
+		return ( "Screwdriver" ) ;/*
 		try
 		{
 			switch ( Types . values ( ) [ Item.getItemDamage() ] )
 			{
 				case Screwdriver :
 
-					return ( "Screwdriver" ) ;
+					
 			}
 		}
 		catch ( Throwable Throwable )
@@ -64,16 +65,18 @@ public class ToolItemSet extends Item
 			Throwable . printStackTrace ( ) ;
 		}
 
-		return ( "INVALID ITEM" ) ;
+		return ( "INVALID ITEM" ) ;/**/
 	}
 
 	@Override
 	public void AddShowcaseStacks ( java . util . List Showcase )
 	{
+		Showcase.add(new ItemStack(this));
+		/*
 		for ( Types Type : Types . values ( ) )
 		{
 			Showcase . add ( Stack . New ( this , Type ) ) ;
-		}
+		}/**/
 	}
 
 	@Override

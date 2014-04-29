@@ -354,7 +354,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity //implements d
 				throw ( new CarriageMotionException ( "cannot pull carriage into controller in anchored mode" ) ) ;
 			}
 
-			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
+			Package = GeneratePackage(carriage, CarriageDirection, MotionDirection);
 			
 			CarriagePackageUtil.fillPackage(Package, carriage ) ;
 

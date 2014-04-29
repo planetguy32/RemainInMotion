@@ -8,7 +8,9 @@ public class CarriageEngineEntity extends CarriageDriveEntity
 	@Override
 	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
 	{
-		CarriagePackage Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
+		CarriagePackage Package = new CarriagePackage(this, 
+				worldObj.getTileEntity(xCoord+CarriageDirection.DeltaX, yCoord+CarriageDirection.DeltaY, zCoord+CarriageDirection.DeltaZ)
+				, MotionDirection);
 
 		Package . AddBlock ( Package . DriveRecord ) ;
 

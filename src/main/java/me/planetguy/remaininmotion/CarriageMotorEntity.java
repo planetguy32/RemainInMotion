@@ -19,7 +19,7 @@ public class CarriageMotorEntity extends CarriageDriveEntity
 			throw ( new CarriageMotionException ( "motor cannot pull carriage into itself" ) ) ;
 		}
 
-		CarriagePackage Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
+		CarriagePackage Package = new CarriagePackage(this, this.worldObj.getTileEntity(xCoord+CarriageDirection.DeltaX, yCoord+CarriageDirection.DeltaY, zCoord+CarriageDirection.DeltaZ), MotionDirection);
 
 		CarriagePackageUtil.fillPackage(Package, carriage ) ;
 
