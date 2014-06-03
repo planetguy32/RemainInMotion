@@ -9,7 +9,7 @@ public class RIMLog {
 	}
 
 	public static void dump(Object o){
-		dump(o,4, "");
+		dump(o,2, "");
 	}
 
 	private static void dump(Object o, int iteration, String start){

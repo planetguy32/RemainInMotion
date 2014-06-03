@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.util ;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -51,7 +52,7 @@ public abstract class Reflection
 	{
 		try
 		{
-			java . lang . reflect . Field Field = Class . getDeclaredField ( Name ) ;
+			java . lang . reflect . Field Field =get(Class, Name);
 
 			Field . setAccessible ( true ) ;
 
@@ -65,6 +66,16 @@ public abstract class Reflection
 			}
 
 			return ( null ) ;
+		}
+	}
+	
+	public static Field get(Class clazz, String name)throws Exception{
+		if(clazz==Object.class)
+			return null;
+		try{
+			return clazz.getDeclaredField(name);
+		}catch(NoSuchFieldException e){
+			return get(clazz.getSuperclass(), name);
 		}
 	}
 

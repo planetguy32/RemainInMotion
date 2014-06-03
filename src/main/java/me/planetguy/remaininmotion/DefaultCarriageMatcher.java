@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.remaininmotion.core.RIMLog;
 
 public class DefaultCarriageMatcher implements CarriageMatcher{
 
@@ -15,10 +16,12 @@ public class DefaultCarriageMatcher implements CarriageMatcher{
 
 	@Override
 	public Moveable getCarriage(Block block, int meta, TileEntity te) {
-		if(te instanceof Moveable)
+		if(te instanceof Moveable){
+			RIMLog.t("Found moveable "+te);
 			return (Moveable) te;
-		else
+		}else{
 			return null;
+		}
 	}
 
 }

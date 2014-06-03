@@ -9,7 +9,7 @@ import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
-public class Carriage extends Block
+public class Carriage extends Block 
 {
 	public Carriage ( )
 	{

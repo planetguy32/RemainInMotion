@@ -200,7 +200,7 @@ public class CarriageTranslocatorEntity extends CarriageDriveEntity
 	@Override
 	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
 	{
-		CarriagePackage Package = GeneratePackage(carriage, CarriageDirection, MotionDirection);
+		CarriagePackage Package = new CarriagePackage(this, this.worldObj.getTileEntity(xCoord+CarriageDirection.DeltaX, yCoord+CarriageDirection.DeltaY, zCoord+CarriageDirection.DeltaZ), MotionDirection);
 
 		CarriagePackageUtil.fillPackage(Package , carriage) ;
 

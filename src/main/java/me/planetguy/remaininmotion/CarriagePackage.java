@@ -1,8 +1,5 @@
 package me.planetguy.remaininmotion ;
 
-import codechicken.multipart.BlockMultipart;
-import codechicken.multipart.TileMultipart;
-import net.minecraft.tileentity.TileEntity;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -16,7 +13,6 @@ import me.planetguy.remaininmotion.util.CarriageMotionException;
 import me.planetguy.remaininmotion.util.CarriageObstructionException;
 import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
 public class CarriagePackage
 {

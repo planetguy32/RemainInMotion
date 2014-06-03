@@ -3,15 +3,12 @@ package me.planetguy.remaininmotion ;
 import java.util.Iterator;
 import java.util.List;
 
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.carriage.CarriageEntity;
 import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.fmp.FMPCarriage;
+import me.planetguy.remaininmotion.core.RIMLog;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.util.CarriageMotionException;
 import me.planetguy.remaininmotion.util.CarriageObstructionException;
@@ -173,15 +170,10 @@ public abstract class CarriageDriveEntity extends TileEntity// implements IEnerg
 
 			Block Id = (net.minecraft.block.Block) worldObj . getBlock ( X , Y , Z ) ;
 
-			net.minecraft.tileentity.TileEntity te=worldObj.getTileEntity(X,Y,Z);
-			if(te instanceof TileMultipart){
-				TileMultipart tm=(TileMultipart) te;
-				for(TMultiPart part:tm.jPartList()){
-					if(part instanceof FMPCarriage){
-						CarriageDirection = Direction ;
-					}
-				}
-			}
+			Moveable mv=CarriageMatchers.getMover(Id, worldObj.getBlockMetadata(X, Y,Z), worldObj.getTileEntity(X, Y, Z));
+			
+			if(mv!=null)
+				CarriageDirection=Direction;
 			
 			if ( Id == Blocks . Carriage )
 			{
@@ -283,6 +275,7 @@ public abstract class CarriageDriveEntity extends TileEntity// implements IEnerg
 
 		try
 		{
+			RIMLog.t(CarriageDirection);
 			InitiateMotion ( PreparePackage ( SignalDirection . Opposite ( ) ) ) ;
 		}
 		catch ( CarriageMotionException Exception )

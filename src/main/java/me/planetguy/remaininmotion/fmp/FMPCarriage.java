@@ -17,14 +17,13 @@ import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
 import codechicken.multipart.JCuboidPart;
 import codechicken.multipart.JIconHitEffects;
-import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.minecraft.McBlockPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.common.Optional;
 
-public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveable{
+public class FMPCarriage extends McBlockPart implements Moveable{
 
 	public static FMPCarriage instance;
 

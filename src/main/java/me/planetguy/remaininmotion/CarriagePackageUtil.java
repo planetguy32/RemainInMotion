@@ -10,7 +10,9 @@ import net.minecraft.world.World;
 public abstract class CarriagePackageUtil {
 
 	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
+		RIMLog.dump(package1);
 		Moveable mv=CarriageMatchers.getMover(package1.AnchorRecord.block, package1.AnchorRecord.Meta, package1.AnchorRecord.Entity);
+		
 		mv.fillPackage(package1);
 	}
 

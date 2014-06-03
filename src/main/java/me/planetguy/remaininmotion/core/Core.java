@@ -4,7 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import me.planetguy.remaininmotion.CarriagePackageBlacklist;
 import me.planetguy.remaininmotion.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.DefaultCarriageMatcher;
 import me.planetguy.remaininmotion.Items;
+import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.carriage.CarriageItem;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
 import me.planetguy.remaininmotion.network.RenderPacket;
@@ -21,6 +23,8 @@ public abstract class Core
 		Blocks . Initialize ( ) ;
 
 		Items . Initialize ( ) ;
+		
+		RiMRegistry.registerMatcher(new DefaultCarriageMatcher());
 		
 	}
 

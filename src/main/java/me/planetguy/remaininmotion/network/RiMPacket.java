@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.network;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 import me.planetguy.remaininmotion.core.Core;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,8 +26,11 @@ public class RiMPacket {
 
 	public void readBytes(ByteBuf bytes) throws IOException {
 		System.out.println("Length="+bytes.readableBytes());
+		System.out.println(Arrays.toString(bytes.array()));
 		if(!(bytes instanceof EmptyByteBuf)){
-			this.body=CompressedStreamTools.decompress(bytes.array());
+			byte[] b=new byte[bytes.capacity()];
+			bytes.getBytes(0, b);
+			this.body=CompressedStreamTools.decompress(b);
 			this.type=body.getInteger("packetType");
 		}
 	}
@@ -36,7 +40,7 @@ public class RiMPacket {
 		body.setInteger("packetType", type);
 		bytes.writeBytes(CompressedStreamTools.compress(body));
 		System.out.println("Length="+bytes.readableBytes());
-
+		System.out.println(Arrays.toString(bytes.array()));
 	}
 
 	public void executeClient(EntityPlayer player) {
