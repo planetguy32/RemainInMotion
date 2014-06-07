@@ -125,7 +125,14 @@ public class CarriagePackage
 
 				Cargo . add ( Record ) ;
 
-				Mass+=Block.blocksList[Record.Id].getBlockHardness(Record.World, Record.X, Record.Y, Record.Z);
+				net.minecraft.block.Block b=Block.blocksList[Record.Id];
+				
+				//take least of block's hardness and TNT resistance
+				double massFactor=Math.min(
+						b.getBlockHardness(Record.World, Record.X, Record.Y, Record.Z), b.blockResistance);
+				System.out.println("For "+b.getLocalizedName()+", factor="+massFactor+", lf="+Math.log(massFactor));
+				//always add 0.1 to weight, sometimes more if hard block to move
+				Mass+=Math.max(1,Math.log(massFactor));
 			}
 		}
 	}
@@ -178,7 +185,6 @@ public class CarriagePackage
 
 	public void AddPotentialObstruction ( BlockRecord Record )
 	{
-		System.out.println("Record="+Record+", PO="+PotentialObstructions);
 		PotentialObstructions . add ( Record ) ;
 	}
 

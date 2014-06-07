@@ -72,7 +72,7 @@ public abstract class Render
 		int DisplayList = org . lwjgl . opengl . GL11 . glGenLists ( 1 ) ;
 
 		org . lwjgl . opengl . GL11 . glNewList ( DisplayList , org . lwjgl . opengl . GL11 . GL_COMPILE ) ;
-
+		
 		return ( DisplayList ) ;
 	}
 

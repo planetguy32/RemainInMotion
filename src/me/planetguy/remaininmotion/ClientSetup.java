@@ -17,13 +17,16 @@ public class ClientSetup extends ClientSetupProxy
 	{
 		if(!FMLCommonHandler.instance().getSide().isClient())
 			return;
-		RegisterTileEntityRenderer ( new MotiveSpectreRenderer ( ) , MotiveSpectreEntity . class ) ;
+		
+		if(!Configuration.Cosmetic.renderFallback){
+			RegisterTileEntityRenderer ( new MotiveSpectreRenderer ( ) , MotiveSpectreEntity . class ) ;
 
-		RegisterTileEntityRenderer ( new TeleportativeSpectreRenderer ( ) , TeleportativeSpectreEntity . class ) ;
+			RegisterTileEntityRenderer ( new TeleportativeSpectreRenderer ( ) , TeleportativeSpectreEntity . class ) ;
 
-		new CarriageRenderer ( ) ;
+			new CarriageRenderer ( ) ;
 
-		new CarriageDriveRenderer ( ) ;
+			new CarriageDriveRenderer ( ) ;
+		}
 		
 		/*
 		IItemRenderer renderer=new IItemRenderer(){

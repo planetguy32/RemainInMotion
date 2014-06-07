@@ -53,6 +53,8 @@ public class Configuration extends Config
 	public abstract static class Cosmetic
 	{
 		public static boolean ShowHelpInTooltips = true ;
+		
+		public static boolean renderFallback=false;
 	}
 
 	public abstract static class DirtyHacks
@@ -272,6 +274,8 @@ public class Configuration extends Config
 			Category = "Cosmetics" ;
 
 			Cosmetic . ShowHelpInTooltips = Boolean ( "Show descriptions of purposes/uses of blocks/items in tooltips" , Cosmetic . ShowHelpInTooltips ) ;
+			
+			Cosmetic.renderFallback = Boolean ( "Use the fallback renderer (try this if Minecraft closes instantly when moving carriages)" , Cosmetic.renderFallback ) ;
 		}
 
 		{

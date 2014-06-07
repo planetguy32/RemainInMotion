@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion ;
 
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInterModComms;
+
 @cpw . mods . fml . common . Mod ( modid = Mod . Handle , name = Mod . Title , version = Mod . Version )
 @cpw . mods . fml . common . network . NetworkMod ( clientSideRequired = true , serverSideRequired = false , channels = { Mod . Channel } , packetHandler = PacketManager . class )
 public class Mod
@@ -8,9 +11,9 @@ public class Mod
 
 	public static final String Handle = "JAKJ_RedstoneInMotion" ;
 
-	public static final String Title = "Redstone In Motion" ;
+	public static final String Title = "Remain In Motion" ;
 
-	public static final String Version = "1.1.2" ;
+	public static final String Version = "1.1.6" ;
 
 	public static final String Channel = "JAKJ_RIM" ;
 
@@ -40,5 +43,22 @@ public class Mod
 	public void ServerStopping ( cpw . mods . fml . common . event . FMLServerStoppingEvent Event )
 	{
 		Core . HandleServerStopping ( ) ;
+	}
+	
+	@EventHandler
+	public void handleIMCMessage(FMLInterModComms.IMCEvent event)
+	{
+		for (final FMLInterModComms.IMCMessage message : event.getMessages())
+		{
+			if(message.key.equals("blacklist")){
+				String block=message.getStringValue();
+				try{
+					int id=Integer.parseInt(block);
+					
+				}catch(NumberFormatException e){
+					System.err.println("Recieved bad blacklist request from "+message.getSender()+": "+block);
+				}
+			}
+		}
 	}
 }
