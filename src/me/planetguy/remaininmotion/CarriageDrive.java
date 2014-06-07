@@ -5,7 +5,12 @@ public class CarriageDrive extends Block
 	public CarriageDrive ( )
 	{
 		super ( Configuration . BlockIds . CarriageDrive , blockIron , CarriageDriveItem . class , HarvestToolTypes . Pickaxe ,
-			CarriageEngineEntity . class , CarriageMotorEntity . class , ModInteraction . ComputerCraft . CarriageControllerEntity , CarriageTranslocatorEntity . class ) ;
+			
+				CarriageEngineEntity . class , 
+				CarriageMotorEntity . class , 
+				ModInteraction . ComputerCraft . CarriageControllerEntity , 
+				CarriageTranslocatorEntity . class,
+				CarriageTransduplicatorEntity.class) ;
 	}
 
 	public enum Types
@@ -13,7 +18,8 @@ public class CarriageDrive extends Block
 		Engine(1.0),
 		Motor(1.01) ,
 		Controller(1.1) ,
-		Translocator(4.0) ;
+		Translocator(4.0),
+		Transduplicator(4.0);
 
 		public net . minecraft . util . Icon NormalIcon ;
 

@@ -6,7 +6,7 @@ public class Spectre extends Block
 {
 	public Spectre ( )
 	{
-		super ( Configuration . BlockIds . Spectre , bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class ) ;
+		super ( Configuration . BlockIds . Spectre , bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class, TransduplicativeSpectreEntity.class ) ;
 
 		RenderId = -1 ;
 	}
@@ -15,7 +15,8 @@ public class Spectre extends Block
 	{
 		Motive ,
 		Supportive ,
-		Teleportative ;
+		Teleportative,
+		Transduplicative;
 	}
 
 	@Override

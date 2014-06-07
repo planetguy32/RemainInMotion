@@ -293,8 +293,12 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		}
 	}
 
-	public CarriagePackage PreparePackage ( Directions MotionDirection ) throws CarriageMotionException
+	public CarriagePackage PreparePackage ( Directions dir ) throws CarriageMotionException
 	{
+		return prepareDefaultPackage(dir);
+	}
+	
+	public CarriagePackage prepareDefaultPackage(Directions MotionDirection) throws CarriageMotionException{
 
 		Moveable mv = CarriageMatchers.getMover(net.minecraft.block.Block.blocksList[worldObj . getBlockId ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ )],
 				worldObj . getBlockMetadata ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ )

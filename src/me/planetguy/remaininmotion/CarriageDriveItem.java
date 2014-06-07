@@ -87,6 +87,9 @@ public class CarriageDriveItem extends BlockItem
 				case Controller :
 
 					return ( "Carriage Controller" ) ;
+				
+				case Transduplicator:
+					return ("Carriage Transduplicator");
 			}
 		}
 		catch ( Throwable Throwable )
