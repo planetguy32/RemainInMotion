@@ -1,18 +1,19 @@
 package me.planetguy.remaininmotion.carriage ;
 
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.BlockRenderer;
-import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.base.RIMBlockItem;
-import me.planetguy.remaininmotion.core.Blocks;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
+import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.BlockRenderer;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 
 public class CarriageRenderer extends BlockRenderer
 {
 	public CarriageRenderer ( )
 	{
-		Blocks . Carriage . RenderId = Initialize ( Blocks . Carriage ) ;
+		RIMBlocks . Carriage . RenderId = Initialize ( RIMBlocks . Carriage ) ;
 	}
 
 	@Override
@@ -48,14 +49,17 @@ public class CarriageRenderer extends BlockRenderer
 	{
 		if ( Side != Directions . PosY )
 		{
-
-			if ( CarriageItem.GetDecorationId(Item) != null )
+			int id=CarriageItem . GetDecorationId ( Item ) ;
+			
+			if ( id != 0 )
 			{
+				Block DecorationId =Block.getBlockById(id);
+
 				int DecorationMeta = CarriageItem . GetDecorationMeta ( Item ) ;
 
 				try
 				{
-					return ( CarriageItem.GetDecorationId(Item) . getIcon ( Side . ordinal ( ) , DecorationMeta ) ) ;
+					return ( DecorationId . getIcon ( Side . ordinal ( ) , DecorationMeta ) ) ;
 				}
 				catch ( Throwable Throwable )
 				{
@@ -64,6 +68,6 @@ public class CarriageRenderer extends BlockRenderer
 			}
 		}
 
-		return ( Blocks . Carriage . getIcon ( 0 , RIMBlockItem . GetBlockType ( Item ) ) ) ;
+		return ( RIMBlocks . Carriage . getIcon ( 0 , BlockItem . GetBlockType ( Item ) ) ) ;
 	}
 }

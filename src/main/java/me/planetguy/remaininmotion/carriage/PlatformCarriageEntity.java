@@ -2,10 +2,11 @@ package me.planetguy.remaininmotion.carriage ;
 
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
+import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.util.CarriageMotionException;
+import me.planetguy.remaininmotion.core.Configuration.Carriage;
 
 public class PlatformCarriageEntity extends CarriageEntity
 {
@@ -15,7 +16,7 @@ public class PlatformCarriageEntity extends CarriageEntity
 	}
 
 	@Override
-	public void FillPackage ( CarriagePackage Package ) throws CarriageMotionException
+	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
 		BlockRecordSet CarriagesToCheck = new BlockRecordSet ( ) ;
 

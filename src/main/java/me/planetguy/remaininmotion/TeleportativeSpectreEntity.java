@@ -1,8 +1,9 @@
 package me.planetguy.remaininmotion ;
 
-import me.planetguy.remaininmotion.base.Block;
+import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.util.WorldUtil;
 
 public class TeleportativeSpectreEntity extends MotiveSpectreEntity
@@ -21,7 +22,7 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 	public int MaxZ ;
 
 	public int TargetDimension ;
-
+	
 	@Override
 	public void WriteCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
@@ -132,7 +133,7 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 	@Override
 	public void ScheduleShiftedBlockUpdate ( net . minecraft . nbt . NBTTagCompound PendingBlockUpdateRecord )
 	{
-		worldObj.scheduleBlockUpdateWithPriority
+		worldObj . func_147446_b
 		(
 			PendingBlockUpdateRecord . getInteger ( "X" ) + ShiftX ,
 			PendingBlockUpdateRecord . getInteger ( "Y" ) + ShiftY ,

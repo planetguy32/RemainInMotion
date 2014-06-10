@@ -1,8 +1,6 @@
 package me.planetguy.remaininmotion.util ;
 
-import me.planetguy.remaininmotion.GameUtil;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 
 public abstract class WorldUtil
 {
@@ -17,13 +15,13 @@ public abstract class WorldUtil
 
 	public static void ClearBlock ( net . minecraft . world . World World , int X , int Y , int Z )
 	{
-		SetBlock ( World , X , Y , Z , null , 0 ) ;
+		SetBlock ( World , X , Y , Z , net.minecraft.init.Blocks.air , 0 ) ;
 	}
 
-	public static void SetBlock ( net . minecraft . world . World World , int X , int Y , int Z , Block Id , int Meta )
+	public static void SetBlock ( net . minecraft . world . World World , int X , int Y , int Z , Block spectre , int Meta )
 	{
-		if(Id==null)
-			Id=Blocks.air;
-		World . setBlock ( X , Y , Z , Id , Meta , 0x3 ) ;
+		World . setBlock ( X , Y , Z , spectre ) ;
+		World.setBlockMetadataWithNotify(X, Y,Z, Meta, 0x3);
+		
 	}
 }

@@ -31,13 +31,13 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	@Override
 	public Packet getDescriptionPacket ( )
 	{
-		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity ( xCoord , yCoord , zCoord , 0 , new net . minecraft . nbt . NBTTagCompound ( ) ) ;
+		S35PacketUpdateTileEntity Packet = new S35PacketUpdateTileEntity ( xCoord , yCoord , zCoord , 0 , new net . minecraft . nbt . NBTTagCompound ( ) ) ;
 
-		WriteCommonRecord ( packet.func_148857_g() ) ;
+		WriteCommonRecord ( Packet.func_148857_g() ) ;
 
-		WriteClientRecord ( packet.func_148857_g() ) ;
+		WriteClientRecord ( Packet.func_148857_g() ) ;
 
-		return ( packet ) ;
+		return ( Packet ) ;
 	}
 
 	public void ReadCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
@@ -63,11 +63,11 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	}
 
 	@Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	public void onDataPacket ( NetworkManager nm , S35PacketUpdateTileEntity Packet )
 	{
-		ReadCommonRecord ( pkt.func_148857_g() ) ;
+		ReadCommonRecord ( Packet.func_148857_g() ) ;
 
-		ReadClientRecord ( pkt .func_148857_g() ) ;
+		ReadClientRecord ( Packet.func_148857_g() ) ;
 
 		MarkRenderRecordDirty ( ) ;
 	}
@@ -91,7 +91,7 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 
 	public void MarkRenderRecordDirty ( )
 	{
-		worldObj . markBlockForUpdate ( xCoord , yCoord , zCoord ) ;
+		worldObj.markBlockRangeForRenderUpdate( xCoord , yCoord , zCoord,xCoord , yCoord , zCoord ) ;
 	}
 
 	public void Initialize ( )
@@ -122,12 +122,12 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	{
 	}
 
-	public void EmitDrops ( Block Block , int Meta )
+	public void EmitDrops ( RIMBlock Block , int Meta )
 	{
 	}
 
-	public void EmitDrop ( Block block , net . minecraft . item . ItemStack Drop )
+	public void EmitDrop ( RIMBlock Block , net . minecraft . item . ItemStack Drop )
 	{
-		block . dropBlockAsItem ( worldObj , xCoord , yCoord , zCoord , Drop ) ;
+		Block.dropBlockAsItem( worldObj , xCoord , yCoord , zCoord , Drop ) ;
 	}
 }

@@ -1,13 +1,16 @@
 package me.planetguy.remaininmotion ;
 
-import me.planetguy.remaininmotion.base.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
+import me.planetguy.remaininmotion.base.RIMBlock;
+import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.util.WorldUtil;
 
-public class Spectre extends Block
+public class Spectre extends RIMBlock
 {
 	public Spectre ( )
 	{
-		super ( (net.minecraft.block.Block)Block.blockRegistry.getObject("bedrock") , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class ) ;
+		super (Blocks.bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class ) ;
 
 		RenderId = -1 ;
 	}
@@ -16,7 +19,8 @@ public class Spectre extends Block
 	{
 		Motive ,
 		Supportive ,
-		Teleportative ;
+		Teleportative,
+		Transduplicative;
 	}
 
 	@Override
@@ -41,16 +45,22 @@ public class Spectre extends Block
 
 		return ( true ) ;
 	}
+	
+	public IIcon getIcon(int a, int b){
+		return Blocks.planks.getIcon(0, 0);
+	}
 
 	@Override
 	public boolean isOpaqueCube ( )
 	{
-		return ( false ) ;
+		System.out.println("Render fallback (IOC): "+Configuration.Cosmetic.renderFallback);
+		return ( Configuration.Cosmetic.renderFallback ) ;
 	}
 
 	@Override
 	public boolean renderAsNormalBlock ( )
 	{
-		return ( false ) ;
+		System.out.println("Render fallback (RANB): "+Configuration.Cosmetic.renderFallback);
+		return ( Configuration.Cosmetic.renderFallback ) ;
 	}
 }

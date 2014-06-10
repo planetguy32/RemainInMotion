@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion.carriage ;
 
+import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
-import me.planetguy.remaininmotion.base.Block;
+import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.base.TileEntity;
-import me.planetguy.remaininmotion.util.CarriageMotionException;
 
 public abstract class CarriageEntity extends TileEntity implements Moveable
 {
@@ -29,7 +29,7 @@ public abstract class CarriageEntity extends TileEntity implements Moveable
 		Propagate ( ) ;
 	}
 
-	public net.minecraft.block.Block decorationId ;
+	public int DecorationId ;
 
 	public int DecorationMeta ;
 
@@ -38,7 +38,7 @@ public abstract class CarriageEntity extends TileEntity implements Moveable
 	@Override
 	public void Setup ( net . minecraft . entity . player . EntityPlayer Player , net . minecraft . item . ItemStack Item )
 	{
-		decorationId = CarriageItem . GetDecorationId ( Item ) ;
+		DecorationId = CarriageItem . GetDecorationId ( Item ) ;
 
 		DecorationMeta = CarriageItem . GetDecorationMeta ( Item ) ;
 
@@ -46,9 +46,9 @@ public abstract class CarriageEntity extends TileEntity implements Moveable
 	}
 
 	@Override
-	public void EmitDrops ( Block Block , int Meta )
+	public void EmitDrops ( RIMBlock Block , int Meta )
 	{
-		EmitDrop ( Block , CarriageItem . Stack ( Meta , Tier , decorationId , DecorationMeta ) ) ;
+		EmitDrop ( Block , CarriageItem . Stack ( Meta , Tier , DecorationId , DecorationMeta ) ) ;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public abstract class CarriageEntity extends TileEntity implements Moveable
 			SideClosed [ Index ] = TagCompound . getBoolean ( "SideClosed" + Index ) ;
 		}
 
-		decorationId = (net.minecraft.block.Block) Block.blockRegistry.getObjectById(TagCompound . getInteger ( "DecorationId" )) ;
+		DecorationId = TagCompound . getInteger ( "DecorationId" ) ;
 
 		DecorationMeta = TagCompound . getInteger ( "DecorationMeta" ) ;
 
@@ -73,16 +73,12 @@ public abstract class CarriageEntity extends TileEntity implements Moveable
 			TagCompound . setBoolean ( "SideClosed" + Index , SideClosed [ Index ] ) ;
 		}
 
-		TagCompound . setInteger ( "DecorationId" , Block.blockRegistry.getIDForObject(decorationId) ) ;
+		TagCompound . setInteger ( "DecorationId" , DecorationId ) ;
 
 		TagCompound . setInteger ( "DecorationMeta" , DecorationMeta ) ;
 
 		TagCompound . setInteger ( "Tier" , Tier ) ;
 	}
 
-	public void fillPackage(CarriagePackage pkg) throws CarriageMotionException{
-		FillPackage(pkg);
-	}
-	
-	public abstract void FillPackage ( CarriagePackage Package ) throws CarriageMotionException ;
+	public abstract void fillPackage ( CarriagePackage Package ) throws CarriageMotionException ;
 }

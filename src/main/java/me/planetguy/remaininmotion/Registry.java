@@ -1,14 +1,28 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 import me.planetguy.remaininmotion.core.Mod;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 
 public abstract class Registry
 {
 	public static void RegisterCustomRecipe ( net . minecraft . item . crafting . IRecipe Recipe )
 	{
 		cpw . mods . fml . common . registry . GameRegistry . addRecipe ( Recipe ) ;
+	}
+	
+	public static void registerRecipeClass(Class clazz){
+		RecipeSorter.register(Mod.Handle+clazz.getSimpleName(), clazz, Category.SHAPELESS, "");
+	}
+	
+	public static void registerClassRecipe(Class<? extends IRecipe> clazz){
+		registerRecipeClass(clazz);
+		try {
+			RegisterCustomRecipe(clazz.newInstance());
+		} catch (InstantiationException e) {
+		} catch (IllegalAccessException e) {
+		}
 	}
 
 	public static void RegisterShapelessRecipe ( net . minecraft . item . ItemStack Result , Object ... Pattern )
@@ -31,16 +45,6 @@ public abstract class Registry
 		RegisterCustomRecipe ( new net . minecraftforge . oredict . ShapedOreRecipe ( Result , Pattern ) ) ;
 	}
 
-	public static void RegisterSmeltingRecipe ( net . minecraft . item . ItemStack Output , net . minecraft . item . ItemStack Input )
-	{
-		RegisterSmeltingRecipe ( Output , Input , 0 ) ;
-	}
-
-	public static void RegisterSmeltingRecipe ( net . minecraft . item . ItemStack Output , net . minecraft . item . ItemStack Input , float Xp )
-	{
-		net . minecraft . item . crafting . FurnaceRecipes . smelting ( ) . func_151394_a ( Input, Output , Xp ) ;
-	}
-
 	public static void RegisterEventHandler ( Object EventHandler )
 	{
 		net . minecraftforge . common . MinecraftForge . EVENT_BUS . register ( EventHandler ) ;
@@ -48,7 +52,7 @@ public abstract class Registry
 
 	public static String TexturePrefix = "" ;
 
-	public static IIcon RegisterIcon ( IIconRegister IconRegister , String Handle )
+	public static net . minecraft . util . IIcon RegisterIcon ( net . minecraft . client . renderer . texture . IIconRegister IconRegister , String Handle )
 	{
 		return ( IconRegister . registerIcon ( Mod . Handle + ":" + TexturePrefix + Handle ) ) ;
 	}

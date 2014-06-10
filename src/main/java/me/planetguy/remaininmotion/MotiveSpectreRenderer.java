@@ -1,12 +1,15 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.client.RIMTileEntityRenderer;
 import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.util.Debug;
 
-public class MotiveSpectreRenderer extends TileEntityRenderer
+public class MotiveSpectreRenderer extends RIMTileEntityRenderer
 {
 	@Override
 	public void Render ( net . minecraft . tileentity . TileEntity TileEntity , float PartialTick )
 	{
+		
 		MotiveSpectreEntity Spectre = ( MotiveSpectreEntity ) TileEntity ;
 
 		if ( Spectre . RenderCacheKey == null )
@@ -34,6 +37,7 @@ public class MotiveSpectreRenderer extends TileEntityRenderer
 
 		if ( DisplayList != null )
 		{
+			Debug.dbg("No cached display list!");
 			Render . ResetBoundTexture ( ) ;
 
 			Render . ExecuteDisplayList ( DisplayList ) ;

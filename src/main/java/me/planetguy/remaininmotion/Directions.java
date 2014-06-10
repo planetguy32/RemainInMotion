@@ -1,31 +1,33 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 public enum Directions
 {
-	NegY ( 0 ) ,
-	PosY ( 1 ) ,
-	NegZ ( 2 ) ,
-	PosZ ( 3 ) ,
-	NegX ( 4 ) ,
-	PosX ( 5 ) ;
+	NegY ( ForgeDirection . DOWN ) ,
+	PosY ( ForgeDirection . UP ) ,
+	NegZ ( ForgeDirection . NORTH ) ,
+	PosZ ( ForgeDirection . SOUTH ) ,
+	NegX ( ForgeDirection . WEST ) ,
+	PosX ( ForgeDirection . EAST ) ,
+	
+	Null(null);
 
 	public int DeltaX ;
 	public int DeltaY ;
 	public int DeltaZ ;
 
 	public int Opposite ;
-	
-	private Directions ( int direction )
-	{
-		int[] dx={1,-1,0,0,0,0};
-		int[] dy={0,0,1,-1,0,0};
-		int[] dz={0,0,0,0,1,-1};
-		int[] opposite={1,0,3,2,5,4};
-		DeltaX = dx[direction] ;
-		DeltaY = dy[direction];
-		DeltaZ = dz[direction];
 
-		Opposite =opposite[direction];
+	private Directions ( ForgeDirection Direction )
+	{
+		if(Direction!=null){
+			DeltaX = Direction . offsetX ;
+			DeltaY = Direction . offsetY ;
+			DeltaZ = Direction . offsetZ ;
+
+			Opposite = Direction . getOpposite ( ) . ordinal ( ) ;
+		}
 	}
 
 	public Directions Opposite ( )

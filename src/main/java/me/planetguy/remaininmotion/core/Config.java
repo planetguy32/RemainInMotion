@@ -1,16 +1,14 @@
 package me.planetguy.remaininmotion.core ;
 
-import net.minecraftforge.common.config.Configuration;
-
 public abstract class Config
 {
-	public Configuration Configuration ;
+	public net . minecraftforge . common.config . Configuration Configuration ;
 
 	public String Category ;
 
 	public Config ( java . io . File File )
 	{
-		Configuration = new Configuration ( File , true ) ;
+		Configuration = new net . minecraftforge . common.config . Configuration ( File , true ) ;
 	}
 
 	public String String ( String Name , String Default )
@@ -48,5 +46,4 @@ public abstract class Config
 
 		return ( Value ) ;
 	}
-
 }

@@ -1,14 +1,14 @@
 package me.planetguy.remaininmotion.carriage ;
 
+import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.CarriagePackageUtil;
-import me.planetguy.remaininmotion.util.CarriageMotionException;
+import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 
 public class FrameCarriageEntity extends CarriageEntity
 {
 	@Override
-	public void FillPackage ( CarriagePackage Package ) throws CarriageMotionException
+	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
-		CarriagePackageUtil.fillFramePackage(Package, worldObj);
+		MultiTypeCarriageUtil.fillFramePackage(Package, worldObj);
 	}
 }

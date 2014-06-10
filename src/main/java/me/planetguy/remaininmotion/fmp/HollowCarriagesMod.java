@@ -1,12 +1,17 @@
 package me.planetguy.remaininmotion.fmp;
 
-import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.api.RiMRegistry;
-import me.planetguy.remaininmotion.core.Blocks;
+import java.io.File;
+
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
+import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,16 +25,16 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class HollowCarriagesMod {
 	
 	boolean alive;
-	public static int hollowCarriageId;
-	public static net.minecraft.item.Item hollowCarriage;
+	public static Item hollowCarriage;
 	
 	@Optional.Method(modid = "ForgeMultipart")
 	@Mod . EventHandler
-	public void init (FMLPreInitializationEvent event ){
+	public void preInit (FMLPreInitializationEvent event ){
 		alive=Loader.isModLoaded("ForgeMultipart");
 		if(!alive)return;
 		hollowCarriage=new FMPCarriageItem();
 		hollowCarriage.setUnlocalizedName(me.planetguy.remaininmotion.core.Mod.Handle+":hollowCarriage");
+		hollowCarriage.setCreativeTab(CreativeTab.Instance);
 		
 		GameRegistry.registerItem(hollowCarriage, "Hollow carriage");
 
@@ -54,12 +59,13 @@ public class HollowCarriagesMod {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent ev){
 		if(!alive)return;
-		hollowCarriage.setCreativeTab(CreativeTab.Instance);
 		GameRegistry.addRecipe(new ItemStack(HollowCarriagesMod.hollowCarriage, 8), 
 				"ccc", 
 				"c c",
 				"ccc",
-				Character.valueOf('c'), new ItemStack(Blocks.Carriage, 1, 0));
+				Character.valueOf('c'), new ItemStack(RIMBlocks.Carriage, 1, 0));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.SimpleItemSet), 
+				new ItemStack(HollowCarriagesMod.hollowCarriage));
 	}
 
 }

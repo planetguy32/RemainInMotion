@@ -1,14 +1,16 @@
 package me.planetguy.remaininmotion ;
 
-import me.planetguy.remaininmotion.base.Item;
-import me.planetguy.remaininmotion.base.Stack;
-import me.planetguy.remaininmotion.core.Blocks;
-import me.planetguy.remaininmotion.core.ModInteraction;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import me.planetguy.remaininmotion.base.Item;
+import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.Items;
 
 public class ToolItemSet extends Item
 {
+	public static int Id ;
 
 	public enum Types
 	{
@@ -36,7 +38,7 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public net . minecraft . item . ItemStack getContainerItem ( net . minecraft . item . ItemStack Item )
+	public ItemStack getContainerItem (ItemStack Item )
 	{
 		return ( Stack . New ( this , Item.getItemDamage() ) ) ;
 	}
@@ -48,16 +50,15 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getItemStackDisplayName (ItemStack Item )
 	{
-		return ( "Screwdriver" ) ;/*
 		try
 		{
 			switch ( Types . values ( ) [ Item.getItemDamage() ] )
 			{
 				case Screwdriver :
 
-					
+					return ( "Screwdriver" ) ;
 			}
 		}
 		catch ( Throwable Throwable )
@@ -65,22 +66,20 @@ public class ToolItemSet extends Item
 			Throwable . printStackTrace ( ) ;
 		}
 
-		return ( "INVALID ITEM" ) ;/**/
+		return ( "INVALID ITEM" ) ;
 	}
 
 	@Override
 	public void AddShowcaseStacks ( java . util . List Showcase )
 	{
-		Showcase.add(new ItemStack(this));
-		/*
 		for ( Types Type : Types . values ( ) )
 		{
 			Showcase . add ( Stack . New ( this , Type ) ) ;
-		}/**/
+		}
 	}
 
 	@Override
-	public void registerIcons ( net . minecraft . client . renderer . texture . IIconRegister IconRegister )
+	public void registerIcons (IIconRegister IconRegister )
 	{
 		for ( Types Type : Types . values ( ) )
 		{
@@ -89,17 +88,17 @@ public class ToolItemSet extends Item
 	}
 
 	@Override
-	public net . minecraft . util . IIcon getIconFromDamage( int Damage )
+	public IIcon getIconFromDamage ( int Damage )
 	{
 		try
 		{
-			return ( Types . values ( ) [ 0 ] . Icon ) ;
+			return ( Types . values ( ) [ Damage ] . Icon ) ;
 		}
 		catch ( Throwable Throwable )
 		{
 			Throwable . printStackTrace ( ) ;
 
-			return ( Blocks . Spectre . getIcon ( 0 , 0 ) ) ;
+			return ( RIMBlocks . Spectre . getIcon ( 0 , 0 ) ) ;
 		}
 	}
 
@@ -110,7 +109,7 @@ public class ToolItemSet extends Item
 			return ( false ) ;
 		}
 
-		if ( Item.getItem()  == Items . ToolItemSet )
+		if ( Item.getItem() == Items . ToolItemSet)
 		{
 			if ( Item . getItemDamage() == Types . Screwdriver . ordinal ( ) )
 			{

@@ -1,9 +1,8 @@
 package me.planetguy.remaininmotion.network ;
 
+import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
-import me.planetguy.remaininmotion.base.Block;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import me.planetguy.remaininmotion.PacketTypes;
 
 public abstract class MultipartPropagationPacket
 {
@@ -28,20 +27,20 @@ public abstract class MultipartPropagationPacket
 
 		Packet . setTag ( "Body" , Body ) ;
 
-		ChannelHandler . sendPacketToPlayer ( Player , PacketTypes . MultipartPropagation , Packet ) ;
+		PacketManager . SendPacketToPlayer ( Player , PacketTypes . MultipartPropagation , Packet ) ;
 	}
 
 	public static void Handle ( net . minecraft . nbt . NBTTagCompound Packet , net . minecraft . world . World World )
 	{
-		int Id = Packet . getInteger ( "Id" ) ;
+		Block Id = Block.getBlockById(Packet . getInteger ( "Id" )) ;
 
-		net . minecraft . nbt . NBTTagList Body = Packet . getTagList ( "Body", 9 ) ;
+		net . minecraft . nbt . NBTTagList Body = Packet . getTagList ( "Body", 11 ) ;
 
 		for ( int Index = 0 ; Index < Body . tagCount ( ) ; Index ++ )
 		{
-			net . minecraft . nbt . NBTTagCompound Tag = ( net . minecraft . nbt . NBTTagCompound ) Body . getCompoundTagAt ( Index) ;
+			net . minecraft . nbt . NBTTagCompound Tag = ( net . minecraft . nbt . NBTTagCompound ) Body.getCompoundTagAt ( Index ) ;
 
-			World . setBlock ( Tag . getInteger ( "X" ) , Tag . getInteger ( "Y" ) , Tag . getInteger ( "Z" ) , Block.getBlockById(Id) , 0 , 0 ) ;
+			World . setBlock ( Tag . getInteger ( "X" ) , Tag . getInteger ( "Y" ) , Tag . getInteger ( "Z" ) , Id , 0 , 0 ) ;
 		}
 	}
 }

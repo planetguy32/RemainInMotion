@@ -4,30 +4,40 @@ import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
+import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.CarriagePackageUtil;
 import me.planetguy.remaininmotion.api.Moveable;
-import me.planetguy.remaininmotion.core.Blocks;
+import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.util.IIcon;
+import codechicken.lib.lighting.LightMatrix;
 import codechicken.lib.render.Vertex5;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
 import codechicken.multipart.JCuboidPart;
 import codechicken.multipart.JIconHitEffects;
+import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.minecraft.McBlockPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 
-public class FMPCarriage extends McBlockPart implements Moveable{
+@Optional.Interface(iface="JNormalOcclusion", modid="ForgeMultipart")
+public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveable{
 
 	public static FMPCarriage instance;
 
-	final FMPCarriageRenderer renderer=new FMPCarriageRenderer();
+	@SideOnly(Side.CLIENT)
+	FMPRenderer renderer;
+	
+	public FMPCarriage(){
+		if(FMLCommonHandler.instance().getSide().isClient())
+			renderer=new FMPRenderer();
+	}
 
 	static final double l=1.5/8;
 
@@ -50,6 +60,7 @@ public class FMPCarriage extends McBlockPart implements Moveable{
 
 	};
 
+	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public Iterable<Cuboid6> getOcclusionBoxes() {
 		return new Iterable(){
@@ -68,6 +79,7 @@ public class FMPCarriage extends McBlockPart implements Moveable{
 		};
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	public Iterable<Cuboid6> getCollisionBoxes() {
 		return new Iterable(){
 
@@ -98,31 +110,34 @@ public class FMPCarriage extends McBlockPart implements Moveable{
 		};
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public String getType() {
 		return "FMPCarriage";
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	public Cuboid6 getBounds(){
 		return Cuboid6.full;
 	}
 
-
+	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public Block getBlock() {
-		return Blocks.Carriage;
+		return RIMBlocks.Carriage;
 	}
 
-	@Override
-	public boolean renderStatic(Vector3 pos, int pass){
-		renderer.renderCovers(this.world(), pos, null, pass);
-		return true;
+	@Optional.Method(modid = "ForgeMultipart")
+	@SideOnly(Side.CLIENT)
+	public void renderStatic(Vector3 pos, LightMatrix llm, int pass){
+		renderer.renderCovers(this.world(), pos, llm, pass);
 	}
 
+	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public void fillPackage(CarriagePackage _package)
-			throws me.planetguy.remaininmotion.util.CarriageMotionException {
-		CarriagePackageUtil.fillFramePackage(_package, this.world());
+			throws CarriageMotionException {
+		MultiTypeCarriageUtil.fillFramePackage(_package, this.world());
 	}
 
 }

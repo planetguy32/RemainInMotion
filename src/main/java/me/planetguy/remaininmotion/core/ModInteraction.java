@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.core ;
 
-import me.planetguy.remaininmotion.CarriageControllerEntity;
 import me.planetguy.remaininmotion.util.Reflection;
 
 public abstract class ModInteraction
@@ -17,11 +16,11 @@ public abstract class ModInteraction
 
 	public abstract static class ComputerCraft
 	{
-		public static Class carriageControllerEntity ;
+		public static Class CarriageControllerEntity ;
 
 		public static void Establish ( )
 		{
-			carriageControllerEntity = CarriageControllerEntity.class;
+			CarriageControllerEntity = Reflection . EstablishClass ( Mod . Namespace + "drive.CarriageControllerEntity" ) ;
 		}
 	}
 
@@ -97,7 +96,7 @@ public abstract class ModInteraction
 		ForgeMultipart . Establish ( ) ;
 
 		{
-			PendingBlockUpdateSetField = Reflection . EstablishField ( net . minecraft . world . WorldServer . class , "pendingTickListEntriesHashSet" ) ;
+			PendingBlockUpdateSetField = Reflection . EstablishField ( net . minecraft . world . WorldServer . class , "tickEntryQueue" ) ;
 
 			RemovePendingBlockUpdate = Reflection . EstablishMethod ( net . minecraft . world . WorldServer . class , "removeNextTickIfNeeded" , net . minecraft . world . NextTickListEntry . class ) ;
 		}

@@ -1,28 +1,29 @@
 package me.planetguy.remaininmotion.carriage ;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
-import me.planetguy.remaininmotion.base.Block;
-import me.planetguy.remaininmotion.core.Blocks;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
+import me.planetguy.remaininmotion.base.RIMBlock;
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.Configuration.BlockIds;
 
-public class Carriage extends Block 
+public class Carriage extends RIMBlock
 {
 	public Carriage ( )
 	{
-		super ((net.minecraft.block.Block)Block.blockRegistry.getObjectById(5) , CarriageItem . class , HarvestToolTypes . Hatchet ,
+		super ( Blocks.planks , CarriageItem . class , HarvestToolTypes . Hatchet ,
 			FrameCarriageEntity . class , PlatformCarriageEntity . class , StructureCarriageEntity . class , SupportCarriageEntity . class , TemplateCarriageEntity . class ) ;
 	}
 
 	public enum Types
 	{
 		Frame ,
-		Platform ,
-		Structure ,
 		Support ,
+		Structure ,
+		Platform ,
 		Template ;
 
 		public double Burden ;
@@ -51,8 +52,8 @@ public class Carriage extends Block
 		}
 	}
 
-	  @SideOnly(Side.CLIENT)
-	  public void registerBlockIcons(IIconRegister  IconRegister )
+	@Override
+	public void registerBlockIcons ( IIconRegister IconRegister )
 	{
 		for ( Types Type : Types . values ( ) )
 		{
@@ -75,7 +76,7 @@ public class Carriage extends Block
 		{
 			Throwable . printStackTrace ( ) ;
 
-			return ( Blocks . Spectre . getIcon ( 0 , 0 ) ) ;
+			return ( RIMBlocks . Spectre . getIcon ( 0 , 0 ) ) ;
 		}
 	}
 
@@ -86,9 +87,9 @@ public class Carriage extends Block
 		{
 			CarriageEntity Carriage = ( CarriageEntity ) World . getTileEntity ( X , Y , Z ) ;
 
-			if ( ( Carriage .decorationId != null ) && ( Carriage . SideClosed [ Side ] ) )
+			if ( ( Carriage . DecorationId != 0 ) && ( Carriage . SideClosed [ Side ] ) )
 			{
-				return ( Carriage .decorationId . getIcon ( Side , Carriage . DecorationMeta ) ) ;
+				return ( net . minecraft . block . Block.getBlockById(Carriage . DecorationId) . getIcon ( Side , Carriage . DecorationMeta ) ) ;
 			}
 
 			Types Type = Types . values ( ) [ World . getBlockMetadata ( X , Y , Z ) ] ;
@@ -100,7 +101,7 @@ public class Carriage extends Block
 			if(!(t instanceof ArrayIndexOutOfBoundsException))
 				t . printStackTrace ( ) ;
 
-			return ( Blocks . Spectre . getIcon ( 0 , 0 ) ) ;
+			return ( RIMBlocks . Spectre.getIcon(0 , 0 ) ) ;
 		}
 	}
 

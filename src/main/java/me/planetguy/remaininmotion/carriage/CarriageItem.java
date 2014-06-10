@@ -1,31 +1,29 @@
 package me.planetguy.remaininmotion.carriage ;
 
-import me.planetguy.remaininmotion.base.RIMBlockItem;
-import me.planetguy.remaininmotion.base.Stack;
-import me.planetguy.remaininmotion.core.Blocks;
-import me.planetguy.remaininmotion.core.Configuration;
 import net.minecraft.block.Block;
-import net.minecraft.util.IIcon;
+import net.minecraft.item.Item;
+import me.planetguy.remaininmotion.Stack;
+import me.planetguy.remaininmotion.base.RIMBlock;
+import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.Configuration.Cosmetic;
 
-public class CarriageItem extends RIMBlockItem
+public class CarriageItem extends BlockItem
 {
-	
-	public static net.minecraft.item.Item instance;
-	
-	public CarriageItem (net.minecraft.block.Block b )
+	public CarriageItem ( Block b )
 	{
 		super (b ) ;
-		instance=this;
 	}
 
-	public static Block GetDecorationId ( net . minecraft . item . ItemStack Item )
+	public static int GetDecorationId ( net . minecraft . item . ItemStack Item )
 	{
 		if ( Item . stackTagCompound != null )
 		{
-			return ( Block.getBlockById(Item . stackTagCompound . getInteger ( "DecorationId" ) )) ;
+			return ( Item . stackTagCompound . getInteger ( "DecorationId" ) ) ;
 		}
 
-		return ( Block.getBlockById(Item . getItemDamage() >>> 8 )) ;
+		return ( Item . getItemDamage() >>> 8 ) ;
 	}
 
 	public static int GetDecorationMeta ( net . minecraft . item . ItemStack Item )
@@ -50,18 +48,15 @@ public class CarriageItem extends RIMBlockItem
 
 	public static net . minecraft . item . ItemStack Stack ( int Type , int Tier )
 	{
-		return ( Stack ( Type , Tier , null , 0 ) ) ;
+		return ( Stack ( Type , Tier , 0 , 0 ) ) ;
 	}
 
-	public static net . minecraft . item . ItemStack Stack ( int Type , int Tier , Block decorationId , int DecorationMeta )
+	public static net . minecraft . item . ItemStack Stack ( int Type , int Tier , int DecorationId , int DecorationMeta )
 	{
-		net . minecraft . item . ItemStack Item = Stack . Tag ( Stack . New ( Blocks . Carriage , Type ) ) ;
+		net . minecraft . item . ItemStack Item = Stack . Tag ( Stack . New ( RIMBlocks . Carriage , Type ) ) ;
 
-		if(decorationId!=null){
-			Item . stackTagCompound . setInteger ( "DecorationId" , Block.blockRegistry.getIDForObject(decorationId) ) ;
-		}else{
-			Item . stackTagCompound . setInteger ( "DecorationId" , 0 ) ;
-		}
+		Item . stackTagCompound . setInteger ( "DecorationId" , DecorationId ) ;
+
 		Item . stackTagCompound . setInteger ( "DecorationMeta" , DecorationMeta ) ;
 
 		Item . stackTagCompound . setInteger ( "Tier" , Tier ) ;
@@ -70,7 +65,7 @@ public class CarriageItem extends RIMBlockItem
 	}
 
 	@Override
-	public String getItemStackDisplayName ( net . minecraft . item . ItemStack Item )
+	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		try
 		{
@@ -80,7 +75,7 @@ public class CarriageItem extends RIMBlockItem
 
 					return ( "Frame Carriage" ) ;
 
-				case Platform :
+				case Support :
 
 					/* renaming is intentional */
 					return ( "Support Carriage" ) ;
@@ -89,7 +84,7 @@ public class CarriageItem extends RIMBlockItem
 
 					return ( "Structure Carriage" ) ;
 
-				case Support :
+				case Platform :
 
 					/* renaming is intentional */
 					return ( "Platform Carriage" ) ;
@@ -122,7 +117,7 @@ public class CarriageItem extends RIMBlockItem
 
 						break ;
 
-					case Platform :
+					case Support :
 
 						TooltipLines . add ( "Carries entire body of blocks it's connected to" ) ;
 						TooltipLines . add ( "(Formerly known as 'Platform Carriage'.)" ) ;
@@ -135,7 +130,7 @@ public class CarriageItem extends RIMBlockItem
 
 						break ;
 
-					case Support :
+					case Platform :
 
 						TooltipLines . add ( "Carries straight line of blocks" ) ;
 						TooltipLines . add ( "(Formerly known as 'Support Carriage'.)" ) ;
@@ -157,9 +152,9 @@ public class CarriageItem extends RIMBlockItem
 			}
 		}
 
-		Block DecorationId = GetDecorationId ( Item ) ;
+		int DecorationId = GetDecorationId ( Item ) ;
 
-		if ( DecorationId==null )
+		if ( DecorationId == 0 )
 		{
 			return ;
 		}
@@ -171,7 +166,7 @@ public class CarriageItem extends RIMBlockItem
 			TooltipLines . add ( "(craft with screwdriver to convert)" ) ;
 		}
 
-		net . minecraft . item . ItemStack Decoration = Stack . New ( DecorationId , GetDecorationMeta ( Item ) ) ;
+		net . minecraft . item . ItemStack Decoration = Stack . New ( RIMBlock.getBlockById(DecorationId), GetDecorationMeta ( Item ) ) ;
 
 		try
 		{
@@ -179,7 +174,7 @@ public class CarriageItem extends RIMBlockItem
 		}
 		catch ( Throwable Throwable )
 		{
-			//Throwable . printStackTrace ( ) ;
+			Throwable . printStackTrace ( ) ;
 
 			TooltipLines . add ( "Decoration: <invalid>" ) ;
 		}

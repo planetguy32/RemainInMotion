@@ -2,9 +2,10 @@ package me.planetguy.remaininmotion.util ;
 
 import java.util.List;
 
-import me.planetguy.remaininmotion.core.RIMLog;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public abstract class SneakyWorldUtil
@@ -20,7 +21,7 @@ public abstract class SneakyWorldUtil
 		Chunk . removeTileEntity ( ChunkX , Y , ChunkZ ) ;
 
 		int LayerY = Y >> 4 ;
-		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Reflection.stealField(Chunk, "storageArrays");
+		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Reflection.get(Chunk.class, Chunk, "storageArrays");
 
 		if ( storageArrays [ LayerY ] == null )
 		{
@@ -42,12 +43,12 @@ public abstract class SneakyWorldUtil
 
 	}
 
-	public static void SetTileEntity ( net . minecraft . world . World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )
+	public static void SetTileEntity (World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )
 	{
 		try{
-			if ( (Boolean)Reflection.stealField(World,"field_147481_N"))
+			if ( (Boolean)Reflection.get(World.class, World,"field_147481_N"))
 			{
-				((List)Reflection.stealField(World ,"addedTileEntityList")) . add ( Entity ) ;
+				((List)Reflection.get(World.class, World ,"addedTileEntityList")) . add ( Entity ) ;
 			}
 			else
 			{
@@ -64,6 +65,7 @@ public abstract class SneakyWorldUtil
 	/* out of context, this is woefully redundant and inefficient, and really needs to be fixed */
 	public static void UpdateLighting ( net . minecraft . world . World World , int X , int Y , int Z )
 	{
+		/* TODO fix the reflection
 		try{
 			net . minecraft . world . chunk . Chunk Chunk = World . getChunkFromBlockCoords ( X , Z ) ;
 
@@ -86,26 +88,27 @@ public abstract class SneakyWorldUtil
 			}
 			else
 			{
-				Object o=Reflection.runMethod(Chunk, "getBlockLightOpacity",ChunkX , Y , ChunkZ );
+				Object o=Reflection.runMethod(Chunk.class, Chunk, "getBlockLightOpacity",ChunkX , Y , ChunkZ );
 				if ( o!=null&&(Integer)o > 0 )
 				{
 					Chunk . generateSkylightMap ( ) ;
 				}
-				else if(Chunk!=null)
+				else 
+					if(Chunk!=null)
 				{
 					if ( Chunk.func_150808_b(ChunkX , Y , ChunkZ )> 0 )
 					{
 						if ( Y >= HeightMapValue )
 						{
-							Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y + 1 , ChunkZ ) ;
+							Reflection.runMethod(Chunk.class, Chunk,"relightBlock", ChunkX , Y + 1 , ChunkZ ) ;
 						}
 					}
 					else if ( Y == HeightMapValue - 1 )
 					{
-						Reflection.runMethod(Chunk,"relightBlock", ChunkX , Y , ChunkZ ) ;
+						Reflection.runMethod(Chunk.class, Chunk,"relightBlock", ChunkX , Y , ChunkZ ) ;
 					}
 
-					Reflection.runMethod(Chunk,"propagateSkylightOcclusion",  ChunkX , ChunkZ ) ;
+					Reflection.runMethod(Chunk.class, Chunk,"propagateSkylightOcclusion", ChunkX , ChunkZ ) ;
 				}
 			}
 
@@ -113,6 +116,7 @@ public abstract class SneakyWorldUtil
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public static void NotifyBlocks ( net . minecraft . world . World World , int X , int Y , int Z , Block OldId , Block NewId )

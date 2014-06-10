@@ -6,17 +6,17 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
 
 public class FMPCarriageMatcher implements CarriageMatcher{
 
 	@Override
 	public boolean matches(Block block1, int meta1, TileEntity entity1,
 			Block bloc2k, int meta2, TileEntity entity2) {
-		return entity1 instanceof me.planetguy.remaininmotion.carriage.FrameCarriageEntity
+		return entity1 instanceof FrameCarriageEntity
 				&&isFmpCarriage(entity2)
-				||(entity2 instanceof me.planetguy.remaininmotion.carriage.FrameCarriageEntity
-				&&isFmpCarriage(entity1))
-				||isFmpCarriage(entity1)&&isFmpCarriage(entity2);
+				||(entity2 instanceof FrameCarriageEntity
+				&&isFmpCarriage(entity1));
 
 	}
 

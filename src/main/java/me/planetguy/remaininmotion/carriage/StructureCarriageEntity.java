@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion.carriage ;
 
 import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.core.Blocks;
-import me.planetguy.remaininmotion.util.CarriageMotionException;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 
 public class StructureCarriageEntity extends CarriageEntity
 {
@@ -166,7 +166,7 @@ public class StructureCarriageEntity extends CarriageEntity
 	{
 		Record . Identify ( worldObj ) ;
 
-		if ( Record .block == Blocks . Carriage )
+		if ( Record . Id == RIMBlocks . Carriage )
 		{
 			if ( Record . Meta == Carriage . Types . Structure . ordinal ( ) )
 			{
@@ -304,11 +304,11 @@ public class StructureCarriageEntity extends CarriageEntity
 	}
 
 	@Override
-	public void FillPackage ( CarriagePackage Package ) throws CarriageMotionException
+	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
 		if ( EdgeType != null )
 		{
-			FollowEdgeToCorner ( EdgeType , this , EdgeType . Neg ) . FillPackage ( Package ) ;
+			FollowEdgeToCorner ( EdgeType , this , EdgeType . Neg ) . fillPackage ( Package ) ;
 
 			return ;
 		}

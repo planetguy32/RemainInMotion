@@ -3,10 +3,9 @@ package me.planetguy.remaininmotion;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
-
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.remaininmotion.base.RIMBlock;
 
 public class CarriageMatchers {
 	
@@ -18,7 +17,7 @@ public class CarriageMatchers {
 	
 	public static boolean matches(net.minecraft.block.Block b, int meta, net.minecraft.tileentity.TileEntity te, CarriagePackage pkg){
 		for(CarriageMatcher m:matchers){
-			if(m.matches(b, meta, te, pkg.AnchorRecord.block, pkg.AnchorRecord.Meta, pkg.AnchorRecord.Entity)){
+			if(m.matches(b, meta, te, pkg.AnchorRecord.Id, pkg.AnchorRecord.Meta, pkg.AnchorRecord.Entity)){
 				return true;
 			}
 		}

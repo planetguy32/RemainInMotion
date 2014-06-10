@@ -3,21 +3,20 @@ package me.planetguy.remaininmotion.carriage ;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordList;
 import me.planetguy.remaininmotion.BlockRecordSet;
+import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.base.Block;
-import me.planetguy.remaininmotion.base.Stack;
-import me.planetguy.remaininmotion.core.Blocks;
-import me.planetguy.remaininmotion.util.CarriageMotionException;
+import me.planetguy.remaininmotion.Stack;
+import me.planetguy.remaininmotion.base.RIMBlock;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.WorldUtil;
-import net.minecraft.nbt.NBTBase;
 
 public class TemplateCarriageEntity extends CarriageEntity
 {
 	public BlockRecordList Pattern ;
 
 	@Override
-	public void EmitDrops ( Block Block , int Meta )
+	public void EmitDrops ( RIMBlock Block , int Meta )
 	{
 		super . EmitDrops ( Block , Meta ) ;
 
@@ -71,7 +70,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 		Record . Identify ( worldObj ) ;
 
-		if ( Record.block == Blocks . Carriage )
+		if ( Record . Id == RIMBlocks . Carriage )
 		{
 			if ( Record . Meta == Carriage . Types . Template . ordinal ( ) )
 			{
@@ -225,7 +224,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 		if ( TagCompound . hasKey ( "Pattern" ) )
 		{
-			net . minecraft . nbt . NBTTagList PatternRecord = TagCompound . getTagList ( "Pattern",9 ) ;
+			net . minecraft . nbt . NBTTagList PatternRecord = TagCompound . getTagList ( "Pattern", 11 ) ;
 
 			Pattern = new BlockRecordList ( ) ;
 
@@ -233,7 +232,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 			for ( int Index = 0 ; Index < PatternSize ; Index ++ )
 			{
-				net . minecraft . nbt . NBTTagCompound PatternBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) PatternRecord . getCompoundTagAt ( Index ) ;
+				net . minecraft . nbt . NBTTagCompound PatternBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) PatternRecord.getCompoundTagAt( Index ) ;
 
 				Pattern . add ( new BlockRecord ( PatternBlockRecord . getInteger ( "X" ) , PatternBlockRecord . getInteger ( "Y" ) , PatternBlockRecord . getInteger ( "Z" ) ) ) ;
 			}
@@ -273,7 +272,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 	}
 
 	@Override
-	public void FillPackage ( CarriagePackage Package ) throws CarriageMotionException
+	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
 		if ( Pattern == null )
 		{

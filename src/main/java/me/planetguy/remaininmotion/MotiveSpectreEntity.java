@@ -1,19 +1,23 @@
 package me.planetguy.remaininmotion ;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.server.management.PlayerManager;
+import net.minecraft.world.WorldServer;
 import me.planetguy.remaininmotion.base.TileEntity;
-import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
+import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.Reflection;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 
 public class MotiveSpectreEntity extends TileEntity
 {
-	public Directions MotionDirection ;
+	public Directions MotionDirection =Directions.Null;
 
 	public BlockPosition RenderCacheKey ;
 
@@ -43,18 +47,18 @@ public class MotiveSpectreEntity extends TileEntity
 
 	public void ScheduleShiftedBlockUpdate ( net . minecraft . nbt . NBTTagCompound PendingBlockUpdateRecord )
 	{
-		worldObj . func_147446_b
+		worldObj . func_147446_b //scheduleBlockUpdateFromLoad
 		(
-			PendingBlockUpdateRecord . getInteger ( "X" ) + MotionDirection . DeltaX ,
-			PendingBlockUpdateRecord . getInteger ( "Y" ) + MotionDirection . DeltaY ,
-			PendingBlockUpdateRecord . getInteger ( "Z" ) + MotionDirection . DeltaZ ,
+				PendingBlockUpdateRecord . getInteger ( "X" ) + MotionDirection . DeltaX ,
+				PendingBlockUpdateRecord . getInteger ( "Y" ) + MotionDirection . DeltaY ,
+				PendingBlockUpdateRecord . getInteger ( "Z" ) + MotionDirection . DeltaZ ,
 
-			Block.getBlockById(PendingBlockUpdateRecord . getInteger ( "Id" ) ),
+				Block.getBlockById(PendingBlockUpdateRecord . getInteger ( "Id" ) ),
 
-			PendingBlockUpdateRecord . getInteger ( "Delay" ) ,
+				PendingBlockUpdateRecord . getInteger ( "Delay" ) ,
 
-			PendingBlockUpdateRecord . getInteger ( "Priority" )
-		) ;
+				PendingBlockUpdateRecord . getInteger ( "Priority" )
+				) ;
 	}
 
 	@Override
@@ -82,13 +86,22 @@ public class MotiveSpectreEntity extends TileEntity
 
 	public static Block MultipartContainerBlockId ;
 
-	public void Release ( )
+	public void Release(){
+		Debug.dbg("Releasing spectre");
+		for ( BlockRecord Record : Body )
+			ShiftBlockPosition ( Record ) ;
+		doRelease();
+	}
+
+	public void doRelease ( )
 	{
+		
+		Debug.dbg("Body is "+Body.toString());
+		
 		for ( BlockRecord Record : Body )
 		{
-			ShiftBlockPosition ( Record ) ;
 
-			SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Record.block , Record . Meta ) ;
+			SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Record . Id , Record . Meta ) ;
 		}
 
 		BlockRecordList PipesToInitialize = new BlockRecordList ( ) ;
@@ -108,10 +121,11 @@ public class MotiveSpectreEntity extends TileEntity
 		BlockRecordList MultipartTilesToInitialize = new BlockRecordList ( ) ;
 
 		java . util . HashMap < net . minecraft . world . chunk . Chunk , java . util . HashMap < Object , net . minecraft . tileentity . TileEntity > > MultipartTileSetsToPropagate =
-			new java . util . HashMap < net . minecraft . world . chunk . Chunk , java . util . HashMap < Object , net . minecraft . tileentity . TileEntity > > ( ) ;
+				new java . util . HashMap < net . minecraft . world . chunk . Chunk , java . util . HashMap < Object , net . minecraft . tileentity . TileEntity > > ( ) ;
 
 		for ( BlockRecord Record : Body )
 		{
+			
 			if ( Record . EntityRecord != null )
 			{
 				Record . EntityRecord . setInteger ( "x" , Record . X ) ;
@@ -125,13 +139,13 @@ public class MotiveSpectreEntity extends TileEntity
 						if ( ModInteraction . ForgeMultipart . MultipartHelper_createTileFromNBT != null )
 						{
 							Record . Entity = ( net . minecraft . tileentity . TileEntity ) ModInteraction . ForgeMultipart . MultipartHelper_createTileFromNBT
-								. invoke ( null , worldObj , Record . EntityRecord ) ;
+									. invoke ( null , worldObj , Record . EntityRecord ) ;
 						}
 						else
 						{
 							Record . Entity = ( net . minecraft . tileentity . TileEntity ) ModInteraction . ForgeMultipart . TileMultipart_createFromNBT . invoke ( null , Record . EntityRecord ) ;
 
-							MultipartContainerBlockId = Record.block ;
+							MultipartContainerBlockId = Record . Id ;
 
 							net . minecraft . world . chunk . Chunk Chunk = worldObj . getChunkFromBlockCoords ( Record . X , Record . Z ) ;
 
@@ -176,7 +190,7 @@ public class MotiveSpectreEntity extends TileEntity
 			}
 		}
 
-/*		for ( BlockRecord Record : MultipartTilesToInitialize )
+		for ( BlockRecord Record : MultipartTilesToInitialize )
 		{
 			try
 			{
@@ -186,7 +200,7 @@ public class MotiveSpectreEntity extends TileEntity
 			{
 				Throwable . printStackTrace ( ) ;
 			}
-		}*/
+		}
 
 		if ( ModInteraction . ForgeMultipart . MultipartHelper_sendDescPacket != null )
 		{
@@ -205,7 +219,7 @@ public class MotiveSpectreEntity extends TileEntity
 		else
 		{
 			for ( java . util . Map . Entry < net . minecraft . world . chunk . Chunk , java . util . HashMap < Object , net . minecraft . tileentity . TileEntity > > MultipartTilesToPropagate
-				: MultipartTileSetsToPropagate . entrySet ( ) )
+					: MultipartTileSetsToPropagate . entrySet ( ) )
 			{
 				net . minecraft . world . chunk . Chunk Chunk = MultipartTilesToPropagate . getKey ( ) ;
 
@@ -215,12 +229,13 @@ public class MotiveSpectreEntity extends TileEntity
 
 				try
 				{
-					for ( net . minecraft . entity . player . EntityPlayerMP Player : ( ( Iterable <EntityPlayerMP > )
-						( Reflection.stealField(
-								Reflection.runMethod(
-										Reflection.runMethod( (net . minecraft . world . WorldServer ) worldObj ,  "getPlayerManager")
-								,"getOrCreateChunkWatcher",Chunk . xPosition , Chunk . zPosition , false )
-						,"playersInChunk" ) )))
+					for ( net . minecraft . entity . player . EntityPlayerMP Player : ( ( java . util . List < net . minecraft . entity . player . EntityPlayerMP > )
+							
+							Reflection.get(Class.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
+									Reflection.runMethod(WorldServer.class, (((WorldServer ) worldObj ) . getPlayerManager ( )), 
+									"getOrCreateChunkWatcher",
+							Chunk . xPosition , Chunk . zPosition , false ),
+							"playersWatchingChunk" ) ))
 					{
 						if ( ! Player . loadedChunks . contains ( Chunk . getChunkCoordIntPair ( ) ) )
 						{
@@ -309,18 +324,18 @@ public class MotiveSpectreEntity extends TileEntity
 			Throwable . printStackTrace ( ) ;
 		}
 
-		SneakyWorldUtil . RefreshBlock ( worldObj , xCoord , yCoord , zCoord , Blocks . Spectre  , null ) ;
+		SneakyWorldUtil . RefreshBlock ( worldObj , xCoord , yCoord , zCoord , RIMBlocks . Spectre , Blocks.air ) ;
 
 		for ( BlockRecord Record : Body )
 		{
-			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , null , Record.block ) ;
+			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , Blocks.air , Record . Id ) ;
 		}
 
 		int PendingBlockUpdateCount = PendingBlockUpdates . tagCount ( ) ;
 
 		for ( int Index = 0 ; Index < PendingBlockUpdateCount ; Index ++ )
 		{
-			ScheduleShiftedBlockUpdate ( ( net . minecraft . nbt . NBTTagCompound ) PendingBlockUpdates .getCompoundTagAt( Index ) ) ;
+			ScheduleShiftedBlockUpdate ( ( net . minecraft . nbt . NBTTagCompound ) PendingBlockUpdates.getCompoundTagAt( Index ) ) ;
 		}
 	}
 
@@ -351,7 +366,7 @@ public class MotiveSpectreEntity extends TileEntity
 		MotionDirection = Directions . values ( ) [ TagCompound . getInteger ( "Motion" ) ] ;
 
 		RenderCacheKey = new BlockPosition ( TagCompound . getInteger ( "RenderCacheKeyX" ) , TagCompound . getInteger ( "RenderCacheKeyY" ) , TagCompound . getInteger ( "RenderCacheKeyZ" ) ,
-			TagCompound . getInteger ( "RenderCacheKeyD" ) ) ;
+				TagCompound . getInteger ( "RenderCacheKeyD" ) ) ;
 	}
 
 	@Override
@@ -376,13 +391,13 @@ public class MotiveSpectreEntity extends TileEntity
 				BodyBlockRecord . setInteger ( "Y" , Record . Y ) ;
 				BodyBlockRecord . setInteger ( "Z" , Record . Z ) ;
 
-				BodyBlockRecord . setInteger ( "Id" , Block.getIdFromBlock(Record.block) ) ;
+				BodyBlockRecord . setInteger ( "Id" , Block.getIdFromBlock(Record . Id )) ;
 
 				BodyBlockRecord . setInteger ( "Meta" , Record . Meta ) ;
 
 				if ( Record . EntityRecord != null )
 				{
-					BodyBlockRecord.setTag( "EntityRecord" , Record . EntityRecord ) ;
+					BodyBlockRecord.setTag("EntityRecord" , Record . EntityRecord ) ;
 				}
 
 				BodyRecord . appendTag ( BodyBlockRecord ) ;
@@ -399,22 +414,22 @@ public class MotiveSpectreEntity extends TileEntity
 
 		DriveIsAnchored = TagCompound . getBoolean ( "DriveIsAnchored" ) ;
 
-		PendingBlockUpdates = (NBTTagList) TagCompound . getTag( "PendingBlockUpdates" ) ;
+		PendingBlockUpdates = TagCompound . getTagList ( "PendingBlockUpdates", 11 ) ;
 
 		Body = new BlockRecordSet ( ) ;
 
 		{
-			net . minecraft . nbt . NBTTagList BodyRecord = (NBTTagList) TagCompound . getTag ( "Body" ) ;
+			net . minecraft . nbt . NBTTagList BodyRecord = TagCompound . getTagList ( "Body", 11 ) ;
 
 			int BodyBlockCount = BodyRecord . tagCount ( ) ;
 
 			for ( int Index = 0 ; Index < BodyBlockCount ; Index ++ )
 			{
-				net . minecraft . nbt . NBTTagCompound BodyBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) BodyRecord . getCompoundTagAt ( Index ) ;
+				net . minecraft . nbt . NBTTagCompound BodyBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) BodyRecord.getCompoundTagAt( Index ) ;
 
 				BlockRecord Record = new BlockRecord ( BodyBlockRecord . getInteger ( "X" ) , BodyBlockRecord . getInteger ( "Y" ) , BodyBlockRecord . getInteger ( "Z" ) ) ;
 
-				Record . block = Block.getBlockById(BodyBlockRecord . getInteger ( "Id" ) );
+				Record . Id = Block.getBlockById(BodyBlockRecord . getInteger ( "Id" ) );
 
 				Record . Meta = BodyBlockRecord . getInteger ( "Meta" ) ;
 
@@ -452,7 +467,7 @@ public class MotiveSpectreEntity extends TileEntity
 	@Override
 	public void ReadClientRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
-		net . minecraft . nbt . NBTTagList CapturedEntityRecords = (NBTTagList) TagCompound . getTag ( "CapturedEntities" ) ;
+		net . minecraft . nbt . NBTTagList CapturedEntityRecords = TagCompound . getTagList ( "CapturedEntities", 11 ) ;
 
 		CapturedEntities . clear ( ) ;
 
@@ -460,7 +475,7 @@ public class MotiveSpectreEntity extends TileEntity
 
 		for ( int Index = 0 ; Index < CapturedEntityCount ; Index ++ )
 		{
-			net . minecraft . nbt . NBTTagCompound EntityRecord = ( net . minecraft . nbt . NBTTagCompound ) CapturedEntityRecords . getCompoundTagAt ( Index ) ;
+			net . minecraft . nbt . NBTTagCompound EntityRecord = ( net . minecraft . nbt . NBTTagCompound ) CapturedEntityRecords.getCompoundTagAt( Index ) ;
 
 			net . minecraft . entity . Entity Entity = worldObj . getEntityByID ( EntityRecord . getInteger ( "Id" ) ) ;
 

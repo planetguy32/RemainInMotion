@@ -3,12 +3,17 @@ package me.planetguy.remaininmotion.util ;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import me.planetguy.remaininmotion.core.RIMLog;
+import net.minecraft.world.chunk.Chunk;
 
 public abstract class Reflection
 {
 	public static boolean Verbose = false ;
+
+	public static HashMap<String, Field> fieldCache=new HashMap<String, Field>();
+	public static HashMap<String, Method> methodCache=new HashMap<String, Method>();
 
 	public static Class EstablishClass ( String Name )
 	{
@@ -52,7 +57,7 @@ public abstract class Reflection
 	{
 		try
 		{
-			java . lang . reflect . Field Field =get(Class, Name);
+			java . lang . reflect . Field Field = Class . getDeclaredField ( Name ) ;
 
 			Field . setAccessible ( true ) ;
 
@@ -68,52 +73,63 @@ public abstract class Reflection
 			return ( null ) ;
 		}
 	}
-	
-	public static Field get(Class clazz, String name)throws Exception{
-		if(clazz==Object.class)
-			return null;
+
+	public static Object get(Class c, Object o, String field){
 		try{
-			return clazz.getDeclaredField(name);
-		}catch(NoSuchFieldException e){
-			return get(clazz.getSuperclass(), name);
-		}
-	}
-
-	public static Object stealField(Object obj, String fieldName){
-		try {
-			return EstablishField(obj.getClass(), fieldName).get(obj);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NullPointerException npe){
-			//npe.printStackTrace();
-			//throw(npe);
-		}
-		return null;
-	}
-
-	public static Object runMethod(Object obj, String method, Object...objects){
-		if(obj!=null)
-		try {
-			Class[] classes=new Class[objects.length];
-			for(int i=0; i<objects.length; i++){
-				classes[i]=objects[i].getClass();
+			String fqfn=c.getSimpleName()+"/"+field;
+			if(fieldCache.containsKey(fqfn)){
+				return fieldCache.get(fqfn).get(o);
+			}else{
+				Field f=c.getDeclaredField(field);
+				f.setAccessible(true);
+				fieldCache.put(fqfn, f);
+				return f.get(o);
 			}
-			Method m=EstablishMethod(obj.getClass(), method, classes);
-			if(m==null){
-				System.out.println("Null method! Oh noes!");
-			}else
-				return m.invoke(obj, objects);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NullPointerException e){
-			e.printStackTrace();
+		}catch(Exception e){
+			throw new RuntimeException("Could not access field "+field+": "+e.getClass().getSimpleName());
 		}
-		return null;
 	}
+
+	public static void set(Class c, Object o, String field, Object in){
+		try{
+			String fqfn=c.getCanonicalName()+"/"+field;
+			if(fieldCache.containsKey(fqfn)){
+				fieldCache.get(fqfn).set(o, in);
+			}else{
+				Field f=c.getDeclaredField(field);
+				f.setAccessible(true);
+				fieldCache.put(fqfn, f);
+				f.set(o, in);
+			}
+		}catch(Exception e){
+			throw new RuntimeException("Could not access field "+field+": "+e.getClass().getSimpleName());
+		}
+	}
+
+	public static String obfuscate(String s){
+		return s; //TODO
+	}
+
+	public static Object runMethod(Class class1, Object chunk,
+			String name, Object...objects) {
+		try{
+			name=obfuscate(name);
+			String fqmn=class1.getCanonicalName()+"/"+name;
+			if(methodCache.containsKey(fqmn)){
+				return methodCache.get(fqmn).invoke(chunk, objects);
+			}else{
+				ArrayList<Class> classes=new ArrayList<Class>();
+				for(Object o:objects){
+					classes.add(o.getClass());
+				}
+				Method m=class1.getDeclaredMethod(name, classes.toArray(new Class[0]));
+				m.setAccessible(true);
+				methodCache.put(fqmn, m);
+				return m.invoke(chunk, objects);
+			}
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+	}
+
 }

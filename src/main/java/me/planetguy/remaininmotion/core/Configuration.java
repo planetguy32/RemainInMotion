@@ -8,6 +8,7 @@ import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.SimpleItemSet;
 import me.planetguy.remaininmotion.ToolItemSet;
 
+
 public class Configuration extends Config
 {
 	public abstract static class BlockIds
@@ -28,6 +29,8 @@ public class Configuration extends Config
 		public static boolean BlacklistBedrock = true ;
 
 		public static boolean BlacklistByPiston = false ;
+		
+		public static boolean stopIfBlacklistedBlock=true;
 	}
 
 	public abstract static class CarriageDrive
@@ -58,6 +61,8 @@ public class Configuration extends Config
 	public abstract static class Cosmetic
 	{
 		public static boolean ShowHelpInTooltips = true ;
+		
+		public static boolean renderFallback=false;
 	}
 
 	public abstract static class DirtyHacks
@@ -70,6 +75,8 @@ public class Configuration extends Config
 		public static boolean LogMotionExceptions = false ;
 		
 		public static boolean MuteMotionExceptions=true;
+		
+		public static boolean verbose=false;
 	}
 
 	public static boolean HardmodeActive = false ;
@@ -168,14 +175,14 @@ public class Configuration extends Config
 						{
 							if ( BlacklistItemElements . length == 1 )
 							{
-								CarriagePackageBlacklist . Add ( Block.getBlockFromName( BlacklistItemElements [ 0 ] ) ) ;
+								CarriagePackageBlacklist . blacklist ( Block.getBlockFromName(BlacklistItemElements[0]) ) ;
 
 								continue ;
 							}
 
 							if ( BlacklistItemElements . length == 2 )
 							{
-								CarriagePackageBlacklist . Add ( Block.getBlockFromName( BlacklistItemElements [ 0 ] ) , Integer . parseInt ( BlacklistItemElements [ 1 ] ) ) ;
+								CarriagePackageBlacklist . blacklist ( Integer . parseInt ( BlacklistItemElements [ 0 ] ) , Integer . parseInt ( BlacklistItemElements [ 1 ] ) ) ;
 
 								continue ;
 							}
@@ -199,6 +206,8 @@ public class Configuration extends Config
 			Carriage . BlacklistBedrock = Boolean ( "Carriages refuse to move bedrock (DANGEROUS IF FALSE)" , Carriage . BlacklistBedrock ) ;
 
 			Carriage . BlacklistByPiston = Boolean ( "Carriages refuse to move blocks that pistons cannot move" , Carriage . BlacklistByPiston ) ;
+		
+			Carriage.stopIfBlacklistedBlock = Boolean ( "Stop carriage motion upon finding blacklisted block" , Carriage .stopIfBlacklistedBlock ) ;
 		}
 
 		{
@@ -261,6 +270,8 @@ public class Configuration extends Config
 			Category = "Cosmetics" ;
 
 			Cosmetic . ShowHelpInTooltips = Boolean ( "Show descriptions of purposes/uses of blocks/items in tooltips" , Cosmetic . ShowHelpInTooltips ) ;
+			
+			Cosmetic.renderFallback = Boolean ( "Use the fallback renderer (try this if Minecraft closes instantly when moving carriages)" , Cosmetic.renderFallback ) ;
 		}
 
 		{
@@ -275,6 +286,9 @@ public class Configuration extends Config
 			Debug . LogMotionExceptions = Boolean ( "Write carriage-motion errors to client/server log" , Debug . LogMotionExceptions ) ;
 			
 			Debug.MuteMotionExceptions = Boolean ( "Mute carriage-motion errors completely" , Debug.MuteMotionExceptions);
+			
+			Debug.verbose = Boolean ( "Log everything (will fill up your console/logs)" , Debug.verbose);
+
 		}
 
 		{

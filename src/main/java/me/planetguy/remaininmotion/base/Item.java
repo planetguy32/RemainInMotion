@@ -1,44 +1,32 @@
 package me.planetguy.remaininmotion.base ;
 
-import java.util.List;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.remaininmotion.core.RIMLog;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.core.Mod;
 
 public abstract class Item extends net . minecraft . item . Item
 {
 	public Item ( )
 	{
-		super (  ) ;
-		
-		String name=Mod . Handle + "_" + getClass ( ) . getSimpleName ( );
+		super ( ) ;
 
-		setUnlocalizedName ( name ) ;
+		setUnlocalizedName ( Mod . Handle + "_" + getClass ( ) . getSimpleName ( ) ) ;
 
 		setHasSubtypes ( true ) ;
 
 		setCreativeTab ( CreativeTab . Instance ) ;
-		
-		GameRegistry.registerItem(this, getUnlocalizedName());
-		
-		RIMLog.t(Item.getIdFromItem(this)); //item ID is 4096
 
+		cpw . mods . fml . common . registry . GameRegistry . registerItem ( this , getUnlocalizedName ( ) , Mod . Handle ) ;
 	}
 
 	public void AddShowcaseStacks ( java . util . List Showcase )
 	{
 	}
 
-    @SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(net.minecraft.item.Item p_150895_1_, CreativeTabs p_150895_2_, List Showcase)
+	public void getSubItems (net.minecraft.item.Item i, CreativeTabs CreativeTab , java . util . List Showcase )
 	{
 		AddShowcaseStacks ( Showcase ) ;
 	}
@@ -54,7 +42,7 @@ public abstract class Item extends net . minecraft . item . Item
 	}
 
 	@Override
-	public boolean doesSneakBypassUse ( net . minecraft . world . World World , int X , int Y , int Z ,EntityPlayer player)
+	public boolean doesSneakBypassUse ( World w , int X , int Y , int Z, EntityPlayer player )
 	{
 		return ( true ) ;
 	}

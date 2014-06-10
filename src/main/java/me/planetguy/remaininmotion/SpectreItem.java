@@ -1,17 +1,20 @@
 package me.planetguy.remaininmotion ;
 
-import me.planetguy.remaininmotion.base.Block;
-import me.planetguy.remaininmotion.base.RIMBlockItem;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import me.planetguy.remaininmotion.base.BlockItem;
 
-public class SpectreItem extends RIMBlockItem
+public class SpectreItem extends BlockItem
 {
-	public SpectreItem ( net.minecraft.block.Block b )
+	public SpectreItem (Block b )
 	{
-		super( b ) ;
+		super ( b ) ;
 	}
 
 	@Override
-	public String getItemStackDisplayName ( net . minecraft . item . ItemStack item )
+	public String getItemDisplayName ( net . minecraft . item . ItemStack Item )
 	{
 		return ( "Carriage Spectre" ) ;
 	}
@@ -21,4 +24,10 @@ public class SpectreItem extends RIMBlockItem
 	{
 		TooltipLines . add ( "NOT VALID FOR DIRECT USAGE" ) ;
 	}
+	
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10){
+    	return false;
+    }
+
+
 }

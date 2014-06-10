@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion ;
 
 import net.minecraft.block.Block;
-import me.planetguy.remaininmotion.core.Blocks;
+import net.minecraft.init.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.util.Reflection;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 
 public abstract class CarriagePackageBlacklist
 {
@@ -11,24 +11,24 @@ public abstract class CarriagePackageBlacklist
 
 	public static java . util . HashSet < Integer > BlacklistedIdAndMetaPairs = new java . util . HashSet < Integer > ( ) ;
 
-	public static void Add ( Block b )
+	public static void blacklist ( Block Id )
 	{
-		BlacklistedIds . add ( Block.getIdFromBlock(b) ) ;
+		BlacklistedIds . add ( Block.getIdFromBlock(Id) ) ;
 	}
 
-	public static void Add ( Block b , int Meta )
+	public static void blacklist ( int Id , int Meta )
 	{
-		BlacklistedIdAndMetaPairs . add ( ( Block.getIdFromBlock(b) << 4 ) | Meta ) ;
+		BlacklistedIdAndMetaPairs . add ( ( Id << 4 ) | Meta ) ;
 	}
 
-	public static boolean Lookup ( BlockRecord block )
+	public static boolean Lookup ( BlockRecord record )
 	{
-		if ( BlacklistedIds . contains ( net.minecraft.block.Block.getIdFromBlock(block.block )) )
+		if ( BlacklistedIds . contains ( record . Id ) )
 		{
 			return ( true ) ;
 		}
 
-		if ( BlacklistedIdAndMetaPairs . contains ( ( Block.getIdFromBlock(block.block) << 4 ) | block . Meta ) )
+		if ( BlacklistedIdAndMetaPairs . contains ( ( Block.getIdFromBlock(record . Id) << 4 ) | record . Meta ) )
 		{
 			return ( true ) ;
 		}
@@ -38,35 +38,40 @@ public abstract class CarriagePackageBlacklist
 
 	public static void Initialize ( )
 	{
-		Add ( Blocks . Spectre ) ;
+		blacklist ( RIMBlocks . Spectre ) ;
 
 		if ( Configuration . Carriage . BlacklistBedrock )
 		{
-			Add ( Block.getBlockFromName("bedrock") ) ;
+			blacklist ( Blocks.bedrock ) ;
 		}
 
 		if ( Configuration . Carriage . BlacklistByPiston )
 		{
-			Add ( Block.getBlockFromName("obsidian")) ;
+			blacklist ( Blocks.obsidian ) ;
 
-			for ( Object o:Block.blockRegistry.getKeys())
+			for ( Object objBlock : Block.blockRegistry )
 			{
-				Block b=(Block) Block.blockRegistry.getObject(o);
-				if ( b == null )
+				Block block=(Block)objBlock;
+				
+				if ( block == null )
 				{
 					continue ;
 				}
 
-				if ( (Double)Reflection.stealField(b, "blockHardness") < 0 )
-				{
-					Add ( b ) ;
+				try{
+					if ( block.getBlockHardness(null, 0,0,0) < 0 )
+					{
+						blacklist ( block ) ;
 
-					continue ;
+						continue ;
+					}
+				}catch(NullPointerException npe){
+					blacklist(block);
 				}
 
-				if ( b . getMobilityFlag ( ) == 2 )
+				if ( block . getMobilityFlag ( ) == 2 )
 				{
-					Add ( b ) ;
+					blacklist ( block ) ;
 
 					continue ;
 				}

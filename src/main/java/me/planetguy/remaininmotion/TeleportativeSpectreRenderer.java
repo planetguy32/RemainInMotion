@@ -1,8 +1,9 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.client.RIMTileEntityRenderer;
 import me.planetguy.remaininmotion.core.Configuration;
 
-public class TeleportativeSpectreRenderer extends TileEntityRenderer
+public class TeleportativeSpectreRenderer extends RIMTileEntityRenderer
 {
 	@Override
 	public void Render ( net . minecraft . tileentity . TileEntity TileEntity , float PartialTick )

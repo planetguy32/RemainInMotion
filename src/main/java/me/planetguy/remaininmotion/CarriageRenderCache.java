@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion ;
 
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import me.planetguy.remaininmotion.util.Reflection;
 
 public abstract class CarriageRenderCache
@@ -30,7 +32,7 @@ public abstract class CarriageRenderCache
 			{
 				try
 				{
-					if ( ! Record.block . canRenderInPass ( Pass ) )
+					if ( !  Record . Id . canRenderInPass ( Pass ) )
 					{
 						continue ;
 					}
@@ -44,7 +46,7 @@ public abstract class CarriageRenderCache
 
 				try
 				{
-					BlockRenderer . renderBlockByRenderType ( Record.block, Record . X , Record . Y , Record . Z ) ;
+					BlockRenderer . renderBlockByRenderType (Record . Id , Record . X , Record . Y , Record . Z ) ;
 				}
 				catch ( Throwable Throwable )
 				{
@@ -71,9 +73,9 @@ public abstract class CarriageRenderCache
 
 			Render . Translate
 			(
-				net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . staticPlayerX ,
-				net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . staticPlayerY ,
-				net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . staticPlayerZ
+				TileEntityRendererDispatcher . staticPlayerX ,
+				TileEntityRendererDispatcher . staticPlayerY ,
+				TileEntityRendererDispatcher . staticPlayerZ
 			) ;
 
 			for ( BlockRecord Record : TileEntities )
@@ -89,15 +91,14 @@ public abstract class CarriageRenderCache
 
 				try
 				{
-					net . minecraft . client . renderer . tileentity . TileEntityRendererDispatcher . instance . renderTileEntity ( Record . Entity , 0 ) ;
+					TileEntityRendererDispatcher . instance . renderTileEntity ( Record . Entity , 0 ) ;
 				}
 				catch ( Throwable Throwable )
 				{
 					Throwable . printStackTrace ( ) ;
 				}
 
-				if ( (Boolean)Reflection.stealField(net . minecraft . client . renderer . Tessellator . instance, "isDrawing" ))
-						
+				if ( (Boolean) Reflection.get(Tessellator.class, Tessellator.instance, "isDrawing") )
 				{
 					try
 					{

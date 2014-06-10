@@ -2,11 +2,10 @@ package me.planetguy.remaininmotion.fmp;
 
 import java.util.List;
 
-import javax.swing.Icon;
-
-import me.planetguy.remaininmotion.Items;
 import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.Items;
 import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.Configuration.Cosmetic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -18,6 +17,9 @@ import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.TMultiPart;
 
 final class FMPCarriageItem extends JItemMultiPart {
+	FMPCarriageItem() {
+		super();
+	}
 
 	@Override
 	public TMultiPart newPart(ItemStack arg0, EntityPlayer arg1,

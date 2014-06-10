@@ -1,18 +1,20 @@
 package me.planetguy.remaininmotion ;
 
-import java.util.HashSet;
 import java.util.TreeSet;
 
-import me.planetguy.remaininmotion.base.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.NextTickListEntry;
+import net.minecraft.world.WorldServer;
+import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.carriage.CarriageEntity;
-import me.planetguy.remaininmotion.core.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;
-import me.planetguy.remaininmotion.util.CarriageMotionException;
-import me.planetguy.remaininmotion.util.CarriageObstructionException;
+import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
+import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.util.Reflection;
-import net.minecraft.block.material.Material;
+
 
 public class CarriagePackage
 {
@@ -49,7 +51,7 @@ public class CarriagePackage
 
 	public boolean MatchesCarriageType ( BlockRecord record )
 	{
-		return CarriageMatchers.matches(record.block, record.Meta, record.Entity, this);
+		return CarriageMatchers.matches(record.Id, record.Meta, record.Entity, this);
 	}
 
 	public BlockRecordSet Body = new BlockRecordSet ( ) ;
@@ -86,6 +88,8 @@ public class CarriagePackage
 
 		if ( CarriagePackageBlacklist . Lookup ( Record ) )
 		{
+			if(!Configuration.Carriage.stopIfBlacklistedBlock)
+				return;
 			throw ( new CarriageObstructionException ( "carriage contains system-wide blacklisted block" , Record . X , Record . Y , Record . Z ) ) ;
 		}
 
@@ -125,7 +129,7 @@ public class CarriagePackage
 
 		if ( Configuration . HardmodeActive )
 		{
-			if ( Record.block == Blocks . Carriage )
+			if ( Record . Id == RIMBlocks . Carriage)
 			{
 				Carriages . add ( Record ) ;
 
@@ -133,10 +137,17 @@ public class CarriagePackage
 			}
 			else
 			{
-				
+
 				Cargo . add ( Record ) ;
+
+				net.minecraft.block.Block b=Record.Id;
 				
-				Mass+=Record.block.getBlockHardness(Record.World, Record.X, Record.Y, Record.Z);
+				//take least of block's hardness and TNT resistance
+				double massFactor=Math.min(
+						b.getBlockHardness(Record.World, Record.X, Record.Y, Record.Z), b.getExplosionResistance(null));
+				System.out.println("For "+b.getLocalizedName()+", factor="+massFactor+", lf="+Math.log(massFactor));
+				//always add 0.1 to weight, sometimes more if hard block to move
+				Mass+=Math.max(1,Math.log(massFactor));
 			}
 		}
 	}
@@ -162,11 +173,7 @@ public class CarriagePackage
 			return ;
 		}
 
-		net.minecraft.block.Block b=World . getBlock ( Record . X , Record . Y , Record . Z );
-		if(b==null)
-			return;
-		Material m=(Material) Reflection.stealField(b, "blockMaterial" );
-		if (m!=null && m . isLiquid ( ) )
+		if (World . getBlock ( Record . X , Record . Y , Record . Z ).getMaterial() . isLiquid ( ) )
 		{
 			if ( ObstructedByLiquids )
 			{
@@ -176,7 +183,7 @@ public class CarriagePackage
 			return ;
 		}
 
-		if ( !b.canBeReplacedByLeaves(World, Record.X, Record.Y, Record.Z) )
+		if ( ! World.getBlock(Record . X , Record . Y , Record . Z ).canBeReplacedByLeaves(World, Record . X , Record . Y , Record . Z ))
 		{
 			if ( ObstructedByFragileBlocks )
 			{
@@ -206,7 +213,7 @@ public class CarriagePackage
 		PendingBlockUpdateRecord . setInteger ( "Y" , PendingBlockUpdate . yCoord ) ;
 		PendingBlockUpdateRecord . setInteger ( "Z" , PendingBlockUpdate . zCoord ) ;
 
-		PendingBlockUpdateRecord . setInteger ( "Id" , Block.getIdFromBlock(PendingBlockUpdate.func_151351_a()) ) ;
+		PendingBlockUpdateRecord . setInteger ( "Id" , RIMBlock.getIdFromBlock(PendingBlockUpdate.func_151351_a() ) );
 
 		PendingBlockUpdateRecord . setInteger ( "Delay" , ( int ) ( PendingBlockUpdate . scheduledTime - WorldTime ) ) ;
 
@@ -242,17 +249,20 @@ public class CarriagePackage
 
 		try
 		{
-			java . util . Iterator PendingBlockUpdateSetIterator = ((TreeSet<BlockRecord>) Reflection.stealField(World, "pendingTickListEntriesTreeSet")) . iterator ( ) ;
+			TreeSet<NextTickListEntry> ticks=(TreeSet<NextTickListEntry>) Reflection.get(
+					WorldServer.class, World, "pendingTickListEntriesTreeSet");
+			
+			java . util . Iterator PendingBlockUpdateSetIterator = ticks . iterator ( ) ;
 
 			while ( PendingBlockUpdateSetIterator . hasNext ( ) )
 			{
-				net . minecraft . world . NextTickListEntry PendingBlockUpdate = ( net . minecraft . world . NextTickListEntry ) PendingBlockUpdateSetIterator . next ( ) ;
+				NextTickListEntry PendingBlockUpdate = ( net . minecraft . world . NextTickListEntry ) PendingBlockUpdateSetIterator . next ( ) ;
 
 				if ( Body . contains ( new BlockRecord ( PendingBlockUpdate . xCoord , PendingBlockUpdate . yCoord , PendingBlockUpdate . zCoord ) ) )
 				{
 					PendingBlockUpdateSetIterator . remove ( ) ;
 
-					((HashSet<BlockRecord>) Reflection.stealField(World, "pendingTickListEntriesHashSet")) . remove ( PendingBlockUpdate ) ;
+					ticks . remove ( PendingBlockUpdate ) ;
 
 					StorePendingBlockUpdateRecord ( PendingBlockUpdate , WorldTime ) ;
 				}
@@ -290,7 +300,7 @@ public class CarriagePackage
 
 					StorePendingBlockUpdateRecord ( PendingBlockUpdate , WorldTime ) ;
 
-					PendingBlockUpdateSet.remove(PendingBlockUpdate);
+					ModInteraction . RemovePendingBlockUpdate . invoke ( World , PendingBlockUpdate ) ;
 				}
 			}
 			catch ( Throwable McpcThrowable )
