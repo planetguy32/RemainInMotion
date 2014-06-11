@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.TeleportativeSpectreEntity;
 import me.planetguy.remaininmotion.Spectre.Types;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
@@ -246,7 +247,9 @@ public class CarriageTranslocatorEntity extends CarriageDriveEntity
 	public void EstablishSpectre ( CarriagePackage Package )
 	{
 		WorldUtil . SetBlock ( worldObj , Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z , RIMBlocks . Spectre , Spectre . Types . Teleportative . ordinal ( ) ) ;
-
+		
+		System.out.println("RemIM spectre type="+worldObj . getTileEntity ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z ).getClass().getSimpleName());
+		
 		( ( TeleportativeSpectreEntity ) worldObj . getTileEntity ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z ) ) . AbsorbSource ( Package ) ;
 
 		int NewX = Package . AnchorRecord . X - xCoord + Package . Translocator . xCoord ;

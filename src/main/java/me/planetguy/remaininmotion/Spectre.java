@@ -10,8 +10,7 @@ public class Spectre extends RIMBlock
 {
 	public Spectre ( )
 	{
-		super (Blocks.bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class ) ;
-
+		super (Blocks.bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class, TransduplicativeSpectreEntity.class ) ;
 		RenderId = -1 ;
 	}
 
@@ -53,14 +52,14 @@ public class Spectre extends RIMBlock
 	@Override
 	public boolean isOpaqueCube ( )
 	{
-		System.out.println("Render fallback (IOC): "+Configuration.Cosmetic.renderFallback);
+		//System.out.println("Render fallback (IOC): "+Configuration.Cosmetic.renderFallback);
 		return ( Configuration.Cosmetic.renderFallback ) ;
 	}
 
 	@Override
 	public boolean renderAsNormalBlock ( )
 	{
-		System.out.println("Render fallback (RANB): "+Configuration.Cosmetic.renderFallback);
+		//System.out.println("Render fallback (RANB): "+Configuration.Cosmetic.renderFallback);
 		return ( Configuration.Cosmetic.renderFallback ) ;
 	}
 }

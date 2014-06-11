@@ -32,7 +32,7 @@ public class CarriageDrive extends RIMBlock
 		Motor(1.01) ,
 		Controller(1.1) ,
 		Translocator(4.0),
-		Transduplicator(4.0);
+		Transduplicator(0.0);
 
 		public IIcon NormalIcon ;
 

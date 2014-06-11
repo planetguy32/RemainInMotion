@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
+import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.WorldUtil;
 
 public class TeleportativeSpectreEntity extends MotiveSpectreEntity
@@ -85,6 +86,8 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 
 	public void AbsorbSource ( CarriagePackage Package )
 	{
+		Debug.dbg("RCK="+Package.RenderCacheKey);
+		
 		AbsorbCommon ( Package ) ;
 
 		Source = true ;

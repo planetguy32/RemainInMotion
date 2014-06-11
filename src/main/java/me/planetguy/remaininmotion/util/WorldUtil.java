@@ -20,8 +20,7 @@ public abstract class WorldUtil
 
 	public static void SetBlock ( net . minecraft . world . World World , int X , int Y , int Z , Block spectre , int Meta )
 	{
-		World . setBlock ( X , Y , Z , spectre ) ;
-		World.setBlockMetadataWithNotify(X, Y,Z, Meta, 0x3);
+		World . setBlock ( X , Y , Z , spectre, Meta, 0x03 ) ;
 		
 	}
 }
