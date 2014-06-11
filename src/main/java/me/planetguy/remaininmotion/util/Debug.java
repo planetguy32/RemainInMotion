@@ -16,7 +16,7 @@ public abstract class Debug
 	
 	public static void dbg(Object o){
 		if(Configuration.Debug.verbose)
-			System.out.println(o);
+			System.out.println("RemIM: "+o);
 	}
 	
 	public static void Emit ( Object ... Objects )

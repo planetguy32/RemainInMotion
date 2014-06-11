@@ -4,6 +4,7 @@ import me.planetguy.remaininmotion.Spectre;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 
 public abstract class RIMBlocks
@@ -14,7 +15,7 @@ public abstract class RIMBlocks
 
 	public static Spectre Spectre ;
 	
-	public static Block air=net.minecraft.init.Blocks.air;
+	public static Block air=Blocks.air;
 
 	public static void Initialize ( )
 	{

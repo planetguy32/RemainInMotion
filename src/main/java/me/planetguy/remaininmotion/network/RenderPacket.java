@@ -7,11 +7,13 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.CarriageRenderCache;
 import me.planetguy.remaininmotion.PacketTypes;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
+import me.planetguy.remaininmotion.util.Debug;
 
 public abstract class RenderPacket
 {
 	public static void Dispatch ( CarriagePackage Package )
 	{
+		Debug.dbg("Dispatching render packet");
 		net . minecraft . nbt . NBTTagCompound Packet = new net . minecraft . nbt . NBTTagCompound ( ) ;
 
 		Packet . setInteger ( "DriveX" , Package . DriveRecord . X ) ;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import me.planetguy.remaininmotion.PacketTypes;
 import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.util.Debug;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -25,11 +26,12 @@ public class PacketManager {
 
 	public static void init(){
 		MinecraftForge.EVENT_BUS.register(new PacketManager());
+		Debug.dbg("Registered packet manager!" );
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onData(ClientCustomPacketEvent evt){
+		Debug.dbg("Packet get! "+evt.packet);
 		if(evt.packet==null || evt.packet.payload()==null){
 			System.out.println("RemIM recieved bad packet!");
 			return;
@@ -54,6 +56,7 @@ public class PacketManager {
 	
 	public static void BroadcastPacketFromBlock ( int X , int Y , int Z , World world , Enum Type , NBTTagCompound Body )
 	{
+		Debug.dbg("Packet broadcast: "+Type);
 		if(!world.isRemote){
 			ByteBuf data=Unpooled.buffer();
 			data.writeInt(Type.ordinal());
@@ -70,6 +73,7 @@ public class PacketManager {
 	}
 
 	public static void SendPacketToPlayer(EntityPlayerMP player , PacketTypes pt , NBTTagCompound tag){
+		Debug.dbg("Packet sent to: "+player.getDisplayName());
 		ByteBuf data=Unpooled.buffer();
 		data.writeInt(pt.ordinal());
 		try {
