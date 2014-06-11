@@ -6,10 +6,22 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
-public abstract class Reflection
+public class Reflection
 {
+	
+	public static void init() {
+		if(EstablishField(World.class, "loadedEntityList")!=null){
+			Debug.dbg("Deobfuscated MC detected");
+			instance=new Reflection();
+		}else
+			instance=new ReflectionObfuscated();
+	}
+
+	private static Reflection instance;
+
 	public static boolean Verbose = false ;
 
 	public static HashMap<String, Field> fieldCache=new HashMap<String, Field>();
@@ -75,7 +87,21 @@ public abstract class Reflection
 	}
 
 	public static Object get(Class c, Object o, String field){
+		return instance.getImpl(c, o, field);
+	}
+
+	public static void set(Class c, Object o, String field, Object in){
+		instance.setImpl(c, o, field, in);
+	}
+
+	public static Object runMethod(Class class1, Object chunk,
+			String name, Object...objects){
+		return instance.runMethodImpl(class1, chunk, name, objects);
+	}
+
+	public Object getImpl(Class c, Object o, String field){
 		try{
+			field=remap(field);
 			String fqfn=c.getSimpleName()+"/"+field;
 			if(fieldCache.containsKey(fqfn)){
 				return fieldCache.get(fqfn).get(o);
@@ -90,8 +116,10 @@ public abstract class Reflection
 		}
 	}
 
-	public static void set(Class c, Object o, String field, Object in){
+
+	public void setImpl(Class c, Object o, String field, Object in){
 		try{
+			field=remap(field);
 			String fqfn=c.getCanonicalName()+"/"+field;
 			if(fieldCache.containsKey(fqfn)){
 				fieldCache.get(fqfn).set(o, in);
@@ -106,14 +134,14 @@ public abstract class Reflection
 		}
 	}
 
-	public static String obfuscate(String s){
-		return s; //TODO
+	public String remap(String s){
+		return s;
 	}
 
-	public static Object runMethod(Class class1, Object chunk,
-			String name, Object...objects) {
+	public Object runMethodImpl(Class class1, Object chunk,
+			String name, Object[] objects) {
 		try{
-			name=obfuscate(name);
+			name=remap(name);
 			String fqmn=class1.getCanonicalName()+"/"+name;
 			if(methodCache.containsKey(fqmn)){
 				return methodCache.get(fqmn).invoke(chunk, objects);

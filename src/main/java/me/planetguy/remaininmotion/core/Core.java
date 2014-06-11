@@ -14,6 +14,7 @@ import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
 import me.planetguy.remaininmotion.network.PacketManager;
 import me.planetguy.remaininmotion.network.RenderPacket;
+import me.planetguy.remaininmotion.util.Reflection;
 
 public abstract class Core
 {
@@ -23,6 +24,7 @@ public abstract class Core
 
 	public static void HandleInit ( )
 	{
+		Reflection.init();
 		
 		ModInteraction . Establish ( ) ;
 

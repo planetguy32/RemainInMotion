@@ -2,11 +2,20 @@ package me.planetguy.remaininmotion.util ;
 
 import java.util.Arrays;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+
+import cpw.mods.fml.common.FMLLog;
+
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.Mod;
 
 public abstract class Debug
 {
+	private static Logger log=FMLLog.getLogger();
+	private static Marker m=MarkerManager.getMarker("RemIM");
+	
 	public static String Label = "*-*-* " + Mod . Title . toUpperCase ( ) + " *-*-*" ;
 
 	public static void dbt(Object o){
@@ -16,7 +25,7 @@ public abstract class Debug
 	
 	public static void dbg(Object o){
 		if(Configuration.Debug.verbose)
-			System.out.println("RemIM: "+o);
+			log.debug(m,o);
 	}
 	
 	public static void Emit ( Object ... Objects )
