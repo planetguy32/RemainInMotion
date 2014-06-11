@@ -21,6 +21,7 @@ buildscript {
     }
 }
 
+
 apply plugin: 'scala'
 apply plugin: 'forge'
 
@@ -32,8 +33,8 @@ compileScala {
         }
     }
     dependencies {
-        compile name: 'CodeChickenLib', version: "1.7.2-1.1.1.81", ext: 'jar'
-        compile name: 'ForgeMultipart', version: "1.7.2-1.1.0.282", ext: 'jar'
+        compile "CodeChickenLib:dev:1.7.2-1.1.1.81"
+        compile "ForgeMultipart:dev:1.7.2-1.1.0.282"
     }
 }
 
