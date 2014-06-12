@@ -57,21 +57,4 @@ public abstract class Core
 		}
 	}
 
-	public static void HandlePacket ( int Type , net . minecraft . nbt . NBTTagCompound Body, EntityPlayer player)
-	{
-		switch ( PacketTypes . values ( ) [ Type ] )
-		{
-		case Render :
-
-			RenderPacket . Handle ( Body , player . worldObj ) ;
-
-			break ;
-
-		case MultipartPropagation :
-
-			MultipartPropagationPacket . Handle ( Body ,  player . worldObj ) ;
-
-			break ;
-		}
-	}
 }

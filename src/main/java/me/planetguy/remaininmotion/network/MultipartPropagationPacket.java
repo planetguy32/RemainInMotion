@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion.network ;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagList;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.PacketTypes;
 
@@ -34,7 +35,7 @@ public abstract class MultipartPropagationPacket
 	{
 		Block Id = Block.getBlockById(Packet . getInteger ( "Id" )) ;
 
-		net . minecraft . nbt . NBTTagList Body = Packet . getTagList ( "Body", 11 ) ;
+		net . minecraft . nbt . NBTTagList Body = (NBTTagList) Packet.getTag("Body");
 
 		for ( int Index = 0 ; Index < Body . tagCount ( ) ; Index ++ )
 		{
