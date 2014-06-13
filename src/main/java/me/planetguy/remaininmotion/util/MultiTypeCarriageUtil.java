@@ -107,13 +107,13 @@ Setup: R=RS block, E=engine, F=frame, D=dirt
   REDD
 =ground==
 
-=!= BlocksChecked       (-104,63,202)
-=!= IsAir               (-104,65,202) 
+=!= BlocksChecked       (-104,63,202) In front of obstruction
+=!= IsAir               (-104,65,202) Air above frame obstruction
 =!= IsAir               (-104,64,201) Checking air near frame
-=!= IsAir               (-104,64,203)
+=!= IsAir               (-104,64,203) In front of obstruction
 === Passed              (-105,64,202) After obstruction
-=!= IsAir               (-103,64,202)
-=!= BlocksChecked       (-104,64,202)
+=!= IsAir               (-103,64,202) Carried by frame
+=!= BlocksChecked       (-104,64,202) Obstructing block
 
 -102, 63, 202: Engine
 -103, 63, 202: Obstruction engine
