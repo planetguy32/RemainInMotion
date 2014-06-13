@@ -40,7 +40,7 @@ public abstract class RenderPacket
 
 		Packet.setTag ( "Body" , Body ) ;
 		
-		System.out.println("RemIM tags:"+((NBTTagList) Packet.getTag("Body")).tagCount());
+		Debug.dbg("RemIM tags:"+((NBTTagList) Packet.getTag("Body")).tagCount());
 
 		if ( Package . MotionDirection == null )
 		{
@@ -72,7 +72,7 @@ public abstract class RenderPacket
 
 	public static void Handle ( net . minecraft . nbt . NBTTagCompound Packet , net . minecraft . world . World World )
 	{
-		System.out.println("RenderPacket arrived!");
+		Debug.dbg("RenderPacket arrived!");
 		
 		int DriveX = Packet . getInteger ( "DriveX" ) ;
 		int DriveY = Packet . getInteger ( "DriveY" ) ;
@@ -84,7 +84,7 @@ public abstract class RenderPacket
 
 		net . minecraft . nbt . NBTTagList Body = (NBTTagList) Packet.getTag("Body") ;
 
-		System.out.println("<Body= ("+Body.tagCount()+")");
+		Debug.dbg("<Body= ("+Body.tagCount()+")");
 		
 		BlockRecordSet Blocks = new BlockRecordSet ( ) ;
 

@@ -13,6 +13,7 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
+import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.Reflection;
 
 
@@ -145,9 +146,10 @@ public class CarriagePackage
 				//take least of block's hardness and TNT resistance
 				double massFactor=Math.min(
 						b.getBlockHardness(Record.World, Record.X, Record.Y, Record.Z), b.getExplosionResistance(null));
-				System.out.println("For "+b.getLocalizedName()+", factor="+massFactor+", lf="+Math.log(massFactor));
+				Debug.dbg("For "+b.getLocalizedName()+", factor="+massFactor+", lf="+Math.log(massFactor));
 				//always add 0.1 to weight, sometimes more if hard block to move
 				Mass+=Math.max(1,Math.log(massFactor));
+				
 			}
 		}
 	}
@@ -163,6 +165,8 @@ public class CarriagePackage
 
 	public void AssertNotObstruction ( BlockRecord Record ) throws CarriageMotionException
 	{
+		Debug.dbg("Asserting not obstructed!");
+		
 		if ( Body . contains ( Record ) )
 		{
 			return ;

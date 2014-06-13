@@ -43,10 +43,11 @@ public abstract class MultiTypeCarriageUtil {
 			{
 				BlockRecord TargetRecord = CarriageRecord . NextInDirection ( TargetDirection ) ;
 
-				if(CarriageRecord.Entity instanceof FrameCarriageEntity)
+				if(CarriageRecord.Entity instanceof FrameCarriageEntity){
 
 					if ( ( ( FrameCarriageEntity ) CarriageRecord . Entity ) . SideClosed [ TargetDirection . ordinal ( ) ] )
 					{
+						System.out.println("=!= SideClosed");
 						if ( TargetDirection == Package . MotionDirection )
 						{
 							Package . AddPotentialObstruction ( TargetRecord ) ;
@@ -54,14 +55,19 @@ public abstract class MultiTypeCarriageUtil {
 
 						continue ;
 					}
+					
+					System.out.println("=!= FrameCarriageEntity "+TargetRecord.NextInDirection(Package . MotionDirection));
+				}
 
 				if ( ! BlocksChecked . add ( TargetRecord ) )
 				{
+					System.out.println("=!= BlocksChecked "+TargetRecord.NextInDirection(Package . MotionDirection));
 					continue ;
 				}
 
 				if ( worldObj . isAirBlock ( TargetRecord . X , TargetRecord . Y , TargetRecord . Z ) )
 				{
+					System.out.println("=!= IsAir "+TargetRecord.NextInDirection(Package . MotionDirection));
 					continue ;
 				}
 
@@ -71,6 +77,7 @@ public abstract class MultiTypeCarriageUtil {
 
 				if ( Package . MatchesCarriageType ( TargetRecord ) )
 				{
+					System.out.println("=!= TargetRecord "+TargetRecord.NextInDirection(Package . MotionDirection));
 					CarriagesToCheck . add ( TargetRecord ) ;
 
 					continue ;
@@ -78,10 +85,40 @@ public abstract class MultiTypeCarriageUtil {
 
 				if ( Package . MotionDirection != null )
 				{
+					System.out.println("=== Passed "+TargetRecord.NextInDirection(Package . MotionDirection));
 					Package . AddPotentialObstruction ( TargetRecord . NextInDirection ( Package . MotionDirection ) ) ;
 				}
+				
 			}
 		}
 	}
 
 }
+
+/*
+Sorting through logs:
+
+Moving -X direction
+
+Setup: R=RS block, E=engine, F=frame, D=dirt
+
+<+x   -x>
+   FDD
+  REDD
+=ground==
+
+=!= BlocksChecked       (-104,63,202)
+=!= IsAir               (-104,65,202) 
+=!= IsAir               (-104,64,201) Checking air near frame
+=!= IsAir               (-104,64,203)
+=== Passed              (-105,64,202) After obstruction
+=!= IsAir               (-103,64,202)
+=!= BlocksChecked       (-104,64,202)
+
+-102, 63, 202: Engine
+-103, 63, 202: Obstruction engine
+-102, 64, 202: Frame
+-103, 64, 202: Carry frame
+-104, 64, 202: Obstruction frame
+
+*/
