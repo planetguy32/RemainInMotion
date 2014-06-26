@@ -24,8 +24,9 @@ public abstract class Debug
 	}
 	
 	public static void dbg(Object o){
-		if(Configuration.Debug.verbose)
-			log.debug(m,o);
+		StackTraceElement[] trace=Thread.currentThread().getStackTrace();
+		System.out.println(trace[2]+"   "+o);
+		//if(Configuration.Debug.verbose)	log.debug(m,o);
 	}
 	
 	public static void Emit ( Object ... Objects )

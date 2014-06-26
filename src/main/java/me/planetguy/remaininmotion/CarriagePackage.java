@@ -164,31 +164,35 @@ public class CarriagePackage
 	public static boolean ObstructedByFragileBlocks ;
 
 	public void AssertNotObstruction ( BlockRecord Record ) throws CarriageMotionException
-	{
-		Debug.dbg("Asserting not obstructed!");
+	{		
+		Debug.dbg("Asserting not obstructed @ "+Record);
 		
 		if ( Body . contains ( Record ) )
 		{
+			Debug.dbg("   Body");
 			return ;
 		}
 
 		if ( World . isAirBlock ( Record . X , Record . Y , Record . Z ) )
 		{
+			Debug.dbg("   Air");
 			return ;
 		}
 
 		if (World . getBlock ( Record . X , Record . Y , Record . Z ).getMaterial() . isLiquid ( ) )
 		{
+			Debug.dbg("   Liquid");
 			if ( ObstructedByLiquids )
 			{
 				FailBecauseObstructed ( Record , "liquid" ) ;
 			}
-
+			
 			return ;
 		}
 
 		if ( ! World.getBlock(Record . X , Record . Y , Record . Z ).canBeReplacedByLeaves(World, Record . X , Record . Y , Record . Z ))
 		{
+			Debug.dbg("   Fragile");
 			if ( ObstructedByFragileBlocks )
 			{
 				FailBecauseObstructed ( Record , "fragile block" ) ;
@@ -197,6 +201,7 @@ public class CarriagePackage
 			return ;
 		}
 
+		Debug.dbg("   Obstruction");
 		FailBecauseObstructed ( Record , "block" ) ;
 	}
 
@@ -244,11 +249,15 @@ public class CarriagePackage
 
 	public void Finalize ( ) throws CarriageMotionException
 	{
+		Debug.dbg("Checking for obstructions...");
 		for ( BlockRecord PotentialObstruction : PotentialObstructions )
 		{
+			Debug.dbg("Obstruction? "+PotentialObstruction);
 			AssertNotObstruction ( PotentialObstruction ) ;
 		}
 
+		Debug.dbg("Checked for all possible obstructions identified");
+		
 		long WorldTime = World.getWorldInfo() . getWorldTotalTime ( ) ;
 
 		try

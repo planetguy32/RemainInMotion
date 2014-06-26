@@ -87,7 +87,6 @@ public class MotiveSpectreEntity extends TileEntity
 	public static Block MultipartContainerBlockId ;
 
 	public void Release(){
-		Debug.dbg("Releasing spectre");
 		for ( BlockRecord Record : Body )
 			ShiftBlockPosition ( Record ) ;
 		doRelease();
@@ -95,8 +94,6 @@ public class MotiveSpectreEntity extends TileEntity
 
 	public void doRelease ( )
 	{
-		
-		Debug.dbg("Body is "+Body.toString());
 		
 		for ( BlockRecord Record : Body )
 		{

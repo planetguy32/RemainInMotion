@@ -4,6 +4,7 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.tileentity.TileEntity;
 
@@ -36,6 +37,7 @@ public class CarriageMotorEntity extends CarriageDriveEntity
 			throw ( new CarriageObstructionException ( "carriage motion is obstructed by motor" , xCoord , yCoord , zCoord ) ) ;
 		}
 
+		Debug.dbg("Finalizing package!");
 		Package . Finalize ( ) ;
 
 		return ( Package ) ;

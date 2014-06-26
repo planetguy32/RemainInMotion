@@ -13,6 +13,7 @@ public class ReflectionObfuscated extends Reflection{
 		map("isDrawing","field_78415_z");
 		map("storageArrays","field_76652_q");
 		map("field_147481_N","field_147481_N");
+		map("addedTileEntityList", "field_147484_a");
 	}
 	
 	HashMap<String, String> obfRemapper=new HashMap<String, String>();

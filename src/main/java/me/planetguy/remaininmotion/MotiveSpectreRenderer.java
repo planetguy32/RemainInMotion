@@ -37,7 +37,6 @@ public class MotiveSpectreRenderer extends RIMTileEntityRenderer
 
 		if ( DisplayList != null )
 		{
-			Debug.dbg("No cached display list!");
 			Render . ResetBoundTexture ( ) ;
 
 			Render . ExecuteDisplayList ( DisplayList ) ;
