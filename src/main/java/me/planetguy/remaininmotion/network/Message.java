@@ -7,6 +7,7 @@ import me.planetguy.remaininmotion.util.Debug;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTSizeTracker;
 import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -57,7 +58,7 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 			
 			System.out.println("Recv packet: ("+fixedBytes.length+") "+toStr(fixedBytes));
 			
-			body=CompressedStreamTools.decompress(fixedBytes);
+			body=CompressedStreamTools.func_152457_a(fixedBytes, NBTSizeTracker.field_152451_a);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

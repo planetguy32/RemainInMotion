@@ -27,14 +27,14 @@ apply plugin: 'forge'
 
 compileScala {
     repositories {
-        ivy {
-            name "forge-ext"
-            artifactPattern "http://files.minecraftforge.net/[module]/[module]-dev-[revision].[ext]"
+        maven {
+            name = "chickenbones"
+            url = "http://chickenbones.net/maven/"
         }
     }
     dependencies {
-        compile "CodeChickenLib:dev:1.7.2-1.1.1.81"
-        compile "ForgeMultipart:dev:1.7.2-1.1.0.282"
+        compile 'codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev'
+        compile 'codechicken:ForgeMultipart:1.7.10-1.1.0.297:dev'
     }
 }
 
@@ -44,7 +44,7 @@ group= "me.planetguy" // http://maven.apache.org/guides/mini/guide-naming-conven
 archivesBaseName = "RemainInMotion"
 
 minecraft {
-    version = "1.7.2-10.12.1.1116"
+    version = "1.7.10-10.13.0.1180"
 }
 processResources
 {
