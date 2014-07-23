@@ -27,14 +27,14 @@ apply plugin: 'forge'
 
 compileScala {
     repositories {
-        ivy {
-            name "forge-ext"
-            artifactPattern "http://files.minecraftforge.net/[module]/[module]-dev-[revision].[ext]"
+        maven {
+            name = "chickenbones"
+            url = "http://chickenbones.net/maven/"
         }
     }
     dependencies {
-        compile "CodeChickenLib:dev:1.7.2-1.1.1.81"
-        compile "ForgeMultipart:dev:1.7.2-1.1.0.282"
+        compile 'codechicken:CodeChickenLib:1.7.2-1.1.1.81:dev'
+        compile 'codechicken:ForgeMultipart:1.7.2-1.1.0.282:dev'
     }
 }
 
