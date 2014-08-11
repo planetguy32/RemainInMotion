@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.base ;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -29,16 +30,13 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	}
 
 	@Override
-	public Packet getDescriptionPacket ( )
+	public Packet getDescriptionPacket() 
 	{
-		S35PacketUpdateTileEntity Packet = new S35PacketUpdateTileEntity ( xCoord , yCoord , zCoord , 0 , new net . minecraft . nbt . NBTTagCompound ( ) ) ;
-
-		WriteCommonRecord ( Packet.func_148857_g() ) ;
-
-		WriteClientRecord ( Packet.func_148857_g() ) ;
-
-		return ( Packet ) ;
+	NBTTagCompound tag = new NBTTagCompound();
+	this.writeToNBT(tag);
+	return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
 	}
+	
 
 	public void ReadCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
