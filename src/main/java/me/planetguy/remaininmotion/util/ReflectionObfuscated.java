@@ -2,6 +2,8 @@ package me.planetguy.remaininmotion.util;
 
 import java.util.HashMap;
 
+import me.planetguy.util.Debug;
+
 public class ReflectionObfuscated extends Reflection{
 
 	public ReflectionObfuscated(){

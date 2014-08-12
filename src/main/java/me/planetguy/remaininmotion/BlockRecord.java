@@ -59,7 +59,7 @@ public class BlockRecord implements Comparable < BlockRecord >
 		return ( Result ) ;
 	}
 
-	public Block Id ;
+	public Block block ;
 
 	public int Meta ;
 
@@ -72,7 +72,7 @@ public class BlockRecord implements Comparable < BlockRecord >
 	{
 		this.World=World;
 		
-		Id = World . getBlock ( X , Y , Z ) ;
+		block = World . getBlock ( X , Y , Z ) ;
 
 		Meta = World . getBlockMetadata ( X , Y , Z ) ;
 

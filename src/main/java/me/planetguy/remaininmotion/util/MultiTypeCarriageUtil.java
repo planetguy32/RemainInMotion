@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 public abstract class MultiTypeCarriageUtil {
 	
 	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
-		CarriageMatchers.getMover(package1.AnchorRecord.Id, package1.AnchorRecord.Meta, package1.AnchorRecord.Entity).fillPackage(package1);
+		CarriageMatchers.getMover(package1.AnchorRecord.block, package1.AnchorRecord.Meta, package1.AnchorRecord.Entity).fillPackage(package1);
 	}
 
 	public static void fillFramePackage ( CarriagePackage Package, World worldObj ) throws CarriageMotionException

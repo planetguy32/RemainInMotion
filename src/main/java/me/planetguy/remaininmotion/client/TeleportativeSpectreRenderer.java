@@ -1,6 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.client ;
 
-import me.planetguy.remaininmotion.client.RIMTileEntityRenderer;
+import me.planetguy.remaininmotion.TeleportativeSpectreEntity;
 import me.planetguy.remaininmotion.core.Configuration;
 
 public class TeleportativeSpectreRenderer extends RIMTileEntityRenderer

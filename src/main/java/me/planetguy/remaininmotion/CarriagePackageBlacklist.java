@@ -23,12 +23,12 @@ public abstract class CarriagePackageBlacklist
 
 	public static boolean Lookup ( BlockRecord record )
 	{
-		if ( BlacklistedIds . contains ( record . Id ) )
+		if ( BlacklistedIds . contains ( record .block ) )
 		{
 			return ( true ) ;
 		}
 
-		if ( BlacklistedIdAndMetaPairs . contains ( ( Block.getIdFromBlock(record . Id) << 4 ) | record . Meta ) )
+		if ( BlacklistedIdAndMetaPairs . contains ( ( Block.getIdFromBlock(record .block) << 4 ) | record . Meta ) )
 		{
 			return ( true ) ;
 		}

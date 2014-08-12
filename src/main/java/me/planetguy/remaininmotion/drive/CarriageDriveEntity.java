@@ -16,9 +16,9 @@ import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.network.RenderPacket;
-import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import me.planetguy.util.Debug;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChatComponentText;
@@ -301,7 +301,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			}
 
 			if ( Configuration . Debug . LogMotionExceptions ){
-				Debug . Emit ( Message ) ;
+				Debug . dbg ( Message ) ;
 			}
 
 			if(this.lastUsingPlayer!=null){
@@ -395,7 +395,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	{
 		for ( BlockRecord Record : Package . Body )
 		{
-			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , Record . Id , Blocks.air ) ;
+			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , Record .block , Blocks.air ) ;
 		}
 	}
 

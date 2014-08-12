@@ -1,8 +1,8 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.client ;
 
-import me.planetguy.remaininmotion.client.RIMTileEntityRenderer;
+import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.util.Debug;
+import me.planetguy.util.Debug;
 
 public class MotiveSpectreRenderer extends RIMTileEntityRenderer
 {

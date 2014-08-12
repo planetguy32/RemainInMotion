@@ -5,16 +5,16 @@ import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.CarriageRenderCache;
 import me.planetguy.remaininmotion.PacketTypes;
+import me.planetguy.remaininmotion.client.CarriageRenderCache;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
-import me.planetguy.remaininmotion.util.Debug;
+import me.planetguy.util.Debug;
 
 public abstract class RenderPacket
 {
 	public static void Dispatch ( CarriagePackage Package )
 	{
-		Debug.dbg("Dispatching render packet");
+		//Debug.dbg("Dispatching render packet");
 		net . minecraft . nbt . NBTTagCompound Packet = new net . minecraft . nbt . NBTTagCompound ( ) ;
 
 		Packet . setInteger ( "DriveX" , Package . DriveRecord . X ) ;
@@ -40,7 +40,7 @@ public abstract class RenderPacket
 
 		Packet.setTag ( "Body" , Body ) ;
 		
-		Debug.dbg("RemIM tags:"+((NBTTagList) Packet.getTag("Body")).tagCount());
+		//Debug.dbg("RemIM tags:"+((NBTTagList) Packet.getTag("Body")).tagCount());
 
 		if ( Package . MotionDirection == null )
 		{
@@ -72,7 +72,7 @@ public abstract class RenderPacket
 
 	public static void Handle ( net . minecraft . nbt . NBTTagCompound Packet , net . minecraft . world . World World )
 	{
-		Debug.dbg("RenderPacket arrived!");
+		//Debug.dbg("RenderPacket arrived!");
 		
 		int DriveX = Packet . getInteger ( "DriveX" ) ;
 		int DriveY = Packet . getInteger ( "DriveY" ) ;
@@ -84,7 +84,7 @@ public abstract class RenderPacket
 
 		net . minecraft . nbt . NBTTagList Body = (NBTTagList) Packet.getTag("Body") ;
 
-		Debug.dbg("<Body= ("+Body.tagCount()+")");
+		//Debug.dbg("<Body= ("+Body.tagCount()+")");
 		
 		BlockRecordSet Blocks = new BlockRecordSet ( ) ;
 

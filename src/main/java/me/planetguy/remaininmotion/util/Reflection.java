@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.planetguy.util.Debug;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 

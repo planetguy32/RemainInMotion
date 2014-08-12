@@ -13,8 +13,8 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
-import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.Reflection;
+import me.planetguy.util.Debug;
 
 
 public class CarriagePackage
@@ -52,7 +52,7 @@ public class CarriagePackage
 
 	public boolean MatchesCarriageType ( BlockRecord record )
 	{
-		return CarriageMatchers.matches(record.Id, record.Meta, record.Entity, this);
+		return CarriageMatchers.matches(record.block, record.Meta, record.Entity, this);
 	}
 
 	public BlockRecordSet Body = new BlockRecordSet ( ) ;
@@ -130,7 +130,7 @@ public class CarriagePackage
 
 		if ( Configuration . HardmodeActive )
 		{
-			if ( Record . Id == RIMBlocks . Carriage)
+			if ( Record .block == RIMBlocks . Carriage)
 			{
 				Carriages . add ( Record ) ;
 
@@ -141,7 +141,7 @@ public class CarriagePackage
 
 				Cargo . add ( Record ) ;
 
-				net.minecraft.block.Block b=Record.Id;
+				net.minecraft.block.Block b=Record.block;
 				
 				//take least of block's hardness and TNT resistance
 				double massFactor=Math.min(
@@ -190,7 +190,7 @@ public class CarriagePackage
 			return ;
 		}
 
-		if ( ! World.getBlock(Record . X , Record . Y , Record . Z ).canBeReplacedByLeaves(World, Record . X , Record . Y , Record . Z ))
+		if ( World.getBlock(Record . X , Record . Y , Record . Z ).canBeReplacedByLeaves(World, Record . X , Record . Y , Record . Z ))
 		{
 			Debug.dbg("   Fragile");
 			if ( ObstructedByFragileBlocks )

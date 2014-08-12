@@ -15,7 +15,7 @@ public class Carriage extends RIMBlock
 	public Carriage ( )
 	{
 		super ( Blocks.planks , CarriageItem . class , HarvestToolTypes . Hatchet ,
-			FrameCarriageEntity . class , PlatformCarriageEntity . class , StructureCarriageEntity . class , SupportCarriageEntity . class , TemplateCarriageEntity . class ) ;
+			FrameCarriageEntity . class , SupportCarriageEntity . class , StructureCarriageEntity . class , PlatformCarriageEntity . class , TemplateCarriageEntity . class ) ;
 	}
 
 	public enum Types

@@ -75,7 +75,7 @@ public class CarriageItem extends BlockItem
 
 					return ( "Frame Carriage" ) ;
 
-				case Support :
+				case Platform :
 
 					/* renaming is intentional */
 					return ( "Support Carriage" ) ;
@@ -84,7 +84,7 @@ public class CarriageItem extends BlockItem
 
 					return ( "Structure Carriage" ) ;
 
-				case Platform :
+				case Support :
 
 					/* renaming is intentional */
 					return ( "Platform Carriage" ) ;
@@ -117,7 +117,7 @@ public class CarriageItem extends BlockItem
 
 						break ;
 
-					case Support :
+					case Platform :
 
 						TooltipLines . add ( "Carries entire body of blocks it's connected to" ) ;
 						TooltipLines . add ( "(Formerly known as 'Platform Carriage'.)" ) ;
@@ -130,7 +130,7 @@ public class CarriageItem extends BlockItem
 
 						break ;
 
-					case Platform :
+					case Support :
 
 						TooltipLines . add ( "Carries straight line of blocks" ) ;
 						TooltipLines . add ( "(Formerly known as 'Support Carriage'.)" ) ;

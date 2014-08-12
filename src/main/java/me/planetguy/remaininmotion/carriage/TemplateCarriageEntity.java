@@ -70,7 +70,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 		Record . Identify ( worldObj ) ;
 
-		if ( Record . Id == RIMBlocks . Carriage )
+		if ( Record .block == RIMBlocks . Carriage )
 		{
 			if ( Record . Meta == Carriage . Types . Template . ordinal ( ) )
 			{

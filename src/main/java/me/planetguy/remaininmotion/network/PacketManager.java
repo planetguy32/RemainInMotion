@@ -9,7 +9,7 @@ import java.util.List;
 
 import me.planetguy.remaininmotion.PacketTypes;
 import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.remaininmotion.util.Debug;
+import me.planetguy.util.Debug;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;

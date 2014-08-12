@@ -1,7 +1,10 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.client ;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import me.planetguy.remaininmotion.BlockPosition;
+import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.util.Reflection;
 
 public abstract class CarriageRenderCache
@@ -32,7 +35,7 @@ public abstract class CarriageRenderCache
 			{
 				try
 				{
-					if ( !  Record . Id . canRenderInPass ( Pass ) )
+					if ( !  Record .block . canRenderInPass ( Pass ) )
 					{
 						continue ;
 					}
@@ -46,7 +49,7 @@ public abstract class CarriageRenderCache
 
 				try
 				{
-					BlockRenderer . renderBlockByRenderType (Record . Id , Record . X , Record . Y , Record . Z ) ;
+					BlockRenderer . renderBlockByRenderType (Record .block , Record . X , Record . Y , Record . Z ) ;
 				}
 				catch ( Throwable Throwable )
 				{

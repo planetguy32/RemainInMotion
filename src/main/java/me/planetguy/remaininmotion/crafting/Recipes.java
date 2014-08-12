@@ -119,11 +119,11 @@ public abstract class Recipes
 	{
 		RegisterCarriageRecipe ( Carriage . Types . Frame , Vanilla . DyeTypes . Orange ) ;
 
-		RegisterCarriageRecipe ( Carriage . Types .Support , Vanilla . DyeTypes . Blue ) ;
+		RegisterCarriageRecipe ( Carriage . Types .Platform , Vanilla . DyeTypes . Blue ) ;
 
 		RegisterCarriageRecipe ( Carriage . Types . Structure , Vanilla . DyeTypes . Yellow ) ;
 
-		RegisterCarriageRecipe ( Carriage . Types .Platform , Vanilla . DyeTypes . Lime ) ;
+		RegisterCarriageRecipe ( Carriage . Types .Support , Vanilla . DyeTypes . Lime ) ;
 
 		RegisterCarriageRecipe ( Carriage . Types . Template , Vanilla . DyeTypes . Purple ) ;
 		

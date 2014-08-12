@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.client ;
 
-import me.planetguy.remaininmotion.Render;
 
 public abstract class RIMTileEntityRenderer extends net . minecraft . client . renderer . tileentity . TileEntitySpecialRenderer
 {

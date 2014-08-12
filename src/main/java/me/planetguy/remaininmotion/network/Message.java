@@ -3,7 +3,7 @@ package me.planetguy.remaininmotion.network;
 import java.io.IOException;
 
 import me.planetguy.remaininmotion.PacketTypes;
-import me.planetguy.remaininmotion.util.Debug;
+import me.planetguy.util.Debug;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +21,6 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 	public Message(PacketTypes type, NBTTagCompound body){
 		net . minecraft . nbt . NBTTagList Body = body . getTagList ( "Body", 11 ) ;
 
-		System.out.println(">Body= ("+Body.tagCount()+")");
 		this.type=type;
 		this.body=body;
 	}
@@ -31,7 +30,7 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 	
 	@Override
 	public IMessage onMessage(Message message, MessageContext ctx) {
-		System.out.println("Handling message "+message.type);
+		//Debug.dbg("Handling message "+message.type);
 		if(message.type.equals(PacketTypes.Render))
 			RenderPacket.Handle(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
 		else if(message.type.equals(PacketTypes.MultipartPropagation))
@@ -56,8 +55,6 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 				fixedBytes[i-1]=bytes[i];
 			}
 			
-			System.out.println("Recv packet: ("+fixedBytes.length+") "+toStr(fixedBytes));
-			
 			body=CompressedStreamTools.func_152457_a(fixedBytes, NBTSizeTracker.field_152451_a);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -74,7 +71,6 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 			buf.writeByte(type.ordinal());
 			
 			buf.writeBytes(tagBytes);
-			System.out.println("Send packet: ("+tagBytes.length+") "+toStr(tagBytes));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

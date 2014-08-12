@@ -17,7 +17,7 @@ public class CarriageMatchers {
 	
 	public static boolean matches(net.minecraft.block.Block b, int meta, net.minecraft.tileentity.TileEntity te, CarriagePackage pkg){
 		for(CarriageMatcher m:matchers){
-			if(m.matches(b, meta, te, pkg.AnchorRecord.Id, pkg.AnchorRecord.Meta, pkg.AnchorRecord.Entity)){
+			if(m.matches(b, meta, te, pkg.AnchorRecord.block, pkg.AnchorRecord.Meta, pkg.AnchorRecord.Entity)){
 				return true;
 			}
 		}

@@ -4,8 +4,8 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
+import me.planetguy.util.Debug;
 import net.minecraft.tileentity.TileEntity;
 
 public class CarriageMotorEntity extends CarriageDriveEntity

@@ -1,12 +1,12 @@
 package me.planetguy.remaininmotion.core ;
 
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
-import me.planetguy.remaininmotion.MotiveSpectreRenderer;
 import me.planetguy.remaininmotion.TeleportativeSpectreEntity;
-import me.planetguy.remaininmotion.TeleportativeSpectreRenderer;
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.carriage.CarriageRenderer;
+import me.planetguy.remaininmotion.client.MotiveSpectreRenderer;
 import me.planetguy.remaininmotion.client.RIMTileEntityRenderer;
+import me.planetguy.remaininmotion.client.TeleportativeSpectreRenderer;
 import me.planetguy.remaininmotion.core.Configuration.Cosmetic;
 import me.planetguy.remaininmotion.drive.CarriageDriveRenderer;
 import cpw.mods.fml.common.FMLCommonHandler;

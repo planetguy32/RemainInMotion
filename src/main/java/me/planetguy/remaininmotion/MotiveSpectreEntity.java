@@ -6,14 +6,15 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.world.WorldServer;
 import me.planetguy.remaininmotion.base.TileEntity;
+import me.planetguy.remaininmotion.client.CarriageRenderCache;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
-import me.planetguy.remaininmotion.util.Debug;
 import me.planetguy.remaininmotion.util.Reflection;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
+import me.planetguy.util.Debug;
 
 public class MotiveSpectreEntity extends TileEntity
 {
@@ -98,7 +99,7 @@ public class MotiveSpectreEntity extends TileEntity
 		for ( BlockRecord Record : Body )
 		{
 
-			SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Record . Id , Record . Meta ) ;
+			SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Record .block , Record . Meta ) ;
 		}
 
 		BlockRecordList PipesToInitialize = new BlockRecordList ( ) ;
@@ -142,7 +143,7 @@ public class MotiveSpectreEntity extends TileEntity
 						{
 							Record . Entity = ( net . minecraft . tileentity . TileEntity ) ModInteraction . ForgeMultipart . TileMultipart_createFromNBT . invoke ( null , Record . EntityRecord ) ;
 
-							MultipartContainerBlockId = Record . Id ;
+							MultipartContainerBlockId = Record .block ;
 
 							net . minecraft . world . chunk . Chunk Chunk = worldObj . getChunkFromBlockCoords ( Record . X , Record . Z ) ;
 
@@ -325,7 +326,7 @@ public class MotiveSpectreEntity extends TileEntity
 
 		for ( BlockRecord Record : Body )
 		{
-			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , Blocks.air , Record . Id ) ;
+			SneakyWorldUtil . RefreshBlock ( worldObj , Record . X , Record . Y , Record . Z , Blocks.air , Record .block ) ;
 		}
 
 		int PendingBlockUpdateCount = PendingBlockUpdates . tagCount ( ) ;
@@ -388,7 +389,7 @@ public class MotiveSpectreEntity extends TileEntity
 				BodyBlockRecord . setInteger ( "Y" , Record . Y ) ;
 				BodyBlockRecord . setInteger ( "Z" , Record . Z ) ;
 
-				BodyBlockRecord . setInteger ( "Id" , Block.getIdFromBlock(Record . Id )) ;
+				BodyBlockRecord . setInteger ( "Id" , Block.getIdFromBlock(Record .block )) ;
 
 				BodyBlockRecord . setInteger ( "Meta" , Record . Meta ) ;
 
@@ -426,7 +427,7 @@ public class MotiveSpectreEntity extends TileEntity
 
 				BlockRecord Record = new BlockRecord ( BodyBlockRecord . getInteger ( "X" ) , BodyBlockRecord . getInteger ( "Y" ) , BodyBlockRecord . getInteger ( "Z" ) ) ;
 
-				Record . Id = Block.getBlockById(BodyBlockRecord . getInteger ( "Id" ) );
+				Record .block = Block.getBlockById(BodyBlockRecord . getInteger ( "Id" ) );
 
 				Record . Meta = BodyBlockRecord . getInteger ( "Meta" ) ;
 
