@@ -229,11 +229,11 @@ public class MotiveSpectreEntity extends TileEntity
 				{
 					for ( net . minecraft . entity . player . EntityPlayerMP Player : ( ( java . util . List < net . minecraft . entity . player . EntityPlayerMP > )
 							
-							Reflection.get(Class.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
-									Reflection.runMethod(WorldServer.class, (((WorldServer ) worldObj ) . getPlayerManager ( )), 
-									"getOrCreateChunkWatcher",
-							Chunk . xPosition , Chunk . zPosition , false ),
-							"playersWatchingChunk" ) ))
+									((WorldServer ) worldObj ) 
+									.getPlayerManager ( )
+									.getOrCreateChunkWatcher(Chunk . xPosition , Chunk . zPosition , false )
+									.playersWatchingChunk))
+							
 					{
 						if ( ! Player . loadedChunks . contains ( Chunk . getChunkCoordIntPair ( ) ) )
 						{
@@ -520,6 +520,7 @@ public class MotiveSpectreEntity extends TileEntity
 
 		public void SetPosition ( double OffsetX , double OffsetY , double OffsetZ )
 		{
+			//System.out.println("Offset @"+OffsetX+","+OffsetY+","+OffsetZ);
 			Entity . setPosition ( InitialX + OffsetX , InitialY + OffsetY + Entity . yOffset , InitialZ + OffsetZ ) ;
 		}
 
@@ -527,7 +528,7 @@ public class MotiveSpectreEntity extends TileEntity
 		{
 			Entity . fallDistance = 0 ;
 
-			if ( TicksExisted == Configuration . CarriageMotion . MotionDuration )
+			if ( TicksExisted == Configuration . CarriageMotion . MotionDuration ) //all done
 			{
 				Entity . motionX = 0 ;
 				Entity . motionY = 0 ;
@@ -544,21 +545,23 @@ public class MotiveSpectreEntity extends TileEntity
 				Entity . isAirBorne = WasAirBorne ;
 
 				return ;
+			
+			}else{
+
+				Entity . onGround = false ;
+
+				Entity . isAirBorne = true ;
+
+				Entity . motionX = Velocity * MotionDirection . DeltaX ;
+				Entity . motionY = Velocity * MotionDirection . DeltaY ;
+				Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
+
+				SetPosition ( Entity . motionX * TicksExisted , Entity . motionY * TicksExisted , Entity . motionZ * TicksExisted ) ;
+
+				Entity . prevPosX = Entity . posX - Entity . motionX ;
+				Entity . prevPosY = Entity . posY - Entity . motionY ;
+				Entity . prevPosZ = Entity . posZ - Entity . motionZ ;
 			}
-
-			Entity . onGround = false ;
-
-			Entity . isAirBorne = true ;
-
-			Entity . motionX = Velocity * MotionDirection . DeltaX ;
-			Entity . motionY = Velocity * MotionDirection . DeltaY ;
-			Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
-
-			SetPosition ( Entity . motionX * TicksExisted , Entity . motionY * TicksExisted , Entity . motionZ * TicksExisted ) ;
-
-			Entity . prevPosX = Entity . posX - Entity . motionX ;
-			Entity . prevPosY = Entity . posY - Entity . motionY ;
-			Entity . prevPosZ = Entity . posZ - Entity . motionZ ;
 		}
 	}
 
@@ -591,6 +594,7 @@ public class MotiveSpectreEntity extends TileEntity
 
 	public void CaptureEntities ( int MinX , int MinY , int MinZ , int MaxX , int MaxY , int MaxZ )
 	{
+		
 		net . minecraft . util . AxisAlignedBB EntityCaptureBox = net . minecraft . util . AxisAlignedBB . getBoundingBox ( MinX - 5 , MinY - 5 , MinZ - 5 , MaxX + 5 , MaxY + 5 , MaxZ + 5) ;
 
 		java . util . List EntitiesFound = worldObj . getEntitiesWithinAABB ( net . minecraft . entity . Entity . class , EntityCaptureBox ) ;
@@ -669,4 +673,9 @@ public class MotiveSpectreEntity extends TileEntity
 	{
 		return ( true ) ;
 	}
+	
+	public boolean canUpdate(){
+		return true;
+	}
+	
 }

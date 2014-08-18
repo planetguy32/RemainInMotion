@@ -21,7 +21,7 @@ public abstract class SneakyWorldUtil
 		Chunk . removeTileEntity ( ChunkX , Y , ChunkZ ) ;
 
 		int LayerY = Y >> 4 ;
-		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Reflection.get(Chunk.class, Chunk, "storageArrays");
+		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Chunk.storageArrays;
 
 		if ( storageArrays [ LayerY ] == null )
 		{
@@ -46,9 +46,9 @@ public abstract class SneakyWorldUtil
 	public static void SetTileEntity (World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )
 	{
 		try{
-			if ( (Boolean)Reflection.get(World.class, World,"field_147481_N"))
+			if (World.field_147481_N)
 			{
-				((List)Reflection.get(World.class, World ,"addedTileEntityList")) . add ( Entity ) ;
+				World.addedTileEntityList . add ( Entity ) ;
 			}
 			else
 			{

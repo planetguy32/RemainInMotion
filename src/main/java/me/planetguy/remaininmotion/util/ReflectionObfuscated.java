@@ -12,6 +12,7 @@ public class ReflectionObfuscated extends Reflection{
 		map("getOrCreateChunkWatcher", "func_72690_a");
 		map("playersWatchingChunk","field_73263_b");
 		map("pendingTickListEntriesTreeSet","field_73065_O");
+		map("pendingTickListEntriesHashSet","field_73065_O");
 		map("isDrawing","field_78415_z");
 		map("storageArrays","field_76652_q");
 		map("field_147481_N","field_147481_N");

@@ -248,7 +248,7 @@ public class CarriageTranslocatorEntity extends CarriageDriveEntity
 	{
 		WorldUtil . SetBlock ( worldObj , Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z , RIMBlocks . Spectre , Spectre . Types . Teleportative . ordinal ( ) ) ;
 		
-		System.out.println("RemIM spectre type="+worldObj . getTileEntity ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z ).getClass().getSimpleName());
+		Debug.dbg("RemIM spectre type="+worldObj . getTileEntity ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z ).getClass().getSimpleName());
 		
 		( ( TeleportativeSpectreEntity ) worldObj . getTileEntity ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z ) ) . AbsorbSource ( Package ) ;
 

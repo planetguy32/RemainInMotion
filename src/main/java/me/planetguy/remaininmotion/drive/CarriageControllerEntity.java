@@ -2,10 +2,10 @@ package me.planetguy.remaininmotion.drive ;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Interface;
-import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import me.planetguy.lib.cc.SPMethod;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
@@ -15,21 +15,8 @@ import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-@Optional.InterfaceList({ 
-	@Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
-	})
-public class CarriageControllerEntity extends CarriageDriveEntity implements dan200.computercraft.api.peripheral.IPeripheral
+public class CarriageControllerEntity extends CarriageDriveEntity
 {
-	
-	static{
-		IPeripheralProvider ipp=new CarriageControllerPeripheralProvider();
-		try {
-			Reflection.EstablishMethod(Reflection.EstablishClass("dan200.computercraft.api.ComputerCraftAPI"), "registerPeripheralProvider", Class.forName("dan200.computercraft.api.peripheral.IPeripheralProvider")).invoke(null, ipp);
-		} catch (Exception e) {
-			System.out.println("Error enabling ComputerCraft integration! It probably won't work!");
-			e.printStackTrace();
-		}
-	}
 	
 	public Object ThreadLockObject = new Object ( ) ;
 
@@ -48,6 +35,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 	@Override
 	public void HandleToolUsage ( int Side , boolean Sneaking )
 	{
+		
 	}
 
 	@Override
@@ -99,26 +87,6 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		return ( Anchored ) ;
 	}
 
-	@Override
-	public String getType ( )
-	{
-		return ( "JAKJ_RIM_CarriageController" ) ;
-	}
-
-	@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheralProvider", modid = "ComputerCraft")
-	private static final class CarriageControllerPeripheralProvider implements
-			IPeripheralProvider {
-		@Override
-		public IPeripheral getPeripheral(World world, int x, int y, int z,
-				int side) {
-			try{
-				return (IPeripheral) world.getTileEntity(x, y, z);
-			}catch(ClassCastException e){
-				return null;
-			}
-		}
-	}
-
 	public enum Commands
 	{
 		move ,
@@ -126,21 +94,6 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		check_anchored_move ,
 		unanchored_move ,
 		check_unanchored_move ;
-	}
-
-	@Override
-	public String [ ] getMethodNames ( )
-	{
-		int CommandCount = Commands . values ( ) . length ;
-
-		String [ ] CommandNames = new String [ CommandCount ] ;
-
-		for ( int Index = 0 ; Index < CommandCount ; Index ++ )
-		{
-			CommandNames [ Index ] = Commands . values ( ) [ Index ] . name ( ) ;
-		}
-
-		return ( CommandNames ) ;
 	}
 
 	public void AssertArgumentCount ( Object [ ] Arguments , int ArgumentCount ) throws Exception
@@ -232,56 +185,12 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		this . Anchored = Anchored ;
 	}
 
-    public Object[] callMethod( IComputerAccess computer, ILuaContext context, int MethodIndex, Object[] Arguments ) throws Exception{
-		try
-		{
-			switch ( Commands . values ( ) [ MethodIndex ] )
-			{
-				case move :
+	@SPMethod
+	public Object[] move(Object... Arguments ) throws Exception{
 
-					AssertArgumentCount ( Arguments , 3 ) ;
+		AssertArgumentCount ( Arguments , 3 ) ;
 
-					SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , ParseBooleanArgument ( Arguments [ 1 ] , "simulation" ) , ParseBooleanArgument ( Arguments [ 2 ] , "anchoring" ) ) ;
-
-					break ;
-
-				case anchored_move :
-
-					AssertArgumentCount ( Arguments , 1 ) ;
-
-					SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , false , true ) ;
-
-					break ;
-
-				case check_anchored_move :
-
-					AssertArgumentCount ( Arguments , 1 ) ;
-
-					SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , true , true ) ;
-
-					break ;
-
-				case unanchored_move :
-
-					AssertArgumentCount ( Arguments , 1 ) ;
-
-					SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , false , false ) ;
-
-					break ;
-
-				case check_unanchored_move :
-
-					AssertArgumentCount ( Arguments , 1 ) ;
-
-					SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , true , false ) ;
-
-					break ;
-			}
-		}
-		catch ( Throwable Throwable )
-		{
-			throw ( new Exception ( "no such command" ) ) ;
-		}
+		SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , ParseBooleanArgument ( Arguments [ 1 ] , "simulation" ) , ParseBooleanArgument ( Arguments [ 2 ] , "anchoring" ) ) ;
 
 		Error = null ;
 
@@ -386,19 +295,4 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements dan
 		return ( Package ) ;
 	}
 
-	@Override
-	public void attach(IComputerAccess computer) {
-		
-	}
-
-	@Override
-	public void detach(IComputerAccess computer) {
-		
-	}
-
-	@Override
-	public boolean equals(IPeripheral other) {
-		return other==this;
-	}
-	
 }

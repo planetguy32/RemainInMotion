@@ -166,15 +166,7 @@ public class StructureCarriageEntity extends CarriageEntity
 	{
 		Record . Identify ( worldObj ) ;
 
-		if ( Record .block == RIMBlocks . Carriage )
-		{
-			if ( Record . Meta == Carriage . Types . Structure . ordinal ( ) )
-			{
-				return ( true ) ;
-			}
-		}
-
-		return ( false ) ;
+		return Record.Entity instanceof StructureCarriageEntity;
 	}
 
 	@Override

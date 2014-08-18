@@ -87,6 +87,7 @@ public class Reflection
 		}
 	}
 
+	/*
 	public static Object get(Class c, Object o, String field){
 		return instance.getImpl(c, o, field);
 	}
@@ -99,6 +100,8 @@ public class Reflection
 			String name, Object...objects){
 		return instance.runMethodImpl(class1, chunk, name, objects);
 	}
+	
+	*/
 
 	public Object getImpl(Class c, Object o, String field){
 		try{

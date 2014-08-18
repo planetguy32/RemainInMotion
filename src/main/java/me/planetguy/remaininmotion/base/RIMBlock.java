@@ -8,9 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.util.Debug;
 
 public abstract class RIMBlock extends net . minecraft . block . Block
 {
@@ -49,7 +49,7 @@ public abstract class RIMBlock extends net . minecraft . block . Block
 		catch ( Throwable Throwable )
 		{
 			
-			System.out.println("Meta: "+Meta+","+Arrays.toString(TileEntityClasses));
+			Debug.dbg("Meta: "+Meta+","+Arrays.toString(TileEntityClasses));
 
 			return ( null ) ;
 		}

@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import net.minecraft.init.Blocks;
@@ -262,8 +263,10 @@ public class CarriagePackage
 
 		try
 		{
-			TreeSet<NextTickListEntry> ticks=(TreeSet<NextTickListEntry>) Reflection.get(
-					WorldServer.class, World, "pendingTickListEntriesTreeSet");
+			TreeSet<NextTickListEntry> ticks=World.pendingTickListEntriesTreeSet;
+			
+			HashSet<NextTickListEntry> ticksHash=World.pendingTickListEntriesHashSet;
+			
 			
 			java . util . Iterator PendingBlockUpdateSetIterator = ticks . iterator ( ) ;
 
@@ -276,6 +279,8 @@ public class CarriagePackage
 					PendingBlockUpdateSetIterator . remove ( ) ;
 
 					ticks . remove ( PendingBlockUpdate ) ;
+					
+					ticksHash.remove(PendingBlockUpdate);
 
 					StorePendingBlockUpdateRecord ( PendingBlockUpdate , WorldTime ) ;
 				}

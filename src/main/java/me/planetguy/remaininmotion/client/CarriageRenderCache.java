@@ -101,7 +101,7 @@ public abstract class CarriageRenderCache
 					Throwable . printStackTrace ( ) ;
 				}
 
-				if ( (Boolean) Reflection.get(Tessellator.class, Tessellator.instance, "isDrawing") )
+				if ( Tessellator.instance.isDrawing )
 				{
 					try
 					{
