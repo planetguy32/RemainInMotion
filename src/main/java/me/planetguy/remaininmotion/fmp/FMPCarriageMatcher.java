@@ -1,12 +1,12 @@
 package me.planetguy.remaininmotion.fmp;
 
-import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
+import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
 
 public class FMPCarriageMatcher implements CarriageMatcher{
 

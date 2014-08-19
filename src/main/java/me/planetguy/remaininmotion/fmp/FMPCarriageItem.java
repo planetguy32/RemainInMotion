@@ -5,7 +5,6 @@ import java.util.List;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.Items;
 import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.remaininmotion.core.Configuration.Cosmetic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;

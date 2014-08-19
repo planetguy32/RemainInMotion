@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion ;
 
-import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.util.Debug;
+import net.minecraft.block.Block;
 
 public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 {

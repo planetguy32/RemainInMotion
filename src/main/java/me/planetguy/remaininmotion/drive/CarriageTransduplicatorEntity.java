@@ -7,11 +7,10 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Spectre;
 import me.planetguy.remaininmotion.TransduplicativeSpectreEntity;
-import me.planetguy.remaininmotion.Spectre.Types;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
+import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import net.minecraft.tileentity.TileEntity;
 

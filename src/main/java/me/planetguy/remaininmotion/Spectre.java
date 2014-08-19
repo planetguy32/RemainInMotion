@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion ;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
 
 public class Spectre extends RIMBlock
 {

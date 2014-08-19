@@ -6,7 +6,6 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Configuration.Carriage;
 
 public class PlatformCarriageEntity extends CarriageEntity
 {

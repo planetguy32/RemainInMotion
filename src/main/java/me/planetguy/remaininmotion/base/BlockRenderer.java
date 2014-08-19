@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion.base ;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.IIcon;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.client.Render;
+import net.minecraft.block.Block;
+import net.minecraft.util.IIcon;
 
 public abstract class BlockRenderer implements cpw . mods . fml . client . registry . ISimpleBlockRenderingHandler , net . minecraftforge . client . IItemRenderer
 {

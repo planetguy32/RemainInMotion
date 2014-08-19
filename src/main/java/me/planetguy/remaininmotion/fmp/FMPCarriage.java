@@ -2,29 +2,21 @@ package me.planetguy.remaininmotion.fmp;
 
 import java.util.Iterator;
 
-import org.lwjgl.opengl.GL11;
-
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import codechicken.lib.lighting.LightMatrix;
-import codechicken.lib.render.Vertex5;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
-import codechicken.multipart.JCuboidPart;
-import codechicken.multipart.JIconHitEffects;
 import codechicken.multipart.JNormalOcclusion;
-import codechicken.multipart.TMultiPart;
 import codechicken.multipart.minecraft.McBlockPart;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.Interface(iface="JNormalOcclusion", modid="ForgeMultipart")
 public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveable{

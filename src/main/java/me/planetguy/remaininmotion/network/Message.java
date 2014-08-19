@@ -1,14 +1,14 @@
 package me.planetguy.remaininmotion.network;
 
+import io.netty.buffer.ByteBuf;
+
 import java.io.IOException;
 
 import me.planetguy.remaininmotion.PacketTypes;
-import me.planetguy.util.Debug;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTSizeTracker;
-import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

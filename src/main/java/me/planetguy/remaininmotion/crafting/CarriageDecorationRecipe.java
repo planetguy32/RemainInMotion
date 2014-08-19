@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion.crafting ;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.carriage.CarriageItem;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 
 public class CarriageDecorationRecipe extends Recipe
 {

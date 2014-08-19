@@ -3,11 +3,10 @@ package me.planetguy.remaininmotion.crafting ;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.base.Recipe;
-import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
-import me.planetguy.remaininmotion.drive.CarriageDrive.Types;
 import me.planetguy.remaininmotion.util.ItemUtil;
 
 public class CarriageTranslocatorLabelConversionRecipe extends Recipe

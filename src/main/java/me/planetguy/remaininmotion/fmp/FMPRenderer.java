@@ -10,8 +10,6 @@ import codechicken.microblock.IMicroMaterialRender;
 import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.microblock.MicroMaterialRegistry.IMicroMaterial;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.Interface(iface = "IMicroMaterialRender", modid = "ForgeMultipart")
 class FMPRenderer implements IMicroMaterialRender{

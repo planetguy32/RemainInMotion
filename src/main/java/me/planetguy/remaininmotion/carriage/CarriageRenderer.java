@@ -1,13 +1,12 @@
 package me.planetguy.remaininmotion.carriage ;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.base.BlockRenderer;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.util.IIcon;
 
 public class CarriageRenderer extends BlockRenderer
 {

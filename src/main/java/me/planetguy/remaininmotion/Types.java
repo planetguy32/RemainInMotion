@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion;
 
-import net.minecraft.util.IIcon;
 import me.planetguy.remaininmotion.core.Items;
+import net.minecraft.util.IIcon;
 
 public enum Types
 {

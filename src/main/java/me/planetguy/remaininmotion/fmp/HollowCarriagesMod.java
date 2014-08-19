@@ -1,17 +1,14 @@
 package me.planetguy.remaininmotion.fmp;
 
-import java.io.File;
-
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
-import codechicken.multipart.MultiPartRegistry;
-import codechicken.multipart.MultiPartRegistry.IPartFactory;
-import codechicken.multipart.TMultiPart;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.Items;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import codechicken.multipart.MultiPartRegistry;
+import codechicken.multipart.MultiPartRegistry.IPartFactory;
+import codechicken.multipart.TMultiPart;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

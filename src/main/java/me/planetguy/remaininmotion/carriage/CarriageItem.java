@@ -1,13 +1,11 @@
 package me.planetguy.remaininmotion.carriage ;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import me.planetguy.remaininmotion.Stack;
-import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.core.Configuration.Cosmetic;
+import net.minecraft.block.Block;
 
 public class CarriageItem extends BlockItem
 {

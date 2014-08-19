@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion.base ;
 
+import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.core.Mod;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.core.Mod;
 
 public abstract class Item extends net . minecraft . item . Item
 {

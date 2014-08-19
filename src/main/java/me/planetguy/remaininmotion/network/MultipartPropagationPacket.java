@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion.network ;
 
-import net.minecraft.block.Block;
-import net.minecraft.nbt.NBTTagList;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.PacketTypes;
+import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagList;
 
 public abstract class MultipartPropagationPacket
 {

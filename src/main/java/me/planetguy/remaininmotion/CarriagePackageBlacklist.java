@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion ;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 public abstract class CarriagePackageBlacklist
 {

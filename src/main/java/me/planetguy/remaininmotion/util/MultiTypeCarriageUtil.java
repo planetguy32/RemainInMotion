@@ -6,7 +6,6 @@ import me.planetguy.remaininmotion.CarriageMatchers;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

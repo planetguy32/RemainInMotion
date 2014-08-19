@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion;
 
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
 
 public class DefaultCarriageMatcher implements CarriageMatcher{
 

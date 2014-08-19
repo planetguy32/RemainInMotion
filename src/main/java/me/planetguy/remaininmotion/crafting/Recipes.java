@@ -5,16 +5,13 @@ import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.Types;
 import me.planetguy.remaininmotion.Vanilla;
-import me.planetguy.remaininmotion.Vanilla.DyeTypes;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.carriage.CarriageItem;
 import me.planetguy.remaininmotion.core.ModInteraction;
-import me.planetguy.remaininmotion.core.ModInteraction.ComputerCraft;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class Recipes

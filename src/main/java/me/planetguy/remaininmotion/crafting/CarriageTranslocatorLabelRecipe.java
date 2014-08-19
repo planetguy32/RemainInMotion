@@ -1,14 +1,12 @@
 package me.planetguy.remaininmotion.crafting ;
 
-import net.minecraft.init.Items;
 import me.planetguy.remaininmotion.Vanilla;
-import me.planetguy.remaininmotion.Vanilla.DyeTypes;
 import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
-import me.planetguy.remaininmotion.drive.CarriageDrive.Types;
+import net.minecraft.init.Items;
 
 public class CarriageTranslocatorLabelRecipe extends Recipe
 {

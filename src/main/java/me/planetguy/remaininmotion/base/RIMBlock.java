@@ -3,14 +3,14 @@ package me.planetguy.remaininmotion.base ;
 import java.util.Arrays;
 import java.util.List;
 
+import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.util.Debug;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.util.Debug;
 
 public abstract class RIMBlock extends net . minecraft . block . Block
 {

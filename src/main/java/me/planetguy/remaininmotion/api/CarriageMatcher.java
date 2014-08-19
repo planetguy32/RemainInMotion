@@ -2,7 +2,6 @@ package me.planetguy.remaininmotion.api;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
-import me.planetguy.remaininmotion.CarriagePackage;
 
 /**
  * Used to mark something as a carriage.

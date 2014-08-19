@@ -1,19 +1,12 @@
 package me.planetguy.remaininmotion.drive ;
 
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.Optional.Interface;
-import dan200.computercraft.api.peripheral.IComputerAccess;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import me.planetguy.lib.cc.SPMethod;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
-import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public class CarriageControllerEntity extends CarriageDriveEntity
 {

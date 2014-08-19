@@ -1,10 +1,5 @@
 package me.planetguy.remaininmotion ;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.server.management.PlayerManager;
-import net.minecraft.world.WorldServer;
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.client.CarriageRenderCache;
 import me.planetguy.remaininmotion.core.Configuration;
@@ -12,9 +7,10 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
-import me.planetguy.remaininmotion.util.Reflection;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
-import me.planetguy.util.Debug;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.WorldServer;
 
 public class MotiveSpectreEntity extends TileEntity
 {
@@ -229,10 +225,11 @@ public class MotiveSpectreEntity extends TileEntity
 				{
 					for ( net . minecraft . entity . player . EntityPlayerMP Player : ( ( java . util . List < net . minecraft . entity . player . EntityPlayerMP > )
 							
-									((WorldServer ) worldObj ) 
+									((Object)((WorldServer ) worldObj ) 
 									.getPlayerManager ( )
+									
 									.getOrCreateChunkWatcher(Chunk . xPosition , Chunk . zPosition , false )
-									.playersWatchingChunk))
+									.playersWatchingChunk)))
 							
 					{
 						if ( ! Player . loadedChunks . contains ( Chunk . getChunkCoordIntPair ( ) ) )

@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.BlockItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import me.planetguy.remaininmotion.base.BlockItem;
 
 public class SpectreItem extends BlockItem
 {

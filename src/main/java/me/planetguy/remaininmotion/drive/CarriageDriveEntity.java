@@ -9,7 +9,6 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.Spectre;
-import me.planetguy.remaininmotion.Spectre.Types;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.base.TileEntity;

@@ -5,7 +5,6 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class CarriageEngineEntity extends CarriageDriveEntity
 {

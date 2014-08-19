@@ -1,12 +1,10 @@
 package me.planetguy.remaininmotion.core ;
 
-import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.CarriagePackageBlacklist;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.Registry;
-import me.planetguy.remaininmotion.SimpleItemSet;
-import me.planetguy.remaininmotion.ToolItemSet;
+import net.minecraft.block.Block;
 
 
 public class Configuration extends Config

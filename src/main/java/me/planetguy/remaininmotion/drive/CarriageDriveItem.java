@@ -1,13 +1,11 @@
 package me.planetguy.remaininmotion.drive ;
 
-import net.minecraft.block.Block;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.Vanilla;
-import me.planetguy.remaininmotion.Vanilla.DyeTypes;
 import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.core.Configuration.Cosmetic;
+import net.minecraft.block.Block;
 
 public class CarriageDriveItem extends BlockItem
 {

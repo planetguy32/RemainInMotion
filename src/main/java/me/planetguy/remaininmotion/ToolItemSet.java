@@ -1,12 +1,12 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.base.Item;
+import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import me.planetguy.remaininmotion.base.Item;
-import me.planetguy.remaininmotion.core.ModInteraction;
-import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.core.Items;
 
 public class ToolItemSet extends Item
 {

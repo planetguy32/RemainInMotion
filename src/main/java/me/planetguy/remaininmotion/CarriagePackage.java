@@ -1,11 +1,8 @@
 package me.planetguy.remaininmotion ;
 
-import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.world.NextTickListEntry;
-import net.minecraft.world.WorldServer;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.carriage.CarriageEntity;
@@ -14,8 +11,8 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
-import me.planetguy.remaininmotion.util.Reflection;
 import me.planetguy.util.Debug;
+import net.minecraft.world.NextTickListEntry;
 
 
 public class CarriagePackage
@@ -33,7 +30,7 @@ public class CarriagePackage
 	public BlockRecord AnchorRecord ;
 
 	public Directions MotionDirection ;
-
+	
 	public CarriagePackage ( CarriageDriveEntity Drive , net.minecraft.tileentity.TileEntity Anchor , Directions MotionDirection )
 	{
 		World = ( net . minecraft . world . WorldServer ) Drive.getWorldObj() ;
@@ -265,7 +262,7 @@ public class CarriagePackage
 		{
 			TreeSet<NextTickListEntry> ticks=World.pendingTickListEntriesTreeSet;
 			
-			HashSet<NextTickListEntry> ticksHash=World.pendingTickListEntriesHashSet;
+			Set ticksHash=World.pendingTickListEntriesHashSet;
 			
 			
 			java . util . Iterator PendingBlockUpdateSetIterator = ticks . iterator ( ) ;

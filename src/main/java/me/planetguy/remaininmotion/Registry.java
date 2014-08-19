@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Mod;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
-import me.planetguy.remaininmotion.core.Mod;
 
 public abstract class Registry
 {

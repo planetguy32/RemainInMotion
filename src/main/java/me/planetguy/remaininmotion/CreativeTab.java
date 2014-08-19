@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.remaininmotion.core.Mod;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import me.planetguy.remaininmotion.core.Mod;
 
 public class CreativeTab extends net . minecraft . creativetab . CreativeTabs
 {
