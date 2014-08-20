@@ -517,8 +517,11 @@ public class MotiveSpectreEntity extends TileEntity
 
 		public void SetPosition ( double OffsetX , double OffsetY , double OffsetZ )
 		{
-			//System.out.println("Offset @"+OffsetX+","+OffsetY+","+OffsetZ);
-			Entity . setPosition ( InitialX + OffsetX , InitialY + OffsetY + Entity . yOffset , InitialZ + OffsetZ ) ;
+			System.out.println("From "+Entity.posX+","+Entity.posY+","+Entity.posZ);
+			Entity.posX=InitialX + OffsetX;
+			Entity.posY=InitialY + OffsetY;
+			Entity.posZ=InitialZ + OffsetZ;
+			System.out.println("To   "+Entity.posX+","+Entity.posY+","+Entity.posZ);
 		}
 
 		public void Update ( )
@@ -553,11 +556,11 @@ public class MotiveSpectreEntity extends TileEntity
 				Entity . motionY = Velocity * MotionDirection . DeltaY ;
 				Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
 
+				Entity . prevPosX = Entity . posX;
+				Entity . prevPosY = Entity . posY;
+				Entity . prevPosZ = Entity . posZ;
+				
 				SetPosition ( Entity . motionX * TicksExisted , Entity . motionY * TicksExisted , Entity . motionZ * TicksExisted ) ;
-
-				Entity . prevPosX = Entity . posX - Entity . motionX ;
-				Entity . prevPosY = Entity . posY - Entity . motionY ;
-				Entity . prevPosZ = Entity . posZ - Entity . motionZ ;
 			}
 		}
 	}
