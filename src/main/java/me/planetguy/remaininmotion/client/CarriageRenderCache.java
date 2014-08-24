@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.client ;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
+import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 
@@ -100,7 +101,7 @@ public abstract class CarriageRenderCache
 					Throwable . printStackTrace ( ) ;
 				}
 
-				if ( Tessellator.instance.isDrawing )
+				if ((Boolean) Reflection.get(Tessellator.class, Tessellator.instance, "isDrawing"))
 				{
 					try
 					{

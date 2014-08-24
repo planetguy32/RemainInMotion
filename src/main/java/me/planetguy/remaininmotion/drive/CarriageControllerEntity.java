@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.drive ;
 
-import me.planetguy.lib.cc.SPMethod;
+import me.planetguy.lib.api.SPMethod;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;

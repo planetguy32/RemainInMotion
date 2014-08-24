@@ -7,6 +7,7 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
+import me.planetguy.remaininmotion.util.Reflection;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -225,11 +226,11 @@ public class MotiveSpectreEntity extends TileEntity
 				{
 					for ( net . minecraft . entity . player . EntityPlayerMP Player : ( ( java . util . List < net . minecraft . entity . player . EntityPlayerMP > )
 							
-									((Object)((WorldServer ) worldObj ) 
-									.getPlayerManager ( )
-									
-									.getOrCreateChunkWatcher(Chunk . xPosition , Chunk . zPosition , false )
-									.playersWatchingChunk)))
+							Reflection.get(Class.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
+									Reflection.runMethod(WorldServer.class, (((WorldServer ) worldObj ) . getPlayerManager ( )),
+									"getOrCreateChunkWatcher",
+									Chunk . xPosition , Chunk . zPosition , false ),
+									"playersWatchingChunk" ) ))
 							
 					{
 						if ( ! Player . loadedChunks . contains ( Chunk . getChunkCoordIntPair ( ) ) )

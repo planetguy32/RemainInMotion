@@ -11,8 +11,10 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
+import me.planetguy.remaininmotion.util.Reflection;
 import me.planetguy.util.Debug;
 import net.minecraft.world.NextTickListEntry;
+import net.minecraft.world.WorldServer;
 
 
 public class CarriagePackage
@@ -260,10 +262,11 @@ public class CarriagePackage
 
 		try
 		{
-			TreeSet<NextTickListEntry> ticks=World.pendingTickListEntriesTreeSet;
+			TreeSet<NextTickListEntry> ticks=(TreeSet<NextTickListEntry>) Reflection.get(
+					WorldServer.class, World, "pendingTickListEntriesTreeSet");
 			
-			Set ticksHash=World.pendingTickListEntriesHashSet;
-			
+			Set ticksHash=(Set) Reflection.get(
+					WorldServer.class, World, "pendingTickListEntriesHashSet");
 			
 			java . util . Iterator PendingBlockUpdateSetIterator = ticks . iterator ( ) ;
 
