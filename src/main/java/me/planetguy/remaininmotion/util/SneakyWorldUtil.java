@@ -1,8 +1,11 @@
 package me.planetguy.remaininmotion.util ;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public abstract class SneakyWorldUtil
@@ -18,7 +21,7 @@ public abstract class SneakyWorldUtil
 		Chunk . removeTileEntity ( ChunkX , Y , ChunkZ ) ;
 
 		int LayerY = Y >> 4 ;
-		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Chunk.storageArrays;
+		ExtendedBlockStorage[] storageArrays=(ExtendedBlockStorage[]) Reflection.get(Chunk.class, Chunk, "storageArrays");
 
 		if ( storageArrays [ LayerY ] == null )
 		{
@@ -43,9 +46,9 @@ public abstract class SneakyWorldUtil
 	public static void SetTileEntity (World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )
 	{
 		try{
-			if (World.field_147481_N)
+			if ( (Boolean)Reflection.get(World.class, World,"field_147481_N"))
 			{
-				World.addedTileEntityList . add ( Entity ) ;
+				((List)Reflection.get(World.class, World ,"addedTileEntityList")) . add ( Entity ) ;
 			}
 			else
 			{

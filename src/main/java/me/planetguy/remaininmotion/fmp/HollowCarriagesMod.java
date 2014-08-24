@@ -4,6 +4,7 @@ import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.Items;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.util.Debug;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.multipart.MultiPartRegistry;
@@ -28,6 +29,7 @@ public class HollowCarriagesMod {
 	@Mod . EventHandler
 	public void preInit (FMLPreInitializationEvent event ){
 		alive=Loader.isModLoaded("ForgeMultipart");
+		Debug.dbg("FMP carriage: "+ (alive ? "loading" : "not loading"));
 		if(!alive)return;
 		hollowCarriage=new FMPCarriageItem();
 		hollowCarriage.setUnlocalizedName(me.planetguy.remaininmotion.core.Mod.Handle+":hollowCarriage");

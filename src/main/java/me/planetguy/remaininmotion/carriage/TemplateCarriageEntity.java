@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import me.planetguy.util.Debug;
 
 public class TemplateCarriageEntity extends CarriageEntity
 {
@@ -156,6 +157,8 @@ public class TemplateCarriageEntity extends CarriageEntity
 
 			Pattern . add ( Position ) ;
 		}
+		
+		Debug.dbg(Pattern);
 
 		BlockRecordSet NewPositions = new BlockRecordSet ( ) ;
 
@@ -188,6 +191,8 @@ public class TemplateCarriageEntity extends CarriageEntity
 				DeadPositions . add ( Position ) ;
 			}
 		}
+		
+		Debug.dbg(NewPositions);
 
 		for ( BlockRecord Position : DeadPositions )
 		{
@@ -213,6 +218,10 @@ public class TemplateCarriageEntity extends CarriageEntity
 		this . Pattern . clear ( ) ;
 
 		this . Pattern . addAll ( Pattern ) ;
+		
+		Debug.dbg(Pattern);
+		
+		Debug.dbg(this.Pattern);
 	}
 
 	public boolean RenderPattern ;
@@ -220,16 +229,20 @@ public class TemplateCarriageEntity extends CarriageEntity
 	@Override
 	public void ReadCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
+		Debug.dbg(TagCompound);
+		
 		super . ReadCommonRecord ( TagCompound ) ;
 
 		if ( TagCompound . hasKey ( "Pattern" ) )
 		{
-			net . minecraft . nbt . NBTTagList PatternRecord = TagCompound . getTagList ( "Pattern", 11 ) ;
+			Debug.dbg("Found PatternRecord");
+			net . minecraft . nbt . NBTTagList PatternRecord = TagCompound . getTagList ( "Pattern", 10) ;
 
 			Pattern = new BlockRecordList ( ) ;
 
 			int PatternSize = PatternRecord . tagCount ( ) ;
 
+			Debug.dbg("PatternRecord size="+PatternSize);
 			for ( int Index = 0 ; Index < PatternSize ; Index ++ )
 			{
 				net . minecraft . nbt . NBTTagCompound PatternBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) PatternRecord.getCompoundTagAt( Index ) ;
@@ -243,6 +256,7 @@ public class TemplateCarriageEntity extends CarriageEntity
 		}
 
 		RenderPattern = TagCompound . getBoolean ( "RenderPattern" ) ;
+		
 	}
 
 	@Override
@@ -304,5 +318,9 @@ public class TemplateCarriageEntity extends CarriageEntity
 				Package . AddPotentialObstruction ( Record . NextInDirection ( Package . MotionDirection ) ) ;
 			}
 		}
+	}
+	
+	public String toString(){
+		return "Template carriage "+this.Pattern;
 	}
 }

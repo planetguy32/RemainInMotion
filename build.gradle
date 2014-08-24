@@ -39,7 +39,7 @@ compileScala {
 }
 
 
-version = "2.0.0"
+version = "2.0.1-EXP2"
 group= "me.planetguy" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "RemainInMotion"
 
@@ -66,8 +66,3 @@ processResources
     }
 }
 
-jar{
-    manifest{
-        attributes 'FMLAT': 'RemIM_at.cfg'
-    }
-}
