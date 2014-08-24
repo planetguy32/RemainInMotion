@@ -516,13 +516,40 @@ public class MotiveSpectreEntity extends TileEntity
 			Update ( ) ;
 		}
 
-		public void SetPosition ( double OffsetX , double OffsetY , double OffsetZ )
+		public void SetPosition ( double ShiftX , double ShiftY , double ShiftZ )
 		{
-			System.out.println("From "+Entity.posX+","+Entity.posY+","+Entity.posZ);
-			Entity.posX=InitialX + OffsetX;
-			Entity.posY=InitialY + OffsetY;
-			Entity.posZ=InitialZ + OffsetZ;
-			System.out.println("To   "+Entity.posX+","+Entity.posY+","+Entity.posZ);
+			net . minecraft . server . MinecraftServer Server = cpw . mods . fml . common . FMLCommonHandler . instance ( ) . getMinecraftServerInstance ( ) ;
+
+			net . minecraft . world . WorldServer HomeWorld = ( net . minecraft . world . WorldServer ) worldObj ;
+
+			TeleportativeSpectreTeleporter Teleporter = new TeleportativeSpectreTeleporter ( worldObj ) ;
+
+			double X = Entity . posX + ShiftX ;
+			double Y = Entity . posY + ShiftY ;
+			double Z = Entity . posZ + ShiftZ ;
+			float Yaw = Entity . rotationYaw ;
+			float Pitch = Entity . rotationPitch ;
+
+			net . minecraft . entity . Entity Mount = Entity . ridingEntity ;
+
+			if ( Entity instanceof net . minecraft . entity . player . EntityPlayerMP )
+			{
+				net . minecraft . entity . player . EntityPlayerMP Player = ( net . minecraft . entity . player . EntityPlayerMP ) Entity ;
+
+				Player . playerNetServerHandler . setPlayerLocation ( X , Y , Z , Yaw , Pitch ) ;
+
+				Player . setLocationAndAngles ( X , Y , Z , Yaw , Pitch ) ;
+			}
+			else
+			{
+				Entity . setLocationAndAngles ( X , Y , Z , Yaw , Pitch ) ;
+			}
+
+			if ( Mount != null )
+			{
+				Entity . mountEntity ( Mount ) ;
+			}
+
 		}
 
 		public void Update ( )
@@ -561,7 +588,7 @@ public class MotiveSpectreEntity extends TileEntity
 				Entity . prevPosY = Entity . posY;
 				Entity . prevPosZ = Entity . posZ;
 				
-				SetPosition ( Entity . motionX * TicksExisted , Entity . motionY * TicksExisted , Entity . motionZ * TicksExisted ) ;
+				SetPosition ( Entity . motionX * TicksExisted / 16 , Entity . motionY * TicksExisted / 16 , Entity . motionZ * TicksExisted / 16 ) ;
 			}
 		}
 	}

@@ -46,7 +46,7 @@ public abstract class MultiTypeCarriageUtil {
 
 					if ( ( ( FrameCarriageEntity ) CarriageRecord . Entity ) . SideClosed [ TargetDirection . ordinal ( ) ] )
 					{
-						System.out.println("=!= SideClosed");
+						//DEBUG =!= SideClosed");
 						if ( TargetDirection == Package . MotionDirection )
 						{
 							Package . AddPotentialObstruction ( TargetRecord ) ;
@@ -55,18 +55,18 @@ public abstract class MultiTypeCarriageUtil {
 						continue ;
 					}
 					
-					System.out.println("=!= FrameCarriageEntity "+TargetRecord.NextInDirection(Package . MotionDirection));
+					//DEBUG =!= FrameCarriageEntity "+TargetRecord.NextInDirection(Package . MotionDirection));
 				}
 
 				if ( ! BlocksChecked . add ( TargetRecord ) )
 				{
-					System.out.println("=!= BlocksChecked "+TargetRecord.NextInDirection(Package . MotionDirection));
+					//DEBUG =!= BlocksChecked "+TargetRecord.NextInDirection(Package . MotionDirection));
 					continue ;
 				}
 
 				if ( worldObj . isAirBlock ( TargetRecord . X , TargetRecord . Y , TargetRecord . Z ) )
 				{
-					System.out.println("=!= IsAir "+TargetRecord.NextInDirection(Package . MotionDirection));
+					//DEBUG =!= IsAir "+TargetRecord.NextInDirection(Package . MotionDirection));
 					continue ;
 				}
 
@@ -76,7 +76,7 @@ public abstract class MultiTypeCarriageUtil {
 
 				if ( Package . MatchesCarriageType ( TargetRecord ) )
 				{
-					System.out.println("=!= TargetRecord "+TargetRecord.NextInDirection(Package . MotionDirection));
+					//DEBUG =!= TargetRecord "+TargetRecord.NextInDirection(Package . MotionDirection));
 					CarriagesToCheck . add ( TargetRecord ) ;
 
 					continue ;
@@ -84,7 +84,7 @@ public abstract class MultiTypeCarriageUtil {
 
 				if ( Package . MotionDirection != null )
 				{
-					System.out.println("=== Passed "+TargetRecord.NextInDirection(Package . MotionDirection));
+					//DEBUG === Passed "+TargetRecord.NextInDirection(Package . MotionDirection));
 					Package . AddPotentialObstruction ( TargetRecord . NextInDirection ( Package . MotionDirection ) ) ;
 				}
 				
