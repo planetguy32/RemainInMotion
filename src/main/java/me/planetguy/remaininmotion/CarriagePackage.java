@@ -87,11 +87,13 @@ public class CarriagePackage
 			throw ( new CarriageObstructionException ( "cannot move carriage below depth limit" , Record . X , Record . Y , Record . Z ) ) ;
 		}
 
-		if ( CarriagePackageBlacklist . Lookup ( Record ) )
+		if ( BlockBlacklist.blacklistHard . Lookup ( Record ) )
 		{
-			if(!Configuration.Carriage.stopIfBlacklistedBlock)
-				return;
 			throw ( new CarriageObstructionException ( "carriage contains system-wide blacklisted block" , Record . X , Record . Y , Record . Z ) ) ;
+		}
+		
+		if(BlockBlacklist.blacklistSoft.Lookup(Record)){
+			return;
 		}
 
 		Body . add ( Record ) ;

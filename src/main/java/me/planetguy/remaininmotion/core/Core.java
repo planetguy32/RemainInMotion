@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.core ;
 
-import me.planetguy.remaininmotion.CarriagePackageBlacklist;
+import me.planetguy.remaininmotion.BlockBlacklist;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.DefaultCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
@@ -39,7 +39,7 @@ public abstract class Core
 	{
 		Recipes . Register ( ) ;
 
-		CarriagePackageBlacklist . Initialize ( ) ;
+		BlockBlacklist . Initialize ( ) ;
 	}
 
 	public static void HandleServerStopping ( )

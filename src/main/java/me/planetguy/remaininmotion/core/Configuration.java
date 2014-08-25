@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion.core ;
 
+import me.planetguy.remaininmotion.BlockBlacklist;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.CarriagePackageBlacklist;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.Registry;
 import net.minecraft.block.Block;
@@ -9,15 +9,6 @@ import net.minecraft.block.Block;
 
 public class Configuration extends Config
 {
-	public abstract static class BlockIds
-	{
-		public static int Carriage ;
-
-		public static int CarriageDrive ;
-
-		public static int Spectre ;
-	}
-
 	public abstract static class Carriage
 	{
 		public static int MaxPlatformBurden = 5000 ;
@@ -28,7 +19,6 @@ public class Configuration extends Config
 
 		public static boolean BlacklistByPiston = false ;
 		
-		public static boolean stopIfBlacklistedBlock=true;
 	}
 
 	public abstract static class CarriageDrive
@@ -153,6 +143,41 @@ public class Configuration extends Config
 	{
 		super ( File ) ;
 	}
+	
+	private void setupBlacklist(String bl, BlockBlacklist blacklist){
+		String Blacklist = String ( bl , "" ) ;
+
+		if ( ! Blacklist . equals ( "" ) )
+		{
+			for ( String BlacklistItem : Blacklist . split ( "," ) )
+			{
+				String [ ] BlacklistItemElements = BlacklistItem . split ( ":" ) ;
+
+				try
+				{
+					if ( BlacklistItemElements . length == 1 )
+					{
+						blacklist . blacklist ( Block.getBlockFromName(BlacklistItemElements[0]) ) ;
+
+						continue ;
+					}
+
+					if ( BlacklistItemElements . length == 2 )
+					{
+						blacklist . blacklist ( Block.getBlockFromName(BlacklistItemElements[0]) , Integer . parseInt ( BlacklistItemElements [ 1 ] ) ) ;
+
+						continue ;
+					}
+				}
+				catch ( Throwable Throwable )
+				{
+					Throwable . printStackTrace ( ) ;
+				}
+
+				new RuntimeException ( "Invalid blacklist item: " + BlacklistItem ) . printStackTrace ( ) ;
+			}
+		}
+	}
 
 	public void Process ( )
 	{
@@ -161,38 +186,9 @@ public class Configuration extends Config
 			Category = "Carriage" ;
 
 			{
-				String Blacklist = String ( "Blacklist" , "" ) ;
-
-				if ( ! Blacklist . equals ( "" ) )
-				{
-					for ( String BlacklistItem : Blacklist . split ( "," ) )
-					{
-						String [ ] BlacklistItemElements = BlacklistItem . split ( ":" ) ;
-
-						try
-						{
-							if ( BlacklistItemElements . length == 1 )
-							{
-								CarriagePackageBlacklist . blacklist ( Block.getBlockFromName(BlacklistItemElements[0]) ) ;
-
-								continue ;
-							}
-
-							if ( BlacklistItemElements . length == 2 )
-							{
-								CarriagePackageBlacklist . blacklist ( Integer . parseInt ( BlacklistItemElements [ 0 ] ) , Integer . parseInt ( BlacklistItemElements [ 1 ] ) ) ;
-
-								continue ;
-							}
-						}
-						catch ( Throwable Throwable )
-						{
-							Throwable . printStackTrace ( ) ;
-						}
-
-						new RuntimeException ( "Invalid blacklist item: " + BlacklistItem ) . printStackTrace ( ) ;
-					}
-				}
+				setupBlacklist("blacklistSoft", BlockBlacklist.blacklistSoft);
+				
+				setupBlacklist("blacklistHard", BlockBlacklist.blacklistHard);
 			}
 
 			CarriagePackage . MaxBlockCount = BoundedInteger ( "Maximum size of any carriage (0 = no limit)" , 0 , CarriagePackage . MaxBlockCount , Integer . MAX_VALUE ) ;
@@ -204,8 +200,6 @@ public class Configuration extends Config
 			Carriage . BlacklistBedrock = Boolean ( "Carriages refuse to move bedrock (DANGEROUS IF FALSE)" , Carriage . BlacklistBedrock ) ;
 
 			Carriage . BlacklistByPiston = Boolean ( "Carriages refuse to move blocks that pistons cannot move" , Carriage . BlacklistByPiston ) ;
-		
-			Carriage.stopIfBlacklistedBlock = Boolean ( "Stop carriage motion upon finding blacklisted block" , Carriage .stopIfBlacklistedBlock ) ;
 		}
 
 		{
