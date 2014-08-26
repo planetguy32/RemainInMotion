@@ -168,6 +168,10 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			{
 				continue ;
 			}
+			
+			if(SideClosed[Direction.ordinal()]){
+				continue;
+			}
 
 			net.minecraft.block.Block Id = worldObj . getBlock ( X , Y , Z ) ;
 			net.minecraft.tileentity.TileEntity te=worldObj.getTileEntity(X,Y,Z);

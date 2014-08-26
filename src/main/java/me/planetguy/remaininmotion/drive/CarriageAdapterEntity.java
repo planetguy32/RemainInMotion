@@ -24,6 +24,10 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 		BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
 	}
 	
+	public void HandleToolUsage ( int Side , boolean Sneaking ){
+		super.HandleToolUsage(Side, true); //Don't allow toggling continuous - it's meaningless
+	}
+	
 	@Override
 	public void updateEntity ( )
 	{
