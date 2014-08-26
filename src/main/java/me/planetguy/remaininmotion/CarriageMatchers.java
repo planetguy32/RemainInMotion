@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.util.Debug;
 
 public class CarriageMatchers {
 	
@@ -23,9 +24,10 @@ public class CarriageMatchers {
 		return false;
 	}
 	
-	public static Moveable getMover(net.minecraft.block.Block blockslist, int meta, net.minecraft.tileentity.TileEntity te){
+	public static Moveable getMover(net.minecraft.block.Block blockslist, int meta, net.minecraft.tileentity.TileEntity te) {
 		for(CarriageMatcher m:matchers){
 			Moveable mv=m.getCarriage(blockslist, meta, te);
+			Debug.dbg("CM "+m+" blockslist "+blockslist+" -> "+mv);
 			if(mv!=null)
 				return mv;
 		}

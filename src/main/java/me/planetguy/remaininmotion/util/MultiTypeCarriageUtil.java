@@ -6,7 +6,9 @@ import me.planetguy.remaininmotion.CarriageMatchers;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
+import me.planetguy.util.Debug;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -14,7 +16,9 @@ import net.minecraft.world.World;
 public abstract class MultiTypeCarriageUtil {
 	
 	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
-		CarriageMatchers.getMover(package1.AnchorRecord.block, package1.AnchorRecord.Meta, package1.AnchorRecord.Entity).fillPackage(package1);
+		Moveable m=CarriageMatchers.getMover(package1.AnchorRecord.block, package1.AnchorRecord.Meta, package1.AnchorRecord.Entity);
+		Debug.dbg(m+" @ "+package1.AnchorRecord.toString()); //(49,79,237)
+		m.fillPackage(package1);
 	}
 
 	public static void fillFramePackage ( CarriagePackage Package, World worldObj ) throws CarriageMotionException

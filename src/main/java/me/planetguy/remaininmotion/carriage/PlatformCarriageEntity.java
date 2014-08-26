@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.carriage ;
 
+import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -56,8 +57,9 @@ public class PlatformCarriageEntity extends CarriageEntity
 					continue ;
 				}
 
-				if ( worldObj . isAirBlock ( TargetRecord . X , TargetRecord . Y , TargetRecord . Z ) )
+				if ( BlacklistManager.blacklistSoft.lookup(worldObj, xCoord, yCoord, zCoord))
 				{
+					Package.AddPotentialObstruction(TargetRecord);
 					continue ;
 				}
 
@@ -109,7 +111,7 @@ public class PlatformCarriageEntity extends CarriageEntity
 
 				BlocksCarried ++ ;
 
-				if ( BlocksCarried > Configuration . Carriage . MaxPlatformBurden )
+				if ( BlocksCarried > 10)// Configuration . Carriage . MaxPlatformBurden )
 				{
 					FailBecauseOverburdened ( ) ;
 				}

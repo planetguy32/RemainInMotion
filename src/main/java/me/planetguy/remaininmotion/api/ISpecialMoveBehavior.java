@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.api;
 
+import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -11,6 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface ISpecialMoveBehavior {
 	
-	public void onAdded(CarriagePackage pkg, NBTTagCompound tag);
+	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException;
 
 }

@@ -309,7 +309,7 @@ public class MotiveSpectreEntity extends TileEntity
 		}
 		catch ( Throwable Throwable )
 		{
-			Throwable . printStackTrace ( ) ;
+			//Throwable . printStackTrace ( ) ;
 		}
 
 		SneakyWorldUtil . RefreshBlock ( worldObj , xCoord , yCoord , zCoord , RIMBlocks . Spectre , Blocks.air ) ;

@@ -182,24 +182,6 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 				{
 					CarriageDirection = Direction ;
 				}
-			//TODO hook up new system
-			/*if ( Id == Blocks . Carriage . blockID )
-			{
-				if ( SideClosed [ Direction . ordinal ( ) ] )
-				{
-					continue ;
-				}
-
-				if ( CarriageDirection != null )
-				{
-					CarriageDirectionValid = false ;
-				}
-				else
-				{
-					CarriageDirection = Direction ;
-				}
-			}
-			else */
 			if ( Id . isProvidingWeakPower ( worldObj , X , Y , Z , Direction . ordinal ( ) ) > 0 )
 			{
 				if ( SignalDirection != null )

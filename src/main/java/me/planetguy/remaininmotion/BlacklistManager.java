@@ -5,6 +5,7 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.util.Debug;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
 
 public class BlacklistManager
 {
@@ -27,17 +28,17 @@ public class BlacklistManager
 
 	public boolean Lookup ( BlockRecord record )
 	{
-		if ( BlacklistedIds . contains ( record .block ) )
-		{
-			return ( true ) ;
+		return lookup(record.World,record.X, record.Y, record.Z);
+	}
+	
+	public boolean lookup(World w, int x, int y, int z){
+		int meta=w.getBlockMetadata(x, y, z);
+		Block block=w.getBlock(x, y, z);
+		if(BlacklistedIds.contains(block) || BlacklistedIds.contains(new BlockInt(block, meta))){
+			return true;
+		}else{
+			return false;
 		}
-
-		if ( BlacklistedIdAndMetaPairs . contains ( ( Block.getIdFromBlock(record .block) << 4 ) | record . Meta ) )
-		{
-			return ( true ) ;
-		}
-
-		return ( false ) ;
 	}
 
 	public static void Initialize ( )

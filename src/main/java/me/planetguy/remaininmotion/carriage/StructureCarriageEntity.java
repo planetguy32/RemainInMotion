@@ -108,8 +108,6 @@ public class StructureCarriageEntity extends CarriageEntity
 
 		if ( OpenDirections . size ( ) == 2 )
 		{
-			Debug.dbg("22@"+xCoord+","+yCoord+","+zCoord);
-			
 			Directions Neg = OpenDirections . get ( 0 ) ;
 			Directions Pos = OpenDirections . get ( 1 ) ;
 
@@ -133,7 +131,6 @@ public class StructureCarriageEntity extends CarriageEntity
 		else if(OpenDirections.size()>=3)
 		{
 			
-			Debug.dbg("333");
 			Directions Y = OpenDirections . get ( 0 ) ;
 			Directions Z = OpenDirections . get ( 1 ) ;
 			Directions X = OpenDirections . get ( 2 ) ;

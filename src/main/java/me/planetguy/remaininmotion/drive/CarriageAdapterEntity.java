@@ -18,6 +18,8 @@ import net.minecraft.util.ChatComponentText;
 
 public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpecialMoveBehavior{
 	
+	public boolean alreadyMoving;
+	
 	static{
 		BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
 	}
@@ -33,6 +35,20 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 		if ( Stale )
 		{
 			HandleNeighbourBlockChange ( ) ;
+		}
+
+		if ( CooldownRemaining > 0 )
+		{
+			CooldownRemaining -- ;
+
+			MarkServerRecordDirty ( ) ;
+
+			return ;
+		}
+
+		if ( Active )
+		{
+			return ;
 		}
 
 		if ( SignalDirection == null )
@@ -68,56 +84,36 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 	}
 	
 	
-	public void startMoving(Directions dir){
-		try
-		{
-			InitiateMotion ( PreparePackage ( dir ) ) ;
-		}
-		catch ( CarriageMotionException Exception )
-		{
-			String Message = "Drive at (" + xCoord + "," + yCoord + "," + zCoord + ") in dimension " + worldObj . provider . dimensionId + " failed to move carriage: " + Exception . getMessage ( ) ;
-
-			if ( Exception instanceof CarriageObstructionException )
-			{
-				CarriageObstructionException ObstructionException = ( CarriageObstructionException ) Exception ;
-
-				Message += " - (" + ObstructionException . X + "," + ObstructionException . Y + "," + ObstructionException . Z + ")" ;
-			}
-
-			if ( Configuration . Debug . LogMotionExceptions ){
-				Debug . dbg ( Message ) ;
-			}
-
-			if(this.lastUsingPlayer!=null){
-				this.lastUsingPlayer.addChatComponentMessage(new ChatComponentText(Message));
-			}
-		}
-	}
-
 	@Override
-	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) {
-		if(
-				!pkg.Carriages.contains(new BlockRecord(this))
-		   &&   !pkg.Body.contains(new BlockRecord(this))){
-			startMoving(this.CarriageDirection);
+	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException{
+		this.HandleNeighbourBlockChange();
+		if(!alreadyMoving){
+			alreadyMoving=true;
+			Debug.dbg("Moving");
+			if(CarriageDirection!=null){
+				Debug.dbg("Have carriage in "+CarriageDirection);
+				BlockRecord oldAnchor=pkg.AnchorRecord;
+				pkg.AnchorRecord=new BlockRecord(xCoord+CarriageDirection.DeltaX,yCoord+CarriageDirection.DeltaY,zCoord+CarriageDirection.DeltaZ);
+				pkg.AnchorRecord.Identify(worldObj);
+				MultiTypeCarriageUtil.fillPackage(pkg, worldObj.getTileEntity(
+					xCoord+CarriageDirection.DeltaX,
+					yCoord+CarriageDirection.DeltaY,
+					zCoord+CarriageDirection.DeltaZ) ) ;
+				pkg.AnchorRecord=oldAnchor;
+				
+			}
 		}
 		this.writeToNBT(tag);
 	}
 	
-	public CarriagePackage GeneratePackage ( CarriagePackage Package, TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
+	public void fillPackage (CarriagePackage Package, TileEntity carriage) throws CarriageMotionException
 	{
-		Package . AddBlock ( Package . DriveRecord ) ;
-
-		if ( MotionDirection != CarriageDirection )
-		{
-			Package . AddPotentialObstruction ( Package . DriveRecord . NextInDirection ( MotionDirection ) ) ;
-		}
-
 		MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
-		
-		Package . Finalize ( ) ;
 
-		return ( Package ) ;
+	}
+	
+	public String toString(){
+		return Debug.dump(this);
 	}
 
 }
