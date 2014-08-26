@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion ;
 
 import me.planetguy.remaininmotion.base.Item;
-import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.ModInteraction.Wrenches;
@@ -21,7 +21,7 @@ public class ToolItemSet extends Item
 
 		public net . minecraft . item . ItemStack Stack ( )
 		{
-			return ( Stack . New ( Items . ToolItemSet , this ) ) ;
+			return ( Stack . New ( RiMItems . ToolItemSet , this ) ) ;
 		}
 	}
 
@@ -110,7 +110,7 @@ public class ToolItemSet extends Item
 			return ( false ) ;
 		}
 
-		if ( Item.getItem() == Items . ToolItemSet)
+		if ( Item.getItem() == RiMItems . ToolItemSet)
 		{
 			if ( Item . getItemDamage() == Types . Screwdriver . ordinal ( ) )
 			{

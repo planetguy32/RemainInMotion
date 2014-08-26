@@ -98,7 +98,7 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) {
 		if(
 				!pkg.Carriages.contains(new BlockRecord(this))
-		   &&      !pkg.Body.contains(new BlockRecord(this))){
+		   &&   !pkg.Body.contains(new BlockRecord(this))){
 			startMoving(this.CarriageDirection);
 		}
 		this.writeToNBT(tag);

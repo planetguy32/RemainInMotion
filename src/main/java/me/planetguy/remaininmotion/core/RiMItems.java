@@ -5,7 +5,7 @@ import me.planetguy.remaininmotion.ToolItemSet;
 
 
 
-public abstract class Items
+public abstract class RiMItems
 {
 	public static ToolItemSet ToolItemSet ;
 

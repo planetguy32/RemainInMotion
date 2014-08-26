@@ -3,7 +3,7 @@ package me.planetguy.remaininmotion.crafting ;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.base.Recipe;
-import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
@@ -43,7 +43,7 @@ public class CarriageTranslocatorLabelConversionRecipe extends Recipe
 					continue ;
 				}
 			}
-			else if (ItemUtil.matches(Item, Items.ToolItemSet))
+			else if (ItemUtil.matches(Item, RiMItems.ToolItemSet))
 			{
 				if ( Item . getItemDamage() == ToolItemSet . Types . Screwdriver . ordinal ( ) )
 				{

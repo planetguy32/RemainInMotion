@@ -97,6 +97,9 @@ public class CarriageDriveItem extends BlockItem
 				
 				case Transduplicator:
 					return ("Carriage Transduplicator");
+				
+				case Adapter:
+					return "Carriage Adapter";
 			}
 		}
 		catch ( Throwable Throwable )
@@ -141,6 +144,10 @@ public class CarriageDriveItem extends BlockItem
 						TooltipLines . add ( "Moves according to ComputerCraft control" ) ;
 
 						break ;
+					
+					case Adapter:
+						TooltipLines.add("When moved, carries carriages as a drive would");
+						break;
 				}
 			}
 			catch ( Throwable Throwable )

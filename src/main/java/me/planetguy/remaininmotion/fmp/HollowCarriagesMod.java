@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion.fmp;
 
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.api.RiMRegistry;
-import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.util.Debug;
 import net.minecraft.item.Item;
@@ -65,7 +65,7 @@ public class HollowCarriagesMod {
 				"c c",
 				"ccc",
 				Character.valueOf('c'), new ItemStack(RIMBlocks.Carriage, 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.SimpleItemSet), 
+		GameRegistry.addShapelessRecipe(new ItemStack(RiMItems.SimpleItemSet), 
 				new ItemStack(HollowCarriagesMod.hollowCarriage));
 	}
 

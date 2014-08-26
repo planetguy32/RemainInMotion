@@ -3,7 +3,7 @@ package me.planetguy.remaininmotion.fmp;
 import java.util.List;
 
 import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.Mod;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -32,7 +32,7 @@ final class FMPCarriageItem extends JItemMultiPart {
 	}
 
 	public IIcon getIconFromDamage(int dmg){
-		return Items.SimpleItemSet.getIconFromDamage(2);
+		return RiMItems.SimpleItemSet.getIconFromDamage(2);
 	}
 
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List l, boolean par4) {

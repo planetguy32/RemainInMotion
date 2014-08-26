@@ -26,7 +26,7 @@ public abstract class Core
 
 		RIMBlocks . Initialize ( ) ;
 
-		Items . Initialize ( ) ;
+		RiMItems . Initialize ( ) ;
 
 		CreativeTab . Initialize ( Item.getItemFromBlock(RIMBlocks . Carriage ) );
 		

@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion;
 
-import me.planetguy.remaininmotion.core.Items;
+import me.planetguy.remaininmotion.core.RiMItems;
 import net.minecraft.util.IIcon;
 
 public enum Types
@@ -13,6 +13,6 @@ public enum Types
 
 	public net . minecraft . item . ItemStack Stack ( )
 	{
-		return ( Stack . New ( Items . SimpleItemSet , this ) ) ;
+		return ( Stack . New ( RiMItems . SimpleItemSet , this ) ) ;
 	}
 }

@@ -8,6 +8,7 @@ import me.planetguy.remaininmotion.Vanilla;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.carriage.CarriageItem;
 import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
 import net.minecraft.init.Blocks;
@@ -100,7 +101,7 @@ public abstract class Recipes
 		) ;
 		
 		
-		//allow dyeing carriages one at a time
+		//allow dyeing carriages one at a time - more convenient that way
 		Registry . RegisterShapelessDictionaryRecipe
 		(
 			Stack . Resize ( CarriageItem . Stack ( CarriageType . ordinal ( ) , 0 ) , 8 ) ,
@@ -182,5 +183,11 @@ public abstract class Recipes
 				'M' , CarriageDriveItem . Stack ( CarriageDrive . Types . Motor . ordinal ( ) , 0 )
 			) ;
 		}
+		
+		RegisterCarriageDriveRecipe(
+				CarriageDrive.Types.Adapter,
+				"MF",
+				'M',CarriageDriveItem.Stack(CarriageDrive.Types.Motor.ordinal(), 0),
+				'F',Stack.New(RiMItems.SimpleItemSet, 2));
 	}
 }
