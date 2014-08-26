@@ -4,6 +4,7 @@ import me.planetguy.remaininmotion.base.Item;
 import me.planetguy.remaininmotion.core.Items;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.ModInteraction.Wrenches;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -117,12 +118,8 @@ public class ToolItemSet extends Item
 			}
 		}
 
-		if ( ModInteraction . OmniTools . ItemWrench != null )
-		{
-			if ( ModInteraction . OmniTools . ItemWrench . isInstance ( Item . getItem ( ) ) )
-			{
-				return ( true ) ;
-			}
+		if(Wrenches.isAWrench(Item)){
+			return true;
 		}
 
 		return ( false ) ;

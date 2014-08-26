@@ -126,14 +126,6 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 	}
 
 	@Override
-	public void ShiftPipeItemPosition ( Object Position ) throws Throwable
-	{
-		ModInteraction . BC_Position_x . set ( Position , ( ( Double ) ModInteraction . BC_Position_x . get ( Position ) ) + ShiftX ) ;
-		ModInteraction . BC_Position_y . set ( Position , ( ( Double ) ModInteraction . BC_Position_y . get ( Position ) ) + ShiftY ) ;
-		ModInteraction . BC_Position_z . set ( Position , ( ( Double ) ModInteraction . BC_Position_z . get ( Position ) ) + ShiftZ ) ;
-	}
-
-	@Override
 	public void ScheduleShiftedBlockUpdate ( net . minecraft . nbt . NBTTagCompound PendingBlockUpdateRecord )
 	{
 		worldObj . func_147446_b

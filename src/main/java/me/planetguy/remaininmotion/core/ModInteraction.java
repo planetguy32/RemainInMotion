@@ -1,18 +1,13 @@
 package me.planetguy.remaininmotion.core ;
 
+import java.util.ArrayList;
+
+import net.minecraft.item.ItemStack;
 import me.planetguy.remaininmotion.util.Reflection;
+import me.planetguy.util.Debug;
 
 public abstract class ModInteraction
 {
-	public abstract static class OmniTools
-	{
-		public static Class ItemWrench ;
-
-		public static void Establish ( )
-		{
-			ItemWrench = Reflection . EstablishClass ( "omnitools.item.ItemWrench" ) ;
-		}
-	}
 
 	public abstract static class ComputerCraft
 	{
@@ -89,8 +84,8 @@ public abstract class ModInteraction
 
 	public static void Establish ( )
 	{
-		OmniTools . Establish ( ) ;
-
+		Wrenches.init();
+		
 		ComputerCraft . Establish ( ) ;
 
 		ForgeMultipart . Establish ( ) ;
@@ -140,5 +135,37 @@ public abstract class ModInteraction
 
 			BC_Position_z = Reflection . EstablishField ( BC_Position , "z" ) ;
 		}
+	}
+	
+	public static abstract class Wrenches{
+		
+		static ArrayList<Class> wrenchClasses=new ArrayList<Class>();
+		
+		public static void init(){
+			for(String s:new String[]{
+					"buildcraft.api.tools.IToolWrench",
+					"resonant.core.content.ItemScrewdriver",
+					"ic2.core.item.tool.ItemToolWrench",
+					"ic2.core.item.tool.ItemToolWrenchElectric",
+					"mrtjp.projectred.api.IScrewdriver",
+					"mods.railcraft.api.core.items.IToolCrowbar",
+					
+			}){
+				try{
+					wrenchClasses.add(Class.forName(s));
+				}catch(Exception e){
+					Debug.dbg("Could not load wrench class "+s);
+				}
+			}
+		}
+		
+		public static boolean isAWrench(ItemStack stk){
+			for(Class c:wrenchClasses){
+				if(stk.getItem().getClass().isAssignableFrom(c))
+					return true;
+			}
+			return false;
+		}
+		
 	}
 }

@@ -36,13 +36,6 @@ public class MotiveSpectreEntity extends TileEntity
 		Record . Shift ( MotionDirection ) ;
 	}
 
-	public void ShiftPipeItemPosition ( Object Position ) throws Throwable
-	{
-		ModInteraction . BC_Position_x . set ( Position , ( ( Double ) ModInteraction . BC_Position_x . get ( Position ) ) + MotionDirection . DeltaX ) ;
-		ModInteraction . BC_Position_y . set ( Position , ( ( Double ) ModInteraction . BC_Position_y . get ( Position ) ) + MotionDirection . DeltaY ) ;
-		ModInteraction . BC_Position_z . set ( Position , ( ( Double ) ModInteraction . BC_Position_z . get ( Position ) ) + MotionDirection . DeltaZ ) ;
-	}
-
 	public void ScheduleShiftedBlockUpdate ( net . minecraft . nbt . NBTTagCompound PendingBlockUpdateRecord )
 	{
 		worldObj . func_147446_b //scheduleBlockUpdateFromLoad
@@ -293,7 +286,6 @@ public class MotiveSpectreEntity extends TileEntity
 
 					Object ItemPosition = ModInteraction . BC_EntityPassiveItem_position . get ( Item ) ;
 
-					ShiftPipeItemPosition ( ItemPosition ) ;
 				}
 
 				DelayedEntities . clear ( ) ;
