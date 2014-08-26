@@ -79,17 +79,17 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 			public Iterator iterator() {
 				return new Iterator(){
 
-					int idx=-1;
+					//int idx=-1;
 
 					@Override
 					public boolean hasNext() {
-						return idx+1<cubeOutsideEdges.length;
+						return false;// idx+1<cubeOutsideEdges.length;
 					}
 
 					@Override
 					public Object next() {
-						idx++;
-						return cubeOutsideEdges[idx];
+						//idx++;
+						return null;// cubeOutsideEdges[idx];
 					}
 
 					@Override
@@ -121,8 +121,9 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 
 	@Optional.Method(modid = "ForgeMultipart")
 	@SideOnly(Side.CLIENT)
-	public void renderStatic(Vector3 pos, LightMatrix llm, int pass){
-		renderer.renderCovers(this.world(), pos, llm, pass);
+	public boolean renderStatic(Vector3 pos, int pass){
+		renderer.renderCovers(this.world(), pos, pass);
+		return true;
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
@@ -131,5 +132,5 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 			throws CarriageMotionException {
 		MultiTypeCarriageUtil.fillFramePackage(_package, this.world());
 	}
-
+	
 }

@@ -39,7 +39,7 @@ compileScala {
 }
 
 
-version = "2.0.1-EXP4"
+version = "2.0.2"
 group= "me.planetguy" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "RemainInMotion"
 

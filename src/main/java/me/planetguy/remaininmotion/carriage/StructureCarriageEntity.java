@@ -1,9 +1,12 @@
 package me.planetguy.remaininmotion.carriage ;
 
+import java.lang.reflect.Field;
+
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.util.Debug;
 
 public class StructureCarriageEntity extends CarriageEntity
 {
@@ -105,6 +108,8 @@ public class StructureCarriageEntity extends CarriageEntity
 
 		if ( OpenDirections . size ( ) == 2 )
 		{
+			Debug.dbg("22@"+xCoord+","+yCoord+","+zCoord);
+			
 			Directions Neg = OpenDirections . get ( 0 ) ;
 			Directions Pos = OpenDirections . get ( 1 ) ;
 
@@ -125,8 +130,10 @@ public class StructureCarriageEntity extends CarriageEntity
 				return ;
 			}
 		}
-		else if ( OpenDirections . size ( ) == 3 )
+		else if(OpenDirections.size()>=3)
 		{
+			
+			Debug.dbg("333");
 			Directions Y = OpenDirections . get ( 0 ) ;
 			Directions Z = OpenDirections . get ( 1 ) ;
 			Directions X = OpenDirections . get ( 2 ) ;
@@ -419,5 +426,21 @@ public class StructureCarriageEntity extends CarriageEntity
 				}
 			}
 		}
+	}
+	
+	public String toString(){
+		String str="StructureCarriage ";
+		for(Field f:this.getClass().getFields()){
+			try {
+				str+=f.getName()+"="+f.get(this)+", ";
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return str;
 	}
 }

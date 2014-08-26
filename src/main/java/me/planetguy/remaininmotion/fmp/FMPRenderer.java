@@ -7,8 +7,10 @@ import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
 import codechicken.microblock.IMicroMaterialRender;
+import codechicken.microblock.MaterialRenderHelper;
 import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.microblock.MicroMaterialRegistry.IMicroMaterial;
+import codechicken.microblock.MicroblockRender;
 import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "IMicroMaterialRender", modid = "ForgeMultipart")
@@ -58,10 +60,10 @@ class FMPRenderer implements IMicroMaterialRender{
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
-	public void renderCovers(World world, Vector3 t, LightMatrix olm, int material){
+	public void renderCovers(World world, Vector3 t, int pass){
 		IMicroMaterial microMaterial = MicroMaterialRegistry.getMaterial("tile.wood");
 		for(Cuboid6 c:FMPCarriage.cubeOutsideEdges){
-			// JMicroblockClient.renderCuboid(t, olm, microMaterial, c, 0, this);
+			MicroblockRender.renderCuboid(t, microMaterial, pass, c, 0);
 		}
 	}
 

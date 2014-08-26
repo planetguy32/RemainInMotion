@@ -32,11 +32,12 @@ public class HollowCarriagesMod {
 		Debug.dbg("FMP carriage: "+ (alive ? "loading" : "not loading"));
 		if(!alive)return;
 		hollowCarriage=new FMPCarriageItem();
-		hollowCarriage.setUnlocalizedName(me.planetguy.remaininmotion.core.Mod.Handle+":hollowCarriage");
-		hollowCarriage.setCreativeTab(CreativeTab.Instance);
+
 		
 		GameRegistry.registerItem(hollowCarriage, "Hollow carriage");
 
+		hollowCarriage.setUnlocalizedName(me.planetguy.remaininmotion.core.Mod.Handle+":hollowCarriage");
+		
 		LanguageRegistry.addName(hollowCarriage, "Hollow carriage");
 
 		//Attempting to fix FMP crashing when trying to set creative tab
@@ -58,6 +59,7 @@ public class HollowCarriagesMod {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent ev){
 		if(!alive)return;
+		hollowCarriage.setCreativeTab(CreativeTab.Instance);
 		GameRegistry.addRecipe(new ItemStack(HollowCarriagesMod.hollowCarriage, 8), 
 				"ccc", 
 				"c c",
