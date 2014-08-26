@@ -6,10 +6,10 @@ import me.planetguy.util.Debug;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
-public class BlockBlacklist
+public class BlacklistManager
 {
 	
-	public static BlockBlacklist blacklistHard=new BlockBlacklist(), blacklistSoft=new BlockBlacklist();
+	public static BlacklistManager blacklistHard=new BlacklistManager(), blacklistSoft=new BlacklistManager();
 	
 	public java . util . HashSet < Block > BlacklistedIds = new java . util . HashSet < Block > ( ) ;
 

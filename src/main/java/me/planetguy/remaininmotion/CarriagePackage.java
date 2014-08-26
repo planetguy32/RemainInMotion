@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion ;
 import java.util.Set;
 import java.util.TreeSet;
 
+import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.carriage.CarriageEntity;
@@ -87,12 +88,12 @@ public class CarriagePackage
 			throw ( new CarriageObstructionException ( "cannot move carriage below depth limit" , Record . X , Record . Y , Record . Z ) ) ;
 		}
 
-		if ( BlockBlacklist.blacklistHard . Lookup ( Record ) )
+		if ( BlacklistManager.blacklistHard . Lookup ( Record ) )
 		{
 			throw ( new CarriageObstructionException ( "carriage contains system-wide blacklisted block" , Record . X , Record . Y , Record . Z ) ) ;
 		}
 		
-		if(BlockBlacklist.blacklistSoft.Lookup(Record)){
+		if(BlacklistManager.blacklistSoft.Lookup(Record)){
 			return;
 		}
 
@@ -126,8 +127,11 @@ public class CarriagePackage
 		if ( Record . Entity != null )
 		{
 			Record . EntityRecord = new net . minecraft . nbt . NBTTagCompound ( ) ;
-
-			Record . Entity . writeToNBT ( Record . EntityRecord ) ;
+			
+			if(Record.Entity instanceof ISpecialMoveBehavior)
+				((ISpecialMoveBehavior)Record.Entity).onAdded(this, Record.EntityRecord);
+			else
+				Record . Entity . writeToNBT ( Record . EntityRecord ) ;
 		}
 
 		if ( Configuration . HardmodeActive )

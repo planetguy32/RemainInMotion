@@ -14,6 +14,10 @@ public class BlockRecord implements Comparable < BlockRecord >
 	{
 		return ( "(" + X + "," + Y + "," + Z + ")" ) ;
 	}
+	
+	public BlockRecord(TileEntity te){
+		this(te.xCoord, te.yCoord, te.zCoord);
+	}
 
 	public BlockRecord ( int X , int Y , int Z )
 	{

@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.core ;
 
-import me.planetguy.remaininmotion.BlockBlacklist;
+import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.Registry;
@@ -144,7 +144,7 @@ public class Configuration extends Config
 		super ( File ) ;
 	}
 	
-	private void setupBlacklist(String bl, BlockBlacklist blacklist){
+	private void setupBlacklist(String bl, BlacklistManager blacklist){
 		String Blacklist = String ( bl , "" ) ;
 
 		if ( ! Blacklist . equals ( "" ) )
@@ -186,9 +186,9 @@ public class Configuration extends Config
 			Category = "Carriage" ;
 
 			{
-				setupBlacklist("blacklistSoft", BlockBlacklist.blacklistSoft);
+				setupBlacklist("blacklistSoft", BlacklistManager.blacklistSoft);
 				
-				setupBlacklist("blacklistHard", BlockBlacklist.blacklistHard);
+				setupBlacklist("blacklistHard", BlacklistManager.blacklistHard);
 			}
 
 			CarriagePackage . MaxBlockCount = BoundedInteger ( "Maximum size of any carriage (0 = no limit)" , 0 , CarriagePackage . MaxBlockCount , Integer . MAX_VALUE ) ;
