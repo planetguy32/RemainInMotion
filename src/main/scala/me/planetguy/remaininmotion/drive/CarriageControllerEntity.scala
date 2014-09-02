@@ -28,8 +28,6 @@ object Commands extends Enumeration {
 
 class CarriageControllerEntity extends CarriageDriveEntity with EasyComputerInterfaceUtil {
 
-  var ThreadLockObject: AnyRef = new AnyRef()
-
   var Simulating: Boolean = _
 
   var MotionDirection: Directions = _
@@ -43,12 +41,14 @@ class CarriageControllerEntity extends CarriageDriveEntity with EasyComputerInte
   var ObstructionY: Int = _
 
   var ObstructionZ: Int = _
+  
+  val motionThread=java.util.concurrent.Executors.newSingleThreadExecutor();
 
   override def HandleToolUsage(Side: Int, Sneaking: Boolean) {
   }
 
   override def updateEntity() {
-    synchronized {
+    this.synchronized {
       if (worldObj.isRemote) {
         return
       }
@@ -124,7 +124,7 @@ class CarriageControllerEntity extends CarriageDriveEntity with EasyComputerInte
   }
 
   def SetupMotion(MotionDirection: Directions, Simulating: Boolean, anchored: Boolean) {
-	  synchronized{
+	  this.synchronized{
 		  this.Simulating = Simulating
 		  this.anchored = anchored
 		  this.MotionDirection = MotionDirection
@@ -133,6 +133,9 @@ class CarriageControllerEntity extends CarriageDriveEntity with EasyComputerInte
 
   @ECIExpose
   def move(arguments: Array[Any]): Array[Any] = {
+	var ret: Array[Any]=null
+	motionThread.submit(new Runnable(){
+		def run(){
     AssertArgumentCount(arguments, 3)
     SetupMotion(ParseDirectionArgument(arguments(0)), ParseBooleanArgument(arguments(1), "simulation"), ParseBooleanArgument(arguments(2), "anchoring"))
     Error = null
@@ -145,12 +148,15 @@ class CarriageControllerEntity extends CarriageDriveEntity with EasyComputerInte
       case exc: Exception => 
     }
     if (Error == null) {
-      return (Array(true))
+      ret= (Array(true))
     }
     if (Obstructed == false) {
-      return (Array(false, Error.getMessage))
+      ret= (Array(false, Error.getMessage))
     }
-    (Array(false, Error.getMessage, ObstructionX, ObstructionY, ObstructionZ))
+    ret=(Array(false, Error.getMessage, ObstructionX, ObstructionY, ObstructionZ))
+  }
+	})
+	ret
   }
 
   def Move() {
