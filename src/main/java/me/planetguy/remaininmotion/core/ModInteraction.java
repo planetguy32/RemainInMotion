@@ -2,22 +2,15 @@ package me.planetguy.remaininmotion.core ;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.item.ItemStack;
 import me.planetguy.remaininmotion.util.Reflection;
+import me.planetguy.util.Computers;
 import me.planetguy.util.Debug;
+import me.planetguy.util.TComputerInterface;
 
 public abstract class ModInteraction
 {
-
-	public abstract static class ComputerCraft
-	{
-		public static Class CarriageControllerEntity ;
-
-		public static void Establish ( )
-		{
-			CarriageControllerEntity = Reflection . EstablishClass ( Mod . Namespace + "drive.CarriageControllerEntity" ) ;
-		}
-	}
 
 	public abstract static class ForgeMultipart
 	{
@@ -86,7 +79,7 @@ public abstract class ModInteraction
 	{
 		Wrenches.init();
 		
-		ComputerCraft . Establish ( ) ;
+		Computers . setup ( ) ;
 
 		ForgeMultipart . Establish ( ) ;
 

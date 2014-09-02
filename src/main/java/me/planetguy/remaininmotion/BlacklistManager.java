@@ -12,10 +12,12 @@ public class BlacklistManager
 	
 	public static BlacklistManager blacklistHard=new BlacklistManager(), blacklistSoft=new BlacklistManager();
 	
+	
 	public java . util . HashSet < Block > BlacklistedIds = new java . util . HashSet < Block > ( ) ;
 
 	public java . util . HashSet < BlockInt > BlacklistedIdAndMetaPairs = new java . util . HashSet < BlockInt > ( ) ;
 
+	
 	public void blacklist ( Block Id )
 	{
 		BlacklistedIds . add ( Id ) ;
@@ -46,6 +48,8 @@ public class BlacklistManager
 		blacklistSoft.blacklist ( RIMBlocks . Spectre ) ;
 		
 		blacklistSoft.blacklist(Blocks.air);
+		
+		Debug.dbg(blacklistSoft.BlacklistedIds);
 		
 		if ( Configuration . Carriage . BlacklistBedrock )
 		{
