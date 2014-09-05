@@ -37,7 +37,6 @@ public class CarriageMotorEntity extends CarriageDriveEntity
 			throw ( new CarriageObstructionException ( "carriage motion is obstructed by motor" , xCoord , yCoord , zCoord ) ) ;
 		}
 
-		Debug.dbg("Finalizing package!");
 		Package . Finalize ( ) ;
 
 		return ( Package ) ;

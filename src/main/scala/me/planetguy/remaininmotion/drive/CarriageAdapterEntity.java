@@ -93,9 +93,7 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 		this.HandleNeighbourBlockChange();
 		if(!alreadyMoving){
 			alreadyMoving=true;
-			Debug.dbg("Moving");
 			if(CarriageDirection!=null){
-				Debug.dbg("Have carriage in "+CarriageDirection);
 				BlockRecord oldAnchor=pkg.AnchorRecord;
 				pkg.AnchorRecord=new BlockRecord(xCoord+CarriageDirection.DeltaX,yCoord+CarriageDirection.DeltaY,zCoord+CarriageDirection.DeltaZ);
 				pkg.AnchorRecord.Identify(worldObj);

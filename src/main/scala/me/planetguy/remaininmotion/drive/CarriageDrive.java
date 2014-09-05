@@ -3,8 +3,8 @@ package me.planetguy.remaininmotion.drive ;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.RIMBlock;
+import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.util.Computers;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
@@ -18,7 +18,7 @@ public class CarriageDrive extends RIMBlock
 			
 				CarriageEngineEntity . class , 
 				CarriageMotorEntity . class , 
-				Computers . CarriageControllerEntity , 
+				Core . CarriageControllerEntity , 
 				CarriageTranslocatorEntity . class,
 				CarriageTransduplicatorEntity.class,
 				CarriageAdapterEntity.class) ;
@@ -79,7 +79,7 @@ public class CarriageDrive extends RIMBlock
 	{
 		for ( Types Type : Types . values ( ) )
 		{
-			if ( ( Type == Types . Controller ) && ( Computers . CarriageControllerEntity == null ) )
+			if ( ( Type == Types . Controller ) && ( Core . CarriageControllerEntity == null ) )
 			{
 				continue ;
 			}
@@ -102,7 +102,7 @@ public class CarriageDrive extends RIMBlock
 		{
 			if ( Type == Types . Controller )
 			{
-				if ( Computers . CarriageControllerEntity == null )
+				if ( Core . CarriageControllerEntity == null )
 				{
 					continue ;
 				}

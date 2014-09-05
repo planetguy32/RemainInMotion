@@ -86,8 +86,6 @@ public class TeleportativeSpectreEntity extends MotiveSpectreEntity
 
 	public void AbsorbSource ( CarriagePackage Package )
 	{
-		Debug.dbg("RCK="+Package.RenderCacheKey);
-		
 		AbsorbCommon ( Package ) ;
 
 		Source = true ;

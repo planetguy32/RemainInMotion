@@ -7,10 +7,10 @@ import me.planetguy.remaininmotion.Types;
 import me.planetguy.remaininmotion.Vanilla;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.carriage.CarriageItem;
+import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
-import me.planetguy.util.Computers;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -171,7 +171,7 @@ public abstract class Recipes
 			'C' , Stack . New ( Items.compass )
 		) ;
 
-		if ( Computers . CarriageControllerEntity != null )
+		if ( Core . CarriageControllerEntity != null )
 		{
 			RegisterCarriageDriveRecipe
 			(

@@ -49,8 +49,6 @@ public abstract class RIMBlock extends net . minecraft . block . Block
 		catch ( Throwable Throwable )
 		{
 			
-			Debug.dbg("Meta: "+Meta+","+Arrays.toString(TileEntityClasses));
-
 			return ( null ) ;
 		}
 	}
@@ -151,10 +149,4 @@ public abstract class RIMBlock extends net . minecraft . block . Block
 		super.dropBlockAsItem(w, x, y, z, s);
     }
 	
-    public float getBlockHardness(World w, int x, int y, int z){
-    	Debug.dbg(w.getTileEntity(x, y, z));
-    	
-    	return super.getBlockHardness(w, x, y, z);
-    }
-
 }

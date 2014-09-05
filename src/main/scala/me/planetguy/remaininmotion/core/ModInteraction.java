@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.item.ItemStack;
+import me.planetguy.remaininmotion.drive.CarriageControllerEntity;
 import me.planetguy.remaininmotion.util.Reflection;
 import me.planetguy.util.Computers;
 import me.planetguy.util.Debug;
-import me.planetguy.util.TComputerInterface;
 
 public abstract class ModInteraction
 {
@@ -81,8 +81,11 @@ public abstract class ModInteraction
 		
 		Computers . setup ( ) ;
 
+		if(Computers.load)
+			Core.CarriageControllerEntity = CarriageControllerEntity.class;
+		
 		ForgeMultipart . Establish ( ) ;
-
+		
 		{
 			PendingBlockUpdateSetField = Reflection . EstablishField ( net . minecraft . world . WorldServer . class , "tickEntryQueue" ) ;
 

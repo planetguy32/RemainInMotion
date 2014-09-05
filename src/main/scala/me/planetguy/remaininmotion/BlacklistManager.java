@@ -49,8 +49,6 @@ public class BlacklistManager
 		
 		blacklistSoft.blacklist(Blocks.air);
 		
-		Debug.dbg(blacklistSoft.BlacklistedIds);
-		
 		if ( Configuration . Carriage . BlacklistBedrock )
 		{
 			blacklistSoft.blacklist ( Blocks.bedrock ) ;

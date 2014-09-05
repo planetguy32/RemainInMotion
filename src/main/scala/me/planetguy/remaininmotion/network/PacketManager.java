@@ -19,13 +19,11 @@ public class PacketManager {
 	
 	public static void init(){
 		MinecraftForge.EVENT_BUS.register(new PacketManager());
-		Debug.dbg("Registered packet manager!" );
 		wrapper.registerMessage(Message.class, Message.class, 0, Side.CLIENT);
 	}
 	
 	public static void BroadcastPacketFromBlock ( int X , int Y , int Z , World world , PacketTypes pt , NBTTagCompound tag )
 	{
-		Debug.dbg("Packet broadcast: "+pt);
 		if(!world.isRemote){
 			for(EntityPlayerMP player:((List<EntityPlayerMP>)world.playerEntities)){
 				send_do(player, new Message(pt, tag));
@@ -35,7 +33,6 @@ public class PacketManager {
 	}
 
 	public static void SendPacketToPlayer(EntityPlayerMP player , PacketTypes pt , NBTTagCompound tag){
-		Debug.dbg("Packet sent to: "+player.getDisplayName());
 		send_do(player, new Message(pt, tag));
 	}
 

@@ -3,7 +3,7 @@ package me.planetguy.util;
 import li.cil.oc.api.Driver;
 import li.cil.oc.api.driver.Block;
 import li.cil.oc.api.network.ManagedEnvironment;
-import me.planetguy.util.TComputerInterface;
+import me.planetguy.remaininmotion.core.Core;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.Loader;
@@ -13,11 +13,11 @@ import dan200.computercraft.api.peripheral.IPeripheralProvider;
 
 public abstract class Computers
 {
-	public static Class CarriageControllerEntity ;
-
+	public static boolean load;
+	
 	public static void setup ( )
 	{
-		boolean load=false;
+		load=false;
 		if(Loader.isModLoaded("OpenComputers")){
 			load=true;
 		}
@@ -26,8 +26,6 @@ public abstract class Computers
 			CC.init();
 			
 		}
-		if(load)
-			CarriageControllerEntity = me.planetguy.remaininmotion.drive.CarriageControllerEntity.class;
 	}
 	
 	private abstract static class CC{
@@ -48,11 +46,12 @@ public abstract class Computers
 	
 	private abstract static class OC{
 		static void init(){
+			/*
 			Driver.add(new Block(){
 
 				@Override
 				public boolean worksWith(World world, int x, int y, int z) {
-					return world.getTileEntity(x,y,z) instanceof TComputerInterface;
+					return world.getTileEntity(x,y,z) instanceof me.planetguy.util.TComputerInterface;
 				}
 
 				@Override
@@ -64,6 +63,7 @@ public abstract class Computers
 				}
 				
 			});
+			*/
 		}
 	}
 }

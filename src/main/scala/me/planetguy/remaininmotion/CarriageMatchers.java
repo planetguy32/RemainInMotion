@@ -27,7 +27,6 @@ public class CarriageMatchers {
 	public static Moveable getMover(net.minecraft.block.Block blockslist, int meta, net.minecraft.tileentity.TileEntity te) {
 		for(CarriageMatcher m:matchers){
 			Moveable mv=m.getCarriage(blockslist, meta, te);
-			Debug.dbg("CM "+m+" blockslist "+blockslist+" -> "+mv);
 			if(mv!=null)
 				return mv;
 		}

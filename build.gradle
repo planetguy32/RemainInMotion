@@ -39,8 +39,8 @@ compileScala {
 }
 
 
-version = "2.1.0"
-group= "me.planetguy" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "2.1.1"
+group= "me.planetguy"
 archivesBaseName = "RemainInMotion"
 
 minecraft {

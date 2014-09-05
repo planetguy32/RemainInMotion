@@ -8,6 +8,7 @@ import me.planetguy.remaininmotion.crafting.Recipes;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.network.PacketManager;
 import me.planetguy.remaininmotion.util.Reflection;
+import me.planetguy.util.Computers;
 import net.minecraft.item.Item;
 
 public abstract class Core
@@ -33,6 +34,7 @@ public abstract class Core
 		RiMRegistry.registerMatcher(new DefaultCarriageMatcher());
 		
 		PacketManager.init();
+		
 	}
 
 	public static void HandlePostInit ( )
@@ -50,5 +52,7 @@ public abstract class Core
 			//e.printStackTrace();
 		}
 	}
+
+	public static Class CarriageControllerEntity ;
 
 }

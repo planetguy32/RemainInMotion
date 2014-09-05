@@ -158,8 +158,6 @@ public class TemplateCarriageEntity extends CarriageEntity
 			Pattern . add ( Position ) ;
 		}
 		
-		Debug.dbg(Pattern);
-
 		BlockRecordSet NewPositions = new BlockRecordSet ( ) ;
 
 		BlockRecordSet DeadPositions = new BlockRecordSet ( ) ;
@@ -229,8 +227,6 @@ public class TemplateCarriageEntity extends CarriageEntity
 	@Override
 	public void ReadCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
-		Debug.dbg(TagCompound);
-		
 		super . ReadCommonRecord ( TagCompound ) ;
 
 		if ( TagCompound . hasKey ( "Pattern" ) )

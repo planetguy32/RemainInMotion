@@ -17,7 +17,6 @@ public abstract class MultiTypeCarriageUtil {
 	
 	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
 		Moveable m=CarriageMatchers.getMover(package1.AnchorRecord.block, package1.AnchorRecord.Meta, package1.AnchorRecord.Entity);
-		Debug.dbg(m+" @ "+package1.AnchorRecord.toString()); //(49,79,237)
 		m.fillPackage(package1);
 	}
 

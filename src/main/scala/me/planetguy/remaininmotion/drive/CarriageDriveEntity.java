@@ -350,8 +350,6 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 		Package . RenderCacheKey = GeneratePositionObject ( ) ;
 
-		Debug.dbg("Moving carriage drive");
-		
 		RenderPacket . Dispatch ( Package ) ;
 
 		EstablishPlaceholders ( Package ) ;
