@@ -6,7 +6,6 @@ import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.util.Debug;
 
 public class StructureCarriageEntity extends CarriageEntity
 {

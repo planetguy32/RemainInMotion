@@ -7,8 +7,7 @@ import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.crafting.Recipes;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
 import me.planetguy.remaininmotion.network.PacketManager;
-import me.planetguy.remaininmotion.util.Reflection;
-import me.planetguy.util.Computers;
+import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.Item;
 
 public abstract class Core
@@ -19,8 +18,6 @@ public abstract class Core
 
 	public static void HandleInit ( )
 	{
-		Reflection.init();
-		
 		ModInteraction . Establish ( ) ;
 
 		CreativeTab . Prepare ( ) ;

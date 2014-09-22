@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.carriage ;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordList;
 import me.planetguy.remaininmotion.BlockRecordSet;
@@ -10,7 +11,6 @@ import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.WorldUtil;
-import me.planetguy.util.Debug;
 
 public class TemplateCarriageEntity extends CarriageEntity
 {

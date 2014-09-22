@@ -2,7 +2,6 @@ package me.planetguy.remaininmotion ;
 
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.util.Debug;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

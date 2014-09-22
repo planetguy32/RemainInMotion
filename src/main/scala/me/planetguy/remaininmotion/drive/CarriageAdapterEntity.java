@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.drive;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -11,7 +12,6 @@ import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
-import me.planetguy.util.Debug;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;

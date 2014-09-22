@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion ;
 import java.util.Set;
 import java.util.TreeSet;
 
+import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.carriage.Carriage;
@@ -12,8 +13,6 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
-import me.planetguy.remaininmotion.util.Reflection;
-import me.planetguy.util.Debug;
 import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.WorldServer;
 

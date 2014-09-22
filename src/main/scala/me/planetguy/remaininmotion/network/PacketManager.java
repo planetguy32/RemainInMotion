@@ -4,7 +4,6 @@ import java.util.List;
 
 import me.planetguy.remaininmotion.PacketTypes;
 import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.util.Debug;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

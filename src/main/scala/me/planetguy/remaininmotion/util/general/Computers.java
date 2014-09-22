@@ -1,4 +1,4 @@
-package me.planetguy.util;
+package me.planetguy.remaininmotion.util.general;
 
 import li.cil.oc.api.Driver;
 import li.cil.oc.api.driver.Block;

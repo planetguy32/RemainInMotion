@@ -12,7 +12,6 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
-import me.planetguy.util.Debug;
 import net.minecraft.tileentity.TileEntity;
 
 public class CarriageTranslocatorEntity extends CarriageDriveEntity

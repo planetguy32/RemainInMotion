@@ -1,12 +1,11 @@
-package me.planetguy.remaininmotion.drive
-
+/*
 import me.planetguy.remaininmotion.CarriageMotionException
 import me.planetguy.remaininmotion.CarriageObstructionException
 import me.planetguy.remaininmotion.CarriagePackage
 import me.planetguy.remaininmotion.Directions
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil
 import net.minecraft.tileentity.TileEntity
-import me.planetguy.util.TComputerInterface._
+import me.planetguy.remaininmotion.util.general.TComputerInterface._
 import me.planetguy.util.ECIExpose
 
 object Commands extends Enumeration {
@@ -204,23 +203,33 @@ class CarriageControllerEntity extends CarriageDriveEntity with EasyComputerInte
   
   
 
-/*
-Original Java:
+
+Original Java:*/
 package me.planetguy.remaininmotion.drive ;
 
-import me.planetguy.lib.api.SPMethod;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.Optional.Interface;
+import dan200.computercraft.api.lua.ILuaContext;
+import dan200.computercraft.api.lua.LuaException;
+import dan200.computercraft.api.peripheral.IComputerAccess;
+import dan200.computercraft.api.peripheral.IPeripheral;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
+import me.planetguy.remaininmotion.util.general.ECIExpose;
 import net.minecraft.tileentity.TileEntity;
 
-public class CarriageControllerEntity extends CarriageDriveEntity
+@Optional.InterfaceList(value = { @Interface(iface = "", modid = "") })
+public class CarriageControllerEntity extends CarriageDriveEntity implements IPeripheral
 {
 	
 	public Object ThreadLockObject = new Object ( ) ;
-
+	
 	public boolean Simulating ;
 
 	public Directions MotionDirection ;
@@ -277,7 +286,6 @@ public class CarriageControllerEntity extends CarriageDriveEntity
 
 		MotionDirection = null ;
 
-		notify ( ) ;
 	}
 
 	public boolean Anchored ;
@@ -386,9 +394,11 @@ public class CarriageControllerEntity extends CarriageDriveEntity
 		this . Anchored = Anchored ;
 	}
 
-	@SPMethod
+	@ECIExpose
 	public Object[] move(Object[] Arguments ) throws Exception{
 
+		notify();
+		
 		AssertArgumentCount ( Arguments , 3 ) ;
 
 		SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , ParseBooleanArgument ( Arguments [ 1 ] , "simulation" ) , ParseBooleanArgument ( Arguments [ 2 ] , "anchoring" ) ) ;
@@ -495,8 +505,72 @@ public class CarriageControllerEntity extends CarriageDriveEntity
 
 		return ( Package ) ;
 	}
+	
+	/* =====================================
+	 * Begin ECI methods
+	 * =====================================
+	 */
+	
+	private Object[] status;
+
+	public Method[] methods(){
+		ArrayList<Method> methods=new ArrayList<Method>();
+		for(Method m:this.getClass().getMethods()){
+			if(m.isAnnotationPresent(ECIExpose.class)){
+				methods.add(m);
+			}
+		}
+		return methods.toArray(new Method[0]);
+	}
+	
+	/* =====================================
+	 * ComputerCraft integration
+	 * =====================================
+	 */
+	
+	
+	@Override
+	public String getType() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	public String[] getMethodNames() {
+		Method[] methods=methods();
+		String[] names=new String[methods.length];
+		for(int i=0; i<names.length; i++){
+			names[i]=methods[i].getName();
+		}
+		return names;
+	}
+
+	@Override
+	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
+			int method, Object[] arguments) throws LuaException,
+			InterruptedException {
+		try{
+			Method m=methods()[method];
+			m.invoke(this, arguments);
+			wait();
+			return this.status;
+		}catch(Exception e){
+			
+		}
+		return null;
+	}
+
+	@Override
+	public void attach(IComputerAccess computer) {
+	}
+
+	@Override
+	public void detach(IComputerAccess computer) {
+	}
+
+	@Override
+	public boolean equals(IPeripheral other) {
+		return other==this;
+	}
 
 }
 
-*/
-}

@@ -1,13 +1,15 @@
 package me.planetguy.remaininmotion.core ;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.item.ItemStack;
+import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.drive.CarriageControllerEntity;
-import me.planetguy.remaininmotion.util.Reflection;
-import me.planetguy.util.Computers;
-import me.planetguy.util.Debug;
+import me.planetguy.remaininmotion.util.general.Computers;
 
 public abstract class ModInteraction
 {
@@ -30,25 +32,25 @@ public abstract class ModInteraction
 
 		public static void Establish ( )
 		{
-			MultipartSaveLoad = Reflection . EstablishClass ( "codechicken.multipart.handler.MultipartSaveLoad" ) ;
+			MultipartSaveLoad = ModInteraction.getClass( "codechicken.multipart.handler.MultipartSaveLoad" ) ;
 
-			MultipartSaveLoad_loadingWorld_$eq = Reflection . EstablishMethod ( MultipartSaveLoad , "loadingWorld_$eq" , net . minecraft . world . World . class ) ;
+			MultipartSaveLoad_loadingWorld_$eq = getMethod ( MultipartSaveLoad , "loadingWorld_$eq" , net . minecraft . world . World . class ) ;
 
-			MultipartSPH = Reflection . EstablishClass ( "codechicken.multipart.handler.MultipartSPH" ) ;
+			MultipartSPH = ModInteraction.getClass ( "codechicken.multipart.handler.MultipartSPH" ) ;
 
-			MultipartSPH_onChunkWatch = Reflection . EstablishMethod ( MultipartSPH , "onChunkWatch" , net . minecraft . entity . player . EntityPlayer . class , net . minecraft . world . chunk . Chunk . class ) ;
+			MultipartSPH_onChunkWatch = getMethod ( MultipartSPH , "onChunkWatch" , net . minecraft . entity . player . EntityPlayer . class , net . minecraft . world . chunk . Chunk . class ) ;
 
-			TileMultipart = Reflection . EstablishClass ( "codechicken.multipart.TileMultipart" ) ;
+			TileMultipart = ModInteraction.getClass ( "codechicken.multipart.TileMultipart" ) ;
 
-			TileMultipart_createFromNBT = Reflection . EstablishMethod ( TileMultipart , "createFromNBT" , net . minecraft . nbt . NBTTagCompound . class ) ;
+			TileMultipart_createFromNBT = getMethod ( TileMultipart , "createFromNBT" , net . minecraft . nbt . NBTTagCompound . class ) ;
 
-			TileMultipart_onChunkLoad = Reflection . EstablishMethod ( TileMultipart , "onChunkLoad" ) ;
+			TileMultipart_onChunkLoad = getMethod ( TileMultipart , "onChunkLoad" ) ;
 
-			MultipartHelper = Reflection . EstablishClass ( "codechicken.multipart.MultipartHelper" ) ;
+			MultipartHelper = ModInteraction.getClass ( "codechicken.multipart.MultipartHelper" ) ;
 
-			MultipartHelper_createTileFromNBT = Reflection . EstablishMethod ( MultipartHelper , "createTileFromNBT" , net . minecraft . world . World . class , net . minecraft . nbt . NBTTagCompound . class ) ;
+			MultipartHelper_createTileFromNBT = getMethod ( MultipartHelper , "createTileFromNBT" , net . minecraft . world . World . class , net . minecraft . nbt . NBTTagCompound . class ) ;
 
-			MultipartHelper_sendDescPacket = Reflection . EstablishMethod ( MultipartHelper , "sendDescPacket" , net . minecraft . world . World . class , net . minecraft . tileentity . TileEntity . class ) ;
+			MultipartHelper_sendDescPacket = getMethod ( MultipartHelper , "sendDescPacket" , net . minecraft . world . World . class , net . minecraft . tileentity . TileEntity . class ) ;
 		}
 	}
 
@@ -87,52 +89,79 @@ public abstract class ModInteraction
 		ForgeMultipart . Establish ( ) ;
 		
 		{
-			PendingBlockUpdateSetField = Reflection . EstablishField ( net . minecraft . world . WorldServer . class , "tickEntryQueue" ) ;
+			PendingBlockUpdateSetField = getField ( net . minecraft . world . WorldServer . class , "tickEntryQueue" ) ;
 
-			RemovePendingBlockUpdate = Reflection . EstablishMethod ( net . minecraft . world . WorldServer . class , "removeNextTickIfNeeded" , net . minecraft . world . NextTickListEntry . class ) ;
+			RemovePendingBlockUpdate = getMethod ( net . minecraft . world . WorldServer . class , "removeNextTickIfNeeded" , net . minecraft . world . NextTickListEntry . class ) ;
 		}
 
 		{
-			BC_TileGenericPipe = Reflection . EstablishClass ( "buildcraft.transport.TileGenericPipe" ) ;
+			BC_TileGenericPipe = getClass ( "buildcraft.transport.TileGenericPipe" ) ;
 
-			BC_TileGenericPipe_pipe = Reflection . EstablishField ( BC_TileGenericPipe , "pipe" ) ;
+			BC_TileGenericPipe_pipe = getField ( BC_TileGenericPipe , "pipe" ) ;
 
-			BC_TileGenericPipe_initialize = Reflection . EstablishMethod ( BC_TileGenericPipe , "initialize" , BC_Pipe ) ;
+			BC_TileGenericPipe_initialize = getMethod ( BC_TileGenericPipe , "initialize" , BC_Pipe ) ;
 
-			BC_Pipe = Reflection . EstablishClass ( "buildcraft.transport.Pipe" ) ;
+			BC_Pipe = getClass ( "buildcraft.transport.Pipe" ) ;
 
-			BC_Pipe_transport = Reflection . EstablishField ( BC_Pipe , "transport" ) ;
+			BC_Pipe_transport = getField ( BC_Pipe , "transport" ) ;
 
-			BC_PipeTransportItems = Reflection . EstablishClass ( "buildcraft.transport.PipeTransportItems" ) ;
+			BC_PipeTransportItems = getClass ( "buildcraft.transport.PipeTransportItems" ) ;
 
-			BC_PipeTransportItems_delay = Reflection . EstablishField ( BC_PipeTransportItems , "delay" ) ;
+			BC_PipeTransportItems_delay = getField ( BC_PipeTransportItems , "delay" ) ;
 
-			BC_PipeTransportItems_delayedEntitiesToLoad = Reflection . EstablishField ( BC_PipeTransportItems , "delayedEntitiesToLoad" ) ;
+			BC_PipeTransportItems_delayedEntitiesToLoad = getField ( BC_PipeTransportItems , "delayedEntitiesToLoad" ) ;
 
-			BC_PipeTransportItems_travelingEntities = Reflection . EstablishField ( BC_PipeTransportItems , "travelingEntities" ) ;
+			BC_PipeTransportItems_travelingEntities = getField ( BC_PipeTransportItems , "travelingEntities" ) ;
 
-			BC_EntityData = Reflection . EstablishClass ( "buildcraft.transport.EntityData" ) ;
+			BC_EntityData = getClass ( "buildcraft.transport.EntityData" ) ;
 
-			BC_EntityData_item = Reflection . EstablishField ( BC_EntityData , "item" ) ;
+			BC_EntityData_item = getField ( BC_EntityData , "item" ) ;
 
-			BC_EntityPassiveItem = Reflection . EstablishClass ( "buildcraft.core.EntityPassiveItem" ) ;
+			BC_EntityPassiveItem = getClass ( "buildcraft.core.EntityPassiveItem" ) ;
 
-			BC_EntityPassiveItem_setWorld = Reflection . EstablishMethod ( BC_EntityPassiveItem , "setWorld" , net . minecraft . world . World . class ) ;
+			BC_EntityPassiveItem_setWorld = getMethod ( BC_EntityPassiveItem , "setWorld" , net . minecraft . world . World . class ) ;
 
-			BC_EntityPassiveItem_getEntityId = Reflection . EstablishMethod ( BC_EntityPassiveItem , "getEntityId" ) ;
+			BC_EntityPassiveItem_getEntityId = getMethod ( BC_EntityPassiveItem , "getEntityId" ) ;
 
-			BC_EntityPassiveItem_position = Reflection . EstablishField ( BC_EntityPassiveItem , "position" ) ;
+			BC_EntityPassiveItem_position = getField ( BC_EntityPassiveItem , "position" ) ;
 
-			BC_Position = Reflection . EstablishClass ( "buildcraft.api.core.Position" ) ;
+			BC_Position = getClass ( "buildcraft.api.core.Position" ) ;
 
-			BC_Position_x = Reflection . EstablishField ( BC_Position , "x" ) ;
+			BC_Position_x = getField ( BC_Position , "x" ) ;
 
-			BC_Position_y = Reflection . EstablishField ( BC_Position , "y" ) ;
+			BC_Position_y = getField ( BC_Position , "y" ) ;
 
-			BC_Position_z = Reflection . EstablishField ( BC_Position , "z" ) ;
+			BC_Position_z = getField ( BC_Position , "z" ) ;
 		}
 	}
 	
+	static Class getClass(String string) {
+		try {
+			return Class.forName(string);
+		}  catch (Exception e){
+			
+		}
+		return null;
+	}
+
+	private static Method getMethod(Class c, String string, Class... params) {
+		try {
+			return c.getDeclaredMethod(string, params);
+		} catch (Exception e){
+			
+		}
+		return null;
+	}
+
+	private static Field getField(Class c, String string) {
+		try {
+			return c.getField(string);
+		} catch (Exception e){
+			
+		}
+		return null;
+	}
+
 	public static abstract class Wrenches{
 		
 		static ArrayList<Class> wrenchClasses=new ArrayList<Class>();

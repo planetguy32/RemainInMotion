@@ -39,13 +39,14 @@ compileScala {
 }
 
 
-version = "2.1.1"
-group= "me.planetguy"
+version = "2.1.2"
+group= "me.planetguy.remaininmotion"
 archivesBaseName = "RemainInMotion"
 
 minecraft {
-    version = "1.7.10-10.13.0.1180"
+    version = "1.7.10-10.13.0.1208"
 }
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.

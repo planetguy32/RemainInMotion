@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion.fmp;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.util.Debug;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.multipart.MultiPartRegistry;
@@ -46,7 +46,7 @@ public class HollowCarriagesMod {
 
 			public TMultiPart createPart(String arg0, boolean arg1) {
 				if(arg0.equals("FMPCarriage"))
-				return new FMPCarriage();
+					return new FMPCarriage();
 				return null;
 			}
 			

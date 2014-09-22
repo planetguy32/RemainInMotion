@@ -3,7 +3,8 @@ package me.planetguy.remaininmotion.core ;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInterModComms;
 
-@cpw . mods . fml . common . Mod ( modid = Mod . Handle , name = Mod . Title , version = Mod . Version )
+@cpw . mods . fml . common . Mod ( modid = Mod . Handle , name = Mod . Title , version = Mod . Version,
+dependencies="required-after:planetguyLib" )
 public class Mod
 {
 	public static final String Namespace = "me.planetguy.remaininmotion." ;

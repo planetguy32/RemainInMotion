@@ -1,10 +1,11 @@
 package me.planetguy.remaininmotion.client ;
 
+import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
-import me.planetguy.remaininmotion.util.Reflection;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 
 public abstract class CarriageRenderCache
@@ -20,6 +21,8 @@ public abstract class CarriageRenderCache
 
 	public static void Render ( net . minecraft . client . renderer . RenderBlocks BlockRenderer , BlockRecordSet Blocks , BlockRecordSet TileEntities , int Pass )
 	{
+		
+		BlockRenderer.renderAllFaces=true;
 		net . minecraft . client . renderer . RenderHelper . disableStandardItemLighting ( ) ;
 
 		{
@@ -48,7 +51,7 @@ public abstract class CarriageRenderCache
 				}
 
 				try
-				{
+				{	
 					BlockRenderer . renderBlockByRenderType (Record .block , Record . X , Record . Y , Record . Z ) ;
 				}
 				catch ( Throwable Throwable )
@@ -128,6 +131,7 @@ public abstract class CarriageRenderCache
 
 			Render . ResetBoundTexture ( ) ;
 		}
+		BlockRenderer.renderAllFaces=false;
 	}
 
 	public static void Assemble ( BlockRecordSet Blocks , BlockRecordSet TileEntities , net . minecraft . world . World World , BlockPosition Key )
