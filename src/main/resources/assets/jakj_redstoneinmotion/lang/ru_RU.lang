@@ -1,0 +1,81 @@
+#Error messages
+JAKJ_RedstoneInMotion.noValidCarriage=к контроллеру не подключены фреймы или подключено слишком много фреймов
+JAKJ_RedstoneInMotion.active=контроллер уже активен
+JAKJ_RedstoneInMotion.overburdened=платформенный фрейм превышает максимальную нагрузку ##BURDEN## блоков
+JAKJ_RedstoneInMotion.bannedBlock=фрейм содержит запрещённый блок
+JAKJ_RedstoneInMotion.badCuboid=структурный фрейм неправильно определил параллелепипед мира
+JAKJ_RedstoneInMotion.notEdgeAnchor=якорь структурного фрейма не на краю
+JAKJ_RedstoneInMotion.noPushWhenAnchored=нельзя отодвигать фрейм от контроллера в режиме якоря
+JAKJ_RedstoneInMotion.noPullWhenAnchored=нельзя придвигать фрейм к контроллеру в режиме якоря
+JAKJ_RedstoneInMotion.pleaseUpdate=ПРЕДМЕТ ДОЛЖЕН БЫТЬ ОБНОВЛЁН ПОД НОВЫЙ ФОРМАТ##/##(положите его и отвёртку в сетку крафта)
+JAKJ_RedstoneInMotion.labelPrivate=Ярлык (личный):
+JAKJ_RedstoneInMotion.label=Ярлык:
+JAKJ_RedstoneInMotion.decoration=Декорация: 
+JAKJ_RedstoneInMotion.blank=<Нет>
+
+
+
+#Dyes
+JAKJ_RedstoneInMotiondyeBlack=Чёрный
+JAKJ_RedstoneInMotiondyeRed=Красный
+JAKJ_RedstoneInMotiondyeGreen=Зелёный
+JAKJ_RedstoneInMotiondyeBrown=Коричневый
+JAKJ_RedstoneInMotiondyeBlue=Синий
+JAKJ_RedstoneInMotiondyePurple=Фиолетовый
+JAKJ_RedstoneInMotiondyeCyan=Бирюзовый
+JAKJ_RedstoneInMotiondyeLightGray=Светло-серый
+JAKJ_RedstoneInMotiondyeGray=Серый
+JAKJ_RedstoneInMotiondyePink=Розовый
+JAKJ_RedstoneInMotiondyeLime=Лайомвый
+JAKJ_RedstoneInMotiondyeYellow=Жёлтый
+JAKJ_RedstoneInMotiondyeLightBlue=Светло-синий
+JAKJ_RedstoneInMotiondyeMagenta=Сиреневый
+JAKJ_RedstoneInMotiondyeOrange=Оранжевый
+JAKJ_RedstoneInMotiondyeWhite=Белый
+
+
+
+#Items and blocks
+#    (tooltips replace ##/## -> newline)
+
+#Hollow carriage
+item.Hollow Carriage.name=Пустой фрейм
+JAKJ_RedstoneInMotion:FMPCarriage.tooltip=Переносит блоки, прикасаясь к ним напрямую.##/##Поддерживает Forge Multipart.
+
+#Other carriages' names
+tile.JAKJ_RedstoneInMotion_Carriage.0.name=Каркас фрейма
+tile.JAKJ_RedstoneInMotion_Carriage.1.name=Платформенный фрейм
+tile.JAKJ_RedstoneInMotion_Carriage.2.name=Структурный фрейм
+tile.JAKJ_RedstoneInMotion_Carriage.3.name=Поддерживающий фрейм
+tile.JAKJ_RedstoneInMotion_Carriage.4.name=Шаблонный фрейм
+
+#Other carriages' tooltips
+JAKJ_RedstoneInMotion.carriage.tooltip.0=Переносит блоки, прикасаясь к ним напрямую
+JAKJ_RedstoneInMotion.carriage.tooltip.1=Переносит прямую линию блоков##/##(Ранее был известен как 'Поддерживающий фрейм'.)
+JAKJ_RedstoneInMotion.carriage.tooltip.2=Переносит целый параллелепипед мира
+JAKJ_RedstoneInMotion.carriage.tooltip.3=Переносит целый корпус блоков, к которому подсоединён##/##(Ранее был известен как 'Платформенный фрейм'.)
+JAKJ_RedstoneInMotion.carriage.tooltip.4=Переносит блоки по подготовленному шаблону
+
+
+#Carriage drives' names (including adapter carriage - it's more of a drive under the hood)
+tile.JAKJ_RedstoneInMotion_CarriageDrive.0.name=Двигатель фреймов
+tile.JAKJ_RedstoneInMotion_CarriageDrive.1.name=Мотор фреймов
+tile.JAKJ_RedstoneInMotion_CarriageDrive.2.name=Контроллер фреймов
+tile.JAKJ_RedstoneInMotion_CarriageDrive.3.name=Транслокатор фреймов
+tile.JAKJ_RedstoneInMotion_CarriageDrive.4.name=Трансдюпликатор фреймов
+tile.JAKJ_RedstoneInMotion_CarriageDrive.5.name=Адаптер фреймов
+
+#Carriage drives' tooltips
+JAKJ_RedstoneInMotion.drive.tooltip.0=Двигается с фреймом.
+JAKJ_RedstoneInMotion.drive.tooltip.1=Двигает фрейм, оставаясь на месте
+JAKJ_RedstoneInMotion.drive.tooltip.2=Двигает фрейм, благодаря контролю ComputerCraft
+JAKJ_RedstoneInMotion.drive.tooltip.3=Телепортирует фрейм на удалённую позицию
+JAKJ_RedstoneInMotion.drive.tooltip.4=Копирует фрейм на##/##текущую и присоединённую позиции
+JAKJ_RedstoneInMotion.drive.tooltip.5=После перемещения фрейма, берёт##/##следующий фрейм
+
+
+#Misc items
+JAKJ_RedstoneInMotion.screwdriver=Отвёртка
+item.JAKJ_RedstoneInMotion_SimpleItemSet.0.name=Крест фрейма
+item.JAKJ_RedstoneInMotion_SimpleItemSet.1.name=Панель фрейма
+item.JAKJ_RedstoneInMotion_SimpleItemSet.2.name=Каркас фрейма
