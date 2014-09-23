@@ -1,0 +1,81 @@
+#Error messages
+JAKJ_RedstoneInMotion.noValidCarriage=无车辆或控制器连接车辆过多
+JAKJ_RedstoneInMotion.active=控制器已激活
+JAKJ_RedstoneInMotion.overburdened=平板车超出了携带##BURDEN##方块的最大荷载
+JAKJ_RedstoneInMotion.bannedBlock=车辆内包含了全路的黑名单方块
+JAKJ_RedstoneInMotion.badCuboid=构造车不是正确配置的长方体
+JAKJ_RedstoneInMotion.notEdgeAnchor=构造车的锚点不在边缘和拐角处
+JAKJ_RedstoneInMotion.noPushWhenAnchored=无法将车辆推离固定模式的控制器
+JAKJ_RedstoneInMotion.noPullWhenAnchored=无法将车辆推向固定模式的控制器
+JAKJ_RedstoneInMotion.pleaseUpdate=物品需转换为新的格式##/##(与螺丝刀合成来转换)
+JAKJ_RedstoneInMotion.labelPrivate=标签 (私有):
+JAKJ_RedstoneInMotion.label=标签:
+JAKJ_RedstoneInMotion.decoration=装饰: 
+JAKJ_RedstoneInMotion.blank=<Blank>
+
+
+
+#Dyes
+JAKJ_RedstoneInMotiondyeBlack=黑色
+JAKJ_RedstoneInMotiondyeRed=红色
+JAKJ_RedstoneInMotiondyeGreen=绿色
+JAKJ_RedstoneInMotiondyeBrown=棕色
+JAKJ_RedstoneInMotiondyeBlue=蓝色
+JAKJ_RedstoneInMotiondyePurple=紫色
+JAKJ_RedstoneInMotiondyeCyan=青色
+JAKJ_RedstoneInMotiondyeLightGray=淡灰色
+JAKJ_RedstoneInMotiondyeGray=灰色
+JAKJ_RedstoneInMotiondyePink=粉色
+JAKJ_RedstoneInMotiondyeLime=黄绿色
+JAKJ_RedstoneInMotiondyeYellow=黄色
+JAKJ_RedstoneInMotiondyeLightBlue=淡蓝色
+JAKJ_RedstoneInMotiondyeMagenta=品红色
+JAKJ_RedstoneInMotiondyeOrange=橙色
+JAKJ_RedstoneInMotiondyeWhite=白色
+
+
+
+#Items and blocks
+#    (tooltips replace ##/## -> newline)
+
+#Hollow carriage
+item.Hollow Carriage.name=空车厢
+JAKJ_RedstoneInMotion:FMPCarriage.tooltip=运载直接接触的方块.##/##支持Forge Multipart.
+
+#Other carriages' names
+tile.JAKJ_RedstoneInMotion_Carriage.0.name=框架车
+tile.JAKJ_RedstoneInMotion_Carriage.1.name=平板车
+tile.JAKJ_RedstoneInMotion_Carriage.2.name=构造车
+tile.JAKJ_RedstoneInMotion_Carriage.3.name=补给车
+tile.JAKJ_RedstoneInMotion_Carriage.4.name=样板车
+
+#Other carriages' tooltips
+JAKJ_RedstoneInMotion.carriage.tooltip.0=运载直接接触到的方块
+JAKJ_RedstoneInMotion.carriage.tooltip.1=运载直线上的方块##/##(原名'补给车'.)
+JAKJ_RedstoneInMotion.carriage.tooltip.2=运载整个长方体部分
+JAKJ_RedstoneInMotion.carriage.tooltip.3=运载所连接方块的整体##/##(原名'平板车'.)
+JAKJ_RedstoneInMotion.carriage.tooltip.4=运载预定形式的方块
+
+
+#Carriage drives' names (including adapter carriage - it's more of a drive under the hood)
+tile.JAKJ_RedstoneInMotion_CarriageDrive.0.name=车辆引擎
+tile.JAKJ_RedstoneInMotion_CarriageDrive.1.name=车辆发动机
+tile.JAKJ_RedstoneInMotion_CarriageDrive.2.name=车辆控制器
+tile.JAKJ_RedstoneInMotion_CarriageDrive.3.name=车辆传送器
+tile.JAKJ_RedstoneInMotion_CarriageDrive.4.name=车辆复制器
+tile.JAKJ_RedstoneInMotion_CarriageDrive.5.name=车辆适配器
+
+#Carriage drives' tooltips
+JAKJ_RedstoneInMotion.drive.tooltip.0=与车辆移动.
+JAKJ_RedstoneInMotion.drive.tooltip.1=停住不动时移动车辆
+JAKJ_RedstoneInMotion.drive.tooltip.2=根据ComputerCraft控制而移动
+JAKJ_RedstoneInMotion.drive.tooltip.3=将车辆传送至远处
+JAKJ_RedstoneInMotion.drive.tooltip.4=复制车辆##/##当前的状态与匹配位置
+JAKJ_RedstoneInMotion.drive.tooltip.5=被某个车辆移动时,拾##/##取其他车辆
+
+
+#Misc items
+JAKJ_RedstoneInMotion.screwdriver=螺丝刀
+item.JAKJ_RedstoneInMotion_SimpleItemSet.0.name=车辆连接器
+item.JAKJ_RedstoneInMotion_SimpleItemSet.1.name=车厢板
+item.JAKJ_RedstoneInMotion_SimpleItemSet.2.name=车厢架
