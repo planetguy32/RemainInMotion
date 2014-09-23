@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion ;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
@@ -33,9 +34,10 @@ public class BlacklistManager
 	}
 	
 	public boolean lookup(World w, int x, int y, int z){
+
 		int meta=w.getBlockMetadata(x, y, z);
 		Block block=w.getBlock(x, y, z);
-		if(BlacklistedIds.contains(block) || BlacklistedIds.contains(new BlockInt(block, meta))){
+		if(BlacklistedIds.contains(block) || BlacklistedIdAndMetaPairs.contains(new BlockInt(block, meta))){
 			return true;
 		}else{
 			return false;

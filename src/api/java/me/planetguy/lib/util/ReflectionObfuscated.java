@@ -17,7 +17,7 @@ public class ReflectionObfuscated extends Reflection{
 		map("addedTileEntityList", "field_147484_a");
 	}
 	
-	HashMap<String, String> obfRemapper=new HashMap<String, String>();
+	public HashMap<String, String> obfRemapper=new HashMap<String, String>();
 	
 	public String remap(String s){
 		if(obfRemapper.containsKey(s))
