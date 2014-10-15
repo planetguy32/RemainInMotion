@@ -55,5 +55,11 @@ public class BlacklistManager {
 			}
 		}
 	}
+	
+	public static boolean lookup (Blacklist bl, BlockRecord record )
+	{
+		return bl.lookup(record.World,record.X, record.Y, record.Z);
+	}
+
 
 }

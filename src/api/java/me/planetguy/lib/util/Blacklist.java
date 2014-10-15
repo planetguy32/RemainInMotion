@@ -1,6 +1,5 @@
 package me.planetguy.lib.util ;
 
-import me.planetguy.remaininmotion.BlockRecord;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
@@ -22,11 +21,6 @@ public class Blacklist
 		BlacklistedIdAndMetaPairs . add ( new BlockInt(Id, Meta) ) ;
 	}
 
-	public boolean lookup ( BlockRecord record )
-	{
-		return lookup(record.World,record.X, record.Y, record.Z);
-	}
-	
 	public boolean lookup(World w, int x, int y, int z){
 
 		int meta=w.getBlockMetadata(x, y, z);
