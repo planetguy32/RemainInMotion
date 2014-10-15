@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.base ;
 
+import me.planetguy.lib.util.Debug;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;

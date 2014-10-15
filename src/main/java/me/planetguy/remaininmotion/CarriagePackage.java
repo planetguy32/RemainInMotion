@@ -89,12 +89,12 @@ public class CarriagePackage
 			throw ( new CarriageObstructionException ( "cannot move carriage below depth limit" , Record . X , Record . Y , Record . Z ) ) ;
 		}
 
-		if ( BlacklistManager.blacklistHard . Lookup ( Record ) )
+		if ( BlacklistManager.blacklistHard . lookup ( Record ) )
 		{
 			throw ( new CarriageObstructionException ( Lang.translate(Mod.Handle+".bannedBlock") , Record . X , Record . Y , Record . Z ) ) ;
 		}
 		
-		if(BlacklistManager.blacklistSoft.Lookup(Record)){
+		if(BlacklistManager.blacklistSoft.lookup(Record)){
 			return;
 		}
 

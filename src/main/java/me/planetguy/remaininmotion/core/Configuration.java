@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.core ;
 
+import me.planetguy.lib.util.Blacklist;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
@@ -144,7 +145,7 @@ public class Configuration extends Config
 		super ( File ) ;
 	}
 	
-	private void setupBlacklist(String bl, BlacklistManager blacklist){
+	private void setupBlacklist(String bl, Blacklist blacklist){
 		String Blacklist = String ( bl , "" ) ;
 
 		if ( ! Blacklist . equals ( "" ) )

@@ -41,4 +41,8 @@ public abstract class Debug
 		
 	}
 	
+	public static void mark(){
+		dbg_delegate("executed");
+	}
+	
 }

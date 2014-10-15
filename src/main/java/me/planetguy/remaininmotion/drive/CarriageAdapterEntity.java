@@ -90,7 +90,9 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 	
 	@Override
 	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException{
+		Debug.dbg("hi");
 		this.HandleNeighbourBlockChange();
+		pkg.AddBlock(new BlockRecord(xCoord, yCoord, zCoord));
 		if(!alreadyMoving){
 			alreadyMoving=true;
 			if(CarriageDirection!=null){
