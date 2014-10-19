@@ -27,7 +27,7 @@ public class BlockBase extends Block implements IPrefabBlock{
 			GameRegistry.registerBlock(block, ItemBlockBase.class, block.getName());
 			map.put(block.getName(), block);
 			return block;
-		} catch (InstantiationException e) {
+		} catch (InstantiationException e) { //Debug: Throw these exceptions
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();

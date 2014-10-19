@@ -227,7 +227,7 @@ import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;
 import net.minecraft.tileentity.TileEntity;
 
-@Optional.InterfaceList(value = { @Interface(iface = "", modid = "") })
+@Optional.InterfaceList(value = { @Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft") })
 public class CarriageControllerEntity extends CarriageDriveEntity implements IPeripheral
 {
 	
