@@ -217,6 +217,7 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
@@ -230,8 +231,6 @@ import net.minecraft.tileentity.TileEntity;
 @Optional.InterfaceList(value = { @Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft") })
 public class CarriageControllerEntity extends CarriageDriveEntity implements IPeripheral
 {
-	
-	public Object ThreadLockObject = new Object ( ) ;
 	
 	public boolean Simulating ;
 
@@ -390,17 +389,22 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 
 	public void SetupMotion ( Directions MotionDirection , boolean Simulating , boolean Anchored )
 	{
-		this . MotionDirection = MotionDirection ;
+		synchronized(this){
+			this . MotionDirection = MotionDirection ;
 
-		this . Simulating = Simulating ;
+			this . Simulating = Simulating ;
 
-		this . Anchored = Anchored ;
+			this . Anchored = Anchored ;
+		}
 	}
 
+	/**
+	 * Runs in computer threads - be careful of thread safety
+	 */
 	@ECIExpose
 	public Object[] move(Object[] Arguments ) throws Exception{
 
-		notify();
+		Debug.mark();
 		
 		AssertArgumentCount ( Arguments , 3 ) ;
 
@@ -517,6 +521,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 	private Object[] status;
 
 	public Method[] methods(){
+		Debug.mark();
 		ArrayList<Method> methods=new ArrayList<Method>();
 		for(Method m:this.getClass().getMethods()){
 			if(m.isAnnotationPresent(ECIExpose.class)){
@@ -539,6 +544,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 
 	@Override
 	public String[] getMethodNames() {
+		Debug.mark();
 		Method[] methods=methods();
 		String[] names=new String[methods.length];
 		for(int i=0; i<names.length; i++){
@@ -551,13 +557,13 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
 			int method, Object[] arguments) throws LuaException,
 			InterruptedException {
+		Debug.mark();
 		try{
 			Method m=methods()[method];
-			m.invoke(this, arguments);
-			wait();
+			m.invoke(this, new Object[]{arguments});
 			return this.status;
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		return null;
 	}

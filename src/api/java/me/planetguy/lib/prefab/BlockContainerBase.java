@@ -20,6 +20,9 @@ public class BlockContainerBase extends BlockContainer implements IPrefabBlock{
 		BlockContainerBase block;
 		try {
 			block = clazz.newInstance();
+			for(Class<? extends TileEntity> c:block.teClasses){
+				GameRegistry.registerTileEntity(c, block.modid+".te."+c.getSimpleName());
+			}
 			GameRegistry.registerBlock(block, ItemBlockBase.class, block.getName());
 			map.put(block.getName(), block);
 			return block;
@@ -37,7 +40,7 @@ public class BlockContainerBase extends BlockContainer implements IPrefabBlock{
 	
 	private Class[] teClasses;
 	
-	protected BlockContainerBase(Material p_i45394_1_, String name, Class<? extends TileEntity>... tileEntities) {
+	public BlockContainerBase(Material p_i45394_1_, String name, Class<? extends TileEntity>... tileEntities) {
 		super(p_i45394_1_);
 		this.name=name;
 		this.setBlockName(name);
