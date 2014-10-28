@@ -564,8 +564,8 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 			return this.status;
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new LuaException(e.getLocalizedMessage());
 		}
-		return null;
 	}
 
 	@Override
