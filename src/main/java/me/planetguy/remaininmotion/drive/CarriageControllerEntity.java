@@ -217,6 +217,9 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import li.cil.oc.api.network.Arguments;
+import li.cil.oc.api.network.Callback;
+import li.cil.oc.api.network.Context;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -389,13 +392,13 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 
 	public void SetupMotion ( Directions MotionDirection , boolean Simulating , boolean Anchored )
 	{
-		synchronized(this){
-			this . MotionDirection = MotionDirection ;
+		this . MotionDirection = MotionDirection ;
 
-			this . Simulating = Simulating ;
+		this . Simulating = Simulating ;
 
-			this . Anchored = Anchored ;
-		}
+		this . Anchored = Anchored ;
+
+		this.notify();
 	}
 
 	/**
@@ -414,17 +417,19 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 
 		Obstructed = false ;
 
-		try
-		{
-			while ( MotionDirection != null )
+		synchronized(this){
+			try
 			{
-				wait ( ) ;
+				while ( MotionDirection != null )
+				{
+					wait ( ) ;
+				}
+
 			}
-		
-		}
-		catch ( Exception exc )
-		{
-			//exc.printStackTrace();
+			catch ( Exception exc )
+			{
+				//exc.printStackTrace();
+			}
 		}
 
 		if ( Error == null )
@@ -579,6 +584,31 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 	@Override
 	public boolean equals(IPeripheral other) {
 		return other==this;
+	}
+	
+	/*
+	 * OpenComputers integration
+	 */
+	
+	@Callback(direct=true, doc="Args: <Direction to move, as a number or string>, <only simulate motion?>, <leave the controller in one place?>")
+	public Object[] move(Context context, Arguments arguments) throws Exception{
+		SetupMotion(
+				ParseDirectionArgument(arguments.checkAny(0)),
+				arguments.checkBoolean(1),
+				arguments.checkBoolean(2)
+				);
+		synchronized(this){
+			try{
+				while(this.MotionDirection!=null)
+					wait();
+			}catch(Exception e){
+				
+			}
+		}
+		if(Obstructed)
+			return new Object[]{false, ObstructionX, ObstructionY, ObstructionZ};
+		else
+			return new Object[]{true};
 	}
 
 }

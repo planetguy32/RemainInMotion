@@ -192,7 +192,6 @@ public class CarriageDrive extends RIMBlock
 		{
 			CarriageDriveEntity cde=(  CarriageDriveEntity ) World . getTileEntity ( X , Y , Z );
 			cde.lastUsingPlayer=Player;
-			System.out.println("Put player in CDE");
 			cde. HandleToolUsage ( Side , Player . isSneaking ( ) ) ;
 			
 		}

@@ -21,7 +21,7 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 	public boolean alreadyMoving;
 	
 	static{
-		BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
+		//BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
 	}
 	
 	public void HandleToolUsage ( int Side , boolean Sneaking ){
@@ -90,9 +90,16 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 	
 	@Override
 	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException{
-		Debug.dbg("hi");
+		
+		//icky hack to stop adding already-added adaptors
+		StackTraceElement[] e=Thread.currentThread().getStackTrace();
+		if(e[1].getClassName().equals(e[3].getClassName()))
+			return;
+		
 		this.HandleNeighbourBlockChange();
-		pkg.AddBlock(new BlockRecord(xCoord, yCoord, zCoord));
+		BlockRecord record=new BlockRecord(xCoord, yCoord, zCoord);
+		record.Identify(this.worldObj);
+		pkg.AddBlock(record);
 		if(!alreadyMoving){
 			alreadyMoving=true;
 			if(CarriageDirection!=null){
