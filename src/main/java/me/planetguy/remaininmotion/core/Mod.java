@@ -13,7 +13,7 @@ public class Mod
 
 	public static final String Title = "Remain In Motion" ;
 
-	public static final String Version = "2.1.5" ;
+	public static final String Version = "2.1.6" ;
 
 	public static final String Channel = "JAKJ_RIM" ;
 
