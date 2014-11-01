@@ -93,7 +93,7 @@ public class CarriageAdapterEntity extends CarriageEngineEntity implements ISpec
 		
 		//icky hack to stop adding already-added adaptors
 		StackTraceElement[] e=Thread.currentThread().getStackTrace();
-		if(e[1].getClassName().equals(e[3].getClassName()))
+		if(e[10].getClassName().equals(e[12].getClassName()))
 			return;
 		
 		this.HandleNeighbourBlockChange();

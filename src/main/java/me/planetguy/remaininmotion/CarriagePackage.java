@@ -75,10 +75,13 @@ public class CarriagePackage
 	public BlockRecordSet Cargo = new BlockRecordSet ( ) ;
 
 	public double Mass ;
+	
+	public BlockRecord lastRecord;
 
 	public void AddBlock ( BlockRecord Record ) throws CarriageMotionException
 	{
 		
+	
 		if ( ( MotionDirection == Directions . PosY ) && ( Record . Y >= 254 ) )
 		{
 			throw ( new CarriageObstructionException ( "cannot move carriage above height limit" , Record . X , Record . Y , Record . Z ) ) ;
@@ -129,7 +132,7 @@ public class CarriagePackage
 		{
 			Record . EntityRecord = new net . minecraft . nbt . NBTTagCompound ( ) ;
 			
-			if(Record.Entity instanceof ISpecialMoveBehavior)
+			if(Record.Entity instanceof ISpecialMoveBehavior && !(lastRecord!=null && lastRecord.equals(Record)))
 				((ISpecialMoveBehavior)Record.Entity).onAdded(this, Record.EntityRecord);
 			else
 				Record . Entity . writeToNBT ( Record . EntityRecord ) ;
@@ -159,6 +162,7 @@ public class CarriagePackage
 				
 			}
 		}
+		lastRecord=Record;
 	}
 
 	public void FailBecauseObstructed ( BlockRecord Record , String Type ) throws CarriageMotionException

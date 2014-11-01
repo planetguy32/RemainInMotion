@@ -46,6 +46,7 @@ public abstract class SneakyWorldUtil
 
 	public static void SetTileEntity (World World , int X , int Y , int Z , net . minecraft . tileentity . TileEntity Entity )
 	{
+		if(Entity==null)throw new NullPointerException();
 		try{
 			if ( (Boolean)Reflection.get(World.class, World,"field_147481_N"))
 			{
