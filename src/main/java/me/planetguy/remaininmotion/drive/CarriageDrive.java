@@ -18,7 +18,7 @@ public class CarriageDrive extends RIMBlock
 			
 				CarriageEngineEntity . class , 
 				CarriageMotorEntity . class , 
-				Core . CarriageControllerEntity , 
+				CarriageControllerEntity.class , 
 				CarriageTranslocatorEntity . class,
 				CarriageTransduplicatorEntity.class,
 				CarriageAdapterEntity.class) ;

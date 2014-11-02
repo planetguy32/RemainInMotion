@@ -217,9 +217,11 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import li.cil.oc.api.network.Arguments;
-import li.cil.oc.api.network.Callback;
-import li.cil.oc.api.network.Context;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.ManagedPeripheral;
+import li.cil.oc.api.network.SimpleComponent;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -231,8 +233,12 @@ import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;
 import net.minecraft.tileentity.TileEntity;
 
-@Optional.InterfaceList(value = { @Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft") })
-public class CarriageControllerEntity extends CarriageDriveEntity implements IPeripheral
+@Optional.InterfaceList(value = {   @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
+									@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
+									@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class CarriageControllerEntity extends CarriageDriveEntity implements 
+//IPeripheral,
+SimpleComponent, ManagedPeripheral
 {
 	
 	public boolean Simulating ;
@@ -387,7 +393,7 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 		{
 		}
 
-		throw ( new Exception ( "invalid direction" ) ) ;
+		throw ( new Exception ( "invalid direction "+ Argument ) ) ;
 	}
 
 	public void SetupMotion ( Directions MotionDirection , boolean Simulating , boolean Anchored )
@@ -518,15 +524,11 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 		return ( Package ) ;
 	}
 	
-	/* =====================================
-	 * Begin ECI methods
-	 * =====================================
-	 */
+	public String type(){
+		return "carriage";
+	}
 	
-	private Object[] status;
-
-	public Method[] methods(){
-		Debug.mark();
+	public Method[] listMethods(){
 		ArrayList<Method> methods=new ArrayList<Method>();
 		for(Method m:this.getClass().getMethods()){
 			if(m.isAnnotationPresent(ECIExpose.class)){
@@ -536,35 +538,33 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 		return methods.toArray(new Method[0]);
 	}
 	
-	/* =====================================
-	 * ComputerCraft integration
-	 * =====================================
-	 */
-	
-	
-	@Override
-	public String getType() {
-		return this.getClass().getSimpleName();
-	}
-
-	@Override
 	public String[] getMethodNames() {
-		Debug.mark();
-		Method[] methods=methods();
+		Method[] methods=listMethods();
 		String[] names=new String[methods.length];
 		for(int i=0; i<names.length; i++){
 			names[i]=methods[i].getName();
 		}
 		return names;
 	}
+	
+	/* =====================================
+	 * ComputerCraft integration
+	 * =====================================
+	 *
+	 *
+	@Override
+	public String getType() {
+		return type();
+	}
 
+	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
 			int method, Object[] arguments) throws LuaException,
 			InterruptedException {
 		Debug.mark();
 		try{
-			Method m=methods()[method];
+			Method m=listMethods()[method];
 			m.invoke(this, new Object[]{arguments});
 			return this.status;
 		}catch(Exception e){
@@ -573,14 +573,17 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 		}
 	}
 
+	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public void attach(IComputerAccess computer) {
 	}
 
+	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public void detach(IComputerAccess computer) {
 	}
 
+	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public boolean equals(IPeripheral other) {
 		return other==this;
@@ -590,26 +593,27 @@ public class CarriageControllerEntity extends CarriageDriveEntity implements IPe
 	 * OpenComputers integration
 	 */
 	
-	@Callback(direct=true, doc="Args: <Direction to move, as a number or string>, <only simulate motion?>, <leave the controller in one place?>")
-	public Object[] move(Context context, Arguments arguments) throws Exception{
-		SetupMotion(
-				ParseDirectionArgument(arguments.checkAny(0)),
-				arguments.checkBoolean(1),
-				arguments.checkBoolean(2)
-				);
-		synchronized(this){
-			try{
-				while(this.MotionDirection!=null)
-					wait();
-			}catch(Exception e){
-				
-			}
-		}
-		if(Obstructed)
-			return new Object[]{false, ObstructionX, ObstructionY, ObstructionZ};
-		else
-			return new Object[]{true};
+    @Override
+    public String getComponentName() {
+        return type();
+    }
+
+	@Override
+	public String[] methods() {
+		return getMethodNames();
 	}
 
+	@Override
+	@Optional.Method(modid="OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args)
+			throws Exception {
+		for(Method m:listMethods()){
+			if(m.getName().equals(method)){
+				return (Object[]) m.invoke(this, args.toArray());
+			}
+		}
+		throw new NoSuchMethodException(method);
+	}
+	
 }
 
