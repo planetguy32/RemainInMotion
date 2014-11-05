@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion ;
 
 import me.planetguy.remaininmotion.base.TileEntity;
 import net.minecraft.block.Block;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockRecord implements Comparable < BlockRecord >
 {
@@ -38,6 +39,13 @@ public class BlockRecord implements Comparable < BlockRecord >
 		X += Direction . DeltaX ;
 		Y += Direction . DeltaY ;
 		Z += Direction . DeltaZ ;
+	}
+	
+	public BlockRecord shift(ForgeDirection dir){
+		X+=dir.offsetX;
+		Y+=dir.offsetY;
+		Z+=dir.offsetZ;
+		return this;
 	}
 
 	public BlockRecord NextInDirection ( Directions Direction )

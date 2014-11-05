@@ -252,6 +252,8 @@ SimpleComponent, ManagedPeripheral
 	public int ObstructionX ;
 	public int ObstructionY ;
 	public int ObstructionZ ;
+	
+	private volatile boolean finishedMoving=false;
 
 	@Override
 	public void HandleToolUsage ( int Side , boolean Sneaking )
@@ -260,42 +262,45 @@ SimpleComponent, ManagedPeripheral
 	}
 
 	@Override
-	public synchronized void updateEntity ( )
+	public void updateEntity ( )
 	{
-		if ( worldObj . isRemote )
-		{
-			return ;
-		}
-
-		if ( Stale )
-		{
-			HandleNeighbourBlockChange ( ) ;
-		}
-
-		if ( MotionDirection == null )
-		{
-			return ;
-		}
-
-		try
-		{
-			Move ( ) ;
-		}
-		catch ( CarriageMotionException Error )
-		{
-			this . Error = Error ;
-
-			if ( Error instanceof CarriageObstructionException )
+		synchronized(this){
+			if ( worldObj . isRemote )
 			{
-				Obstructed = true ;
-
-				ObstructionX = ( ( CarriageObstructionException ) Error ) . X ;
-				ObstructionY = ( ( CarriageObstructionException ) Error ) . Y ;
-				ObstructionZ = ( ( CarriageObstructionException ) Error ) . Z ;
+				return ;
 			}
-		}
 
-		MotionDirection = null ;
+			if ( Stale )
+			{
+				HandleNeighbourBlockChange ( ) ;
+			}
+
+			if ( MotionDirection == null )
+			{
+				return ;
+			}
+
+			try
+			{
+				Move ( ) ;
+			}
+			catch ( CarriageMotionException Error )
+			{
+				this . Error = Error ;
+
+				if ( Error instanceof CarriageObstructionException )
+				{
+					Obstructed = true ;
+
+					ObstructionX = ( ( CarriageObstructionException ) Error ) . X ;
+					ObstructionY = ( ( CarriageObstructionException ) Error ) . Y ;
+					ObstructionZ = ( ( CarriageObstructionException ) Error ) . Z ;
+				}
+			}
+
+			MotionDirection = null ;
+			notify();
+		}
 
 	}
 
@@ -398,13 +403,15 @@ SimpleComponent, ManagedPeripheral
 
 	public void SetupMotion ( Directions MotionDirection , boolean Simulating , boolean Anchored )
 	{
-		this . MotionDirection = MotionDirection ;
+		synchronized(this){
+			this . MotionDirection = MotionDirection ;
 
-		this . Simulating = Simulating ;
+			this . Simulating = Simulating ;
 
-		this . Anchored = Anchored ;
+			this . Anchored = Anchored ;
 
-		this.notify();
+			this.notify();
+		}
 	}
 
 	/**
@@ -434,7 +441,7 @@ SimpleComponent, ManagedPeripheral
 			}
 			catch ( Exception exc )
 			{
-				//exc.printStackTrace();
+				exc.printStackTrace();
 			}
 		}
 
@@ -551,7 +558,7 @@ SimpleComponent, ManagedPeripheral
 	 * ComputerCraft integration
 	 * =====================================
 	 *
-	 *
+	
 	@Override
 	public String getType() {
 		return type();
@@ -565,8 +572,7 @@ SimpleComponent, ManagedPeripheral
 		Debug.mark();
 		try{
 			Method m=listMethods()[method];
-			m.invoke(this, new Object[]{arguments});
-			return this.status;
+			return (Object[]) m.invoke(this, new Object[]{arguments});
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new LuaException(e.getLocalizedMessage());

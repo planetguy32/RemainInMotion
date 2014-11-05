@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.carriage ;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.BlockRecord;
@@ -12,11 +13,51 @@ import me.planetguy.remaininmotion.core.Mod;
 
 public class PlatformCarriageEntity extends CarriageEntity
 {
+
 	public void FailBecauseOverburdened ( ) throws CarriageMotionException
 	{
 		throw ( new CarriageMotionException ( Lang.translate(Mod.Handle+".overburdened").replace("##BURDEN##", Configuration.Carriage.MaxPlatformBurden+"") ) ) ;
 	}
 
+	public void fillPackage(CarriagePackage pkg) throws CarriageMotionException{
+		BlockRecordSet checked=new BlockRecordSet();
+		checked.add(pkg.DriveRecord);
+		BlockRecordSet todo=new BlockRecordSet();
+		todo.add(pkg.AnchorRecord);
+
+		int positionsCarried=0;
+
+		while(!todo.isEmpty()){
+			BlockRecord inProgress=todo.pollFirst();
+			if(canAdd(inProgress, positionsCarried)){
+				positionsCarried++;
+				//plan neighbours
+				for(ForgeDirection dir:ForgeDirection.VALID_DIRECTIONS){
+					//special case for side closing
+					if(inProgress!=pkg.AnchorRecord || !this.SideClosed[dir.ordinal()]){
+						BlockRecord neighbour=new BlockRecord(inProgress).shift(dir);
+						if(!checked.contains(neighbour))
+							todo.add(neighbour);
+					}
+				}
+				//add to package
+				inProgress.Identify(worldObj);
+				pkg.AddBlock(inProgress);
+			}else{
+				pkg.AddPotentialObstruction(inProgress);
+			}
+			checked.add(inProgress);
+		}
+
+	}
+
+	private boolean canAdd(BlockRecord record, int count){
+		return !worldObj.isAirBlock(record.X, record.Y, record.Z) 
+				&& count < Configuration . Carriage . MaxPlatformBurden
+				&& !BlacklistManager.blacklistSoft.lookup(worldObj, record.X, record.Y, record.Z);
+	}
+
+	/*
 	@Override
 	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
 	{
@@ -54,12 +95,13 @@ public class PlatformCarriageEntity extends CarriageEntity
 					continue ;
 				}
 
-				if ( ! BlocksChecked . add ( TargetRecord ) )
+				if ( BlocksChecked . add ( TargetRecord ) )
 				{
 					continue ;
 				}
 
-				if ( BlacklistManager.blacklistSoft.lookup(worldObj, xCoord, yCoord, zCoord))
+				if ( BlacklistManager.blacklistSoft.lookup(worldObj, TargetRecord.X, TargetRecord.Y, TargetRecord.Z)
+						||worldObj.isAirBlock(TargetRecord.X, TargetRecord.Y, TargetRecord.Z))
 				{
 					Package.AddPotentialObstruction(TargetRecord);
 					continue ;
@@ -120,4 +162,5 @@ public class PlatformCarriageEntity extends CarriageEntity
 			}
 		}
 	}
+	 */
 }
