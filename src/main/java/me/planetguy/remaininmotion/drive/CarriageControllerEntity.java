@@ -237,9 +237,11 @@ import net.minecraft.tileentity.TileEntity;
 									@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
 									@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class CarriageControllerEntity extends CarriageDriveEntity implements 
-//IPeripheral,
+IPeripheral,
 SimpleComponent, ManagedPeripheral
 {
+	
+	public boolean lastMoveWorked;
 	
 	public boolean Simulating ;
 
@@ -265,8 +267,18 @@ SimpleComponent, ManagedPeripheral
 	public void updateEntity ( )
 	{
 		synchronized(this){
+			
 			if ( worldObj . isRemote )
 			{
+				return ;
+			}
+			
+			if ( CooldownRemaining > 0 )
+			{
+				CooldownRemaining -- ;
+
+				MarkServerRecordDirty ( ) ;
+
 				return ;
 			}
 
@@ -280,12 +292,15 @@ SimpleComponent, ManagedPeripheral
 				return ;
 			}
 
+			lastMoveWorked=true;
+			
 			try
 			{
 				Move ( ) ;
 			}
 			catch ( CarriageMotionException Error )
 			{
+				lastMoveWorked=false;
 				this . Error = Error ;
 
 				if ( Error instanceof CarriageObstructionException )
@@ -409,6 +424,8 @@ SimpleComponent, ManagedPeripheral
 			this . Simulating = Simulating ;
 
 			this . Anchored = Anchored ;
+			
+			lastMoveWorked=false;
 
 			this.notify();
 		}
@@ -420,8 +437,6 @@ SimpleComponent, ManagedPeripheral
 	@ECIExpose
 	public Object[] move(Object[] Arguments ) throws Exception{
 
-		Debug.mark();
-		
 		AssertArgumentCount ( Arguments , 3 ) ;
 
 		SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , ParseBooleanArgument ( Arguments [ 1 ] , "simulation" ) , ParseBooleanArgument ( Arguments [ 2 ] , "anchoring" ) ) ;
@@ -430,37 +445,35 @@ SimpleComponent, ManagedPeripheral
 
 		Obstructed = false ;
 
+		return new Object[0];
+	}
+	
+	@ECIExpose
+	public Object[] status(Object[] args){
 		synchronized(this){
-			try
-			{
-				while ( MotionDirection != null )
-				{
-					wait ( ) ;
-				}
-
+			if(Obstructed)
+				return new Object[]{
+					this.energyStored,
+					this.lastMoveWorked,
+					Error.getMessage(),
+					ObstructionX , ObstructionY , ObstructionZ
+			};
+			else if(Error==null){
+				return new Object[]{this.energyStored,this.lastMoveWorked};
+			}else{
+				return new Object[]{
+						this.energyStored,
+						this.lastMoveWorked,
+						Error.getMessage()
+				};
 			}
-			catch ( Exception exc )
-			{
-				exc.printStackTrace();
-			}
 		}
-
-		if ( Error == null )
-		{
-			return ( new Object [ ] { true } ) ;
-		}
-
-		if ( Obstructed == false )
-		{
-			return ( new Object [ ] { false , Error . getMessage ( ) } ) ;
-		}
-
-		return ( new Object [ ] { false , Error . getMessage ( ) , ObstructionX , ObstructionY , ObstructionZ } ) ;
+		
 	}
 
 	public void Move ( ) throws CarriageMotionException
 	{
-		if ( Active )
+		if ( Active || CooldownRemaining>0)
 		{
 			throw ( new CarriageMotionException ( Lang.translate(Mod.Handle+".active") ) ) ;
 		}
@@ -557,10 +570,11 @@ SimpleComponent, ManagedPeripheral
 	/* =====================================
 	 * ComputerCraft integration
 	 * =====================================
-	 *
+	 */
 	
 	@Override
 	public String getType() {
+		Debug.mark();
 		return type();
 	}
 
@@ -569,7 +583,6 @@ SimpleComponent, ManagedPeripheral
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
 			int method, Object[] arguments) throws LuaException,
 			InterruptedException {
-		Debug.mark();
 		try{
 			Method m=listMethods()[method];
 			return (Object[]) m.invoke(this, new Object[]{arguments});
@@ -615,7 +628,7 @@ SimpleComponent, ManagedPeripheral
 			throws Exception {
 		for(Method m:listMethods()){
 			if(m.getName().equals(method)){
-				return (Object[]) m.invoke(this, args.toArray());
+				return (Object[]) m.invoke(this, new Object[]{args.toArray()});
 			}
 		}
 		throw new NoSuchMethodException(method);

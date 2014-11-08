@@ -19,6 +19,7 @@ public class BlockBase extends Block implements IPrefabBlock{
 		modIDCache=modID;
 	}
 	
+	@Deprecated
 	public static IPrefabItem load(Class<? extends BlockBase> clazz, HashMap<String, IPrefabItem> map){
 		BlockBase block;
 		try {
@@ -37,7 +38,7 @@ public class BlockBase extends Block implements IPrefabBlock{
 	
 	private final String name;
 
-	private String modID;
+	public String modID;
 	
 	protected BlockBase(Material p_i45394_1_, String name) {
 		super(p_i45394_1_);

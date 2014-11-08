@@ -29,6 +29,7 @@ public abstract class ItemBase extends Item implements IPrefabItem{
 		modIDCache=modID;
 	}
 	
+	@Deprecated
 	public static IPrefabItem load(Class<? extends ItemBase> clazz, HashMap<String, IPrefabItem> map){
 		ItemBase item;
 		try {
@@ -51,9 +52,9 @@ public abstract class ItemBase extends Item implements IPrefabItem{
 	}
 	
 	
-	private final String name;
+	public final String name;
 
-	private String modID;
+	public String modID;
 	
 	public ItemBase(String name) {
 		this.name=name;

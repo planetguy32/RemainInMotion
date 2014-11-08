@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public abstract class RIMBlock extends net . minecraft . block . Block
+public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 {
 	public int RenderId ;
 
@@ -147,5 +147,20 @@ public abstract class RIMBlock extends net . minecraft . block . Block
     {
 		super.dropBlockAsItem(w, x, y, z, s);
     }
+
+	@Override
+	public net.minecraft.tileentity.TileEntity createNewTileEntity(
+			World p_149915_1_, int meta) {
+		try {
+			return TileEntityClasses[meta].newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 }

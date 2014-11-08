@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.drive ;
 
+import me.planetguy.endgamerf.EndgameRFMod;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
@@ -14,6 +15,7 @@ import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.Mod;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
@@ -23,9 +25,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 
-@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
+//@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class CarriageDriveEntity extends TileEntity implements IEnergyHandler
 {
 	public boolean Continuous ;
@@ -47,6 +50,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	@Override
 	public void WriteCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
+		Debug.mark();
 		TagCompound . setBoolean ( "Continuous" , Continuous ) ;
 
 		for ( Directions Direction : Directions . values ( ) )
@@ -322,7 +326,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 					throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( _package . Mass - MaxBurden ) ) + " units) for drive to handle" ) ) ;
 				}
 			}
-
+			
 			double EnergyRequired = _package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
 
 			int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
@@ -332,9 +336,11 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			if(powerConsumed>this.energyStored){
 				throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
 			}else{
+				Debug.dbg(this.energyStored);
 				this.energyStored-=powerConsumed;
+				Debug.dbg(this.energyStored);
 			}
-
+			
 		}
 		return ( _package ) ;
 	}
@@ -346,6 +352,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 	public void InitiateMotion ( CarriagePackage Package )
 	{
+		
 		ToggleActivity ( ) ;
 
 		Package . RenderCacheKey = GeneratePositionObject ( ) ;
@@ -356,7 +363,8 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 		RefreshWorld ( Package ) ;
 
-		EstablishSpectre ( Package ) ;
+		EstablishSpectre ( Package );
+		
 	}
 
 	public void EstablishPlaceholders ( CarriagePackage Package )
@@ -389,7 +397,9 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		int CarriageZ = Package . AnchorRecord . Z + Package . MotionDirection . DeltaZ ;
 
 		WorldUtil . SetBlock ( worldObj , CarriageX , CarriageY , CarriageZ , RIMBlocks . Spectre , Spectre . Types . Motive . ordinal ( ) ) ;
-
+		
+		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, new MotiveSpectreEntity());
+		
 		( ( MotiveSpectreEntity ) worldObj . getTileEntity ( CarriageX , CarriageY , CarriageZ ) ) . Absorb ( Package ) ;
 	}
 

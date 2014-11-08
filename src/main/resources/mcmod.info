@@ -4,7 +4,8 @@
 "name": "Remain In Motion",
 "version": "$version",
 "mcversion": "$mcversion",
-"authors": [ "John Anthony Kazos Jr.", "planetguy" ],
-"url": "https://github.com/planetguy32/RemainInMotion"
+"authors": [ "John Anthony Kazos Jr.", "planetguy"],
+"url": "https://github.com/planetguy32/RemainInMotion",
+"credits": "Created by JAKJ, continued by Planetguy, sounds based on the work of daveincamas (https://www.freesound.org/people/daveincamas/sounds/25034/) ",
 }
 ]

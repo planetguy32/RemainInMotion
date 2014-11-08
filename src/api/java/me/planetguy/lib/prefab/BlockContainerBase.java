@@ -16,10 +16,12 @@ import net.minecraft.world.World;
 
 public class BlockContainerBase extends BlockContainer implements IPrefabBlock{
 
+	@Deprecated
 	public static IPrefabItem load(Class<? extends BlockContainerBase> clazz, HashMap<String, IPrefabItem> map){
 		BlockContainerBase block;
 		try {
 			block = clazz.newInstance();
+			block.modid=BlockBase.modIDCache;
 			for(Class<? extends TileEntity> c:block.teClasses){
 				GameRegistry.registerTileEntity(c, block.modid+".te."+c.getSimpleName());
 			}
@@ -36,16 +38,15 @@ public class BlockContainerBase extends BlockContainer implements IPrefabBlock{
 	
 	private final String name;
 	
-	private final String modid;
+	public String modid;
 	
-	private Class[] teClasses;
+	public Class[] teClasses;
 	
 	public BlockContainerBase(Material p_i45394_1_, String name, Class<? extends TileEntity>... tileEntities) {
 		super(p_i45394_1_);
 		this.name=name;
 		this.setBlockName(name);
 		this.teClasses=tileEntities;
-		this.modid=BlockBase.modIDCache;
 	}
 	
 	public void registerBlockIcons(IIconRegister ir){

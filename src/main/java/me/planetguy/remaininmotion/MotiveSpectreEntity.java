@@ -5,6 +5,7 @@ import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.client.CarriageRenderCache;
 import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.Mod;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
@@ -12,6 +13,7 @@ import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class MotiveSpectreEntity extends TileEntity
@@ -32,11 +34,18 @@ public class MotiveSpectreEntity extends TileEntity
 
 	public static double Velocity ;
 	
+	TeleportativeSpectreTeleporter Teleporter;
+	
 	public void ShiftBlockPosition ( BlockRecord Record )
 	{
 		Record . Shift ( MotionDirection ) ;
 	}
-
+	
+	public void validate(){
+		if(worldObj instanceof WorldServer)
+			Teleporter = new TeleportativeSpectreTeleporter ( worldObj ) ;
+	}
+	
 	public void ScheduleShiftedBlockUpdate ( net . minecraft . nbt . NBTTagCompound PendingBlockUpdateRecord )
 	{
 		worldObj . func_147446_b //scheduleBlockUpdateFromLoad
@@ -470,6 +479,7 @@ public class MotiveSpectreEntity extends TileEntity
 			CapturedEntities . add ( new CapturedEntity ( Entity , EntityRecord . getDouble ( "InitialX" ) , EntityRecord . getDouble ( "InitialY" ) , EntityRecord . getDouble ( "InitialZ" ) ) ) ;
 		}
 	}
+	
 
 	public class CapturedEntity
 	{
@@ -506,32 +516,26 @@ public class MotiveSpectreEntity extends TileEntity
 		public void SetPosition ( double ShiftX , double ShiftY , double ShiftZ )
 		{
 			net . minecraft . server . MinecraftServer Server = cpw . mods . fml . common . FMLCommonHandler . instance ( ) . getMinecraftServerInstance ( ) ;
-
 			net . minecraft . world . WorldServer HomeWorld = ( net . minecraft . world . WorldServer ) worldObj ;
-
-			TeleportativeSpectreTeleporter Teleporter = new TeleportativeSpectreTeleporter ( worldObj ) ;
-
+			
 			double X = Entity . posX + ShiftX ;
 			double Y = Entity . posY + ShiftY ;
 			double Z = Entity . posZ + ShiftZ ;
+			
 			float Yaw = Entity . rotationYaw ;
 			float Pitch = Entity . rotationPitch ;
-
 			net . minecraft . entity . Entity Mount = Entity . ridingEntity ;
-
 			if ( Entity instanceof net . minecraft . entity . player . EntityPlayerMP )
 			{
 				net . minecraft . entity . player . EntityPlayerMP Player = ( net . minecraft . entity . player . EntityPlayerMP ) Entity ;
-
 				Player . playerNetServerHandler . setPlayerLocation ( X , Y , Z , Yaw , Pitch ) ;
-
-				Player . setLocationAndAngles ( X , Y , Z , Yaw , Pitch ) ;
 			}
-			else
-			{
-				Entity . setLocationAndAngles ( X , Y , Z , Yaw , Pitch ) ;
-			}
-
+			
+	        Entity.lastTickPosX = Entity.prevPosX = Entity.posX += ShiftX;
+	        Entity.lastTickPosY = Entity.prevPosY = Entity.posY += (ShiftY + (double)Entity.yOffset);
+	        Entity.lastTickPosZ = Entity.prevPosZ = Entity.posZ += ShiftZ;
+	        Entity.setPosition(Entity.posX, Entity.posY, Entity.posZ);
+			
 			if ( Mount != null )
 			{
 				Entity . mountEntity ( Mount ) ;
@@ -543,39 +547,31 @@ public class MotiveSpectreEntity extends TileEntity
 		{
 			Entity . fallDistance = 0 ;
 
+			Entity . onGround = false ;
+
+			Entity . isAirBorne = true ;
+
+			Entity . motionX = Velocity * MotionDirection . DeltaX ;
+			Entity . motionY = Velocity * MotionDirection . DeltaY ;
+			Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
+
+			int ticks=TicksExisted>Configuration.CarriageMotion.MotionDuration ? Configuration.CarriageMotion.MotionDuration : TicksExisted;
+
+			double mysteriousConstant=16;
+
+			SetPosition ( Entity . motionX * ticks / mysteriousConstant , Entity . motionY * ticks / mysteriousConstant, Entity . motionZ * ticks / mysteriousConstant) ;
 			if ( TicksExisted == Configuration . CarriageMotion . MotionDuration ) //all done
 			{
 				Entity . motionX = 0 ;
 				Entity . motionY = 0 ;
 				Entity . motionZ = 0 ;
 
-				SetPosition ( MotionDirection . DeltaX , MotionDirection . DeltaY , MotionDirection . DeltaZ ) ;
-
-				Entity . prevPosX = Entity . posX ;
-				Entity . prevPosY = Entity . posY ;
-				Entity . prevPosZ = Entity . posZ ;
-
 				Entity . onGround = WasOnGround ;
 
 				Entity . isAirBorne = WasAirBorne ;
 
 				return ;
-			
-			}else{
 
-				Entity . onGround = false ;
-
-				Entity . isAirBorne = true ;
-
-				Entity . motionX = Velocity * MotionDirection . DeltaX ;
-				Entity . motionY = Velocity * MotionDirection . DeltaY ;
-				Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
-
-				Entity . prevPosX = Entity . posX;
-				Entity . prevPosY = Entity . posY;
-				Entity . prevPosZ = Entity . posZ;
-				
-				SetPosition ( Entity . motionX * TicksExisted / 16 , Entity . motionY * TicksExisted / 16 , Entity . motionZ * TicksExisted / 16 ) ;
 			}
 		}
 	}

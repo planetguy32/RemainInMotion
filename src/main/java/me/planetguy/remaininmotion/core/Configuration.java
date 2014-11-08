@@ -70,7 +70,7 @@ public class Configuration extends Config
 
 	public static boolean HardmodeActive = false ;
 
-	public static double PowerConsumptionFactor=0.0;
+	public static double PowerConsumptionFactor=1.0;
 	
 	public static int powerCapacity=10000;
 	

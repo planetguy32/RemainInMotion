@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.core ;
 
+import me.planetguy.lib.PLHelper;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInterModComms;
 
@@ -16,6 +17,8 @@ public class Mod
 	public static final String Version = "2.1.6" ;
 
 	public static final String Channel = "JAKJ_RIM" ;
+
+	public static PLHelper plHelper=new PLHelper(Handle);
 
 	@cpw . mods . fml . common . Mod . EventHandler
 	public void PreInit ( cpw . mods . fml . common . event . FMLPreInitializationEvent Event )
