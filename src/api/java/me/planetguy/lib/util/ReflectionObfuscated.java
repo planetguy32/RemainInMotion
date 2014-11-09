@@ -15,6 +15,7 @@ public class ReflectionObfuscated extends Reflection{
 		map("storageArrays","field_76652_q");
 		map("field_147481_N","field_147481_N");
 		map("addedTileEntityList", "field_147484_a");
+		map("worldAccesses", "field_73021_x");
 	}
 	
 	public HashMap<String, String> obfRemapper=new HashMap<String, String>();

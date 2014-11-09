@@ -233,8 +233,7 @@ import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;
 import net.minecraft.tileentity.TileEntity;
 
-@Optional.InterfaceList(value = {   @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
-									@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
+@Optional.InterfaceList(value = { 	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
 									@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class CarriageControllerEntity extends CarriageDriveEntity implements 
 IPeripheral,
@@ -586,7 +585,6 @@ SimpleComponent, ManagedPeripheral
 		return type();
 	}
 
-	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
 			int method, Object[] arguments) throws LuaException,
@@ -600,17 +598,14 @@ SimpleComponent, ManagedPeripheral
 		}
 	}
 
-	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public void attach(IComputerAccess computer) {
 	}
 
-	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public void detach(IComputerAccess computer) {
 	}
 
-	@Optional.Method(modid="ComputerCraft")
 	@Override
 	public boolean equals(IPeripheral other) {
 		return other==this;

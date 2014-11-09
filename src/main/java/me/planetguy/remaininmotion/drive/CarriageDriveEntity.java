@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.drive ;
 
-import me.planetguy.endgamerf.EndgameRFMod;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
@@ -30,7 +29,7 @@ import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 
-//@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
+@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class CarriageDriveEntity extends TileEntity implements IEnergyHandler
 {
 	public boolean Continuous ;

@@ -1,5 +1,6 @@
 package me.planetguy.lib;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -10,6 +11,7 @@ import me.planetguy.lib.prefab.IPrefabItem;
 import me.planetguy.lib.prefab.ItemBase;
 import me.planetguy.lib.prefab.ItemBlockBase;
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.Reflection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;
@@ -23,7 +25,7 @@ public class PLHelper {
 	}
 	
 	public void playSound(World w, double x, double y, double z, String name, float volume, float pitch){
-		for(Object o:w.worldAccesses){
+		for(Object o:(Iterable) Reflection.get(World.class, w, "worldAccesses")){
 			IWorldAccess iwa=(IWorldAccess) o;
 			iwa.playSound(modID+":"+name, x, y, z, volume, pitch);
 		}
