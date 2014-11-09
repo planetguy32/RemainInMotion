@@ -317,6 +317,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	}
 	
 	public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException{
+		
 		if ( Configuration . HardmodeActive )
 		{
 			int Type = worldObj . getBlockMetadata ( xCoord , yCoord , zCoord ) ;
@@ -326,13 +327,13 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 				//System.out.println("Package mass: "+Package.Mass+", max burden "+ CarriageDrive . Types . values ( ) [ Type ] . MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . MaxBurdenFactor +" = "+MaxBurden);
 
-				if ( _package . Mass > MaxBurden )
+				if ( _package . getMass() > MaxBurden )
 				{
-					throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( _package . Mass - MaxBurden ) ) + " units) for drive to handle" ) ) ;
+					throw ( new CarriageMotionException ( "(HARDMODE) carriage too massive (by roughly " + ( ( int ) ( _package . getMass() - MaxBurden ) ) + " units) for drive to handle" ) ) ;
 				}
 			}
 			
-			double EnergyRequired = _package . Mass * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
+			double EnergyRequired = _package . getMass() * CarriageDrive . Types . values ( ) [ Type ] . EnergyConsumption * CarriageDrive . Tiers . values ( ) [ Tier ] . EnergyConsumptionFactor ;
 
 			int powerConsumed=(int) Math.ceil(EnergyRequired*Configuration.PowerConsumptionFactor);
 

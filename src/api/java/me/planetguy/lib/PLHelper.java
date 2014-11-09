@@ -9,6 +9,7 @@ import me.planetguy.lib.prefab.BlockContainerBase;
 import me.planetguy.lib.prefab.IPrefabItem;
 import me.planetguy.lib.prefab.ItemBase;
 import me.planetguy.lib.prefab.ItemBlockBase;
+import me.planetguy.lib.util.Debug;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;

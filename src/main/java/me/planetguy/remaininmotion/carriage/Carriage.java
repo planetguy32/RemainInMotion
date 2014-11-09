@@ -24,7 +24,7 @@ public class Carriage extends RIMBlock
 		Platform ,
 		Template ;
 
-		public double Burden ;
+		public double Burden =1.0;
 
 		public IIcon OpenIcon ;
 		public IIcon ClosedIcon ;
@@ -34,9 +34,9 @@ public class Carriage extends RIMBlock
 	{
 		foo ;
 
-		public double CarriageBurdenFactor ;
+		public double CarriageBurdenFactor =1.0 ;
 
-		public double CargoBurdenFactor ;
+		public double CargoBurdenFactor =1.0;
 	}
 
 	public static IIcon PlaceholderIcon ;

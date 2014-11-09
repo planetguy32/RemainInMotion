@@ -1,11 +1,13 @@
 package me.planetguy.remaininmotion.network ;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.PacketTypes;
 import me.planetguy.remaininmotion.client.CarriageRenderCache;
+import me.planetguy.remaininmotion.core.Mod;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import net.minecraft.nbt.NBTTagList;
 
@@ -13,12 +15,15 @@ public abstract class RenderPacket
 {
 	public static void Dispatch ( CarriagePackage Package )
 	{
+		
 		//Debug.dbg("Dispatching render packet");
 		net . minecraft . nbt . NBTTagCompound Packet = new net . minecraft . nbt . NBTTagCompound ( ) ;
 
 		Packet . setInteger ( "DriveX" , Package . DriveRecord . X ) ;
 		Packet . setInteger ( "DriveY" , Package . DriveRecord . Y ) ;
 		Packet . setInteger ( "DriveZ" , Package . DriveRecord . Z ) ;
+		
+		Mod.plHelper.playSound(Package.World, Package . DriveRecord . X, Package . DriveRecord . Y, Package . DriveRecord . Z, "hum", .8f, 1f);
 
 		Packet . setBoolean ( "Anchored" , Package . DriveIsAnchored ) ;
 
@@ -71,12 +76,10 @@ public abstract class RenderPacket
 
 	public static void Handle ( net . minecraft . nbt . NBTTagCompound Packet , net . minecraft . world . World World )
 	{
-		//Debug.dbg("RenderPacket arrived!");
-		
 		int DriveX = Packet . getInteger ( "DriveX" ) ;
 		int DriveY = Packet . getInteger ( "DriveY" ) ;
 		int DriveZ = Packet . getInteger ( "DriveZ" ) ;
-
+		
 		boolean DriveIsAnchored = Packet . getBoolean ( "Anchored" ) ;
 
 		int Dimension = Packet . getInteger ( "Dimension" ) ;

@@ -76,7 +76,7 @@ public class CarriagePackage
 	public BlockRecordSet Carriages = new BlockRecordSet ( ) ;
 	public BlockRecordSet Cargo = new BlockRecordSet ( ) ;
 
-	public double Mass ;
+	private double Mass = 0 ;
 	
 	public BlockRecord lastRecord;
 
@@ -146,7 +146,7 @@ public class CarriagePackage
 			{
 				Carriages . add ( Record ) ;
 
-				Mass += Carriage . Types . values ( ) [ Record . Meta ] . Burden * Carriage . Tiers . values ( ) [ ( ( CarriageEntity ) Record . Entity ) . Tier ] . CarriageBurdenFactor;
+				setMass(getMass() + Carriage . Types . values ( ) [ Record . Meta ] . Burden * Carriage . Tiers . values ( ) [ ( ( CarriageEntity ) Record . Entity ) . Tier ] . CarriageBurdenFactor);
 			}
 			else
 			{
@@ -160,7 +160,7 @@ public class CarriagePackage
 						b.getBlockHardness(Record.World, Record.X, Record.Y, Record.Z), b.getExplosionResistance(null));
 				//Debug.dbg("For "+b.getLocalizedName()+", factor="+massFactor+", lf="+Math.log(massFactor));
 				//always add 0.1 to weight, sometimes more if hard block to move
-				Mass+=Math.max(1,Math.log(massFactor));
+				setMass(getMass() + Math.max(1,Math.log(massFactor)));
 				
 			}
 		}
@@ -333,8 +333,6 @@ public class CarriagePackage
 			}
 		}
 		
-		Debug.dbg("Picked up TEs");
-		
 		PotentialObstructions = null ;
 
 		Carriages = null ;
@@ -398,11 +396,11 @@ public class CarriagePackage
 
 				if ( BurdenFactor == null )
 				{
-					Mass += Burden ;
+					setMass(getMass() + Burden) ;
 				}
 				else
 				{
-					Mass += Burden * BurdenFactor ;
+					setMass(getMass() + Burden * BurdenFactor) ;
 				}
 			}
 		}
@@ -420,5 +418,13 @@ public class CarriagePackage
 	public double GetBaseBurden ( BlockRecord Record )
 	{
 		return ( 1 ) ;
+	}
+
+	public double getMass() {
+		return Mass;
+	}
+
+	public void setMass(double mass) {
+		Mass = mass;
 	}
 }

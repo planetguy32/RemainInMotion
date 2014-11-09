@@ -470,6 +470,14 @@ SimpleComponent, ManagedPeripheral
 		}
 		
 	}
+	
+	@Override
+	public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException{
+		//use energy iff not just simulating motion
+		if(!Simulating)
+			super.removeUsedEnergy(_package);
+	}
+
 
 	public void Move ( ) throws CarriageMotionException
 	{
@@ -541,8 +549,6 @@ SimpleComponent, ManagedPeripheral
 
 		Package . Finalize ( ) ;
 		
-		this.removeUsedEnergy(Package);
-
 		return ( Package ) ;
 	}
 	
