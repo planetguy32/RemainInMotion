@@ -11,6 +11,7 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.Spectre;
+import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.base.TileEntity;
@@ -22,6 +23,7 @@ import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
@@ -50,7 +52,6 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	@Override
 	public void WriteCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
-		Debug.mark();
 		TagCompound . setBoolean ( "Continuous" , Continuous ) ;
 
 		for ( Directions Direction : Directions . values ( ) )
@@ -312,6 +313,10 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 		CarriagePackage _package = GeneratePackage(worldObj . getTileEntity ( xCoord + CarriageDirection . DeltaX , yCoord + CarriageDirection . DeltaY , zCoord + CarriageDirection . DeltaZ ), CarriageDirection, MotionDirection);
 		
+		return ( _package ) ;
+	}
+	
+	public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException{
 		if ( Configuration . HardmodeActive )
 		{
 			int Type = worldObj . getBlockMetadata ( xCoord , yCoord , zCoord ) ;
@@ -336,13 +341,10 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 			if(powerConsumed>this.energyStored){
 				throw ( new CarriageMotionException ( "(HARDMODE) not enough power to move carriage (have "+energyStored+", need "+powerConsumed));
 			}else{
-				Debug.dbg(this.energyStored);
 				this.energyStored-=powerConsumed;
-				Debug.dbg(this.energyStored);
 			}
 			
 		}
-		return ( _package ) ;
 	}
 
 	public BlockPosition GeneratePositionObject ( )
@@ -433,4 +435,5 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return Configuration.powerCapacity;
 	}
+
 }

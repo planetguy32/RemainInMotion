@@ -326,6 +326,7 @@ public class MotiveSpectreEntity extends TileEntity
 		{
 			ScheduleShiftedBlockUpdate ( ( net . minecraft . nbt . NBTTagCompound ) PendingBlockUpdates.getCompoundTagAt( Index ) ) ;
 		}
+		
 	}
 
 	@Override
@@ -547,6 +548,7 @@ public class MotiveSpectreEntity extends TileEntity
 		{
 			Entity . fallDistance = 0 ;
 
+
 			Entity . onGround = false ;
 
 			Entity . isAirBorne = true ;
@@ -558,8 +560,8 @@ public class MotiveSpectreEntity extends TileEntity
 			int ticks=TicksExisted>Configuration.CarriageMotion.MotionDuration ? Configuration.CarriageMotion.MotionDuration : TicksExisted;
 
 			double mysteriousConstant=16;
-
-			SetPosition ( Entity . motionX * ticks / mysteriousConstant , Entity . motionY * ticks / mysteriousConstant, Entity . motionZ * ticks / mysteriousConstant) ;
+			SetPosition ( Entity . motionX * ticks / mysteriousConstant , Entity . motionY * ticks / mysteriousConstant, Entity . motionZ * ticks / mysteriousConstant);
+			
 			if ( TicksExisted == Configuration . CarriageMotion . MotionDuration ) //all done
 			{
 				Entity . motionX = 0 ;

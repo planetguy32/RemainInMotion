@@ -536,10 +536,12 @@ SimpleComponent, ManagedPeripheral
 			}
 			
 			MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
-
+			
 		}
 
 		Package . Finalize ( ) ;
+		
+		this.removeUsedEnergy(Package);
 
 		return ( Package ) ;
 	}

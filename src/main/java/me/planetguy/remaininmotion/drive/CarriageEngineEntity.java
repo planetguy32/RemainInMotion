@@ -4,6 +4,7 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class CarriageEngineEntity extends CarriageDriveEntity
@@ -23,6 +24,8 @@ public class CarriageEngineEntity extends CarriageDriveEntity
 		MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
 		
 		Package . Finalize ( ) ;
+		
+		this.removeUsedEnergy(Package);
 
 		return ( Package ) ;
 	}

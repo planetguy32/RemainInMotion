@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion ;
 import java.util.Set;
 import java.util.TreeSet;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
@@ -15,6 +16,7 @@ import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.WorldServer;
 
@@ -253,6 +255,8 @@ public class CarriagePackage
 
 	public void Finalize ( ) throws CarriageMotionException
 	{
+		updateHardModeData();
+		
 		for ( BlockRecord PotentialObstruction : PotentialObstructions )
 		{
 			AssertNotObstruction ( PotentialObstruction ) ;
@@ -328,7 +332,18 @@ public class CarriagePackage
 				VanillaThrowable . printStackTrace ( ) ;
 			}
 		}
+		
+		Debug.dbg("Picked up TEs");
+		
+		PotentialObstructions = null ;
 
+		Carriages = null ;
+		Cargo = null ;
+
+		CargoBurdenFactors = null ;
+	}
+	
+	public void updateHardModeData() throws CarriageMotionException{
 		if ( Configuration . HardmodeActive )
 		{
 			for ( BlockRecord CarriageRecord : Carriages )
@@ -391,13 +406,15 @@ public class CarriagePackage
 				}
 			}
 		}
-
-		PotentialObstructions = null ;
-
-		Carriages = null ;
-		Cargo = null ;
-
-		CargoBurdenFactors = null ;
+		
+		CarriageDriveEntity drive=(CarriageDriveEntity) this.DriveRecord.Entity;
+		
+		drive.removeUsedEnergy(this);
+		
+		NBTTagCompound tag=new NBTTagCompound();
+		drive.writeToNBT(tag);
+		
+		this.DriveRecord.EntityRecord=tag;
 	}
 
 	public double GetBaseBurden ( BlockRecord Record )
