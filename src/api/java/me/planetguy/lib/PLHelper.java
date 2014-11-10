@@ -1,8 +1,10 @@
 package me.planetguy.lib;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import me.planetguy.lib.prefab.BlockBase;
@@ -15,19 +17,33 @@ import me.planetguy.lib.util.Reflection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.config.Configuration;
 
 public class PLHelper {
 	
 	private final String modID;
 	
+	private Configuration cfg=null;
+	
 	public PLHelper(String modID){
 		this.modID=modID;
+		cfg=new Configuration(new File(PlanetguyLib.instance.configFolder, this.modID));
+	}
+	
+	public PLHelper(String modID, Configuration banConfig){
+		this(modID);
+		cfg=banConfig;
+		
 	}
 	
 	public void playSound(World w, double x, double y, double z, String name, float volume, float pitch){
+		playUnNamespacedSound(w,x,y,z,modID+":"+name, volume,pitch);
+	}
+	
+	public void playUnNamespacedSound(World w, double x, double y, double z, String name, float volume, float pitch){
 		for(Object o:(Iterable) Reflection.get(World.class, w, "worldAccesses")){
 			IWorldAccess iwa=(IWorldAccess) o;
-			iwa.playSound(modID+":"+name, x, y, z, volume, pitch);
+			iwa.playSound(name, x, y, z, volume, pitch);
 		}
 	}
 	
@@ -88,6 +104,12 @@ public class PLHelper {
 	}
 	
 	public void load(Class c, HashMap<String, IPrefabItem> content){
+		boolean shouldLoad =
+				(cfg == null) ?
+				true :
+				cfg.get("bans", "Allow"+c.getSimpleName(), true).getBoolean();
+		if(!shouldLoad)
+			return;
 		if(ItemBase.class.isAssignableFrom(c)){
 			loadItem(c, content);
 		}else if(BlockBase.class.isAssignableFrom(c)){
