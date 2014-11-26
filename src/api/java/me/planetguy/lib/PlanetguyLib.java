@@ -10,7 +10,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid=LibProperties.modID, version="1.2")
+@Mod(modid=LibProperties.modID, version="1.3")
 public class PlanetguyLib {
 	
 	@Instance(LibProperties.modID)
@@ -18,10 +18,15 @@ public class PlanetguyLib {
 	
 	public File configFolder;
 	
+	public PlanetguyLib(){
+		instance=this;
+	}
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent pie){
 		Reflection.init();
-		configFolder=pie.getSuggestedConfigurationFile();
+		configFolder=pie.getModConfigurationDirectory();
+		configFolder.mkdir();
 	}
 	
 	

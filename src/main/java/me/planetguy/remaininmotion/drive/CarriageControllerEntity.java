@@ -233,8 +233,10 @@ import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;
 import net.minecraft.tileentity.TileEntity;
 
-@Optional.InterfaceList(value = { 	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
-									@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+@Optional.InterfaceList(value = { 	
+		@Optional.Interface(iface="dan200.computercraft.api.peripheral.IPeripheral", modid="ComputerCraft"),
+		@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
+		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class CarriageControllerEntity extends CarriageDriveEntity implements 
 IPeripheral,
 SimpleComponent, ManagedPeripheral

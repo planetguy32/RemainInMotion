@@ -32,7 +32,7 @@ class FMPRenderer implements IMicroMaterialRender{
 	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public Cuboid6 getRenderBounds() {
-		return Cuboid6.full;
+		return Cuboid6.full.expand(0.1d);
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")

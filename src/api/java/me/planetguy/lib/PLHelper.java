@@ -1,6 +1,7 @@
 package me.planetguy.lib;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
@@ -27,13 +28,20 @@ public class PLHelper {
 	
 	public PLHelper(String modID){
 		this.modID=modID;
-		cfg=new Configuration(new File(PlanetguyLib.instance.configFolder, this.modID));
+		File f=new File(PlanetguyLib.instance.configFolder, this.modID+".cfg");
+		try {
+			f.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Debug.dbg("PL config file for mod "+modID+": "+f.exists());
+		cfg=new Configuration(f);
 	}
 	
 	public PLHelper(String modID, Configuration banConfig){
 		this(modID);
-		cfg=banConfig;
-		
+		//cfg=banConfig;
 	}
 	
 	public void playSound(World w, double x, double y, double z, String name, float volume, float pitch){
@@ -48,6 +56,8 @@ public class PLHelper {
 	}
 	
 	public IPrefabItem loadBlock(Class<? extends BlockBase> clazz, HashMap<String, IPrefabItem> map){
+		if(!shouldLoad(clazz))
+			return null;
 		BlockBase block;
 		try {
 			block = clazz.newInstance();
@@ -64,6 +74,8 @@ public class PLHelper {
 	}
 	
 	public IPrefabItem loadItem(Class<? extends ItemBase> clazz, HashMap<String, IPrefabItem> map){
+		if(!shouldLoad(clazz))
+			return null;
 		ItemBase item;
 		try {
 			item = clazz.newInstance();
@@ -85,6 +97,8 @@ public class PLHelper {
 	}
 	
 	public IPrefabItem loadContainer(Class<? extends BlockContainerBase> clazz, HashMap<String, IPrefabItem> map){
+		if(!shouldLoad(clazz))
+			return null;
 		BlockContainerBase block;
 		try {
 			block = clazz.newInstance();
@@ -104,11 +118,8 @@ public class PLHelper {
 	}
 	
 	public void load(Class c, HashMap<String, IPrefabItem> content){
-		boolean shouldLoad =
-				(cfg == null) ?
-				true :
-				cfg.get("bans", "Allow"+c.getSimpleName(), true).getBoolean();
-		if(!shouldLoad)
+		Debug.mark();
+		if(!shouldLoad(c))
 			return;
 		if(ItemBase.class.isAssignableFrom(c)){
 			loadItem(c, content);
@@ -123,6 +134,14 @@ public class PLHelper {
 	
 	public String translate(String nonNamespacedKey){
 		return LanguageRegistry.instance().getStringLocalization(modID+"."+nonNamespacedKey);
+	}
+	
+	public boolean shouldLoad(Class c){
+		cfg.load();
+		boolean b=cfg.getBoolean("Allow "+c.getSimpleName(),"itemRestrict", true, "");
+		Debug.dbg(b+" : "+c);
+		cfg.save();
+		return b;
 	}
 
 }

@@ -33,22 +33,25 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 
 	static final double l=1.5/8;
 
+	//The amount the cuboid extends outside 
+	static final double e=0.01;
+	
 	public static final Cuboid6[] cubeOutsideEdges=new Cuboid6[]{ //not most efficient, but understandable, system;
-		new Cuboid6(0,0,0, 1, l, l),
-		new Cuboid6(0,0,0, l, 1-l, l),
-		new Cuboid6(0,0,0, l, l, 1),
+		new Cuboid6(0-e,0-e,0-e, 1+e, l, l),
+		new Cuboid6(0-e,0-e,0-e, l, 1+e-l, l),
+		new Cuboid6(0-e,0-e,0-e, l, l, 1+e),
 
-		new Cuboid6(1,1,0, 0,   1-l, l ),
-		new Cuboid6(1,1,0, 1-l, l,   l ),
-		new Cuboid6(1,1,0, 1-l, 1-l, 1-l),
+		new Cuboid6(1+e,1+e,0-e, 0-e,   1+e-l, l ),
+		new Cuboid6(1+e,1+e,0-e, 1+e-l, l,   l ),
+		new Cuboid6(1+e,1+e,0-e, 1+e-l, 1+e-l, 1+e-l),
 
-		new Cuboid6(1,0,1, 1-l, l,    l ),
-		new Cuboid6(1,0,1, 1-l, 1-l,  1-l),
-		new Cuboid6(1,0,1, l,   l,    1-l),
+		new Cuboid6(1+e,0-e,1+e, 1+e-l, l,    l ),
+		new Cuboid6(1+e,0-e,1+e, 1+e-l, 1+e-l,  1+e-l),
+		new Cuboid6(1+e,0-e,1+e, l,   l,    1+e-l),
 
-		new Cuboid6(0,1,1, 1,  1-l, 1-l),
-		new Cuboid6(0,1,1, l,  l,   1-l),
-		new Cuboid6(0,1,1, l,  1-l, l),
+		new Cuboid6(0-e,1+e,1+e, 1+e,  1+e-l, 1+e-l),
+		new Cuboid6(0-e,1+e,1+e, l,  l,   1+e-l),
+		new Cuboid6(0-e,1+e,1+e, l,  1+e-l, l),
 
 	};
 
