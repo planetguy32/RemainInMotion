@@ -161,13 +161,14 @@ public abstract class ModInteraction
 		}
 		return null;
 	}
-
+	
 	public static abstract class Wrenches{
 		
 		static ArrayList<Class> wrenchClasses=new ArrayList<Class>();
 		
+		
 		public static void init(){
-			for(String s:new String[]{
+			for(String s:new String[]{ //wrench classes to support
 					"buildcraft.api.tools.IToolWrench",
 					"resonant.core.content.ItemScrewdriver",
 					"ic2.core.item.tool.ItemToolWrench",
@@ -185,8 +186,8 @@ public abstract class ModInteraction
 		}
 		
 		public static boolean isAWrench(ItemStack stk){
-			for(Class c:wrenchClasses){
-				if(stk.getItem().getClass().isAssignableFrom(c))
+			for(Class c:wrenchClasses){ //must iterate - testing isAssignableFrom, not equals
+				if(stk !=null && stk.getItem() !=null && stk.getItem().getClass().isAssignableFrom(c))
 					return true;
 			}
 			return false;
