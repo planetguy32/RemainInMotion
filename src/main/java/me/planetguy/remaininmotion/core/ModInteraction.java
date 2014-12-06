@@ -168,19 +168,26 @@ public abstract class ModInteraction
 		
 		
 		public static void init(){
-			for(String s:new String[]{ //wrench classes to support
-					"buildcraft.api.tools.IToolWrench",
-					"resonant.core.content.ItemScrewdriver",
-					"ic2.core.item.tool.ItemToolWrench",
-					"ic2.core.item.tool.ItemToolWrenchElectric",
-					"mrtjp.projectred.api.IScrewdriver",
-					"mods.railcraft.api.core.items.IToolCrowbar",
-					
+			for(String className:new String[]{
+					//can add or remove FQCNs here
+					//should probably prefer API interface names where possible
+					//note that many mods implement BC wrench API only if BC is installed
+					"buildcraft.api.tools.IToolWrench",				//Buildcraft
+					"resonant.core.content.ItemScrewdriver",		//Resonant Induction
+					"ic2.core.item.tool.ItemToolWrench",			//IC2
+					"ic2.core.item.tool.ItemToolWrenchElectric",	//IC2 (more)
+					"mrtjp.projectred.api.IScrewdriver",			//Project Red
+					"mods.railcraft.api.core.items.IToolCrowbar",	//Railcraft
+					"com.bluepowermod.items.ItemScrewdriver",		//BluePower
+					"cofh.api.item.IToolHammer",					//Thermal Expansion and compatible
+					"appeng.items.tools.quartz.ToolQuartzWrench",	//Applied Energistics
+					"crazypants.enderio.api.tool.ITool",			//Ender IO
+					"mekanism.api.IMekWrench",						//Mekanism
 			}){
-				try{
-					wrenchClasses.add(Class.forName(s));
-				}catch(Exception e){
-					Debug.dbg("Could not load wrench class "+s);
+				try {
+					wrenchClasses.add(Class.forName(className));
+				} catch (ClassNotFoundException e) {
+					Debug.dbg("Failed to load wrench class "+className);
 				}
 			}
 		}

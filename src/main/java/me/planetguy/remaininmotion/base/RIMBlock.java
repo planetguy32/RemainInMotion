@@ -24,18 +24,19 @@ public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 	public Class < ? extends TileEntity > [ ] TileEntityClasses ;
 
 	@Override
-	public boolean hasTileEntity ( int Meta )
+	public boolean hasTileEntity ( int meta )
 	{
 		try
 		{
-			return ( TileEntityClasses [ Meta ] != null ) ;
+			if(meta>0 && meta < TileEntityClasses.length)
+				return ( TileEntityClasses [ meta ] != null ) ;
 		}
 		catch ( Throwable Throwable )
 		{
 			Throwable . printStackTrace ( ) ;
-
-			return ( false ) ;
 		}
+		
+		return ( false ) ;
 	}
 
 	@Override
