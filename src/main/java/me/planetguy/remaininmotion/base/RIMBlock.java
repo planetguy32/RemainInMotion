@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.base ;
 import java.util.Arrays;
 import java.util.List;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.core.Mod;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,12 +29,12 @@ public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 	{
 		try
 		{
-			if(meta>0 && meta < TileEntityClasses.length)
+			if(meta>=0 && meta < TileEntityClasses.length)
 				return ( TileEntityClasses [ meta ] != null ) ;
 		}
-		catch ( Throwable Throwable )
+		catch ( Throwable t )
 		{
-			Throwable . printStackTrace ( ) ;
+			Debug.exception(t);
 		}
 		
 		return ( false ) ;
@@ -44,11 +45,12 @@ public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 	{
 		try
 		{
-			return ( TileEntityClasses [ Meta ] . newInstance ( ) ) ;
+			TileEntity te=TileEntityClasses [ Meta ] . newInstance ( );
+			return te ;
 		}
-		catch ( Throwable Throwable )
+		catch ( Throwable e )
 		{
-			
+			e.printStackTrace();
 			return ( null ) ;
 		}
 	}
@@ -108,6 +110,7 @@ public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 		return ( 0 ) ;
 	}
 
+	
 	@Override
 	public void onBlockPlacedBy ( net . minecraft . world . World World , int X , int Y , int Z , net . minecraft . entity . EntityLivingBase Entity , net . minecraft . item . ItemStack Item )
 	{
@@ -122,6 +125,7 @@ public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 			Throwable . printStackTrace ( ) ;
 		}
 	}
+	
 
 	@Override
 	 public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
@@ -155,10 +159,8 @@ public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 		try {
 			return TileEntityClasses[meta].newInstance();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

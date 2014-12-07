@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.spectre ;
 
 import me.planetguy.remaininmotion.base.BlockItem;
 import net.minecraft.block.Block;

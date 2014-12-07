@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion.client ;
 
-import me.planetguy.remaininmotion.TeleportativeSpectreEntity;
 import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.spectre.TeleportativeSpectreEntity;
 
 public class TeleportativeSpectreRenderer extends RIMTileEntityRenderer
 {

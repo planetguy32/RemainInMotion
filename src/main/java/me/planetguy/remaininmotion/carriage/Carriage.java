@@ -68,14 +68,15 @@ public class Carriage extends RIMBlock
 	{
 		try
 		{
-			return ( Types . values ( ) [ Meta ] . OpenIcon ) ;
+			if(Meta < Types.values().length && Meta > 0)
+				return ( Types . values ( ) [ Meta ] . OpenIcon ) ;
 		}
 		catch ( Throwable Throwable )
 		{
 			Throwable . printStackTrace ( ) ;
-
-			return ( RIMBlocks . Spectre . getIcon ( 0 , 0 ) ) ;
 		}
+		
+		return ( RIMBlocks . Spectre . getIcon ( 0 , 0 ) ) ;
 	}
 
 	@Override
@@ -96,8 +97,8 @@ public class Carriage extends RIMBlock
 		}
 		catch ( Throwable t )
 		{
-			if(!(t instanceof ArrayIndexOutOfBoundsException))
-				t . printStackTrace ( ) ;
+			//if(!(t instanceof ArrayIndexOutOfBoundsException))
+			//	t . printStackTrace ( ) ;
 
 			return ( RIMBlocks . Spectre.getIcon(0 , 0 ) ) ;
 		}

@@ -35,6 +35,8 @@ compileScala {
     dependencies {
         compile 'codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev'
         compile 'codechicken:ForgeMultipart:1.7.10-1.1.0.297:dev'
+        compile group: 'com.googlecode.efficient-java-matrix-library', name: 'core', version: '0.26'
+        compile group: 'com.googlecode.efficient-java-matrix-library', name: 'equation', version: '0.26'
     }
 }
 

@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.core ;
 
-import me.planetguy.remaininmotion.Spectre;
 import me.planetguy.remaininmotion.carriage.Carriage;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
+import me.planetguy.remaininmotion.spectre.Spectre;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 

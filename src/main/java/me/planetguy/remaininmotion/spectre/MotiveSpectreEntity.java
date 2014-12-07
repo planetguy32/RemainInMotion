@@ -1,7 +1,13 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.spectre ;
 
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Reflection;
+import me.planetguy.remaininmotion.BlockPosition;
+import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.BlockRecordList;
+import me.planetguy.remaininmotion.BlockRecordSet;
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.client.CarriageRenderCache;
 import me.planetguy.remaininmotion.core.Configuration;

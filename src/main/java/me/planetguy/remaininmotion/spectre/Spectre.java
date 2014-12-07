@@ -1,5 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.spectre ;
 
+import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.util.WorldUtil;

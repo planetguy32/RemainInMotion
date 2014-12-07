@@ -2,11 +2,19 @@ package me.planetguy.remaininmotion.fmp;
 
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import codechicken.microblock.BlockMicroMaterial;
+import codechicken.microblock.MicroMaterialRegistry;
 import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
@@ -14,16 +22,19 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.core.Mod.Handle+"_HollowCarriages", dependencies="after:"+me.planetguy.remaininmotion.core.Mod.Handle+";after:ForgeMultipart")
+@Mod(modid = me.planetguy.remaininmotion.core.Mod.Handle+"_HollowCarriages", dependencies="after:JAKJ_RedstoneInMotion;after:ForgeMultipart")
 public class HollowCarriagesMod {
 	
 	boolean alive;
 	public static Item hollowCarriage;
+	
+	Block baseBlock;
 	
 	@Optional.Method(modid = "ForgeMultipart")
 	@Mod . EventHandler
@@ -49,6 +60,31 @@ public class HollowCarriagesMod {
 		}, new String[]{"FMPCarriage"});
 		
 		RiMRegistry.registerMatcher(new FMPCarriageMatcher());
+		
+		baseBlock=new Block(Material.wood) {
+		
+			public void registerBlockIcons(IIconRegister ir) {
+				this.blockIcon=ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Open");
+			}
+			
+			public IIcon getIcon(int side, int meta) {
+				return this.blockIcon;
+			}
+			
+		    public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_) {
+		    	return this.blockIcon;
+		    }
+
+			
+		};
+		
+		GameRegistry.registerBlock(baseBlock, "tile.hollowCarriage");
+	}
+	
+	@Optional.Method(modid = "ForgeMultipart")
+	@EventHandler
+	public void init(FMLInitializationEvent ev) {
+		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(baseBlock, 0), "tile.hollowCarriage");
 	}
 	
 	@Optional.Method(modid = "ForgeMultipart")

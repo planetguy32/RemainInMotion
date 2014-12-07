@@ -1,5 +1,9 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.spectre ;
 
+import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.BlockRecordSet;
+import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;

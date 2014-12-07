@@ -3,8 +3,8 @@ package me.planetguy.remaininmotion.core ;
 import me.planetguy.lib.util.Blacklist;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.Registry;
+import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
 import net.minecraft.block.Block;
 
 

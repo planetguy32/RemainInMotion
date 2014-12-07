@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.spectre ;
 
 public class TeleportativeSpectreTeleporter extends net . minecraft . world . Teleporter
 {

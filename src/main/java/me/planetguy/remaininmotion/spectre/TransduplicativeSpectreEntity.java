@@ -1,4 +1,6 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion.spectre ;
+
+import me.planetguy.remaininmotion.BlockRecord;
 
 public class TransduplicativeSpectreEntity extends TeleportativeSpectreEntity {
 
