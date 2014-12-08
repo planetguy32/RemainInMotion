@@ -4,44 +4,44 @@ import scala.actors.threadpool.Arrays;
 
 public class Matrix {
 	
-	public int[][] matrix;
+	public double[][] matrix;
 	
-	public static final Matrix[] clockwiseRotMatrices=new Matrix[] {
-		new Matrix(new int[][]{ //-y
+	public static final Matrix[] ccwRotMatrices=new Matrix[] {
+		new Matrix(new double[][]{ //-y
 				{0,0,1},
 				{0,1,0},
 				{-1,0,0}}),
-		new Matrix(new int[][]{ //+y
+		new Matrix(new double[][]{ //+y
 				{0,0,-1},
 				{0,1,0},
 				{1,0,0}}),
-		new Matrix(new int[][]{ //-z
+		new Matrix(new double[][]{ //-z
 				{0,-1,0},
 				{1,0,0},
 				{0,0,1}}),
-		new Matrix(new int[][]{ //+z
+		new Matrix(new double[][]{ //+z
 				{0,1,0},
 				{-1,0,0},
 				{0,0,1}}),		
-		new Matrix(new int[][]{ //-x
+		new Matrix(new double[][]{ //-x
 				{1,0,0},
 				{0,0,-1},
 				{0,1,0}}),		
-		new Matrix(new int[][]{ //+x
+		new Matrix(new double[][]{ //+x
 				{1,0,0},
 				{0,0,1},
 				{0,-1,0}}),		
 	};
 	
-	public Matrix(int[][] coords) {
+	public Matrix(double[][] coords) {
 		this.matrix=coords;
 	}
 	
 	public Matrix crossProduct(Matrix m) {
-		int[][] newMatrix=new int[this.matrix.length][m.matrix[0].length];
+		double[][] newMatrix=new double[this.matrix.length][m.matrix[0].length];
 		for(int x=0; x<newMatrix.length; x++) {
 			for(int y=0; y<newMatrix[0].length; y++) {
-				int cellCounter=0;
+				double cellCounter=0;
 				for(int k=0; k<m.matrix.length; k++) {
 					cellCounter += this.matrix[x][k] * m.matrix[k][y];
 				}
@@ -53,8 +53,8 @@ public class Matrix {
 	
 	public String toString() {
 		String s="";
-		for(int[] ints:this.matrix) {
-			s+=Arrays.toString(ints)+"\n";
+		for(double[] doubles:this.matrix) {
+			s+=Arrays.toString(doubles)+"\n";
 		}
 		return s;
 	}

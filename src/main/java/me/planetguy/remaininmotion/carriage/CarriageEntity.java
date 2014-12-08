@@ -3,11 +3,12 @@ package me.planetguy.remaininmotion.carriage ;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.base.TileEntity;
 
-public abstract class CarriageEntity extends TileEntity implements Moveable
+public abstract class CarriageEntity extends TileEntity implements Moveable, ICloseable
 {
 	@Override
 	public boolean canUpdate ( )
@@ -27,6 +28,11 @@ public abstract class CarriageEntity extends TileEntity implements Moveable
 		SideClosed [ Side ] = ! SideClosed [ Side ] ;
 
 		Propagate ( ) ;
+	}
+	
+	@Override
+	public boolean isSideClosed(int side) {
+		return SideClosed[side];
 	}
 
 	public int DecorationId ;

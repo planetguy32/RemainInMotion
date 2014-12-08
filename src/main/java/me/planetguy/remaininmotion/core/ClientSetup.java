@@ -2,11 +2,13 @@ package me.planetguy.remaininmotion.core ;
 
 import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.carriage.CarriageRenderer;
+import me.planetguy.remaininmotion.client.CarriageDriveRenderer;
 import me.planetguy.remaininmotion.client.MotiveSpectreRenderer;
 import me.planetguy.remaininmotion.client.RIMTileEntityRenderer;
+import me.planetguy.remaininmotion.client.RotativeSpectreRenderer;
 import me.planetguy.remaininmotion.client.TeleportativeSpectreRenderer;
-import me.planetguy.remaininmotion.drive.CarriageDriveRenderer;
 import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
+import me.planetguy.remaininmotion.spectre.RotativeSpectreEntity;
 import me.planetguy.remaininmotion.spectre.TeleportativeSpectreEntity;
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -30,6 +32,8 @@ public class ClientSetup extends ClientSetupProxy
 			RegisterTileEntityRenderer ( new MotiveSpectreRenderer ( ) , MotiveSpectreEntity . class ) ;
 
 			RegisterTileEntityRenderer ( new TeleportativeSpectreRenderer ( ) , TeleportativeSpectreEntity . class ) ;
+			
+			RegisterTileEntityRenderer ( new RotativeSpectreRenderer ( ) , RotativeSpectreEntity . class ) ;
 
 			new CarriageRenderer ( ) ;
 

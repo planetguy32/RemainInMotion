@@ -5,7 +5,9 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMatchers;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.Closeables;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -44,9 +46,13 @@ public abstract class MultiTypeCarriageUtil {
 			{
 				BlockRecord TargetRecord = CarriageRecord . NextInDirection ( TargetDirection ) ;
 
-				if(CarriageRecord.Entity instanceof FrameCarriageEntity){
-
-					if ( ( ( FrameCarriageEntity ) CarriageRecord . Entity ) . SideClosed [ TargetDirection . ordinal ( ) ] )
+				ICloseable closeable=Closeables.getCloseable(CarriageRecord.Entity);
+				
+				if(closeable != null){
+					
+					int direction=TargetDirection.ordinal();
+					
+					if ( direction >= 0 && direction < 6 && closeable.isSideClosed(direction) )
 					{
 						//DEBUG =!= SideClosed");
 						if ( TargetDirection == Package . MotionDirection )

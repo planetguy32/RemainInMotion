@@ -96,8 +96,10 @@ public class MotiveSpectreEntity extends TileEntity
 	public void Release(){
 		for ( BlockRecord Record : Body )
 			ShiftBlockPosition ( Record ) ;
-		doRelease();
-		Body=new BlockRecordSet(); // clear list - prevents giga-dupe with Gizmos temporal dislocator
+		if(!Body.isEmpty()) {
+			doRelease();
+			Body=new BlockRecordSet(); // clear list - prevents giga-dupe with Gizmos temporal dislocator
+		}
 	}
 
 	public void doRelease ( )
@@ -105,7 +107,7 @@ public class MotiveSpectreEntity extends TileEntity
 		
 		for ( BlockRecord Record : Body )
 		{
-
+			Debug.dbg(Record);
 			SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Record .block , Record . Meta ) ;
 		}
 
@@ -181,8 +183,11 @@ public class MotiveSpectreEntity extends TileEntity
 				}
 
 				SneakyWorldUtil . SetTileEntity ( worldObj , Record . X , Record . Y , Record . Z , Record . Entity ) ;
-
+				
+				
+				
 			}
+			
 		}
 
 		for ( BlockRecord Record : MultipartTilesToInitialize )
@@ -331,7 +336,17 @@ public class MotiveSpectreEntity extends TileEntity
 		for ( int Index = 0 ; Index < PendingBlockUpdateCount ; Index ++ )
 		{
 			ScheduleShiftedBlockUpdate ( ( net . minecraft . nbt . NBTTagCompound ) PendingBlockUpdates.getCompoundTagAt( Index ) ) ;
+			
 		}
+		for(BlockRecord Record:Body)
+			this.onMotionFinalized(Record);
+		
+		if(worldObj.getBlock(xCoord, yCoord, zCoord)==RIMBlocks.Spectre)
+			worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
+		
+	}
+	
+	public void onMotionFinalized(BlockRecord Record) {
 		
 	}
 

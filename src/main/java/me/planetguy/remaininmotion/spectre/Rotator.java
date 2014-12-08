@@ -6,22 +6,42 @@ import me.planetguy.remaininmotion.Directions;
 public class Rotator {
 	
 	public static void rotate(BlockRecord pivot, Directions clockwiseFace, BlockRecord pos) {
-		Matrix coordsMatrixNew=new Matrix(new int[][] {
-				{pos.X-pivot.X},
-				{pos.Y-pivot.Y},
-				{pos.Z-pivot.Z}});
-		Matrix rotation=Matrix.clockwiseRotMatrices[clockwiseFace.ordinal()];
+		double offset=.25;
+		double px=pivot.X+offset;
+		double py=pivot.Y+offset;
+		double pz=pivot.Z+offset;
+		Matrix coordsMatrixNew=new Matrix(new double[][] {
+				{pos.X-px},
+				{pos.Y-py},
+				{pos.Z-pz}});
+		Matrix rotation=Matrix.ccwRotMatrices[clockwiseFace.ordinal()];
 		Matrix newCoords=rotation.crossProduct(coordsMatrixNew);
-		pos.X=newCoords.matrix[0][0];
-		pos.Y=newCoords.matrix[1][0];
-		pos.Z=newCoords.matrix[2][0];
+		pos.X=(int) (newCoords.matrix[0][0]+px);
+		pos.Y=(int) (newCoords.matrix[1][0]+py);
+		pos.Z=(int) (newCoords.matrix[2][0]+pz);
 	}
 	
 	public static void main(String[] args) {
-		Matrix A=new Matrix(new int[][] {{1,2,3}});
-		Matrix B=new Matrix(new int[][] {{5},{7},{11}});
-		System.out.println(A.crossProduct(B));
-		System.out.println(B.crossProduct(A));
+		BlockRecord pivot=new BlockRecord(1,1,1);
+		BlockRecord pos=new BlockRecord(1,2,2);
+		System.out.println(pos);
+		rotate(pivot, Directions.PosY, pos);
+		rotate(pivot, Directions.PosY, pos);
+		System.out.println(pos);
+		rotate(pivot, Directions.PosY, pos);
+		rotate(pivot, Directions.PosY, pos);
+		System.out.println(pos);
+		
+		System.out.println();
+		pos=new BlockRecord(1,2,1);
+		
+		System.out.println(pos);
+		rotate(pivot, Directions.PosY, pos);
+		rotate(pivot, Directions.PosY, pos);
+		System.out.println(pos);
+		rotate(pivot, Directions.PosY, pos);
+		rotate(pivot, Directions.PosY, pos);
+		System.out.println(pos);
 	}
 
 }

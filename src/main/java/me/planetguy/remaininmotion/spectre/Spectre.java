@@ -11,7 +11,7 @@ public class Spectre extends RIMBlock
 {
 	public Spectre ( )
 	{
-		super (Blocks.bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class, TransduplicativeSpectreEntity.class ) ;
+		super (Blocks.bedrock , SpectreItem . class , MotiveSpectreEntity . class , null , TeleportativeSpectreEntity . class, TransduplicativeSpectreEntity.class, RotativeSpectreEntity.class ) ;
 		RenderId = -1 ;
 	}
 
@@ -20,7 +20,8 @@ public class Spectre extends RIMBlock
 		Motive ,
 		Supportive ,
 		Teleportative,
-		Transduplicative;
+		Transduplicative,
+		Rotative;
 	}
 
 	@Override

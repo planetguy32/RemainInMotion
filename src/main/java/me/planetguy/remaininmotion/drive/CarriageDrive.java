@@ -27,7 +27,8 @@ public class CarriageDrive extends RIMBlock
 				CarriageControllerEntity.class , 
 				CarriageTranslocatorEntity . class,
 				CarriageTransduplicatorEntity.class,
-				CarriageAdapterEntity.class) ;
+				CarriageAdapterEntity.class,
+				CarriageRotatorEntity.class) ;
 	}
 
 	public enum Types
@@ -37,7 +38,8 @@ public class CarriageDrive extends RIMBlock
 		Controller(1.1) ,
 		Translocator(4.0),
 		Transduplicator(0.0),
-		Adapter(1.0);
+		Adapter(1.0),
+		Rotator(1.0);
 
 		public IIcon NormalIcon ;
 

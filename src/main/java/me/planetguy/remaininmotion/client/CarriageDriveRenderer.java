@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.drive ;
+package me.planetguy.remaininmotion.client ;
 
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Vanilla;
@@ -6,6 +6,9 @@ import me.planetguy.remaininmotion.base.BlockItem;
 import me.planetguy.remaininmotion.base.BlockRenderer;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.drive.CarriageDrive;
+import me.planetguy.remaininmotion.drive.CarriageDriveItem;
+import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
 import net.minecraft.util.IIcon;
 
 public class CarriageDriveRenderer extends BlockRenderer

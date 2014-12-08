@@ -61,20 +61,23 @@ public class HollowCarriagesMod {
 		
 		RiMRegistry.registerMatcher(new FMPCarriageMatcher());
 		
+		RiMRegistry.registerCloseableFactory(new FMPCloseableRetriever());
+		
 		baseBlock=new Block(Material.wood) {
+			
+			IIcon[] icons;
 		
 			public void registerBlockIcons(IIconRegister ir) {
-				this.blockIcon=ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Open");
+				icons=new IIcon[] {
+						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Open"),
+						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Closed"),
+						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Corners"),
+				};
 			}
 			
 			public IIcon getIcon(int side, int meta) {
-				return this.blockIcon;
+				return icons[meta];
 			}
-			
-		    public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_) {
-		    	return this.blockIcon;
-		    }
-
 			
 		};
 		
@@ -84,7 +87,9 @@ public class HollowCarriagesMod {
 	@Optional.Method(modid = "ForgeMultipart")
 	@EventHandler
 	public void init(FMLInitializationEvent ev) {
-		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(baseBlock, 0), "tile.hollowCarriage");
+		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(baseBlock, 0), "tile.hollowCarriage.open");
+		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(baseBlock, 1), "tile.hollowCarriage.closed");
+		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(baseBlock, 2), "tile.hollowCarriage.corners");
 	}
 	
 	@Optional.Method(modid = "ForgeMultipart")

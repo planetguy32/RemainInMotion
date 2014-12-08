@@ -9,7 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import codechicken.lib.lighting.LightMatrix;
+import codechicken.lib.render.BlockRenderer.BlockFace;
 import codechicken.lib.render.CCModel;
+import codechicken.lib.render.CCRenderState;
 import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
@@ -47,7 +49,7 @@ class FMPRenderer implements IMicroMaterialRender{
 	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public Cuboid6 getRenderBounds() {
-		return Cuboid6.full.expand(0.1d);
+		return Cuboid6.full;
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
@@ -75,17 +77,41 @@ class FMPRenderer implements IMicroMaterialRender{
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
-	public void renderCovers(World world, Vector3 t, int pass){
-		IMicroMaterial microMaterial = MicroMaterialRegistry.getMaterial("tile.hollowCarriage");
-		if(microMaterial==null) {
-			microMaterial = MicroMaterialRegistry.getMaterial("tile.wood");
-		}
+	public void renderCovers(World world, Vector3 t, int pass, FMPCarriage part){
+		
+		if(mmOpen==null)
+			mmOpen = MicroMaterialRegistry.getMaterial("tile.wood");
+		
+		if(mmClosed==null)
+			mmClosed = MicroMaterialRegistry.getMaterial("tile.wood");
 		/*
 		for(Cuboid6 c:FMPCarriage.cubeOutsideEdges){
 			MicroblockRender.renderCuboid(t, microMaterial, pass, c, 0);
 		}
 		*/
-		MicroblockRender.renderCuboid(t, microMaterial, pass, Cuboid6.full, 0);
+		//MicroblockRender.renderCuboid(t, microMaterial, pass, Cuboid6.full, 0);
+		
+		//code based on MicroblockRender.renderCuboid
+		CCRenderState.setModel(face);
+		for(int i=0; i<6; i++) {
+			if(part.tile().partMap(i)==null) {
+				drawFace(i, part.isSideClosed(i) ? mmClosed : mmOpen,
+						pass, t);
+			}else
+				drawFace(i, mmCorners, pass, t);
+		}
+		
+	}
+	
+	IMicroMaterial mmOpen = MicroMaterialRegistry.getMaterial("tile.hollowCarriage.open");
+	IMicroMaterial mmClosed = MicroMaterialRegistry.getMaterial("tile.hollowCarriage.closed");
+	IMicroMaterial mmCorners = MicroMaterialRegistry.getMaterial("tile.hollowCarriage.corners");
+	
+	BlockFace face=new BlockFace();
+	
+	private void drawFace(int side, IMicroMaterial microMaterial, int pass, Vector3 position) {
+		face.loadCuboidFace(Cuboid6.full, side);
+		microMaterial.renderMicroFace(position, pass, Cuboid6.full);
 	}
 
 }

@@ -29,7 +29,7 @@ public class CarriagePackage
 
 	public net . minecraft . world . WorldServer World ;
 
-	public BlockRecord DriveRecord ;
+	public final BlockRecord DriveRecord ;
 
 	public boolean DriveIsAnchored ;
 
