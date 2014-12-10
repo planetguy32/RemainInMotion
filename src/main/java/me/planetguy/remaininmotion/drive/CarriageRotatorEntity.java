@@ -25,6 +25,8 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 		
 		MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
 		
+		Package.MotionDirection=MotionDirection.Null;
+		
 		Package . Finalize ( ) ;
 		
 		this.removeUsedEnergy(Package);
@@ -34,6 +36,16 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 	@Override
 	public boolean Anchored() {
 		return false;
+	}
+	
+	@Override
+	public void EstablishPlaceholders(CarriagePackage pkg) {
+		for ( BlockRecord Record : pkg . Body )
+		{
+			{
+				SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , RIMBlocks.air , 0 ) ;
+			}
+		}
 	}
 	
 	@Override

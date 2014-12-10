@@ -44,11 +44,12 @@ public class HollowCarriagesMod {
 		if(!alive)return;
 		hollowCarriage=new FMPCarriageItem();
 
-		hollowCarriage.setUnlocalizedName("Hollow Carriage");
-		GameRegistry.registerItem(hollowCarriage, "hollowCarriage");
+		hollowCarriage.setUnlocalizedName("hollowCarriage");
+		GameRegistry.registerItem(hollowCarriage, "Hollow Carriage");
 
 		//Attempting to fix FMP crashing when trying to set creative tab
 
+		
 		MultiPartRegistry.registerParts(new IPartFactory(){
 
 			public TMultiPart createPart(String arg0, boolean arg1) {

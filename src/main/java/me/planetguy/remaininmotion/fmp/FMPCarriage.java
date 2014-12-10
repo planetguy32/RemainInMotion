@@ -1,9 +1,6 @@
 package me.planetguy.remaininmotion.fmp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -11,22 +8,18 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
-import me.planetguy.remaininmotion.core.ModInteraction.Wrenches;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
-import codechicken.lib.lighting.LightMatrix;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
-import codechicken.microblock.Microblock;
+import codechicken.microblock.CommonMicroblock;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.minecraft.McBlockPart;
@@ -144,8 +137,10 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 	@Optional.Method(modid = "ForgeMultipart")
 	@SideOnly(Side.CLIENT)
 	public boolean renderStatic(Vector3 pos, int pass){
+		Debug.mark();
 		renderer.renderCovers(this.world(), pos, pass, this);
-		return true;
+		Debug.mark();
+		return pass==0;
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
@@ -154,6 +149,8 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 			throws CarriageMotionException {
 		MultiTypeCarriageUtil.fillFramePackage(_package, this.world());
 	}
+	
+	
 
 	@Override
 	public boolean activate(EntityPlayer player, MovingObjectPosition hit, ItemStack held) {
@@ -166,40 +163,46 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 
 	@Override
 	public boolean isSideClosed(int side) {
-		Debug.dbg(FMLCommonHandler.instance().getEffectiveSide()+":"+Arrays.toString(sidesClosed));
 		return sidesClosed[side] || isSideCovered(side);
 	}
 	
+	public boolean drawSideClosedJAKJ(int side) {
+		return sidesClosed[side];
+	}
+	
 	private boolean isSideCovered(int side) {
-		Object partInSlot=this.tile().partMap(side);
-		Debug.mark();
-		if(partInSlot != null) {
-			if(partInSlot instanceof Microblock) {
-				Microblock mb=(Microblock) partInSlot;
-				int size=mb.getSize();
-				Debug.dbg(size);
+		for(TMultiPart part:this.tile().jPartList())
+			if(part instanceof CommonMicroblock) {
+				CommonMicroblock mb=(CommonMicroblock) part;
+				if(mb.getShape() ==side) {
+					int size=mb.getSize();
+					return size==1;
+				}
+			}else {
 			}
-		}
 		return false;
 	}
 	
 	public void writeDesc(MCDataOutput packet){
+		super.writeDesc(packet);
 		packet.writeByte((byte) toInt());
 	}
 	
 	public void readDesc(MCDataInput packet){
+		super.readDesc(packet);
 		fromInt(packet.readByte());
 	}
 	
 	public void save(NBTTagCompound tag){
-		
-		tag.setByte("sideBitMask", (byte)toInt());
+		super.save(tag);
+		tag.setByte("sideFlags", (byte)toInt());
 	}
 	/**
 	* Load part from NBT (only called serverside)
 	*/
 	public void load(NBTTagCompound tag){
-		fromInt(tag.getByte("sideBitMask"));
+		super.load(tag);
+		fromInt(tag.getByte("sideFlags"));
 	}
 	
 	public int toInt() {
@@ -221,5 +224,12 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 			pos=pos << 1;
 		}
 	}
+	
+	public ItemStack pickItem(MovingObjectPosition hit) {
+		return new ItemStack(HollowCarriagesMod.hollowCarriage);
+	}
+	/*
+	 * I got some more work done on Remain in Motion today - FMP carriages should now support closing sides JAKJ-style, and work is in progress to support Eloraam-style closing of carriages with microblocks. Oh, and a secret feature that's sure to turn some heads.
+	 */
 	
 }

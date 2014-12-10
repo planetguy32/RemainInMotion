@@ -15,6 +15,8 @@ public abstract class CarriageRenderCache
 		public int PrimaryPassDisplayList ;
 
 		public int SecondaryPassDisplayList ;
+
+		public BlockPosition basePosition;
 	}
 
 	public static java . util . TreeMap < BlockPosition , RenderRecord > Cache = new java . util . TreeMap < BlockPosition , RenderRecord > ( ) ;
@@ -145,6 +147,8 @@ public abstract class CarriageRenderCache
 		net . minecraft . client . renderer . RenderBlocks BlockRenderer = new net . minecraft . client . renderer . RenderBlocks ( World ) ;
 
 		RenderRecord RenderRecord = new RenderRecord ( ) ;
+		
+		RenderRecord.basePosition=Key;
 
 		RenderRecord . PrimaryPassDisplayList = Render . InitializeDisplayList ( ) ;
 

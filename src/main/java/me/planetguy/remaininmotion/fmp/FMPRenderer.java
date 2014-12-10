@@ -79,6 +79,9 @@ class FMPRenderer implements IMicroMaterialRender{
 	@Optional.Method(modid = "ForgeMultipart")
 	public void renderCovers(World world, Vector3 t, int pass, FMPCarriage part){
 		
+		//render early, only once
+		if(pass!=0)return;
+		
 		if(mmOpen==null)
 			mmOpen = MicroMaterialRegistry.getMaterial("tile.wood");
 		
@@ -95,7 +98,7 @@ class FMPRenderer implements IMicroMaterialRender{
 		CCRenderState.setModel(face);
 		for(int i=0; i<6; i++) {
 			if(part.tile().partMap(i)==null) {
-				drawFace(i, part.isSideClosed(i) ? mmClosed : mmOpen,
+				drawFace(i, part.drawSideClosedJAKJ(i) ? mmClosed : mmOpen,
 						pass, t);
 			}else
 				drawFace(i, mmCorners, pass, t);
