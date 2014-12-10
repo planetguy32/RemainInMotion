@@ -6,7 +6,7 @@ import me.planetguy.remaininmotion.Directions;
 public class Rotator {
 	
 	public static void rotate(BlockRecord pivot, Directions clockwiseFace, BlockRecord pos) {
-		double offset=.25;
+		double offset=0;
 		double px=pivot.X+offset;
 		double py=pivot.Y+offset;
 		double pz=pivot.Z+offset;

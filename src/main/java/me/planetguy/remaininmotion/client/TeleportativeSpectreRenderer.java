@@ -15,7 +15,7 @@ public class TeleportativeSpectreRenderer extends RIMTileEntityRenderer
 			return ;
 		}
 
-		Integer DisplayList = CarriageRenderCache . Lookup ( Spectre . RenderCacheKey ) ;
+		Integer DisplayList = CarriageRenderCache . lookupDisplayList ( Spectre . RenderCacheKey ) ;
 
 		if ( DisplayList == null )
 		{

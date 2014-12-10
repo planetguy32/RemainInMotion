@@ -10,15 +10,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 
 public abstract class CarriageRenderCache
 {
-	public static class RenderRecord
-	{
-		public int PrimaryPassDisplayList ;
-
-		public int SecondaryPassDisplayList ;
-
-		public BlockPosition basePosition;
-	}
-
 	public static java . util . TreeMap < BlockPosition , RenderRecord > Cache = new java . util . TreeMap < BlockPosition , RenderRecord > ( ) ;
 
 	public static void Render ( net . minecraft . client . renderer . RenderBlocks BlockRenderer , BlockRecordSet Blocks , BlockRecordSet TileEntities , int Pass )
@@ -165,7 +156,7 @@ public abstract class CarriageRenderCache
 		Cache . put ( Key , RenderRecord ) ;
 	}
 
-	public static Integer Lookup ( BlockPosition Key )
+	public static Integer lookupDisplayList ( BlockPosition Key )
 	{
 		int Pass = net . minecraftforge . client . MinecraftForgeClient . getRenderPass ( ) ;
 
@@ -188,7 +179,7 @@ public abstract class CarriageRenderCache
 
 		return ( null ) ;
 	}
-
+	
 	public static void Release ( BlockPosition Key )
 	{
 		if ( Key == null )

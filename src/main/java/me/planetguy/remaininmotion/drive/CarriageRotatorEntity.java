@@ -25,8 +25,6 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 		
 		MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
 		
-		Package.MotionDirection=MotionDirection.Null;
-		
 		Package . Finalize ( ) ;
 		
 		this.removeUsedEnergy(Package);
@@ -38,6 +36,7 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 		return false;
 	}
 	
+	//don't establish placeholders yet - it's very hard to predict where things will go
 	@Override
 	public void EstablishPlaceholders(CarriagePackage pkg) {
 		for ( BlockRecord Record : pkg . Body )

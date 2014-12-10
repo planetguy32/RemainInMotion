@@ -137,9 +137,7 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 	@Optional.Method(modid = "ForgeMultipart")
 	@SideOnly(Side.CLIENT)
 	public boolean renderStatic(Vector3 pos, int pass){
-		Debug.mark();
 		renderer.renderCovers(this.world(), pos, pass, this);
-		Debug.mark();
 		return pass==0;
 	}
 
@@ -171,15 +169,18 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 	}
 	
 	private boolean isSideCovered(int side) {
-		for(TMultiPart part:this.tile().jPartList())
+		for(TMultiPart part:this.tile().jPartList()) {
 			if(part instanceof CommonMicroblock) {
+				Debug.dbg(part.getClass());
 				CommonMicroblock mb=(CommonMicroblock) part;
 				if(mb.getShape() ==side) {
 					int size=mb.getSize();
 					return size==1;
 				}
-			}else {
+			}else if(! (part instanceof FMPCarriage)){
+				Debug.dbg(part.getClass());
 			}
+		}
 		return false;
 	}
 	

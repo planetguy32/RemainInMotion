@@ -23,6 +23,4 @@ public class RotativeSpectreEntity extends MotiveSpectreEntity {
 		b.rotateBlock(worldObj, record.X, record.Y, record.Z, ForgeDirection.values()[axisOfRotation.ordinal()]);
 	}
 	
-	
-
 }

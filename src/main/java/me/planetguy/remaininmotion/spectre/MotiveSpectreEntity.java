@@ -107,7 +107,6 @@ public class MotiveSpectreEntity extends TileEntity
 		
 		for ( BlockRecord Record : Body )
 		{
-			Debug.dbg(Record);
 			SneakyWorldUtil . SetBlock ( worldObj , Record . X , Record . Y , Record . Z , Record .block , Record . Meta ) ;
 		}
 
@@ -711,65 +710,5 @@ public class MotiveSpectreEntity extends TileEntity
 	public boolean canUpdate(){
 		return true;
 	}
-	
-	/*
-	 * Debug logs:
-	 * 
-Stuck:
-ItemDebugWand@22   me.planetguy.remaininmotion.MotiveSpectreEntity@c58e02a
-ItemDebugWand@25      MotionDirection     NegX
-ItemDebugWand@25      RenderCacheKey     -22|68|-39|0
-ItemDebugWand@25      PendingBlockUpdates     null
-ItemDebugWand@25      DriveRecord     null
-ItemDebugWand@25      DriveIsAnchored     false
-ItemDebugWand@25      Body     null
-ItemDebugWand@25      TicksExisted     61
-ItemDebugWand@25      Velocity     0.05
-ItemDebugWand@25      hasAlreadyArrived     false
-ItemDebugWand@25      MultipartContainerBlockId     null
-ItemDebugWand@25      CapturedEntities     []
-ItemDebugWand@22   me.planetguy.remaininmotion.MotiveSpectreEntity@77f35d31
-ItemDebugWand@25      MotionDirection     NegX
-ItemDebugWand@25      RenderCacheKey     -22|68|-39|0
-ItemDebugWand@25      PendingBlockUpdates     []
-ItemDebugWand@25      DriveRecord     (-23,68,-39)
-ItemDebugWand@25      DriveIsAnchored     false
-ItemDebugWand@25      Body     []
-ItemDebugWand@25      TicksExisted     91
-ItemDebugWand@25      Velocity     0.05
-ItemDebugWand@25      hasAlreadyArrived     true
-ItemDebugWand@25      MultipartContainerBlockId     null
-ItemDebugWand@25      CapturedEntities     []
-
-Unstuck:
-ItemDebugWand@22   me.planetguy.remaininmotion.MotiveSpectreEntity@7b1dd09d
-ItemDebugWand@25      MotionDirection     PosX
-ItemDebugWand@25      RenderCacheKey     -21|68|-37|0
-ItemDebugWand@25      PendingBlockUpdates     null
-ItemDebugWand@25      DriveRecord     null
-ItemDebugWand@25      DriveIsAnchored     false
-ItemDebugWand@25      Body     null
-ItemDebugWand@25      TicksExisted     10
-ItemDebugWand@25      Velocity     0.05
-ItemDebugWand@25      hasAlreadyArrived     false
-ItemDebugWand@25      MultipartContainerBlockId     null
-ItemDebugWand@25      CapturedEntities     []
-ItemDebugWand@22   me.planetguy.remaininmotion.MotiveSpectreEntity@38e8d379
-ItemDebugWand@25      MotionDirection     PosX
-ItemDebugWand@25      RenderCacheKey     -21|68|-37|0
-ItemDebugWand@25      PendingBlockUpdates     []
-ItemDebugWand@25      DriveRecord     (-20,68,-37)
-ItemDebugWand@25      DriveIsAnchored     false
-ItemDebugWand@25      Body     [(-21,68,-37), (-21,69,-37)]
-ItemDebugWand@25      TicksExisted     13
-ItemDebugWand@25      Velocity     0.05
-ItemDebugWand@25      hasAlreadyArrived     false
-ItemDebugWand@25      MultipartContainerBlockId     null
-ItemDebugWand@25      CapturedEntities     []
-[19:05:05] [Server thread/INFO]: Saving and pau
-
-NBT browser indicates that the body is indeed saved. 
-	 */
-	
 	
 }

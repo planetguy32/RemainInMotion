@@ -32,7 +32,7 @@ public class MotiveSpectreRenderer extends RIMTileEntityRenderer
 				Offset * Spectre . MotionDirection . DeltaZ - Spectre . zCoord ) ;
 		}
 
-		Integer DisplayList = CarriageRenderCache . Lookup ( Spectre . RenderCacheKey ) ;
+		Integer DisplayList = CarriageRenderCache . lookupDisplayList ( Spectre . RenderCacheKey ) ;
 
 		if ( DisplayList != null )
 		{

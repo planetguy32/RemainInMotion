@@ -30,14 +30,15 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer
 		{
 			Offset = Spectre . Velocity * ( Spectre . TicksExisted + PartialTick ) ;
 		}
-		if(Spectre != null && Spectre.DriveRecord != null) {
-			GL11.glTranslatef(Spectre.DriveRecord.X, Spectre.DriveRecord.Y, Spectre.DriveRecord.Z);
-
-			Render . Rotate ( Offset * 90, 0, 1, 0) ;
-
-			GL11.glTranslatef(TileEntity.xCoord, TileEntity.yCoord, TileEntity.zCoord);
-
-			Integer DisplayList = CarriageRenderCache . Lookup ( Spectre . RenderCacheKey ) ;
+		if(Spectre != null && Spectre.RenderCacheKey != null) {
+			
+			GL11.glTranslatef(0f, 0f, 0f);
+			
+			Render . Rotate ( Offset * -90, 0, 1, 0) ; //TODO implement other angles
+			
+			GL11.glTranslatef(Spectre.RenderCacheKey.X, Spectre.RenderCacheKey.Y, Spectre.RenderCacheKey.Z);
+			
+			Integer DisplayList = CarriageRenderCache . lookupDisplayList ( Spectre . RenderCacheKey ) ;
 
 			if ( DisplayList != null )
 			{
@@ -47,6 +48,7 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer
 
 				Render . ResetBoundTexture ( ) ;
 			}
+
 		}
 	}
 }
