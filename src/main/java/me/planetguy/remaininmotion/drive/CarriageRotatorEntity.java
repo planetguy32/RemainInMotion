@@ -78,8 +78,6 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 		
 		RotativeSpectreEntity theEntity=new RotativeSpectreEntity();
 		
-		Debug.dbg(directionIndex);
-		
 		theEntity.setAxis(directionIndex);
 		
 		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, theEntity);
@@ -93,8 +91,9 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 			super.HandleToolUsage(side, true);
 		}else {
 			directionIndex = (directionIndex + 1) % 6;
-			worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, RIMBlocks.CarriageDrive, 1);
 		}
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		markDirty();
 	}
 	
 	public void WriteCommonRecord(NBTTagCompound tag) {
@@ -107,25 +106,49 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 	
 	public IIcon getIcon(int side, int meta) {
 		try {
-			return icons[directionIndex][side];
-		}catch(ArrayIndexOutOfBoundsException e) {
+			if(drawSideClosed(side)) {
+				return CarriageDrive.InactiveIcon;
+			}else {
+				return icons[directionIndex][side];
+			}
+		}catch(ArrayIndexOutOfBoundsException e) { //testing only
 			return Blocks.activator_rail.getIcon(0, 0);
 		}
 	}
 	
-	private static IIcon[][] icons;
+	public static IIcon[][] icons;
 	
 	public static void onRegisterIcons(IIconRegister iconRegister) {
 		IIcon pivotCCW=Registry.RegisterIcon(iconRegister, "RotatorArrowCCW");
 		IIcon pivotCW=new IconFlipped(pivotCCW, true, false);
-		IIcon arrowUp=Registry.RegisterIcon(iconRegister, "RotatorArrowUp");
-		IIcon arrowL=new IconFlipped(arrowUp, true, false);
-		IIcon arrowDown=new IconFlipped(arrowL, true, false);
-		IIcon arrowR=new IconFlipped(arrowDown, true, false);
+		IIcon arrow=Registry.RegisterIcon(iconRegister, "RotatorArrowUp");
 		icons=new IIcon[][] {
-				{pivotCW, pivotCCW, arrowL, arrowL, arrowL, arrowL},
-				{pivotCCW, pivotCW, arrowR, arrowR, arrowR, arrowR},
+				{pivotCW, pivotCCW, arrow, arrow, arrow, arrow},
+				{pivotCCW, pivotCW, arrow, arrow, arrow, arrow},
+				{arrow, arrow, pivotCW, pivotCCW, arrow, arrow},
+				{arrow, arrow, pivotCCW, pivotCW, arrow, arrow},
+				{arrow, arrow, arrow, arrow, pivotCW, pivotCCW},
+				{arrow, arrow, arrow, arrow, pivotCCW, pivotCW},
 		};
 	}
+	
+	public void setAxis(int axis) {
+		this.directionIndex=axis;
+	}
+	
+	public boolean drawSideClosed(int side) {
+		return super.isSideClosed(side);
+	}
+	
+	public void updateEntity ( ) {
+		if(!(CarriageDirection != null 
+				&&( CarriageDirection.ordinal() == directionIndex
+					|| CarriageDirection.Opposite==directionIndex))){
+			CarriageDirection = null;
+		}
+		super.updateEntity();
+				
+	}
+
 
 }

@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
 
-import me.planetguy.remaininmotion.PacketTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;

@@ -145,6 +145,9 @@ public class CarriageDrive extends RIMBlock
 	{
 		try
 		{
+			if(Meta==Types.Rotator.ordinal()) {
+				return CarriageRotatorEntity.icons[0][Side];
+			}
 			return ( Types . values ( ) [ Meta ] . NormalIcon ) ;
 		}
 		catch ( Throwable Throwable )

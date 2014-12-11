@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.network ;
 
-import me.planetguy.remaininmotion.PacketTypes;
 import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagList;

@@ -177,7 +177,7 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 				continue ;
 			}
 			
-			if(SideClosed[Direction.ordinal()]){
+			if(isSideClosed(Direction.ordinal())){
 				continue;
 			}
 
@@ -464,6 +464,16 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 			return ( Blocks.iron_block.getIcon ( 0 , 0 ) ) ;
 		} 
+	}
+	
+	public boolean isSideClosed(int side) {
+		return SideClosed[side];
+	}
+	
+	public void setSideClosed(int side, boolean closed) {
+		SideClosed[side]=closed;
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		this.markDirty();
 	}
 
 }

@@ -5,11 +5,13 @@ import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.PacketTypes;
 import me.planetguy.remaininmotion.client.CarriageRenderCache;
 import me.planetguy.remaininmotion.core.Mod;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
+import me.planetguy.remaininmotion.drive.CarriageRotatorEntity;
+import me.planetguy.remaininmotion.spectre.RotativeSpectreEntity;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 
 public abstract class RenderPacket
 {
@@ -43,6 +45,8 @@ public abstract class RenderPacket
 		}
 
 		Packet.setTag ( "Body" , Body ) ;
+		
+		Packet.setInteger("axis", Package.axis);
 		
 		//Debug.dbg("RemIM tags:"+((NBTTagList) Packet.getTag("Body")).tagCount());
 
@@ -106,7 +110,7 @@ public abstract class RenderPacket
 			{
 				TileEntities . add ( Record ) ;
 			}
-
+			
 			if ( ! DriveIsAnchored )
 			{
 				if ( Record . X == DriveX )
@@ -118,6 +122,11 @@ public abstract class RenderPacket
 							try
 							{
 								( ( CarriageDriveEntity ) Record . Entity ) . Active = true ;
+								
+								if(Record.Entity instanceof CarriageRotatorEntity) {
+									((CarriageRotatorEntity) Record.Entity).setAxis(Packet.getInteger("axis"));
+								}
+								
 							}
 							catch ( Throwable Throwable )
 							{
