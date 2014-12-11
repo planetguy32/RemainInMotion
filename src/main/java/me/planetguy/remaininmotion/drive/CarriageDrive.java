@@ -136,6 +136,8 @@ public class CarriageDrive extends RIMBlock
 		PrivateToSelfIcon = Registry . RegisterIcon ( IconRegister , "CarriageTranslocator_LabelPrivateToSelf" ) ;
 
 		PrivateToOtherIcon = Registry . RegisterIcon ( IconRegister , "CarriageTranslocator_LabelPrivateToOther" ) ;
+		
+		CarriageRotatorEntity.onRegisterIcons(IconRegister);
 	}
 
 	@Override
@@ -156,30 +158,13 @@ public class CarriageDrive extends RIMBlock
 	@Override
 	public IIcon getIcon ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
 	{
-		try
-		{
-			CarriageDriveEntity Drive = ( CarriageDriveEntity ) World . getTileEntity ( X , Y , Z ) ;
 
-			if ( Drive . SideClosed [ Side ] )
-			{
-				return ( InactiveIcon ) ;
-			}
+		CarriageDriveEntity Drive = ( CarriageDriveEntity ) World . getTileEntity ( X , Y , Z ) ;
 
-			Types Type = Types . values ( ) [ World . getBlockMetadata ( X , Y , Z ) ] ;
+		int meta= World . getBlockMetadata ( X , Y , Z ) ;
 
-			if ( Drive . Continuous )
-			{
-				return ( Drive . Active ? Type . ContinuousActiveIcon : Type . ContinuousIcon ) ;
-			}
+		return Drive.getIcon(Side, meta);
 
-			return ( Drive . Active ? Type . NormalActiveIcon : Type . NormalIcon ) ;
-		}
-		catch ( Throwable Throwable )
-		{
-			//Throwable . printStackTrace ( ) ;
-
-			return ( Blocks.iron_block.getIcon ( 0 , 0 ) ) ;
-		}
 	}
 
 	@Override

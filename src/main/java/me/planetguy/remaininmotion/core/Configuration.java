@@ -57,6 +57,8 @@ public class Configuration extends Config
 	public abstract static class DirtyHacks
 	{
 		public static boolean UpdateBuildcraftPipes = true ;
+		
+		public static boolean allowRotation=true;
 	}
 
 	public abstract static class Debug
@@ -273,6 +275,8 @@ public class Configuration extends Config
 			Category = "Dirty Hacks" ;
 
 			DirtyHacks . UpdateBuildcraftPipes = Boolean ( "Attempt to hyper-reinitialize Buildcraft pipes after motion" , DirtyHacks . UpdateBuildcraftPipes ) ;
+			
+			DirtyHacks.allowRotation=Boolean("Allow rotator carriage", DirtyHacks.allowRotation);
 		}
 
 		{

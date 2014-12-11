@@ -10,6 +10,15 @@ import me.planetguy.remaininmotion.spectre.RotativeSpectreEntity;
 public class RotativeSpectreRenderer extends RIMTileEntityRenderer
 {
 	
+	public static final int[][] matrices=new int[][] {
+		{ 0 ,1, 0},
+		{ 0,-1, 0},
+		{ 1, 0, 0},
+		{-1, 0, 0},
+		{ 0, 0, 1},
+		{ 0, 0,-1}
+	};
+	
 	@Override
 	public void renderTileEntityAt ( net . minecraft . tileentity . TileEntity TileEntity , double X , double Y , double Z , float PartialTick ) {
 		Render . PushMatrix ( ) ;
@@ -38,7 +47,11 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer
 			
 			Render . Translate ( 0.5,0.5,0.5 );
 			
-			Render . Rotate ( Offset * -90, 0, 1, 0) ; //TODO implement other angles
+			int axis=Spectre.getAxis();
+			
+			Debug.dbg(axis);
+			
+			Render . Rotate ( Offset * -90, matrices[axis][0], matrices[axis][1],  matrices[axis][2] ) ; //TODO implement other angles
 			
 			Render . Translate ( -Spectre.xCoord-.5, -Spectre.yCoord-.5, -Spectre.zCoord-.5); //negative block pos
 

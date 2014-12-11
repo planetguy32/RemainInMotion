@@ -39,6 +39,8 @@ public class CarriagePackage
 
 	public Directions MotionDirection ;
 	
+	public int axis;
+	
 	public CarriagePackage ( CarriageDriveEntity Drive , net.minecraft.tileentity.TileEntity Anchor , Directions MotionDirection )
 	{
 		World = ( net . minecraft . world . WorldServer ) Drive.getWorldObj() ;

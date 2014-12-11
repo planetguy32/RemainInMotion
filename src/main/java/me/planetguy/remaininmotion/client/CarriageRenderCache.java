@@ -139,8 +139,6 @@ public abstract class CarriageRenderCache
 
 		RenderRecord RenderRecord = new RenderRecord ( ) ;
 		
-		RenderRecord.basePosition=Key;
-
 		RenderRecord . PrimaryPassDisplayList = Render . InitializeDisplayList ( ) ;
 
 		Render ( BlockRenderer , Blocks , TileEntities , 0 ) ;

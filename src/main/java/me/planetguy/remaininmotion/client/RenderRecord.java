@@ -8,5 +8,4 @@ public class RenderRecord
 
 	public int SecondaryPassDisplayList ;
 
-	public BlockPosition basePosition;
 }

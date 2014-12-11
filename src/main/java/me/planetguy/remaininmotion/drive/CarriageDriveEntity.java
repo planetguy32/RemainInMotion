@@ -15,6 +15,7 @@ import me.planetguy.remaininmotion.base.TileEntity;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.Mod;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.drive.CarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.spectre.Spectre;
@@ -24,10 +25,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 //@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class CarriageDriveEntity extends TileEntity implements IEnergyHandler
@@ -434,6 +438,32 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return Configuration.powerCapacity;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int Side, int meta) {
+		try
+		{
+			if ( SideClosed [ Side ] )
+			{
+				return ( CarriageDrive.InactiveIcon ) ;
+			}
+			
+			Types Type=Types.values()[meta];
+
+			if ( Continuous )
+			{
+				return ( Active ? Type . ContinuousActiveIcon : Type . ContinuousIcon ) ;
+			}
+
+			return ( Active ? Type . NormalActiveIcon : Type . NormalIcon ) ;
+		}
+		catch ( Throwable Throwable )
+		{
+			//Throwable . printStackTrace ( ) ;
+
+			return ( Blocks.iron_block.getIcon ( 0 , 0 ) ) ;
+		} 
 	}
 
 }
