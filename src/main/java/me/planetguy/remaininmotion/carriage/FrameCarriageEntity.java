@@ -21,8 +21,8 @@ public class FrameCarriageEntity extends CarriageEntity
 			}
 
 			@Override
-			public List<Class<? extends TileEntity>> validClasses() {
-				return Arrays.asList(new Class[] {FrameCarriageEntity.class});
+			public Class validClass() {
+				return FrameCarriageEntity.class;
 			}
 		});
 	}

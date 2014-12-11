@@ -154,6 +154,8 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 	public boolean activate(EntityPlayer player, MovingObjectPosition hit, ItemStack held) {
 		if(ToolItemSet . IsScrewdriverOrEquivalent ( held)) {
 			sidesClosed[hit.sideHit] = !sidesClosed[hit.sideHit];
+			tile().markDirty();
+			tile().markRender();
 			return true;
 		}
 		return false;
@@ -169,7 +171,9 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 	}
 	
 	private boolean isSideCovered(int side) {
+		Debug.dbg(side);
 		for(TMultiPart part:this.tile().jPartList()) {
+			Debug.dbg(part.getClass());
 			if(part instanceof CommonMicroblock) {
 				Debug.dbg(part.getClass());
 				CommonMicroblock mb=(CommonMicroblock) part;
@@ -178,7 +182,7 @@ public class FMPCarriage extends McBlockPart implements JNormalOcclusion, Moveab
 					return size==1;
 				}
 			}else if(! (part instanceof FMPCarriage)){
-				Debug.dbg(part.getClass());
+				
 			}
 		}
 		return false;

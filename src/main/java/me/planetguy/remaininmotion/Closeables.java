@@ -10,18 +10,30 @@ import net.minecraft.tileentity.TileEntity;
 
 public class Closeables {
 	
-	static HashMap<Class<? extends TileEntity>, ICloseableFactory> closeableMap=new HashMap<Class<? extends TileEntity>, ICloseableFactory>();
+	private static class ClassEntry{
+		Class targetClass;
+		ICloseableFactory icf;
+		
+		public boolean matches(Object o) {
+			return o != null && targetClass.isAssignableFrom(o.getClass());
+		}
+	}
+	
+	static ArrayList<ClassEntry> classesRegistered=new ArrayList<ClassEntry>();
 	
 	public static void register(ICloseableFactory closeable) {
-		for(Class c:closeable.validClasses())
-			closeableMap.put(c, closeable);
+		ClassEntry e=new ClassEntry();
+		e.targetClass=closeable.validClass();
+		e.icf=closeable;
+		classesRegistered.add(e);
 	}
 	
 	public static ICloseable getCloseable(TileEntity entity) {
 		if(entity != null) {
-			ICloseableFactory factory=closeableMap.get(entity.getClass());
-			if(factory != null)
-				return factory.retrieve(entity);
+			for(ClassEntry e:classesRegistered) {
+				if(e.matches(entity))
+					return e.icf.retrieve(entity);
+			}
 		}
 		return null;
 	}

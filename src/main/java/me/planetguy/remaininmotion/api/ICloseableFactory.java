@@ -8,6 +8,6 @@ public interface ICloseableFactory {
 	
 	public ICloseable retrieve(TileEntity te);
 	
-	public List<Class<? extends TileEntity>> validClasses();
+	public Class<?> validClass();
 
 }

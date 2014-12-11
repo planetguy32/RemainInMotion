@@ -9,9 +9,11 @@ import me.planetguy.remaininmotion.spectre.RotativeSpectreEntity;
 
 public class RotativeSpectreRenderer extends RIMTileEntityRenderer
 {
+	
 	@Override
-	public void Render ( net . minecraft . tileentity . TileEntity TileEntity , float PartialTick )
-	{
+	public void renderTileEntityAt ( net . minecraft . tileentity . TileEntity TileEntity , double X , double Y , double Z , float PartialTick ) {
+		Render . PushMatrix ( ) ;
+		
 		
 		RotativeSpectreEntity Spectre = ( RotativeSpectreEntity ) TileEntity ;
 
@@ -31,13 +33,16 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer
 			Offset = Spectre . Velocity * ( Spectre . TicksExisted + PartialTick ) ;
 		}
 		if(Spectre != null && Spectre.RenderCacheKey != null) {
+
+			Render.Translate(X, Y, Z); //negative player pos
 			
-			GL11.glTranslatef(0f, 0f, 0f);
+			Render . Translate ( 0.5,0.5,0.5 );
 			
 			Render . Rotate ( Offset * -90, 0, 1, 0) ; //TODO implement other angles
 			
-			GL11.glTranslatef(Spectre.RenderCacheKey.X, Spectre.RenderCacheKey.Y, Spectre.RenderCacheKey.Z);
-			
+			Render . Translate ( -Spectre.xCoord-.5, -Spectre.yCoord-.5, -Spectre.zCoord-.5); //negative block pos
+
+
 			Integer DisplayList = CarriageRenderCache . lookupDisplayList ( Spectre . RenderCacheKey ) ;
 
 			if ( DisplayList != null )
@@ -50,5 +55,11 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer
 			}
 
 		}
+		
+		Render . PopMatrix ( ) ;
+	}
+	@Override
+	public void Render ( net . minecraft . tileentity . TileEntity TileEntity , float PartialTick )
+	{
 	}
 }

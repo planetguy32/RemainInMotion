@@ -7,6 +7,7 @@ import java.util.List;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import net.minecraft.tileentity.TileEntity;
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.ICloseableFactory;
 
@@ -17,7 +18,8 @@ public class FMPCloseableRetriever implements ICloseableFactory {
 		if(te instanceof TileMultipart){
 			TileMultipart tm=(TileMultipart) te;
 			for(TMultiPart part:tm.jPartList()){
-				if(part instanceof FMPCarriage){
+				Debug.dbg(part);
+				if(part instanceof ICloseable){
 					return (ICloseable) part;
 				}
 			}
@@ -26,10 +28,8 @@ public class FMPCloseableRetriever implements ICloseableFactory {
 	}
 
 	@Override
-	public List<Class<? extends TileEntity>> validClasses() {
-		ArrayList<Class<? extends TileEntity>> ls=new ArrayList<Class<? extends TileEntity>>(1);
-		ls.add(TileMultipart.class);
-		return ls;
+	public Class validClass() {
+		return TileMultipart.class;
 	}
 
 }

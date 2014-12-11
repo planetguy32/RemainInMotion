@@ -12,9 +12,12 @@ import me.planetguy.remaininmotion.spectre.TeleportativeSpectreEntity;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class CarriageRotatorEntity extends CarriageDriveEntity{
+	
+	private int directionIndex;
 	
 	@Override
 	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
@@ -59,9 +62,28 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 		
 		RotativeSpectreEntity theEntity=new RotativeSpectreEntity();
 		
+		theEntity.setAxis(directionIndex);
+		
 		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, theEntity);
 		
 		theEntity . Absorb ( Package ) ;
+	}
+	
+	@Override
+	public void HandleToolUsage(int side, boolean sneaking) {
+		if(sneaking) {
+			super.HandleToolUsage(side, true);
+		}else {
+			directionIndex = (directionIndex + 1) % 6;
+		}
+	}
+	
+	public void WriteCommonRecord(NBTTagCompound tag) {
+		tag.setByte("axis", (byte) directionIndex);
+	}
+	
+	public void ReadCommonRecord(NBTTagCompound tag) {
+		directionIndex=tag.getByte("axis");
 	}
 
 }

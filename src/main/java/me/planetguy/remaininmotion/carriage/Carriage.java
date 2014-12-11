@@ -68,7 +68,7 @@ public class Carriage extends RIMBlock
 	{
 		try
 		{
-			if(Meta < Types.values().length && Meta > 0)
+			if(Meta < Types.values().length && Meta >= 0)
 				return ( Types . values ( ) [ Meta ] . OpenIcon ) ;
 		}
 		catch ( Throwable Throwable )
@@ -97,8 +97,7 @@ public class Carriage extends RIMBlock
 		}
 		catch ( Throwable t )
 		{
-			//if(!(t instanceof ArrayIndexOutOfBoundsException))
-			//	t . printStackTrace ( ) ;
+			t . printStackTrace ( ) ;
 
 			return ( RIMBlocks . Spectre.getIcon(0 , 0 ) ) ;
 		}
