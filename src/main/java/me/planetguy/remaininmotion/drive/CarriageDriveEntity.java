@@ -30,8 +30,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 //@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class CarriageDriveEntity extends TileEntity implements IEnergyHandler
@@ -440,7 +438,6 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		return Configuration.powerCapacity;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int Side, int meta) {
 		try
 		{
