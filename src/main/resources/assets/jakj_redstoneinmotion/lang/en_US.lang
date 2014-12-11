@@ -3,6 +3,7 @@ JAKJ_RedstoneInMotion.noValidCarriage=no carriage or too many carriages attached
 JAKJ_RedstoneInMotion.active=controller already active
 JAKJ_RedstoneInMotion.overburdened=platform carriage exceeds maximum burden of ##BURDEN## blocks carried
 JAKJ_RedstoneInMotion.bannedBlock=carriage contains system-wide blacklisted block
+JAKJ_RedstoneInMotion.bannedTurningBlock=carriage contains block blacklisted from rotation
 JAKJ_RedstoneInMotion.badCuboid=structure carriage not properly-configured cuboid
 JAKJ_RedstoneInMotion.notEdgeAnchor=anchor of structure carriage is neither edge nor corner
 JAKJ_RedstoneInMotion.noPushWhenAnchored=cannot push carriage away from controller in anchored mode

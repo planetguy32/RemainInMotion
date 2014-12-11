@@ -11,6 +11,8 @@ public class BlacklistManager {
 
 	public static Blacklist blacklistHard=new Blacklist();
 	public static Blacklist blacklistSoft=new Blacklist();
+	public static Blacklist blacklistRotation=new Blacklist();
+	
 	public static void Initialize ( )
 	{
 		blacklistSoft.blacklist ( RIMBlocks . Spectre ) ;

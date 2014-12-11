@@ -23,6 +23,8 @@ import net.minecraft.world.WorldServer;
 
 public class CarriagePackage
 {
+	public boolean blacklistByRotation=false;
+	
 	public BlockPosition RenderCacheKey ;
 
 	public CarriageTranslocatorEntity Translocator ;
@@ -94,9 +96,14 @@ public class CarriagePackage
 			throw ( new CarriageObstructionException ( "cannot move carriage below depth limit" , Record . X , Record . Y , Record . Z ) ) ;
 		}
 
-		if ( BlacklistManager . lookup (BlacklistManager.blacklistHard, Record ) )
+		if ( BlacklistManager . lookup (BlacklistManager.blacklistHard, Record ))
 		{
 			throw ( new CarriageObstructionException ( Lang.translate(Mod.Handle+".bannedBlock") , Record . X , Record . Y , Record . Z ) ) ;
+		}
+		
+		if ( blacklistByRotation && BlacklistManager . lookup (BlacklistManager.blacklistRotation, Record ))
+		{
+			throw ( new CarriageObstructionException ( Lang.translate(Mod.Handle+".bannedTurningBlock") , Record . X , Record . Y , Record . Z ) ) ;
 		}
 		
 		if(BlacklistManager.lookup(BlacklistManager.blacklistSoft,Record)){

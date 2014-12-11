@@ -190,6 +190,8 @@ public class Configuration extends Config
 				setupBlacklist("blacklistSoft", BlacklistManager.blacklistSoft);
 				
 				setupBlacklist("blacklistHard", BlacklistManager.blacklistHard);
+				
+				setupBlacklist("rotationBlacklist", BlacklistManager.blacklistRotation);
 			}
 
 			CarriagePackage . MaxBlockCount = BoundedInteger ( "Maximum size of any carriage (0 = no limit)" , 0 , CarriagePackage . MaxBlockCount , Integer . MAX_VALUE ) ;

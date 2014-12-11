@@ -24,6 +24,8 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 	{		
 		CarriagePackage Package = new CarriagePackage ( this , carriage , MotionDirection.Null ) ;
 
+		Package.blacklistByRotation=true;
+		
 		Package . AddBlock ( Package . DriveRecord ) ;
 		
 		MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
