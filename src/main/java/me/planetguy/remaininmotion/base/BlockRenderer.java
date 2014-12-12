@@ -3,7 +3,6 @@ package me.planetguy.remaininmotion.base ;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.client.Render;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IIcon;
 
 public abstract class BlockRenderer implements cpw . mods . fml . client . registry . ISimpleBlockRenderingHandler , net . minecraftforge . client . IItemRenderer
@@ -103,32 +102,27 @@ public abstract class BlockRenderer implements cpw . mods . fml . client . regis
 			Render . Translate ( -0.5 , -0.5 , -0.5 ) ;
 		}
 
-		if(Item != null && Item.getItem() instanceof ItemBlock) {
-			
-			Block b=((ItemBlock) Item.getItem()).field_150939_a;
-			
-			Render . Begin ( ) ;
+		Render . Begin ( ) ;
 
-			Render . SetNormal ( Directions . NegY ) ;
-			RenderBlocks . renderFaceYNeg ( b , 0 , 0 , 0 , GetIcon ( Item , Directions . NegY ) ) ;
+		Render . SetNormal ( Directions . NegY ) ;
+		RenderBlocks . renderFaceYNeg ( null , 0 , 0 , 0 , GetIcon ( Item , Directions . NegY ) ) ;
 
-			Render . SetNormal ( Directions . PosY ) ;
-			RenderBlocks . renderFaceYPos ( b , 0 , 0 , 0 , GetIcon ( Item , Directions . PosY ) ) ;
+		Render . SetNormal ( Directions . PosY ) ;
+		RenderBlocks . renderFaceYPos ( null , 0 , 0 , 0 , GetIcon ( Item , Directions . PosY ) ) ;
 
-			Render . SetNormal ( Directions . NegZ ) ;
-			RenderBlocks . renderFaceZNeg ( b , 0 , 0 , 0 , GetIcon ( Item , Directions . NegZ ) ) ;
+		Render . SetNormal ( Directions . NegZ ) ;
+		RenderBlocks . renderFaceZNeg ( null , 0 , 0 , 0 , GetIcon ( Item , Directions . NegZ ) ) ;
 
-			Render . SetNormal ( Directions . PosZ ) ;
-			RenderBlocks . renderFaceZPos ( b , 0 , 0 , 0 , GetIcon ( Item , Directions . PosZ ) ) ;
+		Render . SetNormal ( Directions . PosZ ) ;
+		RenderBlocks . renderFaceZPos ( null , 0 , 0 , 0 , GetIcon ( Item , Directions . PosZ ) ) ;
 
-			Render . SetNormal ( Directions . NegX ) ;
-			RenderBlocks . renderFaceXNeg ( b , 0 , 0 , 0 , GetIcon ( Item , Directions . NegX ) ) ;
+		Render . SetNormal ( Directions . NegX ) ;
+		RenderBlocks . renderFaceXNeg ( null , 0 , 0 , 0 , GetIcon ( Item , Directions . NegX ) ) ;
 
-			Render . SetNormal ( Directions . PosX ) ;
-			RenderBlocks . renderFaceXPos ( b , 0 , 0 , 0 , GetIcon ( Item , Directions . PosX ) ) ;
+		Render . SetNormal ( Directions . PosX ) ;
+		RenderBlocks . renderFaceXPos ( null , 0 , 0 , 0 , GetIcon ( Item , Directions . PosX ) ) ;
 
-			Render . End ( ) ;
-		}
+		Render . End ( ) ;
 	}
 
 	public double SideMinH ;

@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.client ;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Vanilla;
 import me.planetguy.remaininmotion.base.BlockItem;
@@ -9,6 +10,7 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
 import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 
 public class CarriageDriveRenderer extends BlockRenderer
@@ -96,6 +98,11 @@ public class CarriageDriveRenderer extends BlockRenderer
 	@Override
 	public IIcon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side )
 	{
-		return ( RIMBlocks . CarriageDrive . getIcon ( 0 , BlockItem . GetBlockType ( Item ) ) ) ;
+		
+		IIcon ico= RIMBlocks . CarriageDrive . getIcon ( Side.ordinal() , BlockItem . GetBlockType ( Item ) ) ;
+		if(ico == null) {
+			return Blocks.stone.getIcon(0, 0);
+		}else
+			return (ico) ;
 	}
 }

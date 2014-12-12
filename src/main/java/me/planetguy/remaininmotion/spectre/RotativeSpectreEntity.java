@@ -38,7 +38,6 @@ public class RotativeSpectreEntity extends MotiveSpectreEntity {
 	}
 	
 	public int getAxis() {
-		Debug.dbg(axisOfRotation);
 		return axisOfRotation;
 	}
 	

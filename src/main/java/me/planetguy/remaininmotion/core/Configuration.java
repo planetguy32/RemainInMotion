@@ -139,7 +139,7 @@ public class Configuration extends Config
 			this . LabelMaxV = LabelMaxV / Resolution ;
 		}
 
-		public static int TextureSet ;
+		public static int TextureSet = 1;
 	}
 
 	public Configuration ( java . io . File File )

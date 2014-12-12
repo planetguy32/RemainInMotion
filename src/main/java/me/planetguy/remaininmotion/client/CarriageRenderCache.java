@@ -129,7 +129,6 @@ public abstract class CarriageRenderCache
 
 	public static void Assemble ( BlockRecordSet Blocks , BlockRecordSet TileEntities , net . minecraft . world . World World , BlockPosition Key )
 	{
-		System.out.println("");
 		if ( Cache . containsKey ( Key ) )
 		{
 			return ;

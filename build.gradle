@@ -33,8 +33,8 @@ compileScala {
         }
     }
     dependencies {
-        compile 'codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev'
-        compile 'codechicken:ForgeMultipart:1.7.10-1.1.0.297:dev'
+        compile 'codechicken:CodeChickenLib:1.7.10-1.1.1.106:dev'
+        compile 'codechicken:ForgeMultipart:1.7.10-1.1.0.314:dev'
         compile group: 'com.googlecode.efficient-java-matrix-library', name: 'core', version: '0.26'
         compile group: 'com.googlecode.efficient-java-matrix-library', name: 'equation', version: '0.26'
     }
@@ -46,7 +46,7 @@ group= "me.planetguy.remaininmotion"
 archivesBaseName = "RemainInMotion"
 
 minecraft {
-    version = "1.7.10-10.13.0.1208"
+    version = "1.7.10-10.13.2.1230"
 }
 
 processResources

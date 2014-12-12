@@ -108,7 +108,7 @@ public class CarriageDrive extends RIMBlock
 	{
 		for ( Types Type : Types . values ( ) )
 		{
-			if ( Type == Types . Controller || Type == Types.Adapter || Type == Types.Transduplicator || Type == Types.Rotator )
+			if ( Type == Types . Controller)
 			{
 				if ( Core . CarriageControllerEntity == null )
 				{
