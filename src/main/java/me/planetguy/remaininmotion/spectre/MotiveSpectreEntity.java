@@ -536,77 +536,34 @@ public class MotiveSpectreEntity extends TileEntity
 			Update ( ) ;
 		}
 
-		public void applyChangeInPosition ( double ShiftX , double ShiftY , double ShiftZ )
-		{
-			net . minecraft . server . MinecraftServer Server = cpw . mods . fml . common . FMLCommonHandler . instance ( ) . getMinecraftServerInstance ( ) ;
-			net . minecraft . world . WorldServer HomeWorld = ( net . minecraft . world . WorldServer ) worldObj ;
-			
-			double X = Entity . posX + ShiftX ;
-			double Y = Entity . posY + ShiftY ;
-			double Z = Entity . posZ + ShiftZ ;
-			
-			float Yaw = Entity . rotationYaw ;
-			float Pitch = Entity . rotationPitch ;
-			net . minecraft . entity . Entity Mount = Entity . ridingEntity ;
-			if ( Entity instanceof net . minecraft . entity . player . EntityPlayerMP )
-			{
-				net . minecraft . entity . player . EntityPlayerMP Player = ( net . minecraft . entity . player . EntityPlayerMP ) Entity ;
-				Player . playerNetServerHandler . setPlayerLocation ( X , Y , Z , Yaw , Pitch ) ;
-			}
-			
-	        Entity.lastTickPosX = Entity.prevPosX = Entity.posX += ShiftX;
-	        Entity.lastTickPosY = Entity.prevPosY = Entity.posY += (ShiftY + (double)Entity.yOffset);
-	        Entity.lastTickPosZ = Entity.prevPosZ = Entity.posZ += ShiftZ;
-	        Entity.setPosition(Entity.posX, Entity.posY, Entity.posZ);
-			
-			if ( Mount != null )
-			{
-				Entity . mountEntity ( Mount ) ;
-			}
-
+		public void SetPosition ( double OffsetX , double OffsetY , double OffsetZ ) {
+			Entity . setPosition ( InitialX + OffsetX , InitialY + OffsetY + Entity . yOffset , InitialZ + OffsetZ ) ;
 		}
-
-		public void Update ( )
-		{
+		
+		public void Update ( ) {
 			Entity . fallDistance = 0 ;
-
-			Entity . onGround = false ;
-
-			Entity . isAirBorne = true ;
-
-			int ticks= (TicksExisted>Configuration.CarriageMotion.MotionDuration || worldObj.isRemote) ? Configuration.CarriageMotion.MotionDuration : TicksExisted;
-
-			double fractionOfTime=((double)TicksExisted)/Configuration.CarriageMotion.MotionDuration;
-		
-			applyVelocityToEntity(Entity, fractionOfTime);
-		
-			double mysteriousConstant=16;
-
-			Matrix m=new Matrix(new double[][] {
-					{Entity.posX},
-					{Entity.posY},
-					{Entity.posZ}
-			});
-			
-			m=shiftPosition(m, fractionOfTime, ticks, Entity);
-			
-			if(!worldObj.isRemote)
-				applyChangeInPosition(m.matrix[0][0], m.matrix[1][0], m.matrix[2][0]);
-						//applyChangeInPosition ( Entity . motionX * ticks / mysteriousConstant , Entity . motionY * ticks / mysteriousConstant, Entity . motionZ * ticks / mysteriousConstant);
-			
-			if ( TicksExisted == Configuration . CarriageMotion . MotionDuration ) //all done
+			if ( TicksExisted >= Configuration . CarriageMotion . MotionDuration )
 			{
 				Entity . motionX = 0 ;
 				Entity . motionY = 0 ;
 				Entity . motionZ = 0 ;
-
+				SetPosition ( MotionDirection . DeltaX , MotionDirection . DeltaY , MotionDirection . DeltaZ ) ;
+				Entity . prevPosX = Entity . posX ;
+				Entity . prevPosY = Entity . posY ;
+				Entity . prevPosZ = Entity . posZ ;
 				Entity . onGround = WasOnGround ;
-
 				Entity . isAirBorne = WasAirBorne ;
-
 				return ;
-
 			}
+			Entity . onGround = false ;
+			Entity . isAirBorne = true ;
+			Entity . motionX = Velocity * MotionDirection . DeltaX ;
+			Entity . motionY = Velocity * MotionDirection . DeltaY ;
+			Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
+			SetPosition ( Entity . motionX * TicksExisted , Entity . motionY * TicksExisted , Entity . motionZ * TicksExisted ) ;
+			Entity . prevPosX = Entity . posX - Entity . motionX ;
+			Entity . prevPosY = Entity . posY - Entity . motionY ;
+			Entity . prevPosZ = Entity . posZ - Entity . motionZ ;
 		}
 	}
 	

@@ -33,11 +33,15 @@ public abstract class TileEntity extends net . minecraft . tileentity . TileEnti
 	@Override
 	public Packet getDescriptionPacket() 
 	{
-	NBTTagCompound tag = new NBTTagCompound();
-	this.writeToNBT(tag);
-	return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
+		NBTTagCompound tag = new NBTTagCompound();
+		
+		WriteCommonRecord(tag);
+		
+		WriteClientRecord(tag);
+		
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
 	}
-	
+
 
 	public void ReadCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
