@@ -1,37 +1,13 @@
-package me.planetguy.remaininmotion.spectre;
+package me.planetguy.remaininmotion.util.transformations;
 
-import scala.actors.threadpool.Arrays;
+import java.util.Arrays;
+
+import me.planetguy.lib.util.Debug;
 
 public class Matrix {
 	
 	public double[][] matrix;
 	
-	public static final Matrix[] ccwRotMatrices=new Matrix[] {
-		new Matrix(new double[][]{ //-y
-				{0,0,1},
-				{0,1,0},
-				{-1,0,0}}),
-		new Matrix(new double[][]{ //+y
-				{0,0,-1},
-				{0,1,0},
-				{1,0,0}}),
-		new Matrix(new double[][]{ //-z
-				{0,-1,0},
-				{1,0,0},
-				{0,0,1}}),
-		new Matrix(new double[][]{ //+z
-				{0,1,0},
-				{-1,0,0},
-				{0,0,1}}),		
-		new Matrix(new double[][]{ //-x
-				{1,0,0},
-				{0,0,-1},
-				{0,1,0}}),		
-		new Matrix(new double[][]{ //+x
-				{1,0,0},
-				{0,0,1},
-				{0,-1,0}}),		
-	};
 	
 	public Matrix(double[][] coords) {
 		this.matrix=coords;
@@ -58,5 +34,20 @@ public class Matrix {
 		}
 		return s;
 	}
-
+	
+	public Matrix scalarMultiply(double d) {
+		Matrix m=new Matrix(copy(this.matrix));
+		for(double[] dbls:matrix)
+			for(double dbl:dbls)
+				dbl *= d;
+		return m;
+	}
+	
+	public static double[][] copy(double[][] dbls){
+		double[][] copy=new double[dbls.length][dbls[0].length];
+		for(int x=0; x<dbls.length; x++)
+			for(int y=0; y<dbls[0].length; y++) 
+				copy[x][y]=dbls[x][y];
+		return copy;
+	}
 }

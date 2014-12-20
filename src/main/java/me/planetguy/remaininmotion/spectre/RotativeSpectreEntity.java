@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion.spectre;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -10,6 +11,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.transformations.Matrices;
+import me.planetguy.remaininmotion.util.transformations.Matrix;
 
 public class RotativeSpectreEntity extends MotiveSpectreEntity {
 	
@@ -21,20 +24,47 @@ public class RotativeSpectreEntity extends MotiveSpectreEntity {
 	}
 	
 	public void ShiftBlockPosition(BlockRecord record) {
-		Rotator.rotate(this.DriveRecord, Directions.values()[axisOfRotation], record);
+		RemIMRotator.rotateOrthogonal(this.DriveRecord, Directions.values()[axisOfRotation], record);
 	}
 	
 	public void onMotionFinalized(BlockRecord record){
 		Block b=worldObj.getBlock(record.X, record.Y, record.Z);
-		b.rotateBlock(worldObj, record.X, record.Y, record.Z, ForgeDirection.values()[axisOfRotation]);
+		if(!worldObj.isRemote) //do not rotate on client
+			b.rotateBlock(worldObj, record.X, record.Y, record.Z, ForgeDirection.values()[axisOfRotation]);
 	}
+	
+	/*
+	
+	public void applyVelocityToEntity(Entity entity, double time) {
+		double[][] pos=new double[][] {
+				{entity.posX},
+				{entity.posY},
+				{entity.posZ}
+		};
+		Matrix entityMatrix=new Matrix(pos);
+		RemIMRotator.rotatePartial(this.DriveRecord, Directions.values()[axisOfRotation], entityMatrix, time / 4.0);
+		
+		entityMatrix.scalarMultiply(Velocity);
+		Debug.dbg(entityMatrix);
+		entity.motionX=0;//entityMatrix.matrix[0][0];
+		entity.motionY=0;//entityMatrix.matrix[1][0];
+		entity.motionZ=0;//entityMatrix.matrix[2][0];
+	}
+	
+	public Matrix shiftPosition(Matrix m, double time, int ticks, Entity entity) {
+		Matrix entityMatrix=new Matrix(new double[][] {
+				{entity.posX},
+				{entity.posY},
+				{entity.posZ}
+		});
+		RemIMRotator.rotatePartial(this.DriveRecord, Directions.values()[axisOfRotation], entityMatrix, time/4.0);
+		return entityMatrix;
+	}
+	*/
+
 	
 	public void setAxis(int axis) {
 		this.axisOfRotation=axis;
-		//if(worldObj != null) {
-		//	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		//	markDirty();
-		//}
 	}
 	
 	public int getAxis() {

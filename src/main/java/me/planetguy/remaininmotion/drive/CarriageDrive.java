@@ -7,14 +7,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.RIMBlock;
+import me.planetguy.remaininmotion.carriage.CarriageEntity;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.Mod;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class CarriageDrive extends RIMBlock
 {
@@ -161,12 +164,18 @@ public class CarriageDrive extends RIMBlock
 	@Override
 	public IIcon getIcon ( net . minecraft . world . IBlockAccess World , int X , int Y , int Z , int Side )
 	{
+		
+		try {
 
-		CarriageDriveEntity Drive = ( CarriageDriveEntity ) World . getTileEntity ( X , Y , Z ) ;
+			CarriageDriveEntity Drive = ( CarriageDriveEntity ) World . getTileEntity ( X , Y , Z ) ;
 
-		int meta= World . getBlockMetadata ( X , Y , Z ) ;
+			int meta= World . getBlockMetadata ( X , Y , Z ) ;
 
-		return Drive.getIcon(Side, meta);
+			return Drive.getIcon(Side, meta);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
 	}
 
@@ -213,5 +222,18 @@ public class CarriageDrive extends RIMBlock
 			Throwable . printStackTrace ( ) ;
 		}
 	}
+	
+	
+	@Override
+    public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
+    	try{
+    		CarriageDriveEntity entity=((CarriageDriveEntity)worldObj.getTileEntity(x, y, z));
+    		entity.rotate(axis);
+    		return true;
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return false;
+    }
 	
 }

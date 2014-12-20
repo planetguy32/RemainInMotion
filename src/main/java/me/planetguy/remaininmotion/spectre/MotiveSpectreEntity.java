@@ -17,7 +17,9 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
+import me.planetguy.remaininmotion.util.transformations.Matrix;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -534,7 +536,7 @@ public class MotiveSpectreEntity extends TileEntity
 			Update ( ) ;
 		}
 
-		public void SetPosition ( double ShiftX , double ShiftY , double ShiftZ )
+		public void applyChangeInPosition ( double ShiftX , double ShiftY , double ShiftZ )
 		{
 			net . minecraft . server . MinecraftServer Server = cpw . mods . fml . common . FMLCommonHandler . instance ( ) . getMinecraftServerInstance ( ) ;
 			net . minecraft . world . WorldServer HomeWorld = ( net . minecraft . world . WorldServer ) worldObj ;
@@ -568,19 +570,29 @@ public class MotiveSpectreEntity extends TileEntity
 		{
 			Entity . fallDistance = 0 ;
 
-
 			Entity . onGround = false ;
 
 			Entity . isAirBorne = true ;
 
-			Entity . motionX = Velocity * MotionDirection . DeltaX ;
-			Entity . motionY = Velocity * MotionDirection . DeltaY ;
-			Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
+			int ticks= (TicksExisted>Configuration.CarriageMotion.MotionDuration || worldObj.isRemote) ? Configuration.CarriageMotion.MotionDuration : TicksExisted;
 
-			int ticks=TicksExisted>Configuration.CarriageMotion.MotionDuration ? Configuration.CarriageMotion.MotionDuration : TicksExisted;
-
+			double fractionOfTime=((double)TicksExisted)/Configuration.CarriageMotion.MotionDuration;
+		
+			applyVelocityToEntity(Entity, fractionOfTime);
+		
 			double mysteriousConstant=16;
-			SetPosition ( Entity . motionX * ticks / mysteriousConstant , Entity . motionY * ticks / mysteriousConstant, Entity . motionZ * ticks / mysteriousConstant);
+
+			Matrix m=new Matrix(new double[][] {
+					{Entity.posX},
+					{Entity.posY},
+					{Entity.posZ}
+			});
+			
+			m=shiftPosition(m, fractionOfTime, ticks, Entity);
+			
+			if(!worldObj.isRemote)
+				applyChangeInPosition(m.matrix[0][0], m.matrix[1][0], m.matrix[2][0]);
+						//applyChangeInPosition ( Entity . motionX * ticks / mysteriousConstant , Entity . motionY * ticks / mysteriousConstant, Entity . motionZ * ticks / mysteriousConstant);
 			
 			if ( TicksExisted == Configuration . CarriageMotion . MotionDuration ) //all done
 			{
@@ -596,6 +608,20 @@ public class MotiveSpectreEntity extends TileEntity
 
 			}
 		}
+	}
+	
+	public void applyVelocityToEntity(Entity entity, double time) {
+		entity . motionX = Velocity * MotionDirection . DeltaX ;
+		entity . motionY = Velocity * MotionDirection . DeltaY ;
+		entity . motionZ = Velocity * MotionDirection . DeltaZ ;
+	}
+	
+	public Matrix shiftPosition(Matrix m, double time, int ticks, Entity target) {
+		return new Matrix(new double[][] {
+				{target.motionX * ticks / 16},
+				{target.motionY * ticks / 16},
+				{target.motionZ * ticks / 16}
+		});
 	}
 
 	public java . util . ArrayList < CapturedEntity > CapturedEntities = new java . util . ArrayList < CapturedEntity > ( ) ;

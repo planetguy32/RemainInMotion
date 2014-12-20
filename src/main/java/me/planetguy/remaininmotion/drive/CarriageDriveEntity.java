@@ -21,6 +21,7 @@ import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
 import me.planetguy.remaininmotion.spectre.Spectre;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -471,6 +472,10 @@ public abstract class CarriageDriveEntity extends TileEntity implements IEnergyH
 		SideClosed[side]=closed;
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		this.markDirty();
+	}
+
+	public void rotate(ForgeDirection axis) {
+		ArrayRotator.rotate(SideClosed, axis);
 	}
 
 }

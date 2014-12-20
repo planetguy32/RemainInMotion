@@ -35,7 +35,6 @@ public class PLHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Debug.dbg("PL config file for mod "+modID+": "+f.exists());
 		cfg=new Configuration(f);
 	}
 	
@@ -118,7 +117,6 @@ public class PLHelper {
 	}
 	
 	public void load(Class c, HashMap<String, IPrefabItem> content){
-		Debug.mark();
 		if(!shouldLoad(c))
 			return;
 		if(ItemBase.class.isAssignableFrom(c)){
@@ -139,7 +137,6 @@ public class PLHelper {
 	public boolean shouldLoad(Class c){
 		cfg.load();
 		boolean b=cfg.getBoolean("Allow "+c.getSimpleName(),"itemRestrict", true, "");
-		Debug.dbg(b+" : "+c);
 		cfg.save();
 		return b;
 	}

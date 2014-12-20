@@ -1,15 +1,31 @@
 package me.planetguy.lib.util ;
 
+import java.io.PrintStream;
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.TracingPrintStream;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class Debug
 {
+	
+	static final Logger log = LogManager.getLogger("PL");
+	
+	public static void print(String s) {
+		log.info(s);
+	}
+	
 	public static void dbt(Object o){
 		StackTraceElement[] trace=Thread.currentThread().getStackTrace();
 		dbg(Arrays.toString(trace)+" >>> "+o);
@@ -19,10 +35,6 @@ public abstract class Debug
 		StackTraceElement[] trace=Thread.currentThread().getStackTrace();
 		print(trace[3].getClassName().replaceAll("[a-zA-Z]*\\.", "")+"@"+trace[3].getLineNumber()+"   "+o);
 		//if(Configuration.Debug.verbose)	log.debug(m,o);
-	}
-	
-	private static void print(String s){
-		System.out.println(s);
 	}
 	
 	public static void dbg(Object o){

@@ -17,12 +17,14 @@ import me.planetguy.remaininmotion.spectre.TeleportativeSpectreEntity;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import me.planetguy.remaininmotion.util.transformations.Rotator;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class CarriageRotatorEntity extends CarriageDriveEntity{
 	
@@ -43,6 +45,12 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 		Package . AddBlock ( Package . DriveRecord ) ;
 		
 		MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
+		
+		for(BlockRecord record:Package.Body) {
+			if(directionIndex==0 || directionIndex == 1) {
+				//TODO collide
+			}
+		}
 		
 		Package . Finalize ( ) ;
 		
@@ -147,7 +155,11 @@ public class CarriageRotatorEntity extends CarriageDriveEntity{
 			CarriageDirection = null;
 		}
 		super.updateEntity();
-				
+	}
+	
+	public void rotate(ForgeDirection axis) {
+		super.rotate(axis);
+		directionIndex=Rotator.newSide(directionIndex, axis);
 	}
 
 
