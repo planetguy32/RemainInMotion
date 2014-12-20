@@ -52,6 +52,8 @@ public class Configuration extends Config
 		public static boolean ShowHelpInTooltips = true ;
 		
 		public static boolean renderFallback=false;
+
+		public static int maxTags=-1;
 	}
 
 	public abstract static class DirtyHacks
@@ -269,6 +271,8 @@ public class Configuration extends Config
 			Cosmetic . ShowHelpInTooltips = Boolean ( "Show descriptions of purposes/uses of blocks/items in tooltips" , Cosmetic . ShowHelpInTooltips ) ;
 			
 			Cosmetic.renderFallback = Boolean ( "Use the fallback renderer (try this if Minecraft closes instantly when moving carriages)" , Cosmetic.renderFallback ) ;
+			
+			Cosmetic.maxTags=Configuration.get(Category, "Limit on size of carriage to transmit, or -1 for no limit. Decrease if clients get errors like: Unexpected end of ZLIB input stream", Cosmetic.maxTags).getInt(Cosmetic.maxTags);
 		}
 
 		{

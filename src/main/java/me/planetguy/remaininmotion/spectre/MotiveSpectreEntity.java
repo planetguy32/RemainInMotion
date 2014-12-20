@@ -463,8 +463,13 @@ public class MotiveSpectreEntity extends TileEntity
 	{
 		net . minecraft . nbt . NBTTagList CapturedEntityRecords = new net . minecraft . nbt . NBTTagList ( ) ;
 
+		int i=0;
+		
 		for ( CapturedEntity Entity : CapturedEntities )
 		{
+			if(i++ == Configuration.Cosmetic.maxTags) { //not >= to allow no limit (eg. singleplayer only)
+				return;
+			}
 			net . minecraft . nbt . NBTTagCompound CapturedEntityRecord = new net . minecraft . nbt . NBTTagCompound ( ) ;
 
 			CapturedEntityRecord . setInteger ( "Id" , Entity . Entity.getEntityId() ) ;
@@ -561,26 +566,17 @@ public class MotiveSpectreEntity extends TileEntity
 			Entity . motionY = Velocity * MotionDirection . DeltaY ;
 			Entity . motionZ = Velocity * MotionDirection . DeltaZ ;
 			SetPosition ( Entity . motionX * TicksExisted , Entity . motionY * TicksExisted , Entity . motionZ * TicksExisted ) ;
+			doSpecialMotion(Entity);
 			Entity . prevPosX = Entity . posX - Entity . motionX ;
 			Entity . prevPosY = Entity . posY - Entity . motionY ;
 			Entity . prevPosZ = Entity . posZ - Entity . motionZ ;
 		}
 	}
 	
-	public void applyVelocityToEntity(Entity entity, double time) {
-		entity . motionX = Velocity * MotionDirection . DeltaX ;
-		entity . motionY = Velocity * MotionDirection . DeltaY ;
-		entity . motionZ = Velocity * MotionDirection . DeltaZ ;
+	public void doSpecialMotion(Entity e) {
+		
 	}
 	
-	public Matrix shiftPosition(Matrix m, double time, int ticks, Entity target) {
-		return new Matrix(new double[][] {
-				{target.motionX * ticks / 16},
-				{target.motionY * ticks / 16},
-				{target.motionZ * ticks / 16}
-		});
-	}
-
 	public java . util . ArrayList < CapturedEntity > CapturedEntities = new java . util . ArrayList < CapturedEntity > ( ) ;
 
 	public boolean ShouldCaptureEntity ( net . minecraft . entity . Entity Entity )

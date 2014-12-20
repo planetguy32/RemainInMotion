@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.util.transformations.Matrices;
 import me.planetguy.remaininmotion.util.transformations.Matrix;
 
@@ -31,6 +32,21 @@ public class RotativeSpectreEntity extends MotiveSpectreEntity {
 		Block b=worldObj.getBlock(record.X, record.Y, record.Z);
 		if(!worldObj.isRemote) //do not rotate on client
 			b.rotateBlock(worldObj, record.X, record.Y, record.Z, ForgeDirection.values()[axisOfRotation]);
+	}
+	
+	public void doSpecialMotion(Entity e) {
+		if(worldObj.isRemote)
+			return;
+		Matrix entityPos=new Matrix(new double[][] {
+				{e.posX},
+				{e.posY},
+				{e.posZ}
+		});
+		double partialAngle=Math.min(((double)TicksExisted)/Configuration . CarriageMotion . MotionDuration, 1);
+		RemIMRotator.rotatePartial(this.DriveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
+		e.posX=entityPos.matrix[0][0];
+		e.posY=entityPos.matrix[1][0];
+		e.posZ=entityPos.matrix[2][0];
 	}
 	
 	/*
