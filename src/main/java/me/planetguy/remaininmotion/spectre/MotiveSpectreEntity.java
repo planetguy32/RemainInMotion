@@ -480,6 +480,8 @@ public class MotiveSpectreEntity extends TileEntity
 
 			CapturedEntityRecords . appendTag ( CapturedEntityRecord ) ;
 		}
+		
+		Debug.dbg("Captured "+i+" tile entities.");
 
 		TagCompound . setTag ( "CapturedEntities" , CapturedEntityRecords ) ;
 	}

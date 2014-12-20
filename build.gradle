@@ -41,7 +41,7 @@ compileScala {
 }
 
 
-version = "2.3.2"
+version = "2.3.3"
 group= "me.planetguy.remaininmotion"
 archivesBaseName = "RemainInMotion"
 
