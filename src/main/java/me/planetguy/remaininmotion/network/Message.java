@@ -18,8 +18,6 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 	public Message(){}
 	
 	public Message(PacketTypes type, NBTTagCompound body){
-		net . minecraft . nbt . NBTTagList Body = body . getTagList ( "Body", 11 ) ;
-
 		this.type=type;
 		this.body=body;
 	}

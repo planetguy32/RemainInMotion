@@ -429,7 +429,7 @@ public class MotiveSpectreEntity extends TileEntity
 
 		DriveIsAnchored = TagCompound . getBoolean ( "DriveIsAnchored" ) ;
 
-		PendingBlockUpdates = TagCompound . getTagList ( "PendingBlockUpdates", 11 ) ;
+		PendingBlockUpdates = TagCompound . getTagList ( "PendingBlockUpdates", 10 ) ;
 
 		Body = new BlockRecordSet ( ) ;
 
@@ -482,7 +482,7 @@ public class MotiveSpectreEntity extends TileEntity
 	@Override
 	public void ReadClientRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
 	{
-		net . minecraft . nbt . NBTTagList CapturedEntityRecords = TagCompound . getTagList ( "CapturedEntities", 11 ) ;
+		net . minecraft . nbt . NBTTagList CapturedEntityRecords = TagCompound . getTagList ( "CapturedEntities", 10 ) ;
 
 		CapturedEntities . clear ( ) ;
 
