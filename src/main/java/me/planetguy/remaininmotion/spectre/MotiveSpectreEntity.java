@@ -468,7 +468,7 @@ public class MotiveSpectreEntity extends TileEntity
 		for ( CapturedEntity Entity : CapturedEntities )
 		{
 			if(i++ == Configuration.Cosmetic.maxTags) { //not >= to allow no limit (eg. singleplayer only)
-				return;
+				break;
 			}
 			net . minecraft . nbt . NBTTagCompound CapturedEntityRecord = new net . minecraft . nbt . NBTTagCompound ( ) ;
 
