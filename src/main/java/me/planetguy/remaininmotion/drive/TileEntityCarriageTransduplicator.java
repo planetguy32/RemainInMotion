@@ -1,5 +1,8 @@
 package me.planetguy.remaininmotion.drive;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -12,31 +15,32 @@ import me.planetguy.remaininmotion.spectre.TileEntityTransduplicativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslocator {
-	public String																								Player;
+	public String																Player;
 
-	public int																									Label;
+	public int																	Label;
 
-	public static java.util.HashMap<String, java.util.HashMap<Integer, java.util.LinkedList<BlockPosition>>>	ActiveTranslocatorSets	= new java.util.HashMap<String, java.util.HashMap<Integer, java.util.LinkedList<BlockPosition>>>();
+	public static HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets	= new HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>();
 
 	@Override
 	public void RegisterLabel() {
-		java.util.HashMap<Integer, java.util.LinkedList<BlockPosition>> ActiveTranslocatorSet = ActiveTranslocatorSets
-				.get(Player);
+		HashMap<Integer, LinkedList<BlockPosition>> ActiveTranslocatorSet = ActiveTranslocatorSets.get(Player);
 
 		if (ActiveTranslocatorSet == null) {
-			ActiveTranslocatorSet = new java.util.HashMap<Integer, java.util.LinkedList<BlockPosition>>();
+			ActiveTranslocatorSet = new HashMap<Integer, LinkedList<BlockPosition>>();
 
 			ActiveTranslocatorSets.put(Player, ActiveTranslocatorSet);
 		}
 
-		java.util.LinkedList<BlockPosition> ActiveTranslocators = ActiveTranslocatorSet.get(Label);
+		LinkedList<BlockPosition> ActiveTranslocators = ActiveTranslocatorSet.get(Label);
 
 		if (ActiveTranslocators == null) {
-			ActiveTranslocators = new java.util.LinkedList<BlockPosition>();
+			ActiveTranslocators = new LinkedList<BlockPosition>();
 
 			ActiveTranslocatorSet.put(Label, ActiveTranslocators);
 		}
@@ -54,7 +58,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 	}
 
 	@Override
-	public void Setup(net.minecraft.entity.player.EntityPlayer Player, ItemStack Item) {
+	public void Setup(EntityPlayer Player, ItemStack Item) {
 		super.Setup(Player, Item);
 
 		this.Player = ItemCarriageDrive.GetPrivateFlag(Item) ? Player.getDisplayName() : "";
@@ -98,7 +102,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 	}
 
 	@Override
-	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {
 		super.ReadCommonRecord(TagCompound);
 
 		Player = TagCompound.getString("Player");
@@ -107,7 +111,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 	}
 
 	@Override
-	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
 
 		TagCompound.setString("Player", Player);
@@ -126,7 +130,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 
 		TileEntityCarriageTransduplicator Target = null;
 
-		java.util.LinkedList<BlockPosition> ActiveTranslocators;
+		LinkedList<BlockPosition> ActiveTranslocators;
 
 		try {
 			ActiveTranslocators = ActiveTranslocatorSets.get(Player).get(Label);
@@ -227,6 +231,6 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 				BlockSpectre.Types.Transduplicative.ordinal());
 
 		((TileEntityTransduplicativeSpectre) Package.Translocator.getWorldObj().getTileEntity(NewX, NewY, NewZ))
-		.AbsorbSink(Package);
+				.AbsorbSink(Package);
 	}
 }

@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion.spectre;
 
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.transformations.Matrix;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -35,7 +35,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	public void doSpecialMotion(Entity e) {
 		if (worldObj.isRemote) { return; }
 		Matrix entityPos = new Matrix(new double[][] { { e.posX }, { e.posY }, { e.posZ } });
-		double partialAngle = Math.min(((double) TicksExisted) / Configuration.CarriageMotion.MotionDuration, 1);
+		double partialAngle = Math.min(((double) TicksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
 		RemIMRotator.rotatePartial(DriveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
 		e.posX = entityPos.matrix[0][0];
 		e.posY = entityPos.matrix[1][0];

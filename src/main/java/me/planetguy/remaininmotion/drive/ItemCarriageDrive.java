@@ -1,13 +1,14 @@
 package me.planetguy.remaininmotion.drive;
 
 import java.util.Arrays;
+import java.util.List;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.Vanilla;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
-import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -91,18 +92,18 @@ public class ItemCarriageDrive extends ItemBlockRiM {
 	 */
 
 	@Override
-	public void AddTooltip(ItemStack Item, java.util.List TooltipLines) {
+	public void AddTooltip(ItemStack Item, List TooltipLines) {
 		int Type = GetBlockType(Item);
 
-		if (Configuration.Cosmetic.ShowHelpInTooltips) {
-			for (String s : Lang.translate(Mod.Handle + ".drive.tooltip." + GetBlockType(Item)).split("##/##")) {
+		if (RiMConfiguration.Cosmetic.ShowHelpInTooltips) {
+			for (String s : Lang.translate(ModRiM.Handle + ".drive.tooltip." + GetBlockType(Item)).split("##/##")) {
 				TooltipLines.add(s);
 			}
 		}
 
 		if (Type == BlockCarriageDrive.Types.Translocator.ordinal()) {
 			if (Item.stackTagCompound == null) {
-				TooltipLines.add(Arrays.asList(Lang.translate(Mod.Handle + ".pleaseUpdateCarriage").split("##/##")));
+				TooltipLines.add(Arrays.asList(Lang.translate(ModRiM.Handle + ".pleaseUpdateCarriage").split("##/##")));
 			}
 
 			boolean Private = GetPrivateFlag(Item);
@@ -110,17 +111,17 @@ public class ItemCarriageDrive extends ItemBlockRiM {
 			int Label = GetLabel(Item);
 
 			if (Private) {
-				TooltipLines.add(Lang.translate(Mod.Handle + ".labelPrivate"));
+				TooltipLines.add(Lang.translate(ModRiM.Handle + ".labelPrivate"));
 			} else {
-				TooltipLines.add(Lang.translate(Mod.Handle + ".label"));
+				TooltipLines.add(Lang.translate(ModRiM.Handle + ".label"));
 			}
 
 			if (Label == 0) {
-				TooltipLines.add(Lang.translate(Mod.Handle + ".blank"));
+				TooltipLines.add(Lang.translate(ModRiM.Handle + ".blank"));
 			} else {
 				for (Vanilla.DyeTypes DyeType : Vanilla.DyeTypes.values()) {
 					if (LabelHasDye(Label, DyeType)) {
-						TooltipLines.add(" - " + Lang.translate(Mod.Handle + DyeType.Handle));
+						TooltipLines.add(" - " + Lang.translate(ModRiM.Handle + DyeType.Handle));
 					}
 				}
 			}

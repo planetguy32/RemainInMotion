@@ -5,7 +5,7 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 
 public class TileEntitySupportCarriage extends TileEntityCarriage {
 	public TileEntitySupportCarriage() {
@@ -31,7 +31,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 
 	public void FailBecauseOverburdened() throws CarriageMotionException {
 		throw (new CarriageMotionException("support carriage exceeds maximum burden of "
-				+ Configuration.Carriage.MaxSupportBurden + " blocks carried"));
+				+ RiMConfiguration.Carriage.MaxSupportBurden + " blocks carried"));
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 
 					BlocksCarried++;
 
-					if (BlocksCarried > Configuration.Carriage.MaxSupportBurden) {
+					if (BlocksCarried > RiMConfiguration.Carriage.MaxSupportBurden) {
 						FailBecauseOverburdened();
 					}
 
@@ -159,7 +159,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 
 				BlocksCarried++;
 
-				if (BlocksCarried > Configuration.Carriage.MaxSupportBurden) {
+				if (BlocksCarried > RiMConfiguration.Carriage.MaxSupportBurden) {
 					FailBecauseOverburdened();
 				}
 			}

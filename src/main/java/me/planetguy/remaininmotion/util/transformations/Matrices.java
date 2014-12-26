@@ -36,21 +36,21 @@ public class Matrices {
 
 	// Use constants here, not calculated - we don't
 	public static final Matrix[]	ccwRotMatrices	= new Matrix[] { new Matrix(new double[][] { // -y
-			{ 0, 0, 1 }, { 0, 1, 0 }, { -1, 0, 0 } }),
+															{ 0, 0, 1 }, { 0, 1, 0 }, { -1, 0, 0 } }),
 
-			new Matrix(new double[][] { // +y
-					{ 0, 0, -1 }, { 0, 1, 0 }, { 1, 0, 0 } }),
+													new Matrix(new double[][] { // +y
+															{ 0, 0, -1 }, { 0, 1, 0 }, { 1, 0, 0 } }),
 
-					new Matrix(new double[][] { // -z
-							{ 0, -1, 0 }, { 1, 0, 0 }, { 0, 0, 1 } }),
+													new Matrix(new double[][] { // -z
+															{ 0, -1, 0 }, { 1, 0, 0 }, { 0, 0, 1 } }),
 
-							new Matrix(new double[][] { // +z
-									{ 0, 1, 0 }, { -1, 0, 0 }, { 0, 0, 1 } }),
+													new Matrix(new double[][] { // +z
+															{ 0, 1, 0 }, { -1, 0, 0 }, { 0, 0, 1 } }),
 
-									new Matrix(new double[][] { // -x
-											{ 1, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 } }),
+													new Matrix(new double[][] { // -x
+															{ 1, 0, 0 }, { 0, 0, -1 }, { 0, 1, 0 } }),
 
-											new Matrix(new double[][] { // +x
-													{ 1, 0, 0 }, { 0, 0, 1 }, { 0, -1, 0 } }), };
+													new Matrix(new double[][] { // +x
+															{ 1, 0, 0 }, { 0, 0, 1 }, { 0, -1, 0 } }), };
 
 }

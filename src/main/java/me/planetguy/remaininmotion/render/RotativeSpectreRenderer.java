@@ -1,17 +1,17 @@
 package me.planetguy.remaininmotion.render;
 
-import me.planetguy.remaininmotion.core.Configuration;
+import net.minecraft.tileentity.TileEntity;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
 
 public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
 
 	public static final int[][]	matrices	= new int[][] { { 0, -1, 0 }, { 0, 1, 0 }, { 0, 0, -1 }, { 0, 0, 1 },
-		{ -1, 0, 0 }, { 1, 0, 0 },		};
+			{ -1, 0, 0 }, { 1, 0, 0 },		};
 
 	@Override
-	public void renderTileEntityAt(net.minecraft.tileentity.TileEntity TileEntity, double X, double Y, double Z,
-			float PartialTick) {
+	public void renderTileEntityAt(TileEntity TileEntity, double X, double Y, double Z, float PartialTick) {
 		Render.PushMatrix();
 
 		try {
@@ -21,8 +21,8 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
 			if (Spectre.RenderCacheKey != null) {
 				double Offset;
 
-				if (Configuration.CarriageMotion.RenderInFinalPositionDuringLag
-						&& (Spectre.TicksExisted >= Configuration.CarriageMotion.MotionDuration)) {
+				if (RiMConfiguration.CarriageMotion.RenderInFinalPositionDuringLag
+						&& (Spectre.TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration)) {
 					Offset = 1;
 				} else {
 					Offset = TileEntityMotiveSpectre.Velocity * (Spectre.TicksExisted + PartialTick);
@@ -64,5 +64,5 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
 	}
 
 	@Override
-	public void Render(net.minecraft.tileentity.TileEntity TileEntity, float PartialTick) {}
+	public void Render(TileEntity TileEntity, float PartialTick) {}
 }

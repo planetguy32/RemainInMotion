@@ -1,5 +1,10 @@
 package me.planetguy.remaininmotion.spectre;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.BlockPosition;
@@ -9,7 +14,7 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
@@ -18,27 +23,36 @@ import me.planetguy.remaininmotion.render.CarriageRenderCache;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
 
 public class TileEntityMotiveSpectre extends TileEntityRiM {
-	public Directions					MotionDirection	= Directions.Null;
+	public Directions				MotionDirection	= Directions.Null;
 
-	public BlockPosition				RenderCacheKey;
+	public BlockPosition			RenderCacheKey;
 
-	public net.minecraft.nbt.NBTTagList	PendingBlockUpdates;
+	public NBTTagList				PendingBlockUpdates;
 
-	public BlockRecord					DriveRecord;
+	public BlockRecord				DriveRecord;
 
-	public boolean						DriveIsAnchored;
+	public boolean					DriveIsAnchored;
 
-	public BlockRecordSet				Body;
+	public BlockRecordSet			Body;
 
-	public int							TicksExisted;
+	public int						TicksExisted;
 
-	public static double				Velocity;
+	public static double			Velocity;
 
-	TeleportativeSpectreTeleporter		Teleporter;
+	TeleportativeSpectreTeleporter	Teleporter;
 
 	public void ShiftBlockPosition(BlockRecord Record) {
 		Record.Shift(MotionDirection);
@@ -51,16 +65,16 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		}
 	}
 
-	public void ScheduleShiftedBlockUpdate(net.minecraft.nbt.NBTTagCompound PendingBlockUpdateRecord) {
+	public void ScheduleShiftedBlockUpdate(NBTTagCompound PendingBlockUpdateRecord) {
 		worldObj.func_147446_b // scheduleBlockUpdateFromLoad
 		(PendingBlockUpdateRecord.getInteger("X") + MotionDirection.DeltaX, PendingBlockUpdateRecord.getInteger("Y")
 				+ MotionDirection.DeltaY, PendingBlockUpdateRecord.getInteger("Z") + MotionDirection.DeltaZ,
 
-				Block.getBlockById(PendingBlockUpdateRecord.getInteger("Id")),
+		Block.getBlockById(PendingBlockUpdateRecord.getInteger("Id")),
 
-				PendingBlockUpdateRecord.getInteger("Delay"),
+		PendingBlockUpdateRecord.getInteger("Delay"),
 
-				PendingBlockUpdateRecord.getInteger("Priority"));
+		PendingBlockUpdateRecord.getInteger("Priority"));
 	}
 
 	@Override
@@ -73,7 +87,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 		if (worldObj.isRemote) { return; }
 
-		if (TicksExisted < Configuration.CarriageMotion.MotionDuration) { return; }
+		if (TicksExisted < RiMConfiguration.CarriageMotion.MotionDuration) { return; }
 
 		Release();
 	}
@@ -109,7 +123,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 		BlockRecordList MultipartTilesToInitialize = new BlockRecordList();
 
-		java.util.HashMap<net.minecraft.world.chunk.Chunk, java.util.HashMap<Object, net.minecraft.tileentity.TileEntity>> MultipartTileSetsToPropagate = new java.util.HashMap<net.minecraft.world.chunk.Chunk, java.util.HashMap<Object, net.minecraft.tileentity.TileEntity>>();
+		HashMap<Chunk, HashMap<Object, TileEntity>> MultipartTileSetsToPropagate = new HashMap<Chunk, HashMap<Object, TileEntity>>();
 
 		for (BlockRecord Record : Body) {
 
@@ -121,22 +135,21 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 				if (Record.EntityRecord.getString("id").equals("savedMultipart")) {
 					try {
 						if (ModInteraction.ForgeMultipart.MultipartHelper_createTileFromNBT != null) {
-							Record.Entity = (net.minecraft.tileentity.TileEntity) ModInteraction.ForgeMultipart.MultipartHelper_createTileFromNBT
+							Record.Entity = (TileEntity) ModInteraction.ForgeMultipart.MultipartHelper_createTileFromNBT
 									.invoke(null, worldObj, Record.EntityRecord);
 						} else {
-							Record.Entity = (net.minecraft.tileentity.TileEntity) ModInteraction.ForgeMultipart.TileMultipart_createFromNBT
+							Record.Entity = (TileEntity) ModInteraction.ForgeMultipart.TileMultipart_createFromNBT
 									.invoke(null, Record.EntityRecord);
 
 							MultipartContainerBlockId = Record.block;
 
-							net.minecraft.world.chunk.Chunk Chunk = worldObj
-									.getChunkFromBlockCoords(Record.X, Record.Z);
+							Chunk Chunk = worldObj.getChunkFromBlockCoords(Record.X, Record.Z);
 
-							java.util.HashMap<Object, net.minecraft.tileentity.TileEntity> MultipartTilesToPropagate = MultipartTileSetsToPropagate
+							HashMap<Object, TileEntity> MultipartTilesToPropagate = MultipartTileSetsToPropagate
 									.get(Chunk);
 
 							if (MultipartTilesToPropagate == null) {
-								MultipartTilesToPropagate = new java.util.HashMap<Object, net.minecraft.tileentity.TileEntity>();
+								MultipartTilesToPropagate = new HashMap<Object, TileEntity>();
 
 								MultipartTileSetsToPropagate.put(Chunk, MultipartTilesToPropagate);
 							}
@@ -151,7 +164,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 						continue;
 					}
 				} else {
-					Record.Entity = net.minecraft.tileentity.TileEntity.createAndLoadEntity(Record.EntityRecord);
+					Record.Entity = TileEntity.createAndLoadEntity(Record.EntityRecord);
 				}
 
 				SneakyWorldUtil.SetTileEntity(worldObj, Record.X, Record.Y, Record.Z, Record.Entity);
@@ -177,21 +190,21 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 				}
 			}
 		} else {
-			for (java.util.Map.Entry<net.minecraft.world.chunk.Chunk, java.util.HashMap<Object, net.minecraft.tileentity.TileEntity>> MultipartTilesToPropagate : MultipartTileSetsToPropagate
+			for (Map.Entry<Chunk, HashMap<Object, TileEntity>> MultipartTilesToPropagate : MultipartTileSetsToPropagate
 					.entrySet()) {
-				net.minecraft.world.chunk.Chunk Chunk = MultipartTilesToPropagate.getKey();
+				Chunk Chunk = MultipartTilesToPropagate.getKey();
 
-				java.util.Map SavedTileEntityMap = Chunk.chunkTileEntityMap;
+				Map SavedTileEntityMap = Chunk.chunkTileEntityMap;
 
 				Chunk.chunkTileEntityMap = MultipartTilesToPropagate.getValue();
 
 				try {
-					for (net.minecraft.entity.player.EntityPlayerMP Player : ((java.util.List<net.minecraft.entity.player.EntityPlayerMP>)
+					for (EntityPlayerMP Player : ((List<EntityPlayerMP>)
 
-							Reflection.get(Class.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
-									Reflection.runMethod(WorldServer.class, (((WorldServer) worldObj).getPlayerManager()),
-											"getOrCreateChunkWatcher", Chunk.xPosition, Chunk.zPosition, false),
-									"playersWatchingChunk")))
+					Reflection.get(Class.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
+							Reflection.runMethod(WorldServer.class, (((WorldServer) worldObj).getPlayerManager()),
+									"getOrCreateChunkWatcher", Chunk.xPosition, Chunk.zPosition, false),
+							"playersWatchingChunk")))
 
 					{
 						if (!Player.loadedChunks.contains(Chunk.getChunkCoordIntPair())) {
@@ -229,11 +242,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 				ModInteraction.BC_PipeTransportItems_delay.set(Transport, -1);
 
-				java.util.List DelayedEntities = (java.util.List) ModInteraction.BC_PipeTransportItems_delayedEntitiesToLoad
-						.get(Transport);
+				List DelayedEntities = (List) ModInteraction.BC_PipeTransportItems_delayedEntitiesToLoad.get(Transport);
 
-				java.util.Map EntityMap = (java.util.Map) ModInteraction.BC_PipeTransportItems_travelingEntities
-						.get(Transport);
+				Map EntityMap = (Map) ModInteraction.BC_PipeTransportItems_travelingEntities.get(Transport);
 
 				for (Object Entity : DelayedEntities) {
 					Object Item = ModInteraction.BC_EntityData_item.get(Entity);
@@ -301,7 +312,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	@Override
-	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		TagCompound.setInteger("Motion", MotionDirection.ordinal());
 
 		TagCompound.setInteger("RenderCacheKeyX", RenderCacheKey.X);
@@ -312,7 +323,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	@Override
-	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {
 		MotionDirection = Directions.values()[TagCompound.getInteger("Motion")];
 
 		RenderCacheKey = new BlockPosition(TagCompound.getInteger("RenderCacheKeyX"),
@@ -399,7 +410,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		int i = 0;
 
 		for (CapturedEntity Entity : CapturedEntities) {
-			if (i++ == Configuration.Cosmetic.maxTags) { // not >= to allow no
+			if (i++ == RiMConfiguration.Cosmetic.maxTags) { // not >= to allow
+															// no
 				// limit (eg.
 				// singleplayer
 				// only)
@@ -407,7 +419,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 			}
 			net.minecraft.nbt.NBTTagCompound CapturedEntityRecord = new net.minecraft.nbt.NBTTagCompound();
 
-			CapturedEntityRecord.setInteger("Id", Entity.Entity.getEntityId());
+			CapturedEntityRecord.setInteger("Id", Entity.entity.getEntityId());
 
 			CapturedEntityRecord.setDouble("InitialX", Entity.InitialX);
 			CapturedEntityRecord.setDouble("InitialY", Entity.InitialY);
@@ -444,62 +456,62 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	public class CapturedEntity {
-		public net.minecraft.entity.Entity	Entity;
+		public Entity	entity;
 
-		public double						InitialX;
-		public double						InitialY;
-		public double						InitialZ;
+		public double	InitialX;
+		public double	InitialY;
+		public double	InitialZ;
 
-		boolean								WasOnGround;
+		boolean			WasOnGround;
 
-		boolean								WasAirBorne;
+		boolean			WasAirBorne;
 
-		public CapturedEntity(net.minecraft.entity.Entity Entity) {
-			this(Entity, Entity.posX, Entity.posY, Entity.posZ);
+		public CapturedEntity(Entity entity) {
+			this(entity, entity.posX, entity.posY, entity.posZ);
 		}
 
-		public CapturedEntity(net.minecraft.entity.Entity Entity, double InitialX, double InitialY, double InitialZ) {
-			this.Entity = Entity;
+		public CapturedEntity(Entity entity, double InitialX, double InitialY, double InitialZ) {
+			this.entity = entity;
 
 			this.InitialX = InitialX;
 			this.InitialY = InitialY;
 			this.InitialZ = InitialZ;
 
-			WasOnGround = Entity.onGround;
+			WasOnGround = entity.onGround;
 
-			WasAirBorne = Entity.isAirBorne;
+			WasAirBorne = entity.isAirBorne;
 
 			Update();
 		}
 
 		public void SetPosition(double OffsetX, double OffsetY, double OffsetZ) {
-			Entity.setPosition(InitialX + OffsetX, InitialY + OffsetY + Entity.yOffset, InitialZ + OffsetZ);
+			entity.setPosition(InitialX + OffsetX, InitialY + OffsetY + entity.yOffset, InitialZ + OffsetZ);
 		}
 
 		public void Update() {
-			Entity.fallDistance = 0;
-			if (TicksExisted >= Configuration.CarriageMotion.MotionDuration) {
-				Entity.motionX = 0;
-				Entity.motionY = 0;
-				Entity.motionZ = 0;
+			entity.fallDistance = 0;
+			if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+				entity.motionX = 0;
+				entity.motionY = 0;
+				entity.motionZ = 0;
 				SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY, MotionDirection.DeltaZ);
-				Entity.prevPosX = Entity.posX;
-				Entity.prevPosY = Entity.posY;
-				Entity.prevPosZ = Entity.posZ;
-				Entity.onGround = WasOnGround;
-				Entity.isAirBorne = WasAirBorne;
+				entity.prevPosX = entity.posX;
+				entity.prevPosY = entity.posY;
+				entity.prevPosZ = entity.posZ;
+				entity.onGround = WasOnGround;
+				entity.isAirBorne = WasAirBorne;
 				return;
 			}
-			Entity.onGround = false;
-			Entity.isAirBorne = true;
-			Entity.motionX = Velocity * MotionDirection.DeltaX;
-			Entity.motionY = Velocity * MotionDirection.DeltaY;
-			Entity.motionZ = Velocity * MotionDirection.DeltaZ;
-			SetPosition(Entity.motionX * TicksExisted, Entity.motionY * TicksExisted, Entity.motionZ * TicksExisted);
-			doSpecialMotion(Entity);
-			Entity.prevPosX = Entity.posX - Entity.motionX;
-			Entity.prevPosY = Entity.posY - Entity.motionY;
-			Entity.prevPosZ = Entity.posZ - Entity.motionZ;
+			entity.onGround = false;
+			entity.isAirBorne = true;
+			entity.motionX = Velocity * MotionDirection.DeltaX;
+			entity.motionY = Velocity * MotionDirection.DeltaY;
+			entity.motionZ = Velocity * MotionDirection.DeltaZ;
+			SetPosition(entity.motionX * TicksExisted, entity.motionY * TicksExisted, entity.motionZ * TicksExisted);
+			doSpecialMotion(entity);
+			entity.prevPosX = entity.posX - entity.motionX;
+			entity.prevPosY = entity.posY - entity.motionY;
+			entity.prevPosZ = entity.posZ - entity.motionZ;
 		}
 	}
 
@@ -507,35 +519,34 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 	}
 
-	public java.util.ArrayList<CapturedEntity>	CapturedEntities	= new java.util.ArrayList<CapturedEntity>();
+	public java.util.ArrayList<CapturedEntity>	CapturedEntities	= new ArrayList<CapturedEntity>();
 
-	public boolean ShouldCaptureEntity(net.minecraft.entity.Entity Entity) {
-		if (Entity instanceof net.minecraft.entity.player.EntityPlayer) { return (Configuration.CarriageMotion.CapturePlayerEntities); }
+	public boolean ShouldCaptureEntity(Entity Entity) {
+		if (Entity instanceof EntityPlayer) { return (RiMConfiguration.CarriageMotion.CapturePlayerEntities); }
 
-		if (Entity instanceof net.minecraft.entity.EntityLiving) { return (Configuration.CarriageMotion.CaptureOtherLivingEntities); }
+		if (Entity instanceof EntityLiving) { return (RiMConfiguration.CarriageMotion.CaptureOtherLivingEntities); }
 
-		if (Entity instanceof net.minecraft.entity.item.EntityItem) { return (Configuration.CarriageMotion.CaptureItemEntities); }
+		if (Entity instanceof EntityItem) { return (RiMConfiguration.CarriageMotion.CaptureItemEntities); }
 
-		return (Configuration.CarriageMotion.CaptureOtherEntities);
+		return (RiMConfiguration.CarriageMotion.CaptureOtherEntities);
 	}
 
-	public void ProcessCapturedEntity(net.minecraft.entity.Entity Entity) {
+	public void ProcessCapturedEntity(Entity Entity) {
 		CapturedEntities.add(new CapturedEntity(Entity));
 	}
 
 	public void CaptureEntities(int MinX, int MinY, int MinZ, int MaxX, int MaxY, int MaxZ) {
 
-		net.minecraft.util.AxisAlignedBB EntityCaptureBox = net.minecraft.util.AxisAlignedBB.getBoundingBox(MinX - 5,
-				MinY - 5, MinZ - 5, MaxX + 5, MaxY + 5, MaxZ + 5);
+		AxisAlignedBB EntityCaptureBox = AxisAlignedBB.getBoundingBox(MinX - 5, MinY - 5, MinZ - 5, MaxX + 5, MaxY + 5,
+				MaxZ + 5);
 
-		java.util.List EntitiesFound = worldObj.getEntitiesWithinAABB(net.minecraft.entity.Entity.class,
-				EntityCaptureBox);
+		List EntitiesFound = worldObj.getEntitiesWithinAABB(Entity.class, EntityCaptureBox);
 
 		for (Object EntityObject : EntitiesFound) {
-			net.minecraft.entity.Entity Entity = (net.minecraft.entity.Entity) EntityObject;
+			Entity entity = (Entity) EntityObject;
 
-			BlockRecord PositionCheck = new BlockRecord((int) Math.floor(Entity.posX), (int) Math.floor(Entity.posY),
-					(int) Math.floor(Entity.posZ));
+			BlockRecord PositionCheck = new BlockRecord((int) Math.floor(entity.posX), (int) Math.floor(entity.posY),
+					(int) Math.floor(entity.posZ));
 
 			if (!Body.contains(PositionCheck)) {
 				PositionCheck.Y--;
@@ -544,18 +555,18 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 					PositionCheck.Y--;
 
 					if (!Body.contains(PositionCheck)) {
-						Entity = null;
+						entity = null;
 					}
 				}
 			}
 
-			if (Entity == null) {
+			if (entity == null) {
 				continue;
 			}
 
-			if (ShouldCaptureEntity(Entity)) {
+			if (ShouldCaptureEntity(entity)) {
 				try {
-					ProcessCapturedEntity(Entity);
+					ProcessCapturedEntity(entity);
 				} catch (Throwable Throwable) {
 					Throwable.printStackTrace();
 				}
@@ -584,7 +595,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	@Override
-	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
+	public AxisAlignedBB getRenderBoundingBox() {
 		return (INFINITE_EXTENT_AABB);
 	}
 

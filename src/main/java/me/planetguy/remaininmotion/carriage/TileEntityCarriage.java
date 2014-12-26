@@ -7,7 +7,9 @@ import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class TileEntityCarriage extends TileEntityRiM implements Moveable, ICloseable {
 	@Override
@@ -39,7 +41,7 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 	public int	Tier;
 
 	@Override
-	public void Setup(net.minecraft.entity.player.EntityPlayer Player, ItemStack Item) {
+	public void Setup(EntityPlayer Player, ItemStack Item) {
 		DecorationId = ItemCarriage.GetDecorationId(Item);
 
 		DecorationMeta = ItemCarriage.GetDecorationMeta(Item);
@@ -53,7 +55,7 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 	}
 
 	@Override
-	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {
 		for (int Index = 0; Index < SideClosed.length; Index++) {
 			SideClosed[Index] = TagCompound.getBoolean("SideClosed" + Index);
 		}
@@ -66,7 +68,7 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 	}
 
 	@Override
-	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		for (int Index = 0; Index < SideClosed.length; Index++) {
 			TagCompound.setBoolean("SideClosed" + Index, SideClosed[Index]);
 		}

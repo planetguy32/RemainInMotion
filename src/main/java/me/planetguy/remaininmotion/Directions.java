@@ -6,7 +6,7 @@ public enum Directions {
 	NegY(ForgeDirection.DOWN), PosY(ForgeDirection.UP), NegZ(ForgeDirection.NORTH), PosZ(ForgeDirection.SOUTH), NegX(
 			ForgeDirection.WEST), PosX(ForgeDirection.EAST),
 
-			Null(null);
+	Null(null);
 
 	public int	DeltaX;
 	public int	DeltaY;

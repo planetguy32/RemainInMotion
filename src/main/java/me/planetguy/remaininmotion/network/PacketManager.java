@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion.network;
 
 import java.util.List;
 
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class PacketManager {
 
-	public static final SimpleNetworkWrapper	wrapper	= NetworkRegistry.INSTANCE.newSimpleChannel(Mod.Channel);
+	public static final SimpleNetworkWrapper	wrapper	= NetworkRegistry.INSTANCE.newSimpleChannel(ModRiM.Channel);
 
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new PacketManager());

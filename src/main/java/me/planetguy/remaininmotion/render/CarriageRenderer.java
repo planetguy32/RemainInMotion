@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.render;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
+import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityTemplateCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -26,7 +27,7 @@ public class CarriageRenderer extends BlockRenderer {
 
 			SetSideSpan(0, 0, 1, 1);
 
-			SetTextureSpan(me.planetguy.remaininmotion.carriage.BlockCarriage.PlaceholderIcon);
+			SetTextureSpan(BlockCarriage.PlaceholderIcon);
 
 			for (BlockRecord Record : Carriage.Pattern) {
 				RenderGhost(Record.X, Record.Y, Record.Z);

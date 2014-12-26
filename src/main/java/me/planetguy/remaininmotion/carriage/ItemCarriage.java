@@ -1,12 +1,13 @@
 package me.planetguy.remaininmotion.carriage;
 
 import java.util.Arrays;
+import java.util.List;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
-import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -78,10 +79,11 @@ public class ItemCarriage extends ItemBlockRiM {
 	 */
 
 	@Override
-	public void AddTooltip(ItemStack Item, java.util.List TooltipLines) {
-		if (Configuration.Cosmetic.ShowHelpInTooltips) {
+	public void AddTooltip(ItemStack Item, List TooltipLines) {
+		if (RiMConfiguration.Cosmetic.ShowHelpInTooltips) {
 			try {
-				for (String s : Lang.translate(Mod.Handle + ".carriage.tooltip." + GetBlockType(Item)).split("##/##")) {
+				for (String s : Lang.translate(ModRiM.Handle + ".carriage.tooltip." + GetBlockType(Item))
+						.split("##/##")) {
 					TooltipLines.add(s);
 				}
 
@@ -136,18 +138,18 @@ public class ItemCarriage extends ItemBlockRiM {
 		if (DecorationId == 0) { return; }
 
 		if (Item.stackTagCompound == null) {
-			TooltipLines.add(Arrays.asList(Lang.translate(Mod.Handle + ".pleaseUpdateCarriage").split("##/##")));
+			TooltipLines.add(Arrays.asList(Lang.translate(ModRiM.Handle + ".pleaseUpdateCarriage").split("##/##")));
 		}
 
 		ItemStack Decoration = Stack.New(Block.getBlockById(DecorationId), GetDecorationMeta(Item));
 
 		try {
-			TooltipLines.add(Lang.translate(Mod.Handle + ".decoration")
+			TooltipLines.add(Lang.translate(ModRiM.Handle + ".decoration")
 					+ Decoration.getItem().getItemStackDisplayName(Decoration));
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 
-			TooltipLines.add(Lang.translate(Mod.Handle + ".decoration") + "!!ERR!!");
+			TooltipLines.add(Lang.translate(ModRiM.Handle + ".decoration") + "!!ERR!!");
 		}
 	}
 }

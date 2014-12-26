@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.base.ItemRiM;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.ModInteraction.Wrenches;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
@@ -50,7 +50,7 @@ public class ToolItemSet extends ItemRiM {
 			switch (Types.values()[Item.getItemDamage()]) {
 				case Screwdriver:
 
-					return (Lang.translate(Mod.Handle + ".screwdriver"));
+					return (Lang.translate(ModRiM.Handle + ".screwdriver"));
 			}
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();

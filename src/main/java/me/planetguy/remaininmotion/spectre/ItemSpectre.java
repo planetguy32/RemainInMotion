@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.spectre;
 
+import java.util.List;
+
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +14,7 @@ public class ItemSpectre extends ItemBlockRiM {
 	}
 
 	@Override
-	public void AddTooltip(ItemStack Item, java.util.List TooltipLines) {
+	public void AddTooltip(ItemStack Item, List TooltipLines) {
 		TooltipLines.add("NOT VALID FOR DIRECT USAGE");
 	}
 

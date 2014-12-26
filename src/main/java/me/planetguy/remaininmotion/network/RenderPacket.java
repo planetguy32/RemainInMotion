@@ -4,33 +4,35 @@ import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageRotator;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 
 public abstract class RenderPacket {
 	public static void Dispatch(CarriagePackage Package) {
 
 		// Debug.dbg("Dispatching render packet");
-		net.minecraft.nbt.NBTTagCompound Packet = new net.minecraft.nbt.NBTTagCompound();
+		NBTTagCompound Packet = new NBTTagCompound();
 
 		Packet.setInteger("DriveX", Package.DriveRecord.X);
 		Packet.setInteger("DriveY", Package.DriveRecord.Y);
 		Packet.setInteger("DriveZ", Package.DriveRecord.Z);
 
-		Mod.plHelper.playSound(Package.World, Package.DriveRecord.X, Package.DriveRecord.Y, Package.DriveRecord.Z,
+		ModRiM.plHelper.playSound(Package.World, Package.DriveRecord.X, Package.DriveRecord.Y, Package.DriveRecord.Z,
 				"hum", .8f, 1f);
 
 		Packet.setBoolean("Anchored", Package.DriveIsAnchored);
 
 		Packet.setInteger("Dimension", Package.RenderCacheKey.Dimension);
 
-		net.minecraft.nbt.NBTTagList Body = new net.minecraft.nbt.NBTTagList();
+		NBTTagList Body = new NBTTagList();
 
 		for (BlockRecord Record : Package.Body) {
-			net.minecraft.nbt.NBTTagCompound Tag = new net.minecraft.nbt.NBTTagCompound();
+			NBTTagCompound Tag = new NBTTagCompound();
 
 			Tag.setInteger("X", Record.X);
 			Tag.setInteger("Y", Record.Y);
@@ -57,11 +59,11 @@ public abstract class RenderPacket {
 		} else {
 			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X + Package.MotionDirection.DeltaX,
 					Package.AnchorRecord.Y + Package.MotionDirection.DeltaY, Package.AnchorRecord.Z
-					+ Package.MotionDirection.DeltaZ, Package.World, PacketTypes.Render, Packet);
+							+ Package.MotionDirection.DeltaZ, Package.World, PacketTypes.Render, Packet);
 		}
 	}
 
-	public static void Handle(net.minecraft.nbt.NBTTagCompound Packet, net.minecraft.world.World World) {
+	public static void Handle(NBTTagCompound Packet, World World) {
 		int DriveX = Packet.getInteger("DriveX");
 		int DriveY = Packet.getInteger("DriveY");
 		int DriveZ = Packet.getInteger("DriveZ");
@@ -70,7 +72,7 @@ public abstract class RenderPacket {
 
 		int Dimension = Packet.getInteger("Dimension");
 
-		net.minecraft.nbt.NBTTagList Body = (NBTTagList) Packet.getTag("Body");
+		NBTTagList Body = (NBTTagList) Packet.getTag("Body");
 
 		// Debug.dbg("<Body= ("+Body.tagCount()+")");
 
@@ -79,7 +81,7 @@ public abstract class RenderPacket {
 		BlockRecordSet TileEntities = new BlockRecordSet();
 
 		for (int Index = 0; Index < Body.tagCount(); Index++) {
-			net.minecraft.nbt.NBTTagCompound Tag = Body.getCompoundTagAt(Index);
+			NBTTagCompound Tag = Body.getCompoundTagAt(Index);
 
 			BlockRecord Record = new BlockRecord(Tag.getInteger("X"), Tag.getInteger("Y"), Tag.getInteger("Z"));
 

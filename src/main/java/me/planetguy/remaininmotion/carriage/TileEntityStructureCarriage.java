@@ -1,13 +1,16 @@
 package me.planetguy.remaininmotion.carriage;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
 
+import net.minecraft.nbt.NBTTagCompound;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
 
 public class TileEntityStructureCarriage extends TileEntityCarriage {
 	public enum EdgeTypes {
@@ -27,10 +30,10 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 	public enum CornerTypes {
 		NegX_NegY_NegZ(Directions.PosX, Directions.PosY, Directions.PosZ), PosX_NegY_NegZ(Directions.NegX,
 				Directions.PosY, Directions.PosZ), NegX_PosY_NegZ(Directions.PosX, Directions.NegY, Directions.PosZ), PosX_PosY_NegZ(
-						Directions.NegX, Directions.NegY, Directions.PosZ), NegX_NegY_PosZ(Directions.PosX, Directions.PosY,
-								Directions.NegZ), PosX_NegY_PosZ(Directions.NegX, Directions.PosY, Directions.NegZ), NegX_PosY_PosZ(
-										Directions.PosX, Directions.NegY, Directions.NegZ), PosX_PosY_PosZ(Directions.NegX, Directions.NegY,
-												Directions.NegZ);
+				Directions.NegX, Directions.NegY, Directions.PosZ), NegX_NegY_PosZ(Directions.PosX, Directions.PosY,
+				Directions.NegZ), PosX_NegY_PosZ(Directions.NegX, Directions.PosY, Directions.NegZ), NegX_PosY_PosZ(
+				Directions.PosX, Directions.NegY, Directions.NegZ), PosX_PosY_PosZ(Directions.NegX, Directions.NegY,
+				Directions.NegZ);
 
 		public Directions	ToNextAlongX;
 		public Directions	ToNextAlongY;
@@ -78,7 +81,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 
 		CornerType = null;
 
-		java.util.ArrayList<Directions> OpenDirections = new java.util.ArrayList<Directions>();
+		java.util.ArrayList<Directions> OpenDirections = new ArrayList<Directions>();
 
 		for (Directions Direction : Directions.values()) {
 			if (!SideClosed[Direction.ordinal()]) {
@@ -86,7 +89,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 			}
 		}
 
-		java.util.Collections.sort(OpenDirections);
+		Collections.sort(OpenDirections);
 
 		if (OpenDirections.size() == 2) {
 			Directions Neg = OpenDirections.get(0);
@@ -132,7 +135,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 	}
 
 	@Override
-	public void ReadServerRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadServerRecord(NBTTagCompound TagCompound) {
 		CheckSides();
 	}
 
@@ -239,7 +242,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 			}
 		}
 
-		throw (new CarriageMotionException(Lang.translate(Mod.Handle + ".badCuboid")));
+		throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".badCuboid")));
 	}
 
 	public TileEntityStructureCarriage AssertCoordsMatch(TileEntityStructureCarriage A, TileEntityStructureCarriage B,
@@ -255,7 +258,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 			return;
 		}
 
-		if (CornerType == null) { throw (new CarriageMotionException(Lang.translate(Mod.Handle + ".notEdgeAnchor"))); }
+		if (CornerType == null) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".notEdgeAnchor"))); }
 
 		TileEntityStructureCarriage NextAlongX = FollowEdgeToCorner(EdgeTypes.X, CornerType.NextAlongAxisX(), this,
 				CornerType.ToNextAlongX);

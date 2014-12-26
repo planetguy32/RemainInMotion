@@ -1,20 +1,22 @@
 package me.planetguy.remaininmotion.base;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 
-public abstract class TileEntityRiM extends net.minecraft.tileentity.TileEntity {
-	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {}
+public abstract class TileEntityRiM extends TileEntity {
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {}
 
-	public void WriteServerRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {}
+	public void WriteServerRecord(NBTTagCompound TagCompound) {}
 
-	public void WriteClientRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {}
+	public void WriteClientRecord(NBTTagCompound TagCompound) {}
 
 	@Override
-	public void writeToNBT(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void writeToNBT(NBTTagCompound TagCompound) {
 		super.writeToNBT(TagCompound);
 
 		WriteCommonRecord(TagCompound);
@@ -33,14 +35,14 @@ public abstract class TileEntityRiM extends net.minecraft.tileentity.TileEntity 
 		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
 	}
 
-	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {}
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {}
 
-	public void ReadServerRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {}
+	public void ReadServerRecord(NBTTagCompound TagCompound) {}
 
-	public void ReadClientRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {}
+	public void ReadClientRecord(NBTTagCompound TagCompound) {}
 
 	@Override
-	public void readFromNBT(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void readFromNBT(NBTTagCompound TagCompound) {
 		super.readFromNBT(TagCompound);
 
 		ReadCommonRecord(TagCompound);
@@ -93,7 +95,7 @@ public abstract class TileEntityRiM extends net.minecraft.tileentity.TileEntity 
 		super.invalidate();
 	}
 
-	public void Setup(net.minecraft.entity.player.EntityPlayer Player, ItemStack Item) {}
+	public void Setup(EntityPlayer Player, ItemStack Item) {}
 
 	public void EmitDrops(BlockRiM Block, int Meta) {}
 

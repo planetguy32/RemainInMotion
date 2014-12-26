@@ -11,7 +11,7 @@ import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
@@ -23,6 +23,8 @@ import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -47,7 +49,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	public EntityPlayer	lastUsingPlayer;
 
 	@Override
-	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		TagCompound.setBoolean("Continuous", Continuous);
 
 		for (Directions Direction : Directions.values()) {
@@ -62,14 +64,14 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	}
 
 	@Override
-	public void WriteServerRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteServerRecord(NBTTagCompound TagCompound) {
 		TagCompound.setBoolean("Signalled", Signalled);
 
 		TagCompound.setInteger("CooldownRemaining", CooldownRemaining);
 	}
 
 	@Override
-	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {
 		Continuous = TagCompound.getBoolean("Continuous");
 
 		for (Directions Direction : Directions.values()) {
@@ -85,7 +87,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	}
 
 	@Override
-	public void ReadServerRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadServerRecord(NBTTagCompound TagCompound) {
 		Signalled = TagCompound.getBoolean("Signalled");
 
 		CooldownRemaining = TagCompound.getInteger("CooldownRemaining");
@@ -97,7 +99,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	}
 
 	@Override
-	public void Setup(net.minecraft.entity.player.EntityPlayer Player, ItemStack Item) {
+	public void Setup(EntityPlayer Player, ItemStack Item) {
 		lastUsingPlayer = Player;
 		Tier = ItemCarriageDrive.GetTier(Item);
 	}
@@ -114,7 +116,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	public void ToggleActivity() {
 		if (Active && Continuous) {
-			CooldownRemaining = Configuration.CarriageDrive.ContinuousCooldown;
+			CooldownRemaining = RiMConfiguration.CarriageDrive.ContinuousCooldown;
 		}
 
 		Active = !Active;
@@ -238,7 +240,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 						+ ObstructionException.Z + ")";
 			}
 
-			if (Configuration.Debug.LogMotionExceptions) {
+			if (RiMConfiguration.Debug.LogMotionExceptions) {
 				Debug.dbg(Message);
 			}
 
@@ -257,10 +259,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 		Moveable mv = CarriageMatchers.getMover(
 				worldObj.getBlock(xCoord + CarriageDirection.DeltaX, yCoord + CarriageDirection.DeltaY, zCoord
 						+ CarriageDirection.DeltaZ),
-						worldObj.getBlockMetadata(xCoord + CarriageDirection.DeltaX, yCoord + CarriageDirection.DeltaY, zCoord
-								+ CarriageDirection.DeltaZ),
-								worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord + CarriageDirection.DeltaY, zCoord
-										+ CarriageDirection.DeltaZ));
+				worldObj.getBlockMetadata(xCoord + CarriageDirection.DeltaX, yCoord + CarriageDirection.DeltaY, zCoord
+						+ CarriageDirection.DeltaZ),
+				worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord + CarriageDirection.DeltaY, zCoord
+						+ CarriageDirection.DeltaZ));
 
 		CarriagePackage _package = GeneratePackage(
 				worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord + CarriageDirection.DeltaY, zCoord
@@ -271,7 +273,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException {
 
-		if (Configuration.HardmodeActive) {
+		if (RiMConfiguration.HardmodeActive) {
 			int Type = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			{
@@ -285,13 +287,13 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 				if (_package.getMass() > MaxBurden) { throw (new CarriageMotionException(
 						"(HARDMODE) carriage too massive (by roughly " + ((int) (_package.getMass() - MaxBurden))
-						+ " units) for drive to handle")); }
+								+ " units) for drive to handle")); }
 			}
 
 			double EnergyRequired = _package.getMass() * BlockCarriageDrive.Types.values()[Type].EnergyConsumption
 					* BlockCarriageDrive.Tiers.values()[Tier].EnergyConsumptionFactor;
 
-			int powerConsumed = (int) Math.ceil(EnergyRequired * Configuration.PowerConsumptionFactor);
+			int powerConsumed = (int) Math.ceil(EnergyRequired * RiMConfiguration.PowerConsumptionFactor);
 
 			// System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
 
@@ -347,22 +349,22 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 		int CarriageY = Package.AnchorRecord.Y + Package.MotionDirection.DeltaY;
 		int CarriageZ = Package.AnchorRecord.Z + Package.MotionDirection.DeltaZ;
 
-		WorldUtil
-		.SetBlock(worldObj, CarriageX, CarriageY, CarriageZ, RIMBlocks.Spectre, BlockSpectre.Types.Motive.ordinal());
+		WorldUtil.SetBlock(worldObj, CarriageX, CarriageY, CarriageZ, RIMBlocks.Spectre,
+				BlockSpectre.Types.Motive.ordinal());
 
 		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, new TileEntityMotiveSpectre());
 
 		((TileEntityMotiveSpectre) worldObj.getTileEntity(CarriageX, CarriageY, CarriageZ)).Absorb(Package);
 	}
 
-	public abstract CarriagePackage GeneratePackage(net.minecraft.tileentity.TileEntity carriage,
-			Directions CarriageDirection, Directions MotionDirection) throws CarriageMotionException;
+	public abstract CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection,
+			Directions MotionDirection) throws CarriageMotionException;
 
 	public abstract boolean Anchored();
 
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		int toRecieve = Math.min(Configuration.powerCapacity - energyStored, maxReceive);
+		int toRecieve = Math.min(RiMConfiguration.powerCapacity - energyStored, maxReceive);
 		if (!simulate) {
 			energyStored += toRecieve;
 		}
@@ -376,7 +378,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		return Configuration.HardmodeActive;
+		return RiMConfiguration.HardmodeActive;
 	}
 
 	@Override
@@ -386,7 +388,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		return Configuration.powerCapacity;
+		return RiMConfiguration.powerCapacity;
 	}
 
 	public IIcon getIcon(int Side, int meta) {

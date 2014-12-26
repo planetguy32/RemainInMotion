@@ -1,13 +1,14 @@
 package me.planetguy.remaininmotion;
 
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CreativeTab extends net.minecraft.creativetab.CreativeTabs {
+public class CreativeTab extends CreativeTabs {
 	public CreativeTab() {
-		super(Mod.Handle);
+		super(ModRiM.Handle);
 	}
 
 	public static CreativeTab	Instance;
@@ -18,7 +19,7 @@ public class CreativeTab extends net.minecraft.creativetab.CreativeTabs {
 
 	@Override
 	public String getTranslatedTabLabel() {
-		return (Mod.Title);
+		return (ModRiM.Title);
 	}
 
 	public Item	TabIconItemIndex;

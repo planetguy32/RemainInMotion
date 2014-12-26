@@ -26,7 +26,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.core.Mod.Handle + "_HollowCarriages", dependencies = "after:JAKJ_RedstoneInMotion;after:ForgeMultipart")
+@Mod(modid = me.planetguy.remaininmotion.core.ModRiM.Handle + "_HollowCarriages", dependencies = "after:JAKJ_RedstoneInMotion;after:ForgeMultipart")
 public class ModHollowCarriages {
 
 	boolean				alive;
@@ -35,7 +35,7 @@ public class ModHollowCarriages {
 	Block				baseBlock;
 
 	@Optional.Method(modid = "ForgeMultipart")
-	@Mod.EventHandler
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		alive = Loader.isModLoaded("ForgeMultipart");
 		Debug.dbg("FMP carriage: " + (alive ? "loading" : "not loading"));
@@ -68,12 +68,12 @@ public class ModHollowCarriages {
 			@Override
 			public void registerBlockIcons(IIconRegister ir) {
 				icons = new IIcon[] {
-						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":" + Registry.TexturePrefix
+						ir.registerIcon(me.planetguy.remaininmotion.core.ModRiM.Handle + ":" + Registry.TexturePrefix
 								+ "FMPCarriage_Open"),
-								ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":" + Registry.TexturePrefix
-										+ "FMPCarriage_Closed"),
-										ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":" + Registry.TexturePrefix
-												+ "FMPCarriage_Corners"), };
+						ir.registerIcon(me.planetguy.remaininmotion.core.ModRiM.Handle + ":" + Registry.TexturePrefix
+								+ "FMPCarriage_Closed"),
+						ir.registerIcon(me.planetguy.remaininmotion.core.ModRiM.Handle + ":" + Registry.TexturePrefix
+								+ "FMPCarriage_Corners"), };
 			}
 
 			@Override

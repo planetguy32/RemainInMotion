@@ -10,12 +10,14 @@ import me.planetguy.remaininmotion.render.TeleportativeSpectreRenderer;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientSetup extends ClientSetupProxy {
-	public void RegisterTileEntityRenderer(RIMTileEntityRenderer Renderer, Class<? extends TileEntityRiM>... EntityClasses) {
+	public void RegisterTileEntityRenderer(RIMTileEntityRenderer Renderer,
+			Class<? extends TileEntityRiM>... EntityClasses) {
 		for (Class<? extends TileEntityRiM> EntityClass : EntityClasses) {
-			cpw.mods.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(EntityClass, Renderer);
+			ClientRegistry.bindTileEntitySpecialRenderer(EntityClass, Renderer);
 		}
 	}
 
@@ -23,7 +25,7 @@ public class ClientSetup extends ClientSetupProxy {
 	public void Execute() {
 		if (!FMLCommonHandler.instance().getSide().isClient()) { return; }
 
-		if (!Configuration.Cosmetic.renderFallback) {
+		if (!RiMConfiguration.Cosmetic.renderFallback) {
 			RegisterTileEntityRenderer(new MotiveSpectreRenderer(), TileEntityMotiveSpectre.class);
 
 			RegisterTileEntityRenderer(new TeleportativeSpectreRenderer(), TileEntityTeleportativeSpectre.class);

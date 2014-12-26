@@ -1,9 +1,11 @@
 package me.planetguy.remaininmotion.render;
 
-public abstract class RIMTileEntityRenderer extends net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer {
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+
+public abstract class RIMTileEntityRenderer extends TileEntitySpecialRenderer {
 	@Override
-	public void renderTileEntityAt(net.minecraft.tileentity.TileEntity TileEntity, double X, double Y, double Z,
-			float PartialTick) {
+	public void renderTileEntityAt(TileEntity TileEntity, double X, double Y, double Z, float PartialTick) {
 		Render.PushMatrix();
 
 		Render.Translate(X, Y, Z);
@@ -13,5 +15,5 @@ public abstract class RIMTileEntityRenderer extends net.minecraft.client.rendere
 		Render.PopMatrix();
 	}
 
-	public abstract void Render(net.minecraft.tileentity.TileEntity TileEntity, float PartialTick);
+	public abstract void Render(TileEntity TileEntity, float PartialTick);
 }

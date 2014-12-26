@@ -220,7 +220,7 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;
 import net.minecraft.tileentity.TileEntity;
@@ -235,7 +235,7 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 		@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers") })
 public class TileEntityCarriageController extends TileEntityCarriageDrive implements IPeripheral, SimpleComponent,
-ManagedPeripheral {
+		ManagedPeripheral {
 
 	public boolean					lastMoveWorked;
 
@@ -410,10 +410,10 @@ ManagedPeripheral {
 	}
 
 	public void Move() throws CarriageMotionException {
-		if (Active || CooldownRemaining > 0) { throw (new CarriageMotionException(
-				Lang.translate(Mod.Handle + ".active"))); }
+		if (Active || CooldownRemaining > 0) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle
+				+ ".active"))); }
 
-		if (CarriageDirection == null) { throw (new CarriageMotionException(Lang.translate(Mod.Handle
+		if (CarriageDirection == null) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle
 				+ ".noValidCarriage"))); }
 
 		CarriagePackage Package = PreparePackage(MotionDirection);
@@ -429,11 +429,11 @@ ManagedPeripheral {
 		CarriagePackage Package;
 
 		if (Anchored) {
-			if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(Lang.translate(Mod.Handle
+			if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle
 					+ ".noPushWhenAnchored"))); }
 
 			if (MotionDirection == CarriageDirection.Opposite()) { throw (new CarriageMotionException(
-					Lang.translate(Mod.Handle + ".noPullWhenAnchored"))); }
+					Lang.translate(ModRiM.Handle + ".noPullWhenAnchored"))); }
 
 			Package = new CarriagePackage(this, carriage, MotionDirection);
 

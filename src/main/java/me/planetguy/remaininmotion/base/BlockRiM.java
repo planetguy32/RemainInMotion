@@ -2,17 +2,22 @@ package me.planetguy.remaininmotion.base;
 
 import java.util.List;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public abstract class BlockRiM extends net.minecraft.block.BlockContainer {
+public abstract class BlockRiM extends BlockContainer {
 	public int	RenderId;
 
 	@Override
@@ -34,7 +39,7 @@ public abstract class BlockRiM extends net.minecraft.block.BlockContainer {
 	}
 
 	@Override
-	public net.minecraft.tileentity.TileEntity createTileEntity(net.minecraft.world.World World, int Meta) {
+	public TileEntity createTileEntity(World World, int Meta) {
 		try {
 			TileEntityRiM te = TileEntityClasses[Meta].newInstance();
 			return te;
@@ -44,24 +49,23 @@ public abstract class BlockRiM extends net.minecraft.block.BlockContainer {
 		}
 	}
 
-	public BlockRiM(net.minecraft.block.Block Template, Class<? extends ItemBlockRiM> BlockItemClass,
+	public BlockRiM(Block Template, Class<? extends ItemBlockRiM> BlockItemClass,
 			Class<? extends TileEntityRiM>... TileEntityClasses) {
 		super(Template.getMaterial());
 
-		setBlockName(Mod.Handle + "_" + getClass().getSimpleName());
+		setBlockName(ModRiM.Handle + "_" + getClass().getSimpleName());
 
 		setHardness(Template.getBlockHardness(null, 0, 0, 0));
 
 		setStepSound(Template.stepSound);
 
-		cpw.mods.fml.common.registry.GameRegistry.registerBlock(this, BlockItemClass, getUnlocalizedName());
+		GameRegistry.registerBlock(this, BlockItemClass, getUnlocalizedName());
 
 		this.TileEntityClasses = TileEntityClasses;
 
 		for (Class<? extends TileEntityRiM> TileEntityClass : TileEntityClasses) {
 			if (TileEntityClass != null) {
-				cpw.mods.fml.common.registry.GameRegistry.registerTileEntity(TileEntityClass, Mod.Handle + "_"
-						+ TileEntityClass.getSimpleName());
+				GameRegistry.registerTileEntity(TileEntityClass, ModRiM.Handle + "_" + TileEntityClass.getSimpleName());
 			}
 		}
 	}
@@ -72,8 +76,8 @@ public abstract class BlockRiM extends net.minecraft.block.BlockContainer {
 		public static String	Hatchet	= "axe";
 	}
 
-	public BlockRiM(net.minecraft.block.Block Template, Class<? extends ItemBlockRiM> BlockItemClass,
-			String HarvestToolType, Class<? extends TileEntityRiM>... TileEntityClasses) {
+	public BlockRiM(Block Template, Class<? extends ItemBlockRiM> BlockItemClass, String HarvestToolType,
+			Class<? extends TileEntityRiM>... TileEntityClasses) {
 		this(Template, BlockItemClass, TileEntityClasses);
 
 		// TODO net . minecraftforge . common . MinecraftForge .
@@ -95,12 +99,11 @@ public abstract class BlockRiM extends net.minecraft.block.BlockContainer {
 	}
 
 	@Override
-	public void onBlockPlacedBy(net.minecraft.world.World World, int X, int Y, int Z,
-			net.minecraft.entity.EntityLivingBase Entity, ItemStack Item) {
+	public void onBlockPlacedBy(World World, int X, int Y, int Z, EntityLivingBase Entity, ItemStack Item) {
 		super.onBlockPlacedBy(World, X, Y, Z, Entity, Item);
 
 		try {
-			((TileEntityRiM) World.getTileEntity(X, Y, Z)).Setup((net.minecraft.entity.player.EntityPlayer) Entity, Item);
+			((TileEntityRiM) World.getTileEntity(X, Y, Z)).Setup((EntityPlayer) Entity, Item);
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 		}
@@ -127,7 +130,7 @@ public abstract class BlockRiM extends net.minecraft.block.BlockContainer {
 	}
 
 	@Override
-	public net.minecraft.tileentity.TileEntity createNewTileEntity(World p_149915_1_, int meta) {
+	public TileEntity createNewTileEntity(World p_149915_1_, int meta) {
 		try {
 			return TileEntityClasses[meta].newInstance();
 		} catch (InstantiationException e) {

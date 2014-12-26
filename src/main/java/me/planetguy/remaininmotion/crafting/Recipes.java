@@ -35,34 +35,34 @@ public abstract class Recipes {
 	public static void RegisterSimpleItemRecipes() {
 		Registry.RegisterShapedDictionaryRecipe(Types.CarriageCrosspiece.Stack(),
 
-				"S S", " S ", "S S",
+		"S S", " S ", "S S",
 
-				'S', "stickWood");
+		'S', "stickWood");
 
 		Registry.RegisterShapedDictionaryRecipe(Types.CarriagePanel.Stack(),
 
-				"SSS", "SCS", "SSS",
+		"SSS", "SCS", "SSS",
 
-				'S', "stickWood", 'C', Types.CarriageCrosspiece.Stack());
+		'S', "stickWood", 'C', Types.CarriageCrosspiece.Stack());
 
 		Registry.RegisterShapelessRecipe(Types.CarriageFramework.Stack(),
 
-				Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(),
+		Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(),
 				Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack());
 	}
 
 	public static void RegisterToolItemRecipes() {
 		Registry.RegisterShapedRecipe(ToolItemSet.Types.Screwdriver.Stack(),
 
-				" I ", " I ", "LSL",
+		" I ", " I ", "LSL",
 
-				'I', Stack.New(Items.iron_ingot), 'S', Stack.New(Blocks.cobblestone), 'L', Stack.New(Items.leather));
+		'I', Stack.New(Items.iron_ingot), 'S', Stack.New(Blocks.cobblestone), 'L', Stack.New(Items.leather));
 	}
 
 	public static void RegisterCarriageRecipe(BlockCarriage.Types CarriageType, Vanilla.DyeTypes DyeType) {
 		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal(), 0), 8),
 
-				Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
+		Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
 				Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
 				Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
 
@@ -71,9 +71,9 @@ public abstract class Recipes {
 		// allow dyeing carriages one at a time - more convenient that way
 		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal(), 0), 8),
 
-				Types.CarriageFramework.Stack(),
+		Types.CarriageFramework.Stack(),
 
-				DyeType.Handle);
+		DyeType.Handle);
 
 	}
 
@@ -101,30 +101,30 @@ public abstract class Recipes {
 	public static void RegisterCarriageDriveRecipes() {
 		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Motor,
 
-				"RFR", "FIF", "RFR",
+		"RFR", "FIF", "RFR",
 
-				'R', Stack.New(Blocks.redstone_block), 'F', Stack.New(Blocks.furnace), 'I', Stack.New(Blocks.iron_block));
+		'R', Stack.New(Blocks.redstone_block), 'F', Stack.New(Blocks.furnace), 'I', Stack.New(Blocks.iron_block));
 
 		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Engine,
 
-				"TTT", "TMT", "TTT",
+		"TTT", "TMT", "TTT",
 
-				'M', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Motor.ordinal(), 0), 'T',
+		'M', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Motor.ordinal(), 0), 'T',
 				Stack.New(Blocks.redstone_torch));
 
 		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Translocator,
 
-				"OOO", "OEO", "PCP",
+		"OOO", "OEO", "PCP",
 
-				'E', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Engine.ordinal(), 0), 'O', Stack.New(Blocks.obsidian),
+		'E', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Engine.ordinal(), 0), 'O', Stack.New(Blocks.obsidian),
 				'P', Stack.New(Items.ender_pearl), 'C', Stack.New(Items.compass));
 
 		if (Core.CarriageControllerEntity != null) {
 			RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Controller,
 
-					"RRR", "RMR", "RRR",
+			"RRR", "RMR", "RRR",
 
-					'R', Stack.New(Items.repeater), 'M', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Motor.ordinal(), 0));
+			'R', Stack.New(Items.repeater), 'M', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Motor.ordinal(), 0));
 		}
 
 		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Adapter, "MF", 'M',

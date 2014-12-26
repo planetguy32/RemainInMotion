@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion;
 
 import me.planetguy.lib.util.Blacklist;
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -17,11 +17,11 @@ public class BlacklistManager {
 
 		blacklistSoft.blacklist(Blocks.air);
 
-		if (Configuration.Carriage.BlacklistBedrock) {
+		if (RiMConfiguration.Carriage.BlacklistBedrock) {
 			blacklistSoft.blacklist(Blocks.bedrock);
 		}
 
-		if (Configuration.Carriage.BlacklistByPiston) {
+		if (RiMConfiguration.Carriage.BlacklistByPiston) {
 			blacklistSoft.blacklist(Blocks.obsidian);
 
 			for (Object objBlock : Block.blockRegistry) {

@@ -6,15 +6,15 @@ import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPlatformCarriage extends TileEntityCarriage {
 
 	public void FailBecauseOverburdened() throws CarriageMotionException {
-		throw (new CarriageMotionException(Lang.translate(Mod.Handle + ".overburdened").replace("##BURDEN##",
-				Configuration.Carriage.MaxPlatformBurden + "")));
+		throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".overburdened").replace("##BURDEN##",
+				RiMConfiguration.Carriage.MaxPlatformBurden + "")));
 	}
 
 	@Override
@@ -52,7 +52,8 @@ public class TileEntityPlatformCarriage extends TileEntityCarriage {
 	}
 
 	private boolean canAdd(BlockRecord record, int count) {
-		return !worldObj.isAirBlock(record.X, record.Y, record.Z) && count < Configuration.Carriage.MaxPlatformBurden
+		return !worldObj.isAirBlock(record.X, record.Y, record.Z)
+				&& count < RiMConfiguration.Carriage.MaxPlatformBurden
 				&& !BlacklistManager.blacklistSoft.lookup(worldObj, record.X, record.Y, record.Z);
 	}
 

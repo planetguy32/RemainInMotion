@@ -1,37 +1,40 @@
 package me.planetguy.remaininmotion.base;
 
+import java.util.List;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public abstract class ItemRiM extends net.minecraft.item.Item {
+public abstract class ItemRiM extends Item {
 	public ItemRiM() {
 		super();
 
-		setUnlocalizedName(Mod.Handle + "_" + getClass().getSimpleName());
+		setUnlocalizedName(ModRiM.Handle + "_" + getClass().getSimpleName());
 
 		setHasSubtypes(true);
 
 		setCreativeTab(CreativeTab.Instance);
 
-		cpw.mods.fml.common.registry.GameRegistry.registerItem(this, getUnlocalizedName(), Mod.Handle);
+		GameRegistry.registerItem(this, getUnlocalizedName(), ModRiM.Handle);
 	}
 
-	public void AddShowcaseStacks(java.util.List Showcase) {}
+	public void AddShowcaseStacks(List Showcase) {}
 
 	@Override
-	public void getSubItems(net.minecraft.item.Item i, CreativeTabs CreativeTab, java.util.List Showcase) {
+	public void getSubItems(Item i, CreativeTabs CreativeTab, List Showcase) {
 		AddShowcaseStacks(Showcase);
 	}
 
 	public void AddTooltip(ItemStack Item, java.util.List TooltipLines) {}
 
 	@Override
-	public void addInformation(ItemStack Item, net.minecraft.entity.player.EntityPlayer Player,
-			java.util.List TooltipLines, boolean Advanced) {
+	public void addInformation(ItemStack Item, EntityPlayer Player, List TooltipLines, boolean Advanced) {
 		AddTooltip(Item, TooltipLines);
 	}
 

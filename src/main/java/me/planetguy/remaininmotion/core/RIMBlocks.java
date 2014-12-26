@@ -11,7 +11,7 @@ public abstract class RIMBlocks {
 
 	public static BlockCarriageDrive	CarriageDrive;
 
-	public static BlockSpectre				Spectre;
+	public static BlockSpectre			Spectre;
 
 	public static Block					air	= Blocks.air;
 

@@ -8,14 +8,15 @@ import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityCarriage;
-import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.WorldServer;
 
@@ -26,7 +27,7 @@ public class CarriagePackage {
 
 	public TileEntityCarriageTranslocator	Translocator;
 
-	public net.minecraft.world.WorldServer	World;
+	public WorldServer						World;
 
 	public final BlockRecord				DriveRecord;
 
@@ -38,9 +39,8 @@ public class CarriagePackage {
 
 	public int								axis;
 
-	public CarriagePackage(TileEntityCarriageDrive Drive, net.minecraft.tileentity.TileEntity Anchor,
-			Directions MotionDirection) {
-		World = (net.minecraft.world.WorldServer) Drive.getWorldObj();
+	public CarriagePackage(TileEntityCarriageDrive Drive, TileEntity Anchor, Directions MotionDirection) {
+		World = (WorldServer) Drive.getWorldObj();
 
 		DriveRecord = new BlockRecord(Drive.xCoord, Drive.yCoord, Drive.zCoord);
 
@@ -89,10 +89,10 @@ public class CarriagePackage {
 				"cannot move carriage below depth limit", Record.X, Record.Y, Record.Z)); }
 
 		if (BlacklistManager.lookup(BlacklistManager.blacklistHard, Record)) { throw (new CarriageObstructionException(
-				Lang.translate(Mod.Handle + ".bannedBlock"), Record.X, Record.Y, Record.Z)); }
+				Lang.translate(ModRiM.Handle + ".bannedBlock"), Record.X, Record.Y, Record.Z)); }
 
 		if (blacklistByRotation && BlacklistManager.lookup(BlacklistManager.blacklistRotation, Record)) { throw (new CarriageObstructionException(
-				Lang.translate(Mod.Handle + ".bannedTurningBlock"), Record.X, Record.Y, Record.Z)); }
+				Lang.translate(ModRiM.Handle + ".bannedTurningBlock"), Record.X, Record.Y, Record.Z)); }
 
 		if (BlacklistManager.lookup(BlacklistManager.blacklistSoft, Record)) { return; }
 
@@ -119,7 +119,7 @@ public class CarriagePackage {
 		MaxZ = Math.max(MaxZ, Record.Z);
 
 		if (Record.Entity != null) {
-			Record.EntityRecord = new net.minecraft.nbt.NBTTagCompound();
+			Record.EntityRecord = new NBTTagCompound();
 
 			if (Record.Entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(Record))) {
 				((ISpecialMoveBehavior) Record.Entity).onAdded(this, Record.EntityRecord);
@@ -128,7 +128,7 @@ public class CarriagePackage {
 			}
 		}
 
-		if (Configuration.HardmodeActive) {
+		if (RiMConfiguration.HardmodeActive) {
 			if (Record.block == RIMBlocks.Carriage) {
 				Carriages.add(Record);
 
@@ -193,8 +193,8 @@ public class CarriagePackage {
 
 	public net.minecraft.nbt.NBTTagList	PendingBlockUpdates	= new net.minecraft.nbt.NBTTagList();
 
-	public void StorePendingBlockUpdateRecord(net.minecraft.world.NextTickListEntry PendingBlockUpdate, long WorldTime) {
-		net.minecraft.nbt.NBTTagCompound PendingBlockUpdateRecord = new net.minecraft.nbt.NBTTagCompound();
+	public void StorePendingBlockUpdateRecord(NextTickListEntry PendingBlockUpdate, long WorldTime) {
+		NBTTagCompound PendingBlockUpdateRecord = new NBTTagCompound();
 
 		PendingBlockUpdateRecord.setInteger("X", PendingBlockUpdate.xCoord);
 		PendingBlockUpdateRecord.setInteger("Y", PendingBlockUpdate.yCoord);
@@ -239,8 +239,7 @@ public class CarriagePackage {
 			java.util.Iterator PendingBlockUpdateSetIterator = ticks.iterator();
 
 			while (PendingBlockUpdateSetIterator.hasNext()) {
-				NextTickListEntry PendingBlockUpdate = (net.minecraft.world.NextTickListEntry) PendingBlockUpdateSetIterator
-						.next();
+				NextTickListEntry PendingBlockUpdate = (NextTickListEntry) PendingBlockUpdateSetIterator.next();
 
 				if (Body.contains(new BlockRecord(PendingBlockUpdate.xCoord, PendingBlockUpdate.yCoord,
 						PendingBlockUpdate.zCoord))) {
@@ -263,10 +262,10 @@ public class CarriagePackage {
 						.get(World);
 
 				while (true) {
-					net.minecraft.world.NextTickListEntry PendingBlockUpdate = null;
+					NextTickListEntry PendingBlockUpdate = null;
 
 					for (Object Target : PendingBlockUpdateSet) {
-						net.minecraft.world.NextTickListEntry TargetPendingBlockUpdate = (net.minecraft.world.NextTickListEntry) Target;
+						NextTickListEntry TargetPendingBlockUpdate = (NextTickListEntry) Target;
 
 						if (Body.contains(new BlockRecord(TargetPendingBlockUpdate.xCoord,
 								TargetPendingBlockUpdate.yCoord, TargetPendingBlockUpdate.zCoord))) {
@@ -300,7 +299,7 @@ public class CarriagePackage {
 	}
 
 	public void updateHardModeData() throws CarriageMotionException {
-		if (Configuration.HardmodeActive) {
+		if (RiMConfiguration.HardmodeActive) {
 			for (BlockRecord CarriageRecord : Carriages) {
 				int Tier = ((TileEntityCarriage) CarriageRecord.Entity).Tier;
 

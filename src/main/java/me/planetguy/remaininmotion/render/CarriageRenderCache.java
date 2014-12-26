@@ -1,20 +1,25 @@
 package me.planetguy.remaininmotion.render;
 
+import java.util.TreeMap;
+
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public abstract class CarriageRenderCache {
-	public static java.util.TreeMap<BlockPosition, RenderRecord>	Cache	= new java.util.TreeMap<BlockPosition, RenderRecord>();
+	public static TreeMap<BlockPosition, RenderRecord>	Cache	= new TreeMap<BlockPosition, RenderRecord>();
 
-	public static void Render(net.minecraft.client.renderer.RenderBlocks BlockRenderer, BlockRecordSet Blocks,
-			BlockRecordSet TileEntities, int Pass) {
+	public static void Render(RenderBlocks blockRenderer, BlockRecordSet Blocks, BlockRecordSet TileEntities, int Pass) {
 
-		BlockRenderer.renderAllFaces = true;
-		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+		blockRenderer.renderAllFaces = true;
+		RenderHelper.disableStandardItemLighting();
 
 		{
 			Render.ResetBoundTexture();
@@ -23,7 +28,7 @@ public abstract class CarriageRenderCache {
 
 			Render.PushMatrix();
 
-			net.minecraft.client.renderer.Tessellator.instance.startDrawingQuads();
+			Tessellator.instance.startDrawingQuads();
 
 			for (BlockRecord Record : Blocks) {
 				try {
@@ -37,14 +42,14 @@ public abstract class CarriageRenderCache {
 				}
 
 				try {
-					BlockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
+					blockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
 				} catch (Throwable Throwable) {
 					Throwable.printStackTrace();
 				}
 			}
 
 			try {
-				net.minecraft.client.renderer.Tessellator.instance.draw();
+				Tessellator.instance.draw();
 			} catch (Throwable Throwable) {
 				Throwable.printStackTrace();
 			}
@@ -52,7 +57,7 @@ public abstract class CarriageRenderCache {
 			Render.PopMatrix();
 		}
 
-		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
+		RenderHelper.enableStandardItemLighting();
 
 		{
 			Render.PushMatrix();
@@ -75,9 +80,10 @@ public abstract class CarriageRenderCache {
 					Throwable.printStackTrace();
 				}
 
-				if ((Boolean) Reflection.get(Tessellator.class, Tessellator.instance, "isDrawing")) {
+				if ((Boolean) Reflection.get(net.minecraft.client.renderer.Tessellator.class, Tessellator.instance,
+						"isDrawing")) {
 					try {
-						net.minecraft.client.renderer.Tessellator.instance.draw();
+						Tessellator.instance.draw();
 					} catch (Throwable Throwable) {
 						Throwable.printStackTrace();
 					}
@@ -89,47 +95,46 @@ public abstract class CarriageRenderCache {
 			Render.PopMatrix();
 
 			try {
-				net.minecraft.client.renderer.Tessellator.instance.draw();
+				Tessellator.instance.draw();
 			} catch (Throwable Throwable) {}
 
 			Render.ResetBoundTexture();
 		}
-		BlockRenderer.renderAllFaces = false;
+		blockRenderer.renderAllFaces = false;
 	}
 
-	public static void Assemble(BlockRecordSet Blocks, BlockRecordSet TileEntities, net.minecraft.world.World World,
-			BlockPosition Key) {
+	public static void Assemble(BlockRecordSet Blocks, BlockRecordSet TileEntities, World World, BlockPosition Key) {
 		if (Cache.containsKey(Key)) { return; }
 
-		net.minecraft.client.renderer.RenderBlocks BlockRenderer = new net.minecraft.client.renderer.RenderBlocks(World);
+		RenderBlocks blockRenderer = new RenderBlocks(World);
 
-		RenderRecord RenderRecord = new RenderRecord();
+		RenderRecord renderRecord = new RenderRecord();
 
-		RenderRecord.PrimaryPassDisplayList = Render.InitializeDisplayList();
+		renderRecord.PrimaryPassDisplayList = Render.InitializeDisplayList();
 
-		Render(BlockRenderer, Blocks, TileEntities, 0);
-
-		Render.FinalizeDisplayList();
-
-		RenderRecord.SecondaryPassDisplayList = Render.InitializeDisplayList();
-
-		Render(BlockRenderer, Blocks, TileEntities, 1);
+		Render(blockRenderer, Blocks, TileEntities, 0);
 
 		Render.FinalizeDisplayList();
 
-		Cache.put(Key, RenderRecord);
+		renderRecord.SecondaryPassDisplayList = Render.InitializeDisplayList();
+
+		Render(blockRenderer, Blocks, TileEntities, 1);
+
+		Render.FinalizeDisplayList();
+
+		Cache.put(Key, renderRecord);
 	}
 
 	public static Integer lookupDisplayList(BlockPosition Key) {
-		int Pass = net.minecraftforge.client.MinecraftForgeClient.getRenderPass();
+		int Pass = MinecraftForgeClient.getRenderPass();
 
-		RenderRecord RenderRecord = Cache.get(Key);
+		RenderRecord renderRecord = Cache.get(Key);
 
-		if (RenderRecord == null) { return (null); }
+		if (renderRecord == null) { return (null); }
 
-		if (Pass == 0) { return (RenderRecord.PrimaryPassDisplayList); }
+		if (Pass == 0) { return (renderRecord.PrimaryPassDisplayList); }
 
-		if (Pass == 1) { return (RenderRecord.SecondaryPassDisplayList); }
+		if (Pass == 1) { return (renderRecord.SecondaryPassDisplayList); }
 
 		return (null);
 	}

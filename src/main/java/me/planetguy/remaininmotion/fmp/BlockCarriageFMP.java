@@ -59,17 +59,17 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, M
 			new Cuboid6(0 - e, 0 - e, 0 - e, 1 + e, l, l), new Cuboid6(0 - e, 0 - e, 0 - e, l, 1 + e - l, l),
 			new Cuboid6(0 - e, 0 - e, 0 - e, l, l, 1 + e),
 
-		new Cuboid6(1 + e, 1 + e, 0 - e, 0 - e, 1 + e - l, l), new Cuboid6(1 + e, 1 + e, 0 - e, 1 + e - l, l, l),
-		new Cuboid6(1 + e, 1 + e, 0 - e, 1 + e - l, 1 + e - l, 1 + e - l),
+			new Cuboid6(1 + e, 1 + e, 0 - e, 0 - e, 1 + e - l, l), new Cuboid6(1 + e, 1 + e, 0 - e, 1 + e - l, l, l),
+			new Cuboid6(1 + e, 1 + e, 0 - e, 1 + e - l, 1 + e - l, 1 + e - l),
 
-		new Cuboid6(1 + e, 0 - e, 1 + e, 1 + e - l, l, l),
-		new Cuboid6(1 + e, 0 - e, 1 + e, 1 + e - l, 1 + e - l, 1 + e - l),
-		new Cuboid6(1 + e, 0 - e, 1 + e, l, l, 1 + e - l),
+			new Cuboid6(1 + e, 0 - e, 1 + e, 1 + e - l, l, l),
+			new Cuboid6(1 + e, 0 - e, 1 + e, 1 + e - l, 1 + e - l, 1 + e - l),
+			new Cuboid6(1 + e, 0 - e, 1 + e, l, l, 1 + e - l),
 
-		new Cuboid6(0 - e, 1 + e, 1 + e, 1 + e, 1 + e - l, 1 + e - l),
-		new Cuboid6(0 - e, 1 + e, 1 + e, l, l, 1 + e - l), new Cuboid6(0 - e, 1 + e, 1 + e, l, 1 + e - l, l),
+			new Cuboid6(0 - e, 1 + e, 1 + e, 1 + e, 1 + e - l, 1 + e - l),
+			new Cuboid6(0 - e, 1 + e, 1 + e, l, l, 1 + e - l), new Cuboid6(0 - e, 1 + e, 1 + e, l, 1 + e - l, l),
 
-	};
+														};
 
 	@Optional.Method(modid = "ForgeMultipart")
 	@Override

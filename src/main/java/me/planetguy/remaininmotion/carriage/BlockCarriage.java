@@ -1,13 +1,18 @@
 package me.planetguy.remaininmotion.carriage;
 
+import java.util.List;
+
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -38,7 +43,7 @@ public class BlockCarriage extends BlockRiM {
 	public static IIcon	PlaceholderIcon;
 
 	@Override
-	public void AddShowcaseStacks(java.util.List Showcase) {
+	public void AddShowcaseStacks(List Showcase) {
 		for (Types Type : Types.values()) {
 			Showcase.add(ItemCarriage.Stack(Type.ordinal(), 0));
 		}
@@ -67,11 +72,11 @@ public class BlockCarriage extends BlockRiM {
 	}
 
 	@Override
-	public IIcon getIcon(net.minecraft.world.IBlockAccess World, int X, int Y, int Z, int Side) {
+	public IIcon getIcon(IBlockAccess World, int X, int Y, int Z, int Side) {
 		try {
 			TileEntityCarriage Carriage = (TileEntityCarriage) World.getTileEntity(X, Y, Z);
 
-			if ((Carriage.DecorationId != 0) && (Carriage.SideClosed[Side])) { return (net.minecraft.block.Block
+			if ((Carriage.DecorationId != 0) && (Carriage.SideClosed[Side])) { return (Block
 					.getBlockById(Carriage.DecorationId).getIcon(Side, Carriage.DecorationMeta)); }
 
 			Types Type = Types.values()[World.getBlockMetadata(X, Y, Z)];
@@ -85,8 +90,8 @@ public class BlockCarriage extends BlockRiM {
 	}
 
 	@Override
-	public boolean onBlockActivated(net.minecraft.world.World World, int X, int Y, int Z,
-			net.minecraft.entity.player.EntityPlayer Player, int Side, float HitX, float HitY, float HitZ) {
+	public boolean onBlockActivated(World World, int X, int Y, int Z, EntityPlayer Player, int Side, float HitX,
+			float HitY, float HitZ) {
 		if (World.isRemote) { return (false); }
 
 		if (!ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem())) { return (false); }

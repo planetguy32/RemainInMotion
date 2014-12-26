@@ -4,13 +4,14 @@ import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public class CarriageDecorationRecipe extends Recipe {
 	@Override
-	public ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory) {
+	public ItemStack Process(InventoryCrafting Inventory) {
 		ItemStack Carriage = null;
 
 		ItemStack Decoration = null;

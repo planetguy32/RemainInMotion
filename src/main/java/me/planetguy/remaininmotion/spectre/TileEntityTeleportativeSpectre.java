@@ -1,13 +1,21 @@
 package me.planetguy.remaininmotion.spectre;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
 
 public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	public boolean	Source;
@@ -26,7 +34,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	public int		TargetDimension;
 
 	@Override
-	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
 
 		TagCompound.setBoolean("Source", Source);
@@ -46,7 +54,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	}
 
 	@Override
-	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {
 		super.ReadCommonRecord(TagCompound);
 
 		Source = TagCompound.getBoolean("Source");
@@ -99,7 +107,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 			}
 		}
 
-		PendingBlockUpdates = new net.minecraft.nbt.NBTTagList();
+		PendingBlockUpdates = new NBTTagList();
 	}
 
 	public void AbsorbSink(CarriagePackage Package) {
@@ -119,7 +127,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	}
 
 	@Override
-	public void ScheduleShiftedBlockUpdate(net.minecraft.nbt.NBTTagCompound PendingBlockUpdateRecord) {
+	public void ScheduleShiftedBlockUpdate(NBTTagCompound PendingBlockUpdateRecord) {
 		worldObj.func_147446_b(PendingBlockUpdateRecord.getInteger("X") + ShiftX,
 				PendingBlockUpdateRecord.getInteger("Y") + ShiftY, PendingBlockUpdateRecord.getInteger("Z") + ShiftZ,
 
@@ -136,12 +144,12 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 		if (worldObj.isRemote) { return; }
 
-		if (TicksExisted < Configuration.CarriageMotion.TeleportationDuration) { return; }
+		if (TicksExisted < RiMConfiguration.CarriageMotion.TeleportationDuration) { return; }
 
 		if (Source) {
 			try {
 				((TileEntityCarriageTranslocator) worldObj.getTileEntity(DriveRecord.X, DriveRecord.Y, DriveRecord.Z))
-				.ToggleActivity();
+						.ToggleActivity();
 			} catch (Throwable Throwable) {
 				Throwable.printStackTrace();
 			}
@@ -159,47 +167,46 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	}
 
 	@Override
-	public boolean ShouldCaptureEntity(net.minecraft.entity.Entity Entity) {
-		if (!Configuration.CarriageMotion.TeleportEntities) { return (false); }
+	public boolean ShouldCaptureEntity(Entity Entity) {
+		if (!RiMConfiguration.CarriageMotion.TeleportEntities) { return (false); }
 
 		return (super.ShouldCaptureEntity(Entity));
 	}
 
 	@Override
-	public void ProcessCapturedEntity(net.minecraft.entity.Entity Entity) {
+	public void ProcessCapturedEntity(Entity Entity) {
 		if (Entity.riddenByEntity == null) {
 			TeleportEntity(Entity);
 		}
 	}
 
-	public net.minecraft.entity.Entity TeleportEntity(net.minecraft.entity.Entity Entity) {
-		net.minecraft.server.MinecraftServer Server = cpw.mods.fml.common.FMLCommonHandler.instance()
-				.getMinecraftServerInstance();
+	public Entity TeleportEntity(Entity entity) {
+		MinecraftServer Server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
-		net.minecraft.world.WorldServer HomeWorld = (net.minecraft.world.WorldServer) worldObj;
+		WorldServer HomeWorld = (WorldServer) worldObj;
 
-		net.minecraft.world.WorldServer TargetWorld = Server.worldServerForDimension(TargetDimension);
+		WorldServer TargetWorld = Server.worldServerForDimension(TargetDimension);
 
 		TeleportativeSpectreTeleporter Teleporter = new TeleportativeSpectreTeleporter(worldObj);
 
 		boolean Transdimensional = (HomeWorld.provider.dimensionId != TargetWorld.provider.dimensionId);
 
-		double X = Entity.posX + ShiftX;
-		double Y = Entity.posY + ShiftY;
-		double Z = Entity.posZ + ShiftZ;
-		float Yaw = Entity.rotationYaw;
-		float Pitch = Entity.rotationPitch;
+		double X = entity.posX + ShiftX;
+		double Y = entity.posY + ShiftY;
+		double Z = entity.posZ + ShiftZ;
+		float Yaw = entity.rotationYaw;
+		float Pitch = entity.rotationPitch;
 
-		net.minecraft.entity.Entity Mount = Entity.ridingEntity;
+		Entity Mount = entity.ridingEntity;
 
 		if (Mount != null) {
-			Entity.mountEntity(null);
+			entity.mountEntity(null);
 
 			Mount = TeleportEntity(Mount);
 		}
 
-		if (Entity instanceof net.minecraft.entity.player.EntityPlayerMP) {
-			net.minecraft.entity.player.EntityPlayerMP Player = (net.minecraft.entity.player.EntityPlayerMP) Entity;
+		if (entity instanceof EntityPlayerMP) {
+			EntityPlayerMP Player = (EntityPlayerMP) entity;
 
 			if (Transdimensional) {
 				Server.getConfigurationManager().transferPlayerToDimension(Player, TargetDimension, Teleporter);
@@ -210,41 +217,40 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 			Player.setLocationAndAngles(X, Y, Z, Yaw, Pitch);
 		} else {
 			if (Transdimensional) {
-				Entity.dimension = TargetDimension;
+				entity.dimension = TargetDimension;
 
-				HomeWorld.removeEntity(Entity);
+				HomeWorld.removeEntity(entity);
 
-				Entity.isDead = false;
+				entity.isDead = false;
 
-				Server.getConfigurationManager().transferEntityToWorld(Entity, TargetDimension, HomeWorld, TargetWorld);
+				Server.getConfigurationManager().transferEntityToWorld(entity, TargetDimension, HomeWorld, TargetWorld);
 
-				net.minecraft.entity.Entity NewEntity = net.minecraft.entity.EntityList.createEntityByName(
-						net.minecraft.entity.EntityList.getEntityString(Entity), TargetWorld);
+				Entity newEntity = EntityList.createEntityByName(EntityList.getEntityString(entity), TargetWorld);
 
-				NewEntity.copyDataFrom(Entity, true);
+				newEntity.copyDataFrom(entity, true);
 
-				NewEntity.setLocationAndAngles(X, Y, Z, Yaw, Pitch);
+				newEntity.setLocationAndAngles(X, Y, Z, Yaw, Pitch);
 
-				TargetWorld.spawnEntityInWorld(NewEntity);
+				TargetWorld.spawnEntityInWorld(newEntity);
 
-				Entity.isDead = true;
+				entity.isDead = true;
 
 				HomeWorld.resetUpdateEntityTick();
 
 				TargetWorld.resetUpdateEntityTick();
 
-				Entity = NewEntity;
+				entity = newEntity;
 			} else {
-				Entity.setLocationAndAngles(X, Y, Z, Yaw, Pitch);
+				entity.setLocationAndAngles(X, Y, Z, Yaw, Pitch);
 
-				TargetWorld.updateEntityWithOptionalForce(Entity, false);
+				TargetWorld.updateEntityWithOptionalForce(entity, false);
 			}
 		}
 
 		if (Mount != null) {
-			Entity.mountEntity(Mount);
+			entity.mountEntity(Mount);
 		}
 
-		return (Entity);
+		return (entity);
 	}
 }

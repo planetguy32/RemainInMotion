@@ -1,13 +1,19 @@
 package me.planetguy.remaininmotion.render;
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import me.planetguy.remaininmotion.Directions;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.MinecraftForgeClient;
 
-public abstract class BlockRenderer implements cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler,
-net.minecraftforge.client.IItemRenderer {
+public abstract class BlockRenderer implements ISimpleBlockRenderingHandler, IItemRenderer {
 	public int	RenderId;
 
 	@Override
@@ -16,16 +22,16 @@ net.minecraftforge.client.IItemRenderer {
 	}
 
 	public int Initialize(Block block) {
-		RenderId = cpw.mods.fml.client.registry.RenderingRegistry.getNextAvailableRenderId();
+		RenderId = RenderingRegistry.getNextAvailableRenderId();
 
-		cpw.mods.fml.client.registry.RenderingRegistry.registerBlockHandler(this);
+		RenderingRegistry.registerBlockHandler(this);
 
-		net.minecraftforge.client.MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), this);
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(block), this);
 
 		return (RenderId);
 	}
 
-	public void Render(net.minecraft.tileentity.TileEntity TileEntity) {}
+	public void Render(TileEntity TileEntity) {}
 
 	public int	X;
 	public int	Y;
@@ -34,8 +40,8 @@ net.minecraftforge.client.IItemRenderer {
 	public int	Brightness;
 
 	@Override
-	public boolean renderWorldBlock(net.minecraft.world.IBlockAccess World, int X, int Y, int Z,
-			net.minecraft.block.Block Block, int RenderId, net.minecraft.client.renderer.RenderBlocks RenderBlocks) {
+	public boolean renderWorldBlock(IBlockAccess World, int X, int Y, int Z, net.minecraft.block.Block Block,
+			int RenderId, RenderBlocks RenderBlocks) {
 		this.X = X;
 		this.Y = Y;
 		this.Z = Z;
@@ -57,8 +63,7 @@ net.minecraftforge.client.IItemRenderer {
 	}
 
 	@Override
-	public void renderInventoryBlock(net.minecraft.block.Block Block, int Meta, int RenderId,
-			net.minecraft.client.renderer.RenderBlocks RenderBlocks) {}
+	public void renderInventoryBlock(Block Block, int Meta, int RenderId, RenderBlocks RenderBlocks) {}
 
 	@Override
 	public boolean handleRenderType(ItemStack Item, ItemRenderType Type) {
@@ -84,9 +89,9 @@ net.minecraftforge.client.IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType Type, ItemStack Item, Object... Arguments) {
-		net.minecraft.client.renderer.RenderBlocks RenderBlocks = (net.minecraft.client.renderer.RenderBlocks) Arguments[0];
+		RenderBlocks renderBlocks = (RenderBlocks) Arguments[0];
 
-		RenderBlocks.setRenderBounds(0, 0, 0, 1, 1, 1);
+		renderBlocks.setRenderBounds(0, 0, 0, 1, 1, 1);
 
 		if (Type == ItemRenderType.ENTITY) {
 			Render.Translate(-0.5, -0.5, -0.5);
@@ -95,22 +100,22 @@ net.minecraftforge.client.IItemRenderer {
 		Render.Begin();
 
 		Render.SetNormal(Directions.NegY);
-		RenderBlocks.renderFaceYNeg(null, 0, 0, 0, GetIcon(Item, Directions.NegY));
+		renderBlocks.renderFaceYNeg(null, 0, 0, 0, GetIcon(Item, Directions.NegY));
 
 		Render.SetNormal(Directions.PosY);
-		RenderBlocks.renderFaceYPos(null, 0, 0, 0, GetIcon(Item, Directions.PosY));
+		renderBlocks.renderFaceYPos(null, 0, 0, 0, GetIcon(Item, Directions.PosY));
 
 		Render.SetNormal(Directions.NegZ);
-		RenderBlocks.renderFaceZNeg(null, 0, 0, 0, GetIcon(Item, Directions.NegZ));
+		renderBlocks.renderFaceZNeg(null, 0, 0, 0, GetIcon(Item, Directions.NegZ));
 
 		Render.SetNormal(Directions.PosZ);
-		RenderBlocks.renderFaceZPos(null, 0, 0, 0, GetIcon(Item, Directions.PosZ));
+		renderBlocks.renderFaceZPos(null, 0, 0, 0, GetIcon(Item, Directions.PosZ));
 
 		Render.SetNormal(Directions.NegX);
-		RenderBlocks.renderFaceXNeg(null, 0, 0, 0, GetIcon(Item, Directions.NegX));
+		renderBlocks.renderFaceXNeg(null, 0, 0, 0, GetIcon(Item, Directions.NegX));
 
 		Render.SetNormal(Directions.PosX);
-		RenderBlocks.renderFaceXPos(null, 0, 0, 0, GetIcon(Item, Directions.PosX));
+		renderBlocks.renderFaceXPos(null, 0, 0, 0, GetIcon(Item, Directions.PosX));
 
 		Render.End();
 	}

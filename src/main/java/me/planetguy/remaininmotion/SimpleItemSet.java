@@ -1,8 +1,12 @@
 package me.planetguy.remaininmotion;
 
+import java.util.List;
+
 import me.planetguy.remaininmotion.base.ItemRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 public class SimpleItemSet extends ItemRiM {
 
@@ -16,21 +20,21 @@ public class SimpleItemSet extends ItemRiM {
 	}
 
 	@Override
-	public void AddShowcaseStacks(java.util.List Showcase) {
+	public void AddShowcaseStacks(List Showcase) {
 		for (Types Type : Types.values()) {
 			Showcase.add(Stack.New(this, Type));
 		}
 	}
 
 	@Override
-	public void registerIcons(net.minecraft.client.renderer.texture.IIconRegister IconRegister) {
+	public void registerIcons(IIconRegister IconRegister) {
 		for (Types Type : Types.values()) {
 			Type.Icon = Registry.RegisterIcon(IconRegister, Type.name());
 		}
 	}
 
 	@Override
-	public net.minecraft.util.IIcon getIconFromDamage(int Damage) {
+	public IIcon getIconFromDamage(int Damage) {
 		try {
 			return (Types.values()[Damage].Icon);
 		} catch (Throwable Throwable) {

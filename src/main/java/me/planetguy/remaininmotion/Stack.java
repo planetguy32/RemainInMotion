@@ -1,11 +1,13 @@
 package me.planetguy.remaininmotion;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class Stack {
 	public static ItemStack Tag(ItemStack stack) {
-		stack.stackTagCompound = new net.minecraft.nbt.NBTTagCompound();
+		stack.stackTagCompound = new NBTTagCompound();
 
 		return (stack);
 	}
@@ -16,43 +18,43 @@ public abstract class Stack {
 		return (Item);
 	}
 
-	public static ItemStack New(net.minecraft.item.Item Item, int Damage, int Quantity) {
+	public static ItemStack New(Item Item, int Damage, int Quantity) {
 		return new ItemStack(Item, Quantity, Damage);
 	}
 
-	public static ItemStack New(net.minecraft.item.Item Item, Enum Type, int Quantity) {
+	public static ItemStack New(Item Item, Enum Type, int Quantity) {
 		return (New(Item, Type.ordinal(), Quantity));
 	}
 
-	public static ItemStack New(net.minecraft.item.Item Item, int Damage) {
+	public static ItemStack New(Item Item, int Damage) {
 		return (New(Item, Damage, 1));
 	}
 
-	public static ItemStack New(net.minecraft.item.Item Item, Enum Type) {
+	public static ItemStack New(Item Item, Enum Type) {
 		return (New(Item, Type, 1));
 	}
 
-	public static ItemStack New(net.minecraft.item.Item Item) {
+	public static ItemStack New(Item Item) {
 		return (New(Item, 0));
 	}
 
-	public static ItemStack New(net.minecraft.block.Block Block, int Damage, int Quantity) {
+	public static ItemStack New(Block Block, int Damage, int Quantity) {
 		return (New(Item.getItemFromBlock(Block), Damage, Quantity));
 	}
 
-	public static ItemStack New(net.minecraft.block.Block Block, Enum Type, int Quantity) {
+	public static ItemStack New(Block Block, Enum Type, int Quantity) {
 		return (New(Block, Type.ordinal(), Quantity));
 	}
 
-	public static ItemStack New(net.minecraft.block.Block Block, int Damage) {
+	public static ItemStack New(Block Block, int Damage) {
 		return (New(Block, Damage, 1));
 	}
 
-	public static ItemStack New(net.minecraft.block.Block Block, Enum Type) {
+	public static ItemStack New(Block Block, Enum Type) {
 		return (New(Block, Type, 1));
 	}
 
-	public static ItemStack New(net.minecraft.block.Block Block) {
+	public static ItemStack New(Block Block) {
 		return (New(Block, 0));
 	}
 }

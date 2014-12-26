@@ -3,8 +3,8 @@ package me.planetguy.remaininmotion.fmp;
 import java.util.List;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RiMItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -28,7 +28,7 @@ final class ItemCarriageFMP extends JItemMultiPart {
 
 	@Override
 	public String getUnlocalizedName() {
-		return Mod.Handle + ":" + "FMPCarriage";
+		return ModRiM.Handle + ":" + "FMPCarriage";
 	}
 
 	@Override
@@ -38,7 +38,7 @@ final class ItemCarriageFMP extends JItemMultiPart {
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List l, boolean par4) {
-		if (Configuration.Cosmetic.ShowHelpInTooltips) { return; }
+		if (RiMConfiguration.Cosmetic.ShowHelpInTooltips) { return; }
 		for (String s : Lang.translate(this.getUnlocalizedName() + ".tooltip").split("\\n")) {
 			l.add(s);
 		}

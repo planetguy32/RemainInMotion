@@ -3,13 +3,15 @@ package me.planetguy.remaininmotion.render;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Vanilla;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.ItemCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 
 public class CarriageDriveRenderer extends BlockRenderer {
@@ -18,7 +20,7 @@ public class CarriageDriveRenderer extends BlockRenderer {
 	}
 
 	public void UseFullLabel() {
-		Configuration.TextureSets TextureSet = Configuration.TextureSets.values()[Configuration.TextureSets.TextureSet];
+		RiMConfiguration.TextureSets TextureSet = RiMConfiguration.TextureSets.values()[RiMConfiguration.TextureSets.TextureSet];
 
 		SetSideSpan(TextureSet.LabelMinH, TextureSet.LabelMinV, TextureSet.LabelMaxH, TextureSet.LabelMaxV);
 	}
@@ -40,7 +42,7 @@ public class CarriageDriveRenderer extends BlockRenderer {
 	}
 
 	@Override
-	public void Render(net.minecraft.tileentity.TileEntity TileEntity) {
+	public void Render(TileEntity TileEntity) {
 		if (TileEntity instanceof TileEntityCarriageTranslocator) {
 			TileEntityCarriageTranslocator Translocator = (TileEntityCarriageTranslocator) TileEntity;
 
@@ -51,8 +53,7 @@ public class CarriageDriveRenderer extends BlockRenderer {
 			if (Translocator.Player.equals("")) {
 				UseFullIcon(BlockCarriageDrive.PublicIcon);
 			} else {
-				if (Translocator.Player
-						.equals(net.minecraft.client.Minecraft.getMinecraft().thePlayer.getDisplayName())) {
+				if (Translocator.Player.equals(Minecraft.getMinecraft().thePlayer.getDisplayName())) {
 					UseFullIcon(BlockCarriageDrive.PrivateToSelfIcon);
 				} else {
 					UseFullIcon(BlockCarriageDrive.PrivateToOtherIcon);

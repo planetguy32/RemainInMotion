@@ -1,11 +1,12 @@
 package me.planetguy.remaininmotion.render;
 
-import me.planetguy.remaininmotion.core.Configuration;
+import net.minecraft.tileentity.TileEntity;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 
 public class MotiveSpectreRenderer extends RIMTileEntityRenderer {
 	@Override
-	public void Render(net.minecraft.tileentity.TileEntity TileEntity, float PartialTick) {
+	public void Render(TileEntity TileEntity, float PartialTick) {
 
 		TileEntityMotiveSpectre Spectre = (TileEntityMotiveSpectre) TileEntity;
 
@@ -14,8 +15,8 @@ public class MotiveSpectreRenderer extends RIMTileEntityRenderer {
 		{
 			double Offset;
 
-			if (Configuration.CarriageMotion.RenderInFinalPositionDuringLag
-					&& (Spectre.TicksExisted >= Configuration.CarriageMotion.MotionDuration)) {
+			if (RiMConfiguration.CarriageMotion.RenderInFinalPositionDuringLag
+					&& (Spectre.TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration)) {
 				Offset = 1;
 			} else {
 				Offset = TileEntityMotiveSpectre.Velocity * (Spectre.TicksExisted + PartialTick);

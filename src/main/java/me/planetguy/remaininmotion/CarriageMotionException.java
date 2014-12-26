@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion;
 
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 
 public class CarriageMotionException extends Exception {
 	/**
@@ -16,7 +16,7 @@ public class CarriageMotionException extends Exception {
 
 	@Override
 	public void printStackTrace() { // Mute exceptions depending on config
-		if (!Configuration.Debug.MuteMotionExceptions) {
+		if (!RiMConfiguration.Debug.MuteMotionExceptions) {
 			super.printStackTrace();
 		}
 	}

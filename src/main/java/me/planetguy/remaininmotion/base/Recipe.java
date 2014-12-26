@@ -1,17 +1,20 @@
 package me.planetguy.remaininmotion.base;
 
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.World;
 
-public abstract class Recipe implements net.minecraft.item.crafting.IRecipe {
-	public abstract ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory);
+public abstract class Recipe implements IRecipe {
+	public abstract ItemStack Process(InventoryCrafting Inventory);
 
 	@Override
-	public boolean matches(net.minecraft.inventory.InventoryCrafting Inventory, net.minecraft.world.World World) {
+	public boolean matches(InventoryCrafting Inventory, World World) {
 		return (Process(Inventory) != null);
 	}
 
 	@Override
-	public ItemStack getCraftingResult(net.minecraft.inventory.InventoryCrafting Inventory) {
+	public ItemStack getCraftingResult(InventoryCrafting Inventory) {
 		return (Process(Inventory));
 	}
 

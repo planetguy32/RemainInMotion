@@ -12,19 +12,19 @@ import net.minecraft.item.ItemStack;
 public abstract class ModInteraction {
 
 	public abstract static class ForgeMultipart {
-		public static Class						MultipartSaveLoad;
-		public static java.lang.reflect.Method	MultipartSaveLoad_loadingWorld_$eq;
+		public static Class		MultipartSaveLoad;
+		public static Method	MultipartSaveLoad_loadingWorld_$eq;
 
-		public static Class						MultipartSPH;
-		public static java.lang.reflect.Method	MultipartSPH_onChunkWatch;
+		public static Class		MultipartSPH;
+		public static Method	MultipartSPH_onChunkWatch;
 
-		public static Class						TileMultipart;
-		public static java.lang.reflect.Method	TileMultipart_createFromNBT;
-		public static java.lang.reflect.Method	TileMultipart_onChunkLoad;
+		public static Class		TileMultipart;
+		public static Method	TileMultipart_createFromNBT;
+		public static Method	TileMultipart_onChunkLoad;
 
-		public static Class						MultipartHelper;
-		public static java.lang.reflect.Method	MultipartHelper_createTileFromNBT;
-		public static java.lang.reflect.Method	MultipartHelper_sendDescPacket;
+		public static Class		MultipartHelper;
+		public static Method	MultipartHelper_createTileFromNBT;
+		public static Method	MultipartHelper_sendDescPacket;
 
 		public static void Establish() {
 			MultipartSaveLoad = ModInteraction.getClass("codechicken.multipart.handler.MultipartSaveLoad");
@@ -54,28 +54,28 @@ public abstract class ModInteraction {
 		}
 	}
 
-	public static java.lang.reflect.Field	PendingBlockUpdateSetField;
-	public static java.lang.reflect.Method	RemovePendingBlockUpdate;
+	public static Field		PendingBlockUpdateSetField;
+	public static Method	RemovePendingBlockUpdate;
 
-	public static Class						BC_TileGenericPipe;
-	public static java.lang.reflect.Field	BC_TileGenericPipe_pipe;
-	public static java.lang.reflect.Method	BC_TileGenericPipe_initialize;
-	public static Class						BC_Pipe;
-	public static java.lang.reflect.Field	BC_Pipe_transport;
-	public static Class						BC_PipeTransportItems;
-	public static java.lang.reflect.Field	BC_PipeTransportItems_delay;
-	public static java.lang.reflect.Field	BC_PipeTransportItems_delayedEntitiesToLoad;
-	public static java.lang.reflect.Field	BC_PipeTransportItems_travelingEntities;
-	public static Class						BC_EntityData;
-	public static java.lang.reflect.Field	BC_EntityData_item;
-	public static Class						BC_EntityPassiveItem;
-	public static java.lang.reflect.Method	BC_EntityPassiveItem_setWorld;
-	public static java.lang.reflect.Method	BC_EntityPassiveItem_getEntityId;
-	public static java.lang.reflect.Field	BC_EntityPassiveItem_position;
-	public static Class						BC_Position;
-	public static java.lang.reflect.Field	BC_Position_x;
-	public static java.lang.reflect.Field	BC_Position_y;
-	public static java.lang.reflect.Field	BC_Position_z;
+	public static Class		BC_TileGenericPipe;
+	public static Field		BC_TileGenericPipe_pipe;
+	public static Method	BC_TileGenericPipe_initialize;
+	public static Class		BC_Pipe;
+	public static Field		BC_Pipe_transport;
+	public static Class		BC_PipeTransportItems;
+	public static Field		BC_PipeTransportItems_delay;
+	public static Field		BC_PipeTransportItems_delayedEntitiesToLoad;
+	public static Field		BC_PipeTransportItems_travelingEntities;
+	public static Class		BC_EntityData;
+	public static Field		BC_EntityData_item;
+	public static Class		BC_EntityPassiveItem;
+	public static Method	BC_EntityPassiveItem_setWorld;
+	public static Method	BC_EntityPassiveItem_getEntityId;
+	public static Field		BC_EntityPassiveItem_position;
+	public static Class		BC_Position;
+	public static Field		BC_Position_x;
+	public static Field		BC_Position_y;
+	public static Field		BC_Position_z;
 
 	public static void Establish() {
 		Wrenches.init();

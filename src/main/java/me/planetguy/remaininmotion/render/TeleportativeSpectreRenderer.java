@@ -1,11 +1,12 @@
 package me.planetguy.remaininmotion.render;
 
-import me.planetguy.remaininmotion.core.Configuration;
+import net.minecraft.tileentity.TileEntity;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
 
 public class TeleportativeSpectreRenderer extends RIMTileEntityRenderer {
 	@Override
-	public void Render(net.minecraft.tileentity.TileEntity TileEntity, float PartialTick) {
+	public void Render(TileEntity TileEntity, float PartialTick) {
 		TileEntityTeleportativeSpectre Spectre = (TileEntityTeleportativeSpectre) TileEntity;
 
 		if (Spectre.RenderCacheKey == null) { return; }
@@ -15,15 +16,15 @@ public class TeleportativeSpectreRenderer extends RIMTileEntityRenderer {
 		if (DisplayList == null) { return; }
 
 		double Timestamp = Math.min(Spectre.TicksExisted + PartialTick,
-				Configuration.CarriageMotion.TeleportationDuration);
+				RiMConfiguration.CarriageMotion.TeleportationDuration);
 
 		double Threshold;
 
-		if (Configuration.CarriageMotion.RenderInFinalPositionDuringLag
-				&& (Spectre.TicksExisted >= Configuration.CarriageMotion.TeleportationDuration)) {
+		if (RiMConfiguration.CarriageMotion.RenderInFinalPositionDuringLag
+				&& (Spectre.TicksExisted >= RiMConfiguration.CarriageMotion.TeleportationDuration)) {
 			Threshold = 2;
 		} else {
-			Threshold = (Timestamp / Configuration.CarriageMotion.TeleportationDuration) * 0.95 + 0.025;
+			Threshold = (Timestamp / RiMConfiguration.CarriageMotion.TeleportationDuration) * 0.95 + 0.025;
 		}
 
 		double Value = Math.abs(Math.sin(Timestamp * ((2 * Math.PI) / 20) * 4));

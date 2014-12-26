@@ -7,11 +7,13 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.ItemCarriageDrive;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class CarriageTranslocatorLabelRecipe extends Recipe {
 	@Override
-	public ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory) {
+	public ItemStack Process(InventoryCrafting Inventory) {
 		ItemStack Drive = null;
 
 		boolean[] DyesToAdd = new boolean[Vanilla.DyeTypes.values().length];
@@ -29,7 +31,7 @@ public class CarriageTranslocatorLabelRecipe extends Recipe {
 				continue;
 			}
 
-			if (stack.getItem().equals(net.minecraft.item.Item.getItemFromBlock(RIMBlocks.CarriageDrive))) {
+			if (stack.getItem().equals(Item.getItemFromBlock(RIMBlocks.CarriageDrive))) {
 				if (ItemBlockRiM.GetBlockType(stack) == BlockCarriageDrive.Types.Translocator.ordinal()) {
 					if (Drive != null) { return (null); }
 

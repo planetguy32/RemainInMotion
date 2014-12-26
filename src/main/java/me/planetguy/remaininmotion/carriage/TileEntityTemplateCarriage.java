@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.carriage;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordList;
@@ -184,12 +186,12 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	public boolean	RenderPattern;
 
 	@Override
-	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {
 		super.ReadCommonRecord(TagCompound);
 
 		if (TagCompound.hasKey("Pattern")) {
 			Debug.dbg("Found PatternRecord");
-			net.minecraft.nbt.NBTTagList PatternRecord = TagCompound.getTagList("Pattern", 10);
+			NBTTagList PatternRecord = TagCompound.getTagList("Pattern", 10);
 
 			Pattern = new BlockRecordList();
 
@@ -197,7 +199,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 			Debug.dbg("PatternRecord size=" + PatternSize);
 			for (int Index = 0; Index < PatternSize; Index++) {
-				net.minecraft.nbt.NBTTagCompound PatternBlockRecord = PatternRecord.getCompoundTagAt(Index);
+				NBTTagCompound PatternBlockRecord = PatternRecord.getCompoundTagAt(Index);
 
 				Pattern.add(new BlockRecord(PatternBlockRecord.getInteger("X"), PatternBlockRecord.getInteger("Y"),
 						PatternBlockRecord.getInteger("Z")));
@@ -211,14 +213,14 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	}
 
 	@Override
-	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
 
 		if (Pattern != null) {
-			net.minecraft.nbt.NBTTagList PatternRecord = new net.minecraft.nbt.NBTTagList();
+			NBTTagList PatternRecord = new NBTTagList();
 
 			for (BlockRecord PatternBlock : Pattern) {
-				net.minecraft.nbt.NBTTagCompound PatternBlockRecord = new net.minecraft.nbt.NBTTagCompound();
+				NBTTagCompound PatternBlockRecord = new NBTTagCompound();
 
 				PatternBlockRecord.setInteger("X", PatternBlock.X);
 				PatternBlockRecord.setInteger("Y", PatternBlock.Y);

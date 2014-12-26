@@ -15,7 +15,7 @@ public abstract class Vanilla {
 	public enum DyeTypes {
 		Black("dyeBlack"), Red("dyeRed"), Green("dyeGreen"), Brown("dyeBrown"), Blue("dyeBlue"), Purple("dyePurple"), Cyan(
 				"dyeCyan"), LightGrey("dyeLightGray"), Grey("dyeGray"), Pink("dyePink"), Lime("dyeLime"), Yellow(
-						"dyeYellow"), LightBlue("dyeLightBlue"), Magenta("dyeMagenta"), Orange("dyeOrange"), White("dyeWhite");
+				"dyeYellow"), LightBlue("dyeLightBlue"), Magenta("dyeMagenta"), Orange("dyeOrange"), White("dyeWhite");
 
 		public String	Handle;
 

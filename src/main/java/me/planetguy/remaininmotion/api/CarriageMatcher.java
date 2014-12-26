@@ -27,8 +27,7 @@ public interface CarriageMatcher {
 	 * @param entity2
 	 * 
 	 */
-	public boolean matches(net.minecraft.block.Block block1, int meta1, TileEntity entity1,
-			net.minecraft.block.Block bloc2k, int meta2, TileEntity entity2);
+	public boolean matches(Block block1, int meta1, TileEntity entity1, Block bloc2k, int meta2, TileEntity entity2);
 
 	/**
 	 * Returns the carriage at the given location.

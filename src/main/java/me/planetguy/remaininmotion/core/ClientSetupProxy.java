@@ -1,10 +1,12 @@
 package me.planetguy.remaininmotion.core;
 
-public class ClientSetupProxy {
-	public static final String		ClientSideClassName	= Mod.Namespace + "core.ClientSetup";
-	public static final String		ServerSideClassName	= Mod.Namespace + "core.ClientSetupProxy";
+import cpw.mods.fml.common.SidedProxy;
 
-	@cpw.mods.fml.common.SidedProxy(clientSide = ClientSideClassName, serverSide = ServerSideClassName)
+public class ClientSetupProxy {
+	public static final String		ClientSideClassName	= ModRiM.Namespace + "core.ClientSetup";
+	public static final String		ServerSideClassName	= ModRiM.Namespace + "core.ClientSetupProxy";
+
+	@SidedProxy(clientSide = ClientSideClassName, serverSide = ServerSideClassName)
 	public static ClientSetupProxy	Instance;
 
 	public void Execute() {}
