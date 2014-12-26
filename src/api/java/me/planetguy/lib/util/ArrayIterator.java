@@ -4,17 +4,17 @@ import java.util.Iterator;
 
 public class ArrayIterator implements Iterator {
 
-	private Object[] objs;
-	
-	private int index;
-	
-	public ArrayIterator(Object[] o){
-		objs=o;
+	private Object[]	objs;
+
+	private int			index;
+
+	public ArrayIterator(Object[] o) {
+		objs = o;
 	}
-	
+
 	@Override
 	public boolean hasNext() {
-		return index<objs.length;
+		return index < objs.length;
 	}
 
 	@Override

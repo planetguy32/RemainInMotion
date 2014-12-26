@@ -3,19 +3,18 @@ package me.planetguy.remaininmotion;
 import java.util.Set;
 import java.util.TreeSet;
 
-import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
-import me.planetguy.remaininmotion.base.RIMBlock;
-import me.planetguy.remaininmotion.carriage.Carriage;
-import me.planetguy.remaininmotion.carriage.CarriageEntity;
+import me.planetguy.remaininmotion.carriage.BlockCarriage;
+import me.planetguy.remaininmotion.carriage.TileEntityCarriage;
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.core.Mod;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
-import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.WorldServer;
@@ -25,7 +24,7 @@ public class CarriagePackage {
 
 	public BlockPosition					RenderCacheKey;
 
-	public CarriageTranslocatorEntity		Translocator;
+	public TileEntityCarriageTranslocator	Translocator;
 
 	public net.minecraft.world.WorldServer	World;
 
@@ -39,7 +38,7 @@ public class CarriagePackage {
 
 	public int								axis;
 
-	public CarriagePackage(CarriageDriveEntity Drive, net.minecraft.tileentity.TileEntity Anchor,
+	public CarriagePackage(TileEntityCarriageDrive Drive, net.minecraft.tileentity.TileEntity Anchor,
 			Directions MotionDirection) {
 		World = (net.minecraft.world.WorldServer) Drive.getWorldObj();
 
@@ -122,18 +121,19 @@ public class CarriagePackage {
 		if (Record.Entity != null) {
 			Record.EntityRecord = new net.minecraft.nbt.NBTTagCompound();
 
-			if (Record.Entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(Record)))
+			if (Record.Entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(Record))) {
 				((ISpecialMoveBehavior) Record.Entity).onAdded(this, Record.EntityRecord);
-			else
+			} else {
 				Record.Entity.writeToNBT(Record.EntityRecord);
+			}
 		}
 
 		if (Configuration.HardmodeActive) {
 			if (Record.block == RIMBlocks.Carriage) {
 				Carriages.add(Record);
 
-				setMass(getMass() + Carriage.Types.values()[Record.Meta].Burden
-						* Carriage.Tiers.values()[((CarriageEntity) Record.Entity).Tier].CarriageBurdenFactor);
+				setMass(getMass() + BlockCarriage.Types.values()[Record.Meta].Burden
+						* BlockCarriage.Tiers.values()[((TileEntityCarriage) Record.Entity).Tier].CarriageBurdenFactor);
 			} else {
 
 				Cargo.add(Record);
@@ -200,7 +200,7 @@ public class CarriagePackage {
 		PendingBlockUpdateRecord.setInteger("Y", PendingBlockUpdate.yCoord);
 		PendingBlockUpdateRecord.setInteger("Z", PendingBlockUpdate.zCoord);
 
-		PendingBlockUpdateRecord.setInteger("Id", RIMBlock.getIdFromBlock(PendingBlockUpdate.func_151351_a()));
+		PendingBlockUpdateRecord.setInteger("Id", Block.getIdFromBlock(PendingBlockUpdate.func_151351_a()));
 
 		PendingBlockUpdateRecord.setInteger("Delay", (int) (PendingBlockUpdate.scheduledTime - WorldTime));
 
@@ -254,8 +254,8 @@ public class CarriagePackage {
 				}
 			}
 		} catch (Throwable VanillaThrowable) // Bad to catch throwable, but need
-												// to catch NoSuchFieldError to
-												// continue into MCPC+ handling
+		// to catch NoSuchFieldError to
+		// continue into MCPC+ handling
 		{
 			if (VanillaThrowable instanceof ThreadDeath) { throw ((ThreadDeath) VanillaThrowable); }
 			try {
@@ -302,9 +302,9 @@ public class CarriagePackage {
 	public void updateHardModeData() throws CarriageMotionException {
 		if (Configuration.HardmodeActive) {
 			for (BlockRecord CarriageRecord : Carriages) {
-				int Tier = ((CarriageEntity) CarriageRecord.Entity).Tier;
+				int Tier = ((TileEntityCarriage) CarriageRecord.Entity).Tier;
 
-				double Factor = Carriage.Tiers.values()[Tier].CargoBurdenFactor;
+				double Factor = BlockCarriage.Tiers.values()[Tier].CargoBurdenFactor;
 
 				if (Tier == 0) {
 					for (Directions Direction : Directions.values()) {
@@ -349,14 +349,14 @@ public class CarriagePackage {
 			}
 		}
 
-		CarriageDriveEntity drive = (CarriageDriveEntity) this.DriveRecord.Entity;
+		TileEntityCarriageDrive drive = (TileEntityCarriageDrive) DriveRecord.Entity;
 
 		drive.removeUsedEnergy(this);
 
 		NBTTagCompound tag = new NBTTagCompound();
 		drive.writeToNBT(tag);
 
-		this.DriveRecord.EntityRecord = tag;
+		DriveRecord.EntityRecord = tag;
 	}
 
 	public double GetBaseBurden(BlockRecord Record) {

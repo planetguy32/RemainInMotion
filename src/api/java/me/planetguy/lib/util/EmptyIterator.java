@@ -2,12 +2,12 @@ package me.planetguy.lib.util;
 
 import java.util.Iterator;
 
-public class EmptyIterator implements Iterator{
+public class EmptyIterator implements Iterator {
 
-	public static EmptyIterator instance=new EmptyIterator();
-	
-	private EmptyIterator(){};
-	
+	public static EmptyIterator	instance	= new EmptyIterator();
+
+	private EmptyIterator() {};
+
 	@Override
 	public boolean hasNext() {
 		return false;

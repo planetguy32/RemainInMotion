@@ -1,17 +1,14 @@
 package me.planetguy.remaininmotion.network;
 
-import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.client.CarriageRenderCache;
 import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
-import me.planetguy.remaininmotion.drive.CarriageRotatorEntity;
-import me.planetguy.remaininmotion.spectre.RotativeSpectreEntity;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageRotator;
+import me.planetguy.remaininmotion.render.CarriageRenderCache;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 
 public abstract class RenderPacket {
 	public static void Dispatch(CarriagePackage Package) {
@@ -60,7 +57,7 @@ public abstract class RenderPacket {
 		} else {
 			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X + Package.MotionDirection.DeltaX,
 					Package.AnchorRecord.Y + Package.MotionDirection.DeltaY, Package.AnchorRecord.Z
-							+ Package.MotionDirection.DeltaZ, Package.World, PacketTypes.Render, Packet);
+					+ Package.MotionDirection.DeltaZ, Package.World, PacketTypes.Render, Packet);
 		}
 	}
 
@@ -99,10 +96,10 @@ public abstract class RenderPacket {
 					if (Record.Y == DriveY) {
 						if (Record.Z == DriveZ) {
 							try {
-								((CarriageDriveEntity) Record.Entity).Active = true;
+								((TileEntityCarriageDrive) Record.Entity).Active = true;
 
-								if (Record.Entity instanceof CarriageRotatorEntity) {
-									((CarriageRotatorEntity) Record.Entity).setAxis(Packet.getInteger("axis"));
+								if (Record.Entity instanceof TileEntityCarriageRotator) {
+									((TileEntityCarriageRotator) Record.Entity).setAxis(Packet.getInteger("axis"));
 								}
 
 							} catch (Throwable Throwable) {

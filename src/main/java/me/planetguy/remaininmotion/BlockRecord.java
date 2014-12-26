@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion;
 
-import me.planetguy.remaininmotion.base.TileEntity;
+import me.planetguy.remaininmotion.base.TileEntityRiM;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -14,7 +14,7 @@ public class BlockRecord implements Comparable<BlockRecord> {
 		return ("(" + X + "," + Y + "," + Z + ")");
 	}
 
-	public BlockRecord(TileEntity te) {
+	public BlockRecord(TileEntityRiM te) {
 		this(te.xCoord, te.yCoord, te.zCoord);
 	}
 
@@ -81,7 +81,7 @@ public class BlockRecord implements Comparable<BlockRecord> {
 		Entity = World.getTileEntity(X, Y, Z);
 	}
 
-	public static BlockRecord Identified(TileEntity Anchor, int X, int Y, int Z) {
+	public static BlockRecord Identified(TileEntityRiM Anchor, int X, int Y, int Z) {
 		BlockRecord Record = new BlockRecord(X, Y, Z);
 
 		Record.Identify(Anchor.getWorldObj());

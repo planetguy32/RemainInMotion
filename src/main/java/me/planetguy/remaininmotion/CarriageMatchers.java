@@ -26,7 +26,7 @@ public class CarriageMatchers {
 			net.minecraft.tileentity.TileEntity te) {
 		for (CarriageMatcher m : matchers) {
 			Moveable mv = m.getCarriage(blockslist, meta, te);
-			if (mv != null) return mv;
+			if (mv != null) { return mv; }
 		}
 		return null;
 	}

@@ -1,17 +1,16 @@
 package me.planetguy.remaininmotion;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.base.Item;
+import me.planetguy.remaininmotion.base.ItemRiM;
 import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.remaininmotion.core.RiMItems;
-import me.planetguy.remaininmotion.core.ModInteraction;
-import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.ModInteraction.Wrenches;
+import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMItems;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class ToolItemSet extends Item {
+public class ToolItemSet extends ItemRiM {
 	public static int	Id;
 
 	public enum Types {
@@ -19,7 +18,7 @@ public class ToolItemSet extends Item {
 
 		public IIcon	Icon;
 
-		public net.minecraft.item.ItemStack Stack() {
+		public ItemStack Stack() {
 			return (Stack.New(RiMItems.ToolItemSet, this));
 		}
 	}
@@ -41,7 +40,7 @@ public class ToolItemSet extends Item {
 	}
 
 	@Override
-	public boolean doesContainerItemLeaveCraftingGrid(net.minecraft.item.ItemStack Item) {
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack Item) {
 		return (false);
 	}
 
@@ -85,7 +84,7 @@ public class ToolItemSet extends Item {
 		}
 	}
 
-	public static boolean IsScrewdriverOrEquivalent(net.minecraft.item.ItemStack Item) {
+	public static boolean IsScrewdriverOrEquivalent(ItemStack Item) {
 		if (Item == null) { return (false); }
 
 		if (Item.getItem() == RiMItems.ToolItemSet) {

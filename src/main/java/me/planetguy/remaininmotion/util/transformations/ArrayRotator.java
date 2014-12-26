@@ -1,8 +1,9 @@
 package me.planetguy.remaininmotion.util.transformations;
 
+import static me.planetguy.remaininmotion.util.transformations.Rotator.newSide;
+
 import java.util.Arrays;
 
-import static me.planetguy.remaininmotion.util.transformations.Rotator.newSide;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**

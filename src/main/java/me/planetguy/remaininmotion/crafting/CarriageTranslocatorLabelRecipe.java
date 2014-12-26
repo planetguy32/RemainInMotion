@@ -1,17 +1,18 @@
 package me.planetguy.remaininmotion.crafting;
 
 import me.planetguy.remaininmotion.Vanilla;
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.drive.CarriageDrive;
-import me.planetguy.remaininmotion.drive.CarriageDriveItem;
+import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
+import me.planetguy.remaininmotion.drive.ItemCarriageDrive;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 
 public class CarriageTranslocatorLabelRecipe extends Recipe {
 	@Override
-	public net.minecraft.item.ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory) {
-		net.minecraft.item.ItemStack Drive = null;
+	public ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory) {
+		ItemStack Drive = null;
 
 		boolean[] DyesToAdd = new boolean[Vanilla.DyeTypes.values().length];
 
@@ -22,14 +23,14 @@ public class CarriageTranslocatorLabelRecipe extends Recipe {
 		int InventorySize = Inventory.getSizeInventory();
 
 		for (int Index = 0; Index < InventorySize; Index++) {
-			net.minecraft.item.ItemStack stack = Inventory.getStackInSlot(Index);
+			ItemStack stack = Inventory.getStackInSlot(Index);
 
 			if (stack == null) {
 				continue;
 			}
 
 			if (stack.getItem().equals(net.minecraft.item.Item.getItemFromBlock(RIMBlocks.CarriageDrive))) {
-				if (BlockItem.GetBlockType(stack) == CarriageDrive.Types.Translocator.ordinal()) {
+				if (ItemBlockRiM.GetBlockType(stack) == BlockCarriageDrive.Types.Translocator.ordinal()) {
 					if (Drive != null) { return (null); }
 
 					Drive = stack;
@@ -57,14 +58,14 @@ public class CarriageTranslocatorLabelRecipe extends Recipe {
 
 		if (Drive == null) { return (null); }
 
-		int Tier = CarriageDriveItem.GetTier(Drive);
+		int Tier = ItemCarriageDrive.GetTier(Drive);
 
-		if ((!ComparatorPresent) && (!DyeFound)) { return (CarriageDriveItem.Stack(
-				CarriageDrive.Types.Translocator.ordinal(), Tier)); }
+		if ((!ComparatorPresent) && (!DyeFound)) { return (ItemCarriageDrive.Stack(
+				BlockCarriageDrive.Types.Translocator.ordinal(), Tier)); }
 
-		boolean Private = CarriageDriveItem.GetPrivateFlag(Drive);
+		boolean Private = ItemCarriageDrive.GetPrivateFlag(Drive);
 
-		int Label = CarriageDriveItem.GetLabel(Drive);
+		int Label = ItemCarriageDrive.GetLabel(Drive);
 
 		if (ComparatorPresent) {
 			if (Private) { return (null); }
@@ -74,12 +75,12 @@ public class CarriageTranslocatorLabelRecipe extends Recipe {
 
 		for (Vanilla.DyeTypes DyeType : Vanilla.DyeTypes.values()) {
 			if (DyesToAdd[DyeType.ordinal()]) {
-				if (CarriageDriveItem.LabelHasDye(Label, DyeType)) { return (null); }
+				if (ItemCarriageDrive.LabelHasDye(Label, DyeType)) { return (null); }
 
-				Label = CarriageDriveItem.AddDyeToLabel(Label, DyeType);
+				Label = ItemCarriageDrive.AddDyeToLabel(Label, DyeType);
 			}
 		}
 
-		return (CarriageDriveItem.Stack(CarriageDrive.Types.Translocator.ordinal(), Tier, Private, Label));
+		return (ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Translocator.ordinal(), Tier, Private, Label));
 	}
 }

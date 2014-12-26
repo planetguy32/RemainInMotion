@@ -1,26 +1,26 @@
 package me.planetguy.remaininmotion.core;
 
-import me.planetguy.remaininmotion.carriage.Carriage;
-import me.planetguy.remaininmotion.drive.CarriageDrive;
-import me.planetguy.remaininmotion.spectre.Spectre;
+import me.planetguy.remaininmotion.carriage.BlockCarriage;
+import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
+import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
 public abstract class RIMBlocks {
-	public static Carriage		Carriage;
+	public static BlockCarriage			Carriage;
 
-	public static CarriageDrive	CarriageDrive;
+	public static BlockCarriageDrive	CarriageDrive;
 
-	public static Spectre		Spectre;
+	public static BlockSpectre				Spectre;
 
-	public static Block			air	= Blocks.air;
+	public static Block					air	= Blocks.air;
 
 	public static void Initialize() {
-		Carriage = new Carriage();
+		Carriage = new BlockCarriage();
 
-		CarriageDrive = new CarriageDrive();
+		CarriageDrive = new BlockCarriageDrive();
 
-		Spectre = new Spectre();
+		Spectre = new BlockSpectre();
 
 	}
 }

@@ -4,12 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import net.minecraft.item.ItemStack;
 import me.planetguy.lib.util.Debug;
-import me.planetguy.lib.util.Reflection;
-import me.planetguy.remaininmotion.drive.CarriageControllerEntity;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
+import net.minecraft.item.ItemStack;
 
 public abstract class ModInteraction {
 
@@ -84,7 +82,9 @@ public abstract class ModInteraction {
 
 		Computers.setup();
 
-		if (Computers.load) Core.CarriageControllerEntity = CarriageControllerEntity.class;
+		if (Computers.load) {
+			Core.CarriageControllerEntity = TileEntityCarriageController.class;
+		}
 
 		ForgeMultipart.Establish();
 
@@ -175,16 +175,16 @@ public abstract class ModInteraction {
 					// installed
 					"buildcraft.api.tools.IToolWrench", // Buildcraft
 					"resonant.core.content.ItemScrewdriver", // Resonant
-																// Induction
+					// Induction
 					"ic2.core.item.tool.ItemToolWrench", // IC2
 					"ic2.core.item.tool.ItemToolWrenchElectric", // IC2 (more)
 					"mrtjp.projectred.api.IScrewdriver", // Project Red
 					"mods.railcraft.api.core.items.IToolCrowbar", // Railcraft
 					"com.bluepowermod.items.ItemScrewdriver", // BluePower
 					"cofh.api.item.IToolHammer", // Thermal Expansion and
-													// compatible
+					// compatible
 					"appeng.items.tools.quartz.ToolQuartzWrench", // Applied
-																	// Energistics
+					// Energistics
 					"crazypants.enderio.api.tool.ITool", // Ender IO
 					"mekanism.api.IMekWrench", // Mekanism
 			}) {
@@ -198,8 +198,8 @@ public abstract class ModInteraction {
 
 		public static boolean isAWrench(ItemStack stk) {
 			for (Class c : wrenchClasses) { // must iterate - testing
-											// isAssignableFrom, not equals
-				if (stk != null && stk.getItem() != null && stk.getItem().getClass().isAssignableFrom(c)) return true;
+				// isAssignableFrom, not equals
+				if (stk != null && stk.getItem() != null && stk.getItem().getClass().isAssignableFrom(c)) { return true; }
 			}
 			return false;
 		}

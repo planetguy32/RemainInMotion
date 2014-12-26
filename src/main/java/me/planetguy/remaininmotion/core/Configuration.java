@@ -4,7 +4,7 @@ import me.planetguy.lib.util.Blacklist;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Registry;
-import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
+import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.block.Block;
 
 public class Configuration extends Config {
@@ -206,7 +206,7 @@ public class Configuration extends Config {
 			CarriageMotion.MotionDuration = BoundedInteger("Duration of motion in ticks", 10,
 					CarriageMotion.MotionDuration, Integer.MAX_VALUE);
 
-			MotiveSpectreEntity.Velocity = 1 / ((double) CarriageMotion.MotionDuration);
+			TileEntityMotiveSpectre.Velocity = 1 / ((double) CarriageMotion.MotionDuration);
 
 			CarriageMotion.TeleportationDuration = BoundedInteger("Duration of translocation in ticks", 10,
 					CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);

@@ -1,10 +1,6 @@
 package me.planetguy.remaininmotion.util.transformations;
 
-import java.util.Arrays;
-
 import net.minecraftforge.common.util.ForgeDirection;
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.Directions;
 
 public class Rotator {
 
@@ -17,7 +13,7 @@ public class Rotator {
 	}
 
 	private static int[][]	CCWRotationSideMap	= new int[][] { { 0, 1, 4, 5, 3, 2 }, { 0, 1, 5, 4, 2, 3 },
-			{ 5, 4, 2, 3, 0, 1 }, { 4, 5, 2, 3, 1, 0 }, { 2, 3, 1, 0, 4, 5 }, { 3, 2, 0, 1, 4, 5 } };
+		{ 5, 4, 2, 3, 0, 1 }, { 4, 5, 2, 3, 1, 0 }, { 2, 3, 1, 0, 4, 5 }, { 3, 2, 0, 1, 4, 5 } };
 
 	public static int newSide(int side, int axisRotatedAround) {
 		return CCWRotationSideMap[axisRotatedAround][side];

@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.network;
 
-import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
+import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagList;
 
@@ -9,7 +9,7 @@ public abstract class MultipartPropagationPacket {
 			java.util.Collection<net.minecraft.tileentity.TileEntity> Tiles) {
 		net.minecraft.nbt.NBTTagCompound Packet = new net.minecraft.nbt.NBTTagCompound();
 
-		Packet.setInteger("Id", Block.getIdFromBlock(MotiveSpectreEntity.MultipartContainerBlockId));
+		Packet.setInteger("Id", Block.getIdFromBlock(TileEntityMotiveSpectre.MultipartContainerBlockId));
 
 		net.minecraft.nbt.NBTTagList Body = new net.minecraft.nbt.NBTTagList();
 
@@ -34,7 +34,7 @@ public abstract class MultipartPropagationPacket {
 		net.minecraft.nbt.NBTTagList Body = (NBTTagList) Packet.getTag("Body");
 
 		for (int Index = 0; Index < Body.tagCount(); Index++) {
-			net.minecraft.nbt.NBTTagCompound Tag = (net.minecraft.nbt.NBTTagCompound) Body.getCompoundTagAt(Index);
+			net.minecraft.nbt.NBTTagCompound Tag = Body.getCompoundTagAt(Index);
 
 			World.setBlock(Tag.getInteger("X"), Tag.getInteger("Y"), Tag.getInteger("Z"), Id, 0, 0);
 		}

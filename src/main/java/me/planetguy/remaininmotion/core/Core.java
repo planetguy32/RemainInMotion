@@ -5,9 +5,8 @@ import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.DefaultCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.crafting.Recipes;
-import me.planetguy.remaininmotion.drive.CarriageTranslocatorEntity;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import me.planetguy.remaininmotion.network.PacketManager;
-import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.Item;
 
 public abstract class Core {
@@ -38,7 +37,7 @@ public abstract class Core {
 
 	public static void HandleServerStopping() {
 		try {
-			CarriageTranslocatorEntity.ActiveTranslocatorSets.clear();
+			TileEntityCarriageTranslocator.ActiveTranslocatorSets.clear();
 		} catch (Error e) {
 			// e.printStackTrace();
 		}

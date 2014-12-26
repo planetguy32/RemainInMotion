@@ -30,7 +30,9 @@ public abstract class SneakyWorldUtil {
 
 		// RIMLog.dump(spectre);
 
-		if (spectre == null) spectre = Blocks.air;
+		if (spectre == null) {
+			spectre = Blocks.air;
+		}
 
 		storageArrays[LayerY].func_150818_a(ChunkX, ChunkY, ChunkZ, spectre);
 
@@ -43,7 +45,7 @@ public abstract class SneakyWorldUtil {
 	}
 
 	public static void SetTileEntity(World World, int X, int Y, int Z, net.minecraft.tileentity.TileEntity Entity) {
-		if (Entity == null) throw new NullPointerException();
+		if (Entity == null) { throw new NullPointerException(); }
 		try {
 			if ((Boolean) Reflection.get(World.class, World, "field_147481_N")) {
 				((List) Reflection.get(World.class, World, "addedTileEntityList")).add(Entity);

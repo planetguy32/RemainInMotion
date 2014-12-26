@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion;
 
 import me.planetguy.remaininmotion.core.Mod;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
@@ -21,19 +22,19 @@ public abstract class Registry {
 		} catch (InstantiationException e) {} catch (IllegalAccessException e) {}
 	}
 
-	public static void RegisterShapelessRecipe(net.minecraft.item.ItemStack Result, Object... Pattern) {
+	public static void RegisterShapelessRecipe(ItemStack Result, Object... Pattern) {
 		cpw.mods.fml.common.registry.GameRegistry.addShapelessRecipe(Result, Pattern);
 	}
 
-	public static void RegisterShapelessDictionaryRecipe(net.minecraft.item.ItemStack Result, Object... Pattern) {
+	public static void RegisterShapelessDictionaryRecipe(ItemStack Result, Object... Pattern) {
 		RegisterCustomRecipe(new net.minecraftforge.oredict.ShapelessOreRecipe(Result, Pattern));
 	}
 
-	public static void RegisterShapedRecipe(net.minecraft.item.ItemStack Result, Object... Pattern) {
+	public static void RegisterShapedRecipe(ItemStack Result, Object... Pattern) {
 		cpw.mods.fml.common.registry.GameRegistry.addShapedRecipe(Result, Pattern);
 	}
 
-	public static void RegisterShapedDictionaryRecipe(net.minecraft.item.ItemStack Result, Object... Pattern) {
+	public static void RegisterShapedDictionaryRecipe(ItemStack Result, Object... Pattern) {
 		RegisterCustomRecipe(new net.minecraftforge.oredict.ShapedOreRecipe(Result, Pattern));
 	}
 

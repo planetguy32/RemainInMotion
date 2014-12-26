@@ -1,17 +1,16 @@
 package me.planetguy.remaininmotion;
 
-import net.minecraft.item.ItemStack;
-import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.base.Item;
-import me.planetguy.remaininmotion.core.Mod;
+import me.planetguy.remaininmotion.base.ItemRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.item.ItemStack;
 
-public class SimpleItemSet extends Item {
+public class SimpleItemSet extends ItemRiM {
 
 	public SimpleItemSet() {
 		super();
 	}
 
+	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return super.getUnlocalizedName() + "." + stack.getItemDamage();
 	}

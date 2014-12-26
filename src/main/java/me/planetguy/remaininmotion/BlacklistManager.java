@@ -2,7 +2,6 @@ package me.planetguy.remaininmotion;
 
 import me.planetguy.lib.util.Blacklist;
 import me.planetguy.remaininmotion.core.Configuration;
-import me.planetguy.remaininmotion.core.Configuration.Carriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

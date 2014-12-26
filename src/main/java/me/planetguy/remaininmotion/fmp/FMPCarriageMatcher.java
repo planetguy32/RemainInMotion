@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion.fmp;
 
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
-import me.planetguy.remaininmotion.carriage.FrameCarriageEntity;
+import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import codechicken.multipart.TMultiPart;
@@ -12,8 +12,8 @@ public class FMPCarriageMatcher implements CarriageMatcher {
 
 	@Override
 	public boolean matches(Block block1, int meta1, TileEntity entity1, Block bloc2k, int meta2, TileEntity entity2) {
-		return entity1 instanceof FrameCarriageEntity && isFmpCarriage(entity2)
-				|| (entity2 instanceof FrameCarriageEntity && isFmpCarriage(entity1));
+		return entity1 instanceof TileEntityFrameCarriage && isFmpCarriage(entity2)
+				|| (entity2 instanceof TileEntityFrameCarriage && isFmpCarriage(entity1));
 
 	}
 
@@ -26,17 +26,17 @@ public class FMPCarriageMatcher implements CarriageMatcher {
 		if (te instanceof TileMultipart) {
 			TileMultipart tm = (TileMultipart) te;
 			for (TMultiPart part : tm.jPartList()) {
-				if (part instanceof FMPCarriage) { return true; }
+				if (part instanceof BlockCarriageFMP) { return true; }
 			}
 		}
 		return false;
 	}
 
-	public static FMPCarriage getFMPCarriage(TileMultipart tmp) {
-		FMPCarriage result = null;
-		for (TMultiPart part : ((TileMultipart) tmp).jPartList()) {
-			if (part instanceof FMPCarriage) {
-				result = (FMPCarriage) part;
+	public static BlockCarriageFMP getFMPCarriage(TileMultipart tmp) {
+		BlockCarriageFMP result = null;
+		for (TMultiPart part : tmp.jPartList()) {
+			if (part instanceof BlockCarriageFMP) {
+				result = (BlockCarriageFMP) part;
 			}
 		}
 		return result;

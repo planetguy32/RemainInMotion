@@ -14,10 +14,11 @@ public class DefaultCarriageMatcher implements CarriageMatcher {
 
 	@Override
 	public Moveable getCarriage(Block block, int meta, TileEntity te) {
-		if (te instanceof Moveable)
+		if (te instanceof Moveable) {
 			return (Moveable) te;
-		else
+		} else {
 			return null;
+		}
 	}
 
 }

@@ -1,8 +1,6 @@
 package me.planetguy.remaininmotion;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.ICloseableFactory;
@@ -31,7 +29,7 @@ public class Closeables {
 	public static ICloseable getCloseable(TileEntity entity) {
 		if (entity != null) {
 			for (ClassEntry e : classesRegistered) {
-				if (e.matches(entity)) return e.icf.retrieve(entity);
+				if (e.matches(entity)) { return e.icf.retrieve(entity); }
 			}
 		}
 		return null;

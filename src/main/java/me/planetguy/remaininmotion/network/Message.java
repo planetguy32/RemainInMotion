@@ -29,10 +29,11 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 	@Override
 	public IMessage onMessage(Message message, MessageContext ctx) {
 		// Debug.dbg("Handling message "+message.type);
-		if (message.type.equals(PacketTypes.Render))
+		if (message.type.equals(PacketTypes.Render)) {
 			RenderPacket.Handle(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
-		else if (message.type.equals(PacketTypes.MultipartPropagation))
+		} else if (message.type.equals(PacketTypes.MultipartPropagation)) {
 			MultipartPropagationPacket.Handle(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
+		}
 		return null;
 	}
 

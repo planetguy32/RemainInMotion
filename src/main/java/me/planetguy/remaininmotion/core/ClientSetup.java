@@ -1,34 +1,34 @@
 package me.planetguy.remaininmotion.core;
 
-import me.planetguy.remaininmotion.base.TileEntity;
-import me.planetguy.remaininmotion.carriage.CarriageRenderer;
-import me.planetguy.remaininmotion.client.CarriageDriveRenderer;
-import me.planetguy.remaininmotion.client.MotiveSpectreRenderer;
-import me.planetguy.remaininmotion.client.RIMTileEntityRenderer;
-import me.planetguy.remaininmotion.client.RotativeSpectreRenderer;
-import me.planetguy.remaininmotion.client.TeleportativeSpectreRenderer;
-import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
-import me.planetguy.remaininmotion.spectre.RotativeSpectreEntity;
-import me.planetguy.remaininmotion.spectre.TeleportativeSpectreEntity;
+import me.planetguy.remaininmotion.base.TileEntityRiM;
+import me.planetguy.remaininmotion.render.CarriageDriveRenderer;
+import me.planetguy.remaininmotion.render.CarriageRenderer;
+import me.planetguy.remaininmotion.render.MotiveSpectreRenderer;
+import me.planetguy.remaininmotion.render.RIMTileEntityRenderer;
+import me.planetguy.remaininmotion.render.RotativeSpectreRenderer;
+import me.planetguy.remaininmotion.render.TeleportativeSpectreRenderer;
+import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
+import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
+import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientSetup extends ClientSetupProxy {
-	public void RegisterTileEntityRenderer(RIMTileEntityRenderer Renderer, Class<? extends TileEntity>... EntityClasses) {
-		for (Class<? extends TileEntity> EntityClass : EntityClasses) {
+	public void RegisterTileEntityRenderer(RIMTileEntityRenderer Renderer, Class<? extends TileEntityRiM>... EntityClasses) {
+		for (Class<? extends TileEntityRiM> EntityClass : EntityClasses) {
 			cpw.mods.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(EntityClass, Renderer);
 		}
 	}
 
 	@Override
 	public void Execute() {
-		if (!FMLCommonHandler.instance().getSide().isClient()) return;
+		if (!FMLCommonHandler.instance().getSide().isClient()) { return; }
 
 		if (!Configuration.Cosmetic.renderFallback) {
-			RegisterTileEntityRenderer(new MotiveSpectreRenderer(), MotiveSpectreEntity.class);
+			RegisterTileEntityRenderer(new MotiveSpectreRenderer(), TileEntityMotiveSpectre.class);
 
-			RegisterTileEntityRenderer(new TeleportativeSpectreRenderer(), TeleportativeSpectreEntity.class);
+			RegisterTileEntityRenderer(new TeleportativeSpectreRenderer(), TileEntityTeleportativeSpectre.class);
 
-			RegisterTileEntityRenderer(new RotativeSpectreRenderer(), RotativeSpectreEntity.class);
+			RegisterTileEntityRenderer(new RotativeSpectreRenderer(), TileEntityRotativeSpectre.class);
 
 			new CarriageRenderer();
 

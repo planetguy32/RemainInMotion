@@ -1,23 +1,24 @@
 package me.planetguy.remaininmotion.crafting;
 
-import me.planetguy.remaininmotion.base.BlockItem;
+import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
-import me.planetguy.remaininmotion.carriage.CarriageItem;
+import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 
 public class CarriageDecorationRecipe extends Recipe {
 	@Override
-	public net.minecraft.item.ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory) {
-		net.minecraft.item.ItemStack Carriage = null;
+	public ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory) {
+		ItemStack Carriage = null;
 
-		net.minecraft.item.ItemStack Decoration = null;
+		ItemStack Decoration = null;
 
 		int InventorySize = Inventory.getSizeInventory();
 
 		for (int Index = 0; Index < InventorySize; Index++) {
-			net.minecraft.item.ItemStack Item = Inventory.getStackInSlot(Index);
+			ItemStack Item = Inventory.getStackInSlot(Index);
 
 			if (Item == null) {
 				continue;
@@ -39,9 +40,9 @@ public class CarriageDecorationRecipe extends Recipe {
 
 		if (Carriage == null) { return (null); }
 
-		int Tier = CarriageItem.GetTier(Carriage);
+		int Tier = ItemCarriage.GetTier(Carriage);
 
-		int DecorationId = CarriageItem.GetDecorationId(Carriage);
+		int DecorationId = ItemCarriage.GetDecorationId(Carriage);
 
 		if (DecorationId == 0) {
 			if (Decoration == null) { return (null); }
@@ -52,11 +53,11 @@ public class CarriageDecorationRecipe extends Recipe {
 
 			int DecorationMeta = Decoration.getItem().getMetadata(Decoration.getItemDamage());
 
-			return (CarriageItem.Stack(Carriage.getItemDamage(), Tier, DecorationId, DecorationMeta));
+			return (ItemCarriage.Stack(Carriage.getItemDamage(), Tier, DecorationId, DecorationMeta));
 		}
 
 		if (Decoration != null) { return (null); }
 
-		return (CarriageItem.Stack(BlockItem.GetBlockType(Carriage), Tier));
+		return (ItemCarriage.Stack(ItemBlockRiM.GetBlockType(Carriage), Tier));
 	}
 }
