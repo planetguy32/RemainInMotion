@@ -11,7 +11,9 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -122,4 +124,17 @@ public class BlockCarriage extends BlockRiM {
 		}
 		return false;
 	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+		TileEntityCarriage tile = (TileEntityCarriage) world.getTileEntity(x, y, z);
+		if (tile != null) {
+			int decoID = tile.DecorationId;
+			int decoMeta = tile.DecorationMeta;
+			ItemStack stack = ItemCarriage.Stack(world.getBlockMetadata(x, y, z), 0, decoID, decoMeta);
+			if (stack != null) return stack;
+		}
+		return super.getPickBlock(target, world, x, y, z);
+	}
+
 }

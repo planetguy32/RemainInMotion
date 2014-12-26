@@ -5,13 +5,16 @@ import java.util.List;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockRiM;
+import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -75,11 +78,7 @@ public class BlockCarriageDrive extends BlockRiM {
 				continue;
 			}
 
-			if (Type == Types.Translocator) {
-				Showcase.add(ItemCarriageDrive.Stack(Type.ordinal(), 0, false, 0));
-			} else {
-				Showcase.add(ItemCarriageDrive.Stack(Type.ordinal(), 0));
-			}
+			Showcase.add(ItemCarriageDrive.Stack(Type.ordinal(), 0));
 		}
 	}
 
@@ -185,6 +184,20 @@ public class BlockCarriageDrive extends BlockRiM {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+		TileEntityRiM tile = (TileEntityRiM) world.getTileEntity(x, y, z);
+		if (tile != null) {
+			int label = 0;
+			if (tile instanceof TileEntityCarriageTranslocator) {
+				label = ((TileEntityCarriageTranslocator) tile).Label;
+			}
+			ItemStack stack = ItemCarriageDrive.Stack(world.getBlockMetadata(x, y, z), 0, false, label);
+			if (stack != null) return stack;
+		}
+		return super.getPickBlock(target, world, x, y, z);
 	}
 
 }

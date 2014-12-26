@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.base;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -139,11 +141,6 @@ public abstract class BlockRiM extends BlockContainer {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-		return super.getPickBlock(target, world, x, y, z);
 	}
 
 }
