@@ -1,5 +1,3 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion;
 
-public class BlockRecordSet extends java . util . TreeSet < BlockRecord >
-{
-}
+public class BlockRecordSet extends java.util.TreeSet<BlockRecord> {}

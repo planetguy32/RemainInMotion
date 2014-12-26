@@ -1,46 +1,39 @@
-package me.planetguy.remaininmotion.client ;
+package me.planetguy.remaininmotion.client;
 
 import me.planetguy.remaininmotion.core.Configuration;
 import me.planetguy.remaininmotion.spectre.MotiveSpectreEntity;
 
-public class MotiveSpectreRenderer extends RIMTileEntityRenderer
-{
+public class MotiveSpectreRenderer extends RIMTileEntityRenderer {
 	@Override
-	public void Render ( net . minecraft . tileentity . TileEntity TileEntity , float PartialTick )
-	{
-		
-		MotiveSpectreEntity Spectre = ( MotiveSpectreEntity ) TileEntity ;
+	public void Render(net.minecraft.tileentity.TileEntity TileEntity, float PartialTick) {
 
-		if ( Spectre . RenderCacheKey == null )
-		{
-			return ;
-		}
+		MotiveSpectreEntity Spectre = (MotiveSpectreEntity) TileEntity;
+
+		if (Spectre.RenderCacheKey == null) { return; }
 
 		{
-			double Offset ;
-			
-			if ( Configuration . CarriageMotion . RenderInFinalPositionDuringLag && ( Spectre . TicksExisted >= Configuration . CarriageMotion . MotionDuration ) )
-			{
-				Offset = 1 ;
-			}
-			else
-			{
-				Offset = Spectre . Velocity * ( Spectre . TicksExisted + PartialTick ) ;
+			double Offset;
+
+			if (Configuration.CarriageMotion.RenderInFinalPositionDuringLag
+					&& (Spectre.TicksExisted >= Configuration.CarriageMotion.MotionDuration)) {
+				Offset = 1;
+			} else {
+				Offset = Spectre.Velocity * (Spectre.TicksExisted + PartialTick);
 			}
 
-			Render . Translate ( Offset * Spectre . MotionDirection . DeltaX - Spectre . xCoord , Offset * Spectre . MotionDirection . DeltaY - Spectre . yCoord ,
-				Offset * Spectre . MotionDirection . DeltaZ - Spectre . zCoord ) ;
+			Render.Translate(Offset * Spectre.MotionDirection.DeltaX - Spectre.xCoord, Offset
+					* Spectre.MotionDirection.DeltaY - Spectre.yCoord, Offset * Spectre.MotionDirection.DeltaZ
+					- Spectre.zCoord);
 		}
 
-		Integer DisplayList = CarriageRenderCache . lookupDisplayList ( Spectre . RenderCacheKey ) ;
+		Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.RenderCacheKey);
 
-		if ( DisplayList != null )
-		{
-			Render . ResetBoundTexture ( ) ;
+		if (DisplayList != null) {
+			Render.ResetBoundTexture();
 
-			Render . ExecuteDisplayList ( DisplayList ) ;
+			Render.ExecuteDisplayList(DisplayList);
 
-			Render . ResetBoundTexture ( ) ;
+			Render.ResetBoundTexture();
 		}
 	}
 }

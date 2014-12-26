@@ -205,7 +205,7 @@ class CarriageControllerEntity extends CarriageDriveEntity with EasyComputerInte
 
 
 Original Java:*/
-package me.planetguy.remaininmotion.drive ;
+package me.planetguy.remaininmotion.drive;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -233,200 +233,139 @@ import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;
 import net.minecraft.tileentity.TileEntity;
 
-@Optional.InterfaceList(value = { 	
-		@Optional.Interface(iface="dan200.computercraft.api.peripheral.IPeripheral", modid="ComputerCraft"),
+@Optional.InterfaceList(value = {
+		@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "ComputerCraft"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
-		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class CarriageControllerEntity extends CarriageDriveEntity implements 
-IPeripheral,
-SimpleComponent, ManagedPeripheral
-{
-	
-	public boolean lastMoveWorked;
-	
-	public boolean Simulating ;
+		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers") })
+public class CarriageControllerEntity extends CarriageDriveEntity implements IPeripheral, SimpleComponent,
+		ManagedPeripheral {
 
-	public Directions MotionDirection ;
+	public boolean					lastMoveWorked;
 
-	public CarriageMotionException Error ;
+	public boolean					Simulating;
 
-	public boolean Obstructed ;
+	public Directions				MotionDirection;
 
-	public int ObstructionX ;
-	public int ObstructionY ;
-	public int ObstructionZ ;
-	
-	private volatile boolean finishedMoving=false;
+	public CarriageMotionException	Error;
+
+	public boolean					Obstructed;
+
+	public int						ObstructionX;
+	public int						ObstructionY;
+	public int						ObstructionZ;
+
+	private volatile boolean		finishedMoving	= false;
 
 	@Override
-	public void HandleToolUsage ( int Side , boolean Sneaking )
-	{
-		
+	public void HandleToolUsage(int Side, boolean Sneaking) {
+
 	}
 
 	@Override
-	public void updateEntity ( )
-	{
-		synchronized(this){
-			
-			if ( worldObj . isRemote )
-			{
-				return ;
-			}
-			
-			if ( CooldownRemaining > 0 )
-			{
-				CooldownRemaining -- ;
+	public void updateEntity() {
+		synchronized (this) {
 
-				MarkServerRecordDirty ( ) ;
+			if (worldObj.isRemote) { return; }
 
-				return ;
+			if (CooldownRemaining > 0) {
+				CooldownRemaining--;
+
+				MarkServerRecordDirty();
+
+				return;
 			}
 
-			if ( Stale )
-			{
-				HandleNeighbourBlockChange ( ) ;
+			if (Stale) {
+				HandleNeighbourBlockChange();
 			}
 
-			if ( MotionDirection == null )
-			{
-				return ;
-			}
+			if (MotionDirection == null) { return; }
 
-			lastMoveWorked=true;
-			
-			try
-			{
-				Move ( ) ;
-			}
-			catch ( CarriageMotionException Error )
-			{
-				lastMoveWorked=false;
-				this . Error = Error ;
+			lastMoveWorked = true;
 
-				if ( Error instanceof CarriageObstructionException )
-				{
-					Obstructed = true ;
+			try {
+				Move();
+			} catch (CarriageMotionException Error) {
+				lastMoveWorked = false;
+				this.Error = Error;
 
-					ObstructionX = ( ( CarriageObstructionException ) Error ) . X ;
-					ObstructionY = ( ( CarriageObstructionException ) Error ) . Y ;
-					ObstructionZ = ( ( CarriageObstructionException ) Error ) . Z ;
+				if (Error instanceof CarriageObstructionException) {
+					Obstructed = true;
+
+					ObstructionX = ((CarriageObstructionException) Error).X;
+					ObstructionY = ((CarriageObstructionException) Error).Y;
+					ObstructionZ = ((CarriageObstructionException) Error).Z;
 				}
 			}
 
-			MotionDirection = null ;
+			MotionDirection = null;
 			notify();
 		}
 
 	}
 
-	public boolean Anchored ;
+	public boolean	Anchored;
 
 	@Override
-	public boolean Anchored ( )
-	{
-		return ( Anchored ) ;
+	public boolean Anchored() {
+		return (Anchored);
 	}
 
-	public enum Commands
-	{
-		move ,
-		anchored_move ,
-		check_anchored_move ,
-		unanchored_move ,
-		check_unanchored_move ;
+	public enum Commands {
+		move, anchored_move, check_anchored_move, unanchored_move, check_unanchored_move;
 	}
 
-	public void AssertArgumentCount ( Object [ ] Arguments , int ArgumentCount ) throws Exception
-	{
-		if ( Arguments . length < ArgumentCount )
-		{
-			throw ( new Exception ( "too few arguments" ) ) ;
-		}
+	public void AssertArgumentCount(Object[] Arguments, int ArgumentCount) throws Exception {
+		if (Arguments.length < ArgumentCount) { throw (new Exception("too few arguments")); }
 
-		if ( Arguments . length > ArgumentCount )
-		{
-			throw ( new Exception ( "too many arguments" ) ) ;
+		if (Arguments.length > ArgumentCount) { throw (new Exception("too many arguments")); }
+	}
+
+	public boolean ParseBooleanArgument(Object Argument, String Label) throws Exception {
+		try {
+			return ((Boolean) Argument);
+		} catch (Throwable Throwable) {
+			throw (new Exception("invalid " + Label + " flag"));
 		}
 	}
 
-	public boolean ParseBooleanArgument ( Object Argument , String Label ) throws Exception
-	{
-		try
-		{
-			return ( ( Boolean ) Argument ) ;
+	public Directions ParseDirectionArgument(Object Argument) throws Exception {
+		if (Argument instanceof Double) {
+			try {
+				return (Directions.values()[(int) Math.round((Double) Argument)]);
+			} catch (Throwable Throwable) {
+				throw (new Exception("direction index out of range"));
+			}
 		}
-		catch ( Throwable Throwable )
-		{
-			throw ( new Exception ( "invalid " + Label + " flag" ) ) ;
-		}
+
+		try {
+			String Direction = (String) Argument;
+
+			if (Direction.equalsIgnoreCase("down") || Direction.equalsIgnoreCase("negy")) { return (Directions.NegY); }
+
+			if (Direction.equalsIgnoreCase("up") || Direction.equalsIgnoreCase("posy")) { return (Directions.PosY); }
+
+			if (Direction.equalsIgnoreCase("north") || Direction.equalsIgnoreCase("negz")) { return (Directions.NegZ); }
+
+			if (Direction.equalsIgnoreCase("south") || Direction.equalsIgnoreCase("posz")) { return (Directions.PosZ); }
+
+			if (Direction.equalsIgnoreCase("west") || Direction.equalsIgnoreCase("negx")) { return (Directions.NegX); }
+
+			if (Direction.equalsIgnoreCase("east") || Direction.equalsIgnoreCase("posx")) { return (Directions.PosX); }
+		} catch (Throwable Throwable) {}
+
+		throw (new Exception("invalid direction " + Argument));
 	}
 
-	public Directions ParseDirectionArgument ( Object Argument ) throws Exception
-	{
-		if ( Argument instanceof Double )
-		{
-			try
-			{
-				return ( Directions . values ( ) [ ( int ) Math . round ( ( Double ) Argument ) ] ) ;
-			}
-			catch ( Throwable Throwable )
-			{
-				throw ( new Exception ( "direction index out of range" ) ) ;
-			}
-		}
+	public void SetupMotion(Directions MotionDirection, boolean Simulating, boolean Anchored) {
+		synchronized (this) {
+			this.MotionDirection = MotionDirection;
 
-		try
-		{
-			String Direction = ( String ) Argument ;
+			this.Simulating = Simulating;
 
-			if ( Direction . equalsIgnoreCase ( "down" ) || Direction . equalsIgnoreCase ( "negy" ) )
-			{
-				return ( Directions . NegY ) ;
-			}
+			this.Anchored = Anchored;
 
-			if ( Direction . equalsIgnoreCase ( "up" ) || Direction . equalsIgnoreCase ( "posy" ) )
-			{
-				return ( Directions. PosY ) ;
-			}
-
-			if ( Direction . equalsIgnoreCase ( "north" ) || Direction . equalsIgnoreCase ( "negz" ) )
-			{
-				return ( Directions . NegZ ) ;
-			}
-
-			if ( Direction . equalsIgnoreCase ( "south" ) || Direction . equalsIgnoreCase ( "posz" ) )
-			{
-				return ( Directions . PosZ ) ;
-			}
-
-			if ( Direction . equalsIgnoreCase ( "west" ) || Direction . equalsIgnoreCase ( "negx" ) )
-			{
-				return ( Directions . NegX ) ;
-			}
-
-			if ( Direction . equalsIgnoreCase ( "east" ) || Direction . equalsIgnoreCase ( "posx" ) )
-			{
-				return ( Directions . PosX ) ;
-			}
-		}
-		catch ( Throwable Throwable )
-		{
-		}
-
-		throw ( new Exception ( "invalid direction "+ Argument ) ) ;
-	}
-
-	public void SetupMotion ( Directions MotionDirection , boolean Simulating , boolean Anchored )
-	{
-		synchronized(this){
-			this . MotionDirection = MotionDirection ;
-
-			this . Simulating = Simulating ;
-
-			this . Anchored = Anchored ;
-			
-			lastMoveWorked=false;
+			lastMoveWorked = false;
 
 			this.notify();
 		}
@@ -436,151 +375,122 @@ SimpleComponent, ManagedPeripheral
 	 * Runs in computer threads - be careful of thread safety
 	 */
 	@ECIExpose
-	public Object[] move(Object[] Arguments ) throws Exception{
+	public Object[] move(Object[] Arguments) throws Exception {
 
-		AssertArgumentCount ( Arguments , 3 ) ;
+		AssertArgumentCount(Arguments, 3);
 
-		SetupMotion ( ParseDirectionArgument ( Arguments [ 0 ] ) , ParseBooleanArgument ( Arguments [ 1 ] , "simulation" ) , ParseBooleanArgument ( Arguments [ 2 ] , "anchoring" ) ) ;
+		SetupMotion(ParseDirectionArgument(Arguments[0]), ParseBooleanArgument(Arguments[1], "simulation"),
+				ParseBooleanArgument(Arguments[2], "anchoring"));
 
-		Error = null ;
+		Error = null;
 
-		Obstructed = false ;
+		Obstructed = false;
 
 		return new Object[0];
 	}
-	
+
 	@ECIExpose
-	public Object[] status(Object[] args){
-		synchronized(this){
-			if(Obstructed)
-				return new Object[]{
-					this.energyStored,
-					this.lastMoveWorked,
-					Error.getMessage(),
-					ObstructionX , ObstructionY , ObstructionZ
-			};
-			else if(Error==null){
-				return new Object[]{this.energyStored,this.lastMoveWorked};
-			}else{
-				return new Object[]{
-						this.energyStored,
-						this.lastMoveWorked,
-						Error.getMessage()
-				};
+	public Object[] status(Object[] args) {
+		synchronized (this) {
+			if (Obstructed)
+				return new Object[] { this.energyStored, this.lastMoveWorked, Error.getMessage(), ObstructionX,
+						ObstructionY, ObstructionZ };
+			else if (Error == null) {
+				return new Object[] { this.energyStored, this.lastMoveWorked };
+			} else {
+				return new Object[] { this.energyStored, this.lastMoveWorked, Error.getMessage() };
 			}
 		}
-		
-	}
-	
-	@Override
-	public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException{
-		//use energy iff not just simulating motion
-		if(!Simulating)
-			super.removeUsedEnergy(_package);
-	}
 
-
-	public void Move ( ) throws CarriageMotionException
-	{
-		if ( Active || CooldownRemaining>0)
-		{
-			throw ( new CarriageMotionException ( Lang.translate(Mod.Handle+".active") ) ) ;
-		}
-
-		if ( CarriageDirection == null )
-		{
-			throw ( new CarriageMotionException ( Lang.translate(Mod.Handle+".noValidCarriage") ) ) ;
-		}
-
-		CarriagePackage Package = PreparePackage ( MotionDirection ) ;
-
-		if ( Simulating )
-		{
-			return ;
-		}
-
-		InitiateMotion ( Package ) ;
 	}
 
 	@Override
-	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
-	{
-		CarriagePackage Package ;
-
-		if ( Anchored )
-		{
-			if ( MotionDirection == CarriageDirection )
-			{
-				throw ( new CarriageMotionException ( Lang.translate(Mod.Handle+".noPushWhenAnchored") ) ) ;
-			}
-
-			if ( MotionDirection == CarriageDirection . Opposite ( ) )
-			{
-				throw ( new CarriageMotionException ( Lang.translate(Mod.Handle+".noPullWhenAnchored") ) ) ;
-			}
-
-			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
-			
-			MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
-
-			if ( Package . Body . contains ( Package . DriveRecord ) )
-			{
-				throw ( new CarriageMotionException ( "carriage is attempting to move controller while in anchored mode" ) ) ;
-			}
-
-			if ( Package . Body . contains ( Package . DriveRecord . NextInDirection ( MotionDirection . Opposite ( ) ) ) )
-			{
-				throw ( new CarriageMotionException ( "carriage is obstructed by controller while in anchored mode" ) ) ;
-			}
-		}
-		else
-		{
-			Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
-
-			Package . AddBlock ( Package . DriveRecord ) ;
-
-			if ( MotionDirection != CarriageDirection )
-			{
-				Package . AddPotentialObstruction ( Package . DriveRecord . NextInDirection ( MotionDirection ) ) ;
-			}
-			
-			MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
-			
-		}
-
-		Package . Finalize ( ) ;
-		
-		return ( Package ) ;
+	public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException {
+		// use energy iff not just simulating motion
+		if (!Simulating) super.removeUsedEnergy(_package);
 	}
-	
-	public String type(){
+
+	public void Move() throws CarriageMotionException {
+		if (Active || CooldownRemaining > 0) { throw (new CarriageMotionException(
+				Lang.translate(Mod.Handle + ".active"))); }
+
+		if (CarriageDirection == null) { throw (new CarriageMotionException(Lang.translate(Mod.Handle
+				+ ".noValidCarriage"))); }
+
+		CarriagePackage Package = PreparePackage(MotionDirection);
+
+		if (Simulating) { return; }
+
+		InitiateMotion(Package);
+	}
+
+	@Override
+	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
+			throws CarriageMotionException {
+		CarriagePackage Package;
+
+		if (Anchored) {
+			if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(Lang.translate(Mod.Handle
+					+ ".noPushWhenAnchored"))); }
+
+			if (MotionDirection == CarriageDirection.Opposite()) { throw (new CarriageMotionException(
+					Lang.translate(Mod.Handle + ".noPullWhenAnchored"))); }
+
+			Package = new CarriagePackage(this, carriage, MotionDirection);
+
+			MultiTypeCarriageUtil.fillPackage(Package, carriage);
+
+			if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
+					"carriage is attempting to move controller while in anchored mode")); }
+
+			if (Package.Body.contains(Package.DriveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageMotionException(
+					"carriage is obstructed by controller while in anchored mode")); }
+		} else {
+			Package = new CarriagePackage(this, carriage, MotionDirection);
+
+			Package.AddBlock(Package.DriveRecord);
+
+			if (MotionDirection != CarriageDirection) {
+				Package.AddPotentialObstruction(Package.DriveRecord.NextInDirection(MotionDirection));
+			}
+
+			MultiTypeCarriageUtil.fillPackage(Package, carriage);
+
+		}
+
+		Package.Finalize();
+
+		return (Package);
+	}
+
+	public String type() {
 		return "carriage";
 	}
-	
-	public Method[] listMethods(){
-		ArrayList<Method> methods=new ArrayList<Method>();
-		for(Method m:this.getClass().getMethods()){
-			if(m.isAnnotationPresent(ECIExpose.class)){
+
+	public Method[] listMethods() {
+		ArrayList<Method> methods = new ArrayList<Method>();
+		for (Method m : this.getClass().getMethods()) {
+			if (m.isAnnotationPresent(ECIExpose.class)) {
 				methods.add(m);
 			}
 		}
 		return methods.toArray(new Method[0]);
 	}
-	
+
 	public String[] getMethodNames() {
-		Method[] methods=listMethods();
-		String[] names=new String[methods.length];
-		for(int i=0; i<names.length; i++){
-			names[i]=methods[i].getName();
+		Method[] methods = listMethods();
+		String[] names = new String[methods.length];
+		for (int i = 0; i < names.length; i++) {
+			names[i] = methods[i].getName();
 		}
 		return names;
 	}
-	
-	/* =====================================
-	 * ComputerCraft integration
+
+	/*
+	 * ===================================== ComputerCraft integration
 	 * =====================================
 	 */
-	
+
 	@Override
 	public String getType() {
 		Debug.mark();
@@ -588,39 +498,36 @@ SimpleComponent, ManagedPeripheral
 	}
 
 	@Override
-	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
-			int method, Object[] arguments) throws LuaException,
-			InterruptedException {
-		try{
-			Method m=listMethods()[method];
-			return (Object[]) m.invoke(this, new Object[]{arguments});
-		}catch(Exception e){
+	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments)
+			throws LuaException, InterruptedException {
+		try {
+			Method m = listMethods()[method];
+			return (Object[]) m.invoke(this, new Object[] { arguments });
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new LuaException(e.getLocalizedMessage());
 		}
 	}
 
 	@Override
-	public void attach(IComputerAccess computer) {
-	}
+	public void attach(IComputerAccess computer) {}
 
 	@Override
-	public void detach(IComputerAccess computer) {
-	}
+	public void detach(IComputerAccess computer) {}
 
 	@Override
 	public boolean equals(IPeripheral other) {
-		return other==this;
+		return other == this;
 	}
-	
+
 	/*
 	 * OpenComputers integration
 	 */
-	
-    @Override
-    public String getComponentName() {
-        return type();
-    }
+
+	@Override
+	public String getComponentName() {
+		return type();
+	}
 
 	@Override
 	public String[] methods() {
@@ -628,16 +535,12 @@ SimpleComponent, ManagedPeripheral
 	}
 
 	@Override
-	@Optional.Method(modid="OpenComputers")
-	public Object[] invoke(String method, Context context, Arguments args)
-			throws Exception {
-		for(Method m:listMethods()){
-			if(m.getName().equals(method)){
-				return (Object[]) m.invoke(this, new Object[]{args.toArray()});
-			}
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		for (Method m : listMethods()) {
+			if (m.getName().equals(method)) { return (Object[]) m.invoke(this, new Object[] { args.toArray() }); }
 		}
 		throw new NoSuchMethodException(method);
 	}
-	
-}
 
+}

@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.core ;
+package me.planetguy.remaininmotion.core;
 
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CreativeTab;
@@ -10,46 +10,40 @@ import me.planetguy.remaininmotion.network.PacketManager;
 import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.Item;
 
-public abstract class Core
-{
-	public static void HandlePreInit ( )
-	{
-	}
+public abstract class Core {
+	public static void HandlePreInit() {}
 
-	public static void HandleInit ( )
-	{
-		ModInteraction . Establish ( ) ;
+	public static void HandleInit() {
+		ModInteraction.Establish();
 
-		CreativeTab . Prepare ( ) ;
+		CreativeTab.Prepare();
 
-		RIMBlocks . Initialize ( ) ;
+		RIMBlocks.Initialize();
 
-		RiMItems . Initialize ( ) ;
+		RiMItems.Initialize();
 
-		CreativeTab . Initialize ( Item.getItemFromBlock(RIMBlocks . Carriage ) );
-		
+		CreativeTab.Initialize(Item.getItemFromBlock(RIMBlocks.Carriage));
+
 		RiMRegistry.registerMatcher(new DefaultCarriageMatcher());
-		
+
 		PacketManager.init();
-		
+
 	}
 
-	public static void HandlePostInit ( )
-	{
-		Recipes . Register ( ) ;
+	public static void HandlePostInit() {
+		Recipes.Register();
 
-		BlacklistManager . Initialize ( ) ;
+		BlacklistManager.Initialize();
 	}
 
-	public static void HandleServerStopping ( )
-	{
-		try{
-			CarriageTranslocatorEntity . ActiveTranslocatorSets . clear ( ) ;
-		}catch(Error e){
-			//e.printStackTrace();
+	public static void HandleServerStopping() {
+		try {
+			CarriageTranslocatorEntity.ActiveTranslocatorSets.clear();
+		} catch (Error e) {
+			// e.printStackTrace();
 		}
 	}
 
-	public static Class CarriageControllerEntity ;
+	public static Class	CarriageControllerEntity;
 
 }

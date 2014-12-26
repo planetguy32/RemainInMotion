@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.drive ;
+package me.planetguy.remaininmotion.drive;
 
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
@@ -7,33 +7,30 @@ import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class CarriageEngineEntity extends CarriageDriveEntity
-{
+public class CarriageEngineEntity extends CarriageDriveEntity {
 	@Override
-	public CarriagePackage GeneratePackage ( TileEntity carriage , Directions CarriageDirection , Directions MotionDirection ) throws CarriageMotionException
-	{
-		CarriagePackage Package = new CarriagePackage ( this , carriage , MotionDirection ) ;
+	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
+			throws CarriageMotionException {
+		CarriagePackage Package = new CarriagePackage(this, carriage, MotionDirection);
 
-		Package . AddBlock ( Package . DriveRecord ) ;
+		Package.AddBlock(Package.DriveRecord);
 
-		if ( MotionDirection != CarriageDirection )
-		{
-			Package . AddPotentialObstruction ( Package . DriveRecord . NextInDirection ( MotionDirection ) ) ;
+		if (MotionDirection != CarriageDirection) {
+			Package.AddPotentialObstruction(Package.DriveRecord.NextInDirection(MotionDirection));
 		}
 
-		MultiTypeCarriageUtil.fillPackage(Package, carriage ) ;
-		
-		Package . Finalize ( ) ;
-		
+		MultiTypeCarriageUtil.fillPackage(Package, carriage);
+
+		Package.Finalize();
+
 		this.removeUsedEnergy(Package);
 
-		return ( Package ) ;
+		return (Package);
 	}
 
 	@Override
-	public boolean Anchored ( )
-	{
-		return ( false ) ;
+	public boolean Anchored() {
+		return (false);
 	}
 
 }

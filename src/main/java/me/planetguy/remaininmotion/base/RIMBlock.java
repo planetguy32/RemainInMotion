@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.base ;
+package me.planetguy.remaininmotion.base;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,150 +12,121 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public abstract class RIMBlock extends net . minecraft . block . BlockContainer
-{
-	public int RenderId ;
+public abstract class RIMBlock extends net.minecraft.block.BlockContainer {
+	public int	RenderId;
 
 	@Override
-	public int getRenderType ( )
-	{
-		return ( RenderId ) ;
+	public int getRenderType() {
+		return (RenderId);
 	}
 
-	public Class < ? extends TileEntity > [ ] TileEntityClasses ;
+	public Class<? extends TileEntity>[]	TileEntityClasses;
 
 	@Override
-	public boolean hasTileEntity ( int meta )
-	{
-		try
-		{
-			if(meta>=0 && meta < TileEntityClasses.length)
-				return ( TileEntityClasses [ meta ] != null ) ;
-		}
-		catch ( Throwable t )
-		{
+	public boolean hasTileEntity(int meta) {
+		try {
+			if (meta >= 0 && meta < TileEntityClasses.length) return (TileEntityClasses[meta] != null);
+		} catch (Throwable t) {
 			Debug.exception(t);
 		}
-		
-		return ( false ) ;
+
+		return (false);
 	}
 
 	@Override
-	public net . minecraft . tileentity . TileEntity createTileEntity ( net . minecraft . world . World World , int Meta )
-	{
-		try
-		{
-			TileEntity te=TileEntityClasses [ Meta ] . newInstance ( );
-			return te ;
-		}
-		catch ( Throwable e )
-		{
+	public net.minecraft.tileentity.TileEntity createTileEntity(net.minecraft.world.World World, int Meta) {
+		try {
+			TileEntity te = TileEntityClasses[Meta].newInstance();
+			return te;
+		} catch (Throwable e) {
 			e.printStackTrace();
-			return ( null ) ;
+			return (null);
 		}
 	}
 
-	public RIMBlock ( net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , Class < ? extends TileEntity > ... TileEntityClasses )
-	{
-		super ( Template.getMaterial() ) ;
+	public RIMBlock(net.minecraft.block.Block Template, Class<? extends BlockItem> BlockItemClass,
+			Class<? extends TileEntity>... TileEntityClasses) {
+		super(Template.getMaterial());
 
-		this.setBlockName( Mod . Handle + "_" + getClass ( ) . getSimpleName ( ) ) ;
+		this.setBlockName(Mod.Handle + "_" + getClass().getSimpleName());
 
-		setHardness ( Template . getBlockHardness(null, 0, 0, 0) ) ;
+		setHardness(Template.getBlockHardness(null, 0, 0, 0));
 
-		setStepSound ( Template . stepSound ) ;
+		setStepSound(Template.stepSound);
 
-		cpw . mods . fml . common . registry . GameRegistry . registerBlock ( this , BlockItemClass , getUnlocalizedName ( ) ) ;
+		cpw.mods.fml.common.registry.GameRegistry.registerBlock(this, BlockItemClass, getUnlocalizedName());
 
-		this . TileEntityClasses = TileEntityClasses ;
+		this.TileEntityClasses = TileEntityClasses;
 
-		for ( Class < ? extends TileEntity > TileEntityClass : TileEntityClasses )
-		{
-			if ( TileEntityClass != null )
-			{
-				cpw . mods . fml . common . registry . GameRegistry . registerTileEntity ( TileEntityClass , Mod . Handle + "_" + TileEntityClass . getSimpleName ( ) ) ;
+		for (Class<? extends TileEntity> TileEntityClass : TileEntityClasses) {
+			if (TileEntityClass != null) {
+				cpw.mods.fml.common.registry.GameRegistry.registerTileEntity(TileEntityClass, Mod.Handle + "_"
+						+ TileEntityClass.getSimpleName());
 			}
 		}
 	}
 
-	public abstract static class HarvestToolTypes
-	{
-		public static String Pickaxe = "pickaxe" ;
+	public abstract static class HarvestToolTypes {
+		public static String	Pickaxe	= "pickaxe";
 
-		public static String Hatchet = "axe" ;
+		public static String	Hatchet	= "axe";
 	}
 
-	public RIMBlock ( net . minecraft . block . Block Template , Class < ? extends BlockItem > BlockItemClass , String HarvestToolType , Class < ? extends TileEntity > ... TileEntityClasses )
-	{
-		this ( Template , BlockItemClass , TileEntityClasses ) ;
+	public RIMBlock(net.minecraft.block.Block Template, Class<? extends BlockItem> BlockItemClass,
+			String HarvestToolType, Class<? extends TileEntity>... TileEntityClasses) {
+		this(Template, BlockItemClass, TileEntityClasses);
 
-		//TODO net . minecraftforge . common . MinecraftForge . setBlockHarvestLevel ( this , HarvestToolType , 0 ) ;
+		// TODO net . minecraftforge . common . MinecraftForge .
+		// setBlockHarvestLevel ( this , HarvestToolType , 0 ) ;
 
-		setCreativeTab ( CreativeTab . Instance ) ;
+		setCreativeTab(CreativeTab.Instance);
 	}
 
-	public void AddShowcaseStacks ( java . util . List Showcase )
-	{
+	public void AddShowcaseStacks(java.util.List Showcase) {}
+
+	@Override
+	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List items) {
+		AddShowcaseStacks(items);
 	}
 
 	@Override
-	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List items)
-	{
-		AddShowcaseStacks ( items ) ;
+	public int quantityDropped(int Meta, int Fortune, java.util.Random Random) {
+		return (0);
 	}
 
 	@Override
-	public int quantityDropped ( int Meta , int Fortune , java . util . Random Random )
-	{
-		return ( 0 ) ;
-	}
+	public void onBlockPlacedBy(net.minecraft.world.World World, int X, int Y, int Z,
+			net.minecraft.entity.EntityLivingBase Entity, net.minecraft.item.ItemStack Item) {
+		super.onBlockPlacedBy(World, X, Y, Z, Entity, Item);
 
-	
-	@Override
-	public void onBlockPlacedBy ( net . minecraft . world . World World , int X , int Y , int Z , net . minecraft . entity . EntityLivingBase Entity , net . minecraft . item . ItemStack Item )
-	{
-		super . onBlockPlacedBy ( World , X , Y , Z , Entity , Item ) ;
-
-		try
-		{
-			( ( TileEntity ) World . getTileEntity ( X , Y , Z ) ) . Setup ( ( net . minecraft . entity . player . EntityPlayer ) Entity , Item ) ;
-		}
-		catch ( Throwable Throwable )
-		{
-			Throwable . printStackTrace ( ) ;
+		try {
+			((TileEntity) World.getTileEntity(X, Y, Z)).Setup((net.minecraft.entity.player.EntityPlayer) Entity, Item);
+		} catch (Throwable Throwable) {
+			Throwable.printStackTrace();
 		}
 	}
-	
 
 	@Override
-	 public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
-	{
-		if ( ! world . isRemote )
-		{
-			if ( ! player . capabilities . isCreativeMode )
-			{
-				try
-				{
-					( ( TileEntity ) world . getTileEntity ( x , y , z ) ) . EmitDrops ( this , world . getBlockMetadata ( x , y , z ) ) ;
-				}
-				catch ( Throwable Throwable )
-				{
-					Throwable . printStackTrace ( ) ;
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
+		if (!world.isRemote) {
+			if (!player.capabilities.isCreativeMode) {
+				try {
+					((TileEntity) world.getTileEntity(x, y, z)).EmitDrops(this, world.getBlockMetadata(x, y, z));
+				} catch (Throwable Throwable) {
+					Throwable.printStackTrace();
 				}
 			}
 		}
 
-		return ( super . removedByPlayer ( world , player , x , y , z ) ) ;
+		return (super.removedByPlayer(world, player, x, y, z));
 	}
-	
-	public void dropBlockAsItem(World w, int x, int y, int z, ItemStack s)
-    {
+
+	public void dropBlockAsItem(World w, int x, int y, int z, ItemStack s) {
 		super.dropBlockAsItem(w, x, y, z, s);
-    }
+	}
 
 	@Override
-	public net.minecraft.tileentity.TileEntity createNewTileEntity(
-			World p_149915_1_, int meta) {
+	public net.minecraft.tileentity.TileEntity createNewTileEntity(World p_149915_1_, int meta) {
 		try {
 			return TileEntityClasses[meta].newInstance();
 		} catch (InstantiationException e) {
@@ -165,5 +136,5 @@ public abstract class RIMBlock extends net . minecraft . block . BlockContainer
 		}
 		return null;
 	}
-	
+
 }

@@ -1,7 +1,5 @@
-package me.planetguy.remaininmotion.network ;
+package me.planetguy.remaininmotion.network;
 
-public enum PacketTypes
-{
-	Render ,
-	MultipartPropagation ;
+public enum PacketTypes {
+	Render, MultipartPropagation;
 }

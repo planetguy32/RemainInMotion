@@ -28,63 +28,63 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.core.Mod.Handle+"_HollowCarriages", dependencies="after:JAKJ_RedstoneInMotion;after:ForgeMultipart")
+@Mod(modid = me.planetguy.remaininmotion.core.Mod.Handle + "_HollowCarriages", dependencies = "after:JAKJ_RedstoneInMotion;after:ForgeMultipart")
 public class HollowCarriagesMod {
-	
-	boolean alive;
-	public static Item hollowCarriage;
-	
-	Block baseBlock;
-	
+
+	boolean				alive;
+	public static Item	hollowCarriage;
+
+	Block				baseBlock;
+
 	@Optional.Method(modid = "ForgeMultipart")
-	@Mod . EventHandler
-	public void preInit (FMLPreInitializationEvent event ){
-		alive=Loader.isModLoaded("ForgeMultipart");
-		Debug.dbg("FMP carriage: "+ (alive ? "loading" : "not loading"));
-		if(!alive)return;
-		hollowCarriage=new FMPCarriageItem();
+	@Mod.EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		alive = Loader.isModLoaded("ForgeMultipart");
+		Debug.dbg("FMP carriage: " + (alive ? "loading" : "not loading"));
+		if (!alive) return;
+		hollowCarriage = new FMPCarriageItem();
 
 		hollowCarriage.setUnlocalizedName("hollowCarriage");
 		GameRegistry.registerItem(hollowCarriage, "Hollow Carriage");
 
-		//Attempting to fix FMP crashing when trying to set creative tab
+		// Attempting to fix FMP crashing when trying to set creative tab
 
-		
-		MultiPartRegistry.registerParts(new IPartFactory(){
+		MultiPartRegistry.registerParts(new IPartFactory() {
 
 			public TMultiPart createPart(String arg0, boolean arg1) {
-				if(arg0.equals("FMPCarriage"))
-					return new FMPCarriage();
+				if (arg0.equals("FMPCarriage")) return new FMPCarriage();
 				return null;
 			}
-			
-		}, new String[]{"FMPCarriage"});
-		
+
+		}, new String[] { "FMPCarriage" });
+
 		RiMRegistry.registerMatcher(new FMPCarriageMatcher());
-		
+
 		RiMRegistry.registerCloseableFactory(new FMPCloseableRetriever());
-		
-		baseBlock=new Block(Material.wood) {
-			
-			IIcon[] icons;
-		
+
+		baseBlock = new Block(Material.wood) {
+
+			IIcon[]	icons;
+
 			public void registerBlockIcons(IIconRegister ir) {
-				icons=new IIcon[] {
-						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Open"),
-						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Closed"),
-						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":"+Registry.TexturePrefix+"FMPCarriage_Corners"),
-				};
+				icons = new IIcon[] {
+						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":" + Registry.TexturePrefix
+								+ "FMPCarriage_Open"),
+						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":" + Registry.TexturePrefix
+								+ "FMPCarriage_Closed"),
+						ir.registerIcon(me.planetguy.remaininmotion.core.Mod.Handle + ":" + Registry.TexturePrefix
+								+ "FMPCarriage_Corners"), };
 			}
-			
+
 			public IIcon getIcon(int side, int meta) {
 				return icons[meta];
 			}
-			
+
 		};
-		
+
 		GameRegistry.registerBlock(baseBlock, "tile.hollowCarriage");
 	}
-	
+
 	@Optional.Method(modid = "ForgeMultipart")
 	@EventHandler
 	public void init(FMLInitializationEvent ev) {
@@ -92,19 +92,16 @@ public class HollowCarriagesMod {
 		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(baseBlock, 1), "tile.hollowCarriage.closed");
 		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(baseBlock, 2), "tile.hollowCarriage.corners");
 	}
-	
+
 	@Optional.Method(modid = "ForgeMultipart")
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent ev){
-		if(!alive)return;
+	public void postInit(FMLPostInitializationEvent ev) {
+		if (!alive) return;
 		hollowCarriage.setCreativeTab(CreativeTab.Instance);
-		GameRegistry.addRecipe(new ItemStack(HollowCarriagesMod.hollowCarriage, 8), 
-				"ccc", 
-				"c c",
-				"ccc",
+		GameRegistry.addRecipe(new ItemStack(HollowCarriagesMod.hollowCarriage, 8), "ccc", "c c", "ccc",
 				Character.valueOf('c'), new ItemStack(RIMBlocks.Carriage, 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(RiMItems.SimpleItemSet), 
-				new ItemStack(HollowCarriagesMod.hollowCarriage));
+		GameRegistry.addShapelessRecipe(new ItemStack(RiMItems.SimpleItemSet), new ItemStack(
+				HollowCarriagesMod.hollowCarriage));
 	}
 
 }

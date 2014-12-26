@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.carriage ;
+package me.planetguy.remaininmotion.carriage;
 
 import java.util.List;
 
@@ -11,8 +11,7 @@ import me.planetguy.remaininmotion.api.ICloseableFactory;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 
-public class FrameCarriageEntity extends CarriageEntity
-{
+public class FrameCarriageEntity extends CarriageEntity {
 	public FrameCarriageEntity() {
 		RiMRegistry.registerCloseableFactory(new ICloseableFactory() {
 			@Override
@@ -26,10 +25,9 @@ public class FrameCarriageEntity extends CarriageEntity
 			}
 		});
 	}
-	
+
 	@Override
-	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
-	{
+	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
 		MultiTypeCarriageUtil.fillFramePackage(Package, worldObj);
 	}
 

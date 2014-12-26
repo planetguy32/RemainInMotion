@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.crafting ;
+package me.planetguy.remaininmotion.crafting;
 
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockItem;
@@ -9,73 +9,50 @@ import me.planetguy.remaininmotion.drive.CarriageDrive;
 import me.planetguy.remaininmotion.drive.CarriageDriveItem;
 import me.planetguy.remaininmotion.util.ItemUtil;
 
-public class CarriageTranslocatorLabelConversionRecipe extends Recipe
-{
+public class CarriageTranslocatorLabelConversionRecipe extends Recipe {
 	@Override
-	public net . minecraft . item . ItemStack Process ( net . minecraft . inventory . InventoryCrafting Inventory )
-	{
-		net . minecraft . item . ItemStack Drive = null ;
+	public net.minecraft.item.ItemStack Process(net.minecraft.inventory.InventoryCrafting Inventory) {
+		net.minecraft.item.ItemStack Drive = null;
 
-		boolean ScrewdriverPresent = false ;
+		boolean ScrewdriverPresent = false;
 
-		int InventorySize = Inventory . getSizeInventory ( ) ;
+		int InventorySize = Inventory.getSizeInventory();
 
-		for ( int Index = 0 ; Index < InventorySize ; Index ++ )
-		{
-			net . minecraft . item . ItemStack Item = Inventory . getStackInSlot ( Index ) ;
+		for (int Index = 0; Index < InventorySize; Index++) {
+			net.minecraft.item.ItemStack Item = Inventory.getStackInSlot(Index);
 
-			if ( Item == null )
-			{
-				continue ;
+			if (Item == null) {
+				continue;
 			}
 
-			if ( ItemUtil.matches(Item, RIMBlocks.CarriageDrive) )
-			{
-				if ( BlockItem . GetBlockType ( Item ) == CarriageDrive . Types . Translocator . ordinal ( ) )
-				{
-					if ( Drive != null )
-					{
-						return ( null ) ;
-					}
+			if (ItemUtil.matches(Item, RIMBlocks.CarriageDrive)) {
+				if (BlockItem.GetBlockType(Item) == CarriageDrive.Types.Translocator.ordinal()) {
+					if (Drive != null) { return (null); }
 
-					Drive = Item ;
+					Drive = Item;
 
-					continue ;
+					continue;
 				}
-			}
-			else if (ItemUtil.matches(Item, RiMItems.ToolItemSet))
-			{
-				if ( Item . getItemDamage() == ToolItemSet . Types . Screwdriver . ordinal ( ) )
-				{
-					if ( ScrewdriverPresent )
-					{
-						return ( null ) ;
-					}
+			} else if (ItemUtil.matches(Item, RiMItems.ToolItemSet)) {
+				if (Item.getItemDamage() == ToolItemSet.Types.Screwdriver.ordinal()) {
+					if (ScrewdriverPresent) { return (null); }
 
-					ScrewdriverPresent = true ;
+					ScrewdriverPresent = true;
 
-					continue ;
+					continue;
 				}
 			}
 
-			return ( null ) ;
+			return (null);
 		}
 
-		if ( Drive == null )
-		{
-			return ( null ) ;
-		}
+		if (Drive == null) { return (null); }
 
-		if ( Drive . stackTagCompound != null )
-		{
-			return ( null ) ;
-		}
+		if (Drive.stackTagCompound != null) { return (null); }
 
-		if ( ! ScrewdriverPresent )
-		{
-			return ( null ) ;
-		}
+		if (!ScrewdriverPresent) { return (null); }
 
-		return ( CarriageDriveItem . Stack ( BlockItem . GetBlockType ( Drive ) , 0 , CarriageDriveItem . GetPrivateFlag ( Drive ) , CarriageDriveItem . GetLabel ( Drive ) ) ) ;
+		return (CarriageDriveItem.Stack(BlockItem.GetBlockType(Drive), 0, CarriageDriveItem.GetPrivateFlag(Drive),
+				CarriageDriveItem.GetLabel(Drive)));
 	}
 }

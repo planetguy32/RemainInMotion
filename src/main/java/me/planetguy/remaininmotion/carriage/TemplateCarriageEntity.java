@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.carriage ;
+package me.planetguy.remaininmotion.carriage;
 
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
@@ -12,311 +12,257 @@ import me.planetguy.remaininmotion.base.RIMBlock;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.WorldUtil;
 
-public class TemplateCarriageEntity extends CarriageEntity
-{
-	public BlockRecordList Pattern ;
+public class TemplateCarriageEntity extends CarriageEntity {
+	public BlockRecordList	Pattern;
 
 	@Override
-	public void EmitDrops ( RIMBlock Block , int Meta )
-	{
-		super . EmitDrops ( Block , Meta ) ;
+	public void EmitDrops(RIMBlock Block, int Meta) {
+		super.EmitDrops(Block, Meta);
 
-		if ( Pattern == null )
-		{
-			return ;
+		if (Pattern == null) { return; }
+
+		int PatternSize = Pattern.size();
+
+		while (PatternSize > 64) {
+			EmitDrop(Block, Stack.New(Block, Meta, 64));
+
+			PatternSize -= 64;
 		}
 
-		int PatternSize = Pattern . size ( ) ;
-
-		while ( PatternSize > 64 )
-		{
-			EmitDrop ( Block , Stack . New ( Block , Meta , 64 ) ) ;
-
-			PatternSize -= 64 ;
-		}
-
-		EmitDrop ( Block , Stack . New ( Block , Meta , PatternSize ) ) ;
+		EmitDrop(Block, Stack.New(Block, Meta, PatternSize));
 	}
 
 	@Override
-	public void ToggleSide ( int Side , boolean Sneaking )
-	{
-		if ( Pattern == null )
-		{
-			AbsorbPattern ( ) ;
+	public void ToggleSide(int Side, boolean Sneaking) {
+		if (Pattern == null) {
+			AbsorbPattern();
 
-			if ( Pattern == null )
-			{
-				return ;
-			}
-		}
-		else
-		{
-			if ( Sneaking )
-			{
-				ReabsorbPattern ( ) ;
-			}
-			else
-			{
-				RenderPattern = ! RenderPattern ;
+			if (Pattern == null) { return; }
+		} else {
+			if (Sneaking) {
+				ReabsorbPattern();
+			} else {
+				RenderPattern = !RenderPattern;
 			}
 		}
 
-		Propagate ( ) ;
+		Propagate();
 	}
 
-	public boolean IsUnpatternedTemplateCarriage ( BlockRecord Record )
-	{
-		boolean IsUnpatternedTemplateCarriage = false ;
+	public boolean IsUnpatternedTemplateCarriage(BlockRecord Record) {
+		boolean IsUnpatternedTemplateCarriage = false;
 
-		Record . Identify ( worldObj ) ;
+		Record.Identify(worldObj);
 
-		if ( Record .block == RIMBlocks . Carriage )
-		{
-			if ( Record . Meta == Carriage . Types . Template . ordinal ( ) )
-			{
-				if ( ( ( TemplateCarriageEntity ) Record . Entity ) . Pattern == null )
-				{
-					IsUnpatternedTemplateCarriage = true ;
+		if (Record.block == RIMBlocks.Carriage) {
+			if (Record.Meta == Carriage.Types.Template.ordinal()) {
+				if (((TemplateCarriageEntity) Record.Entity).Pattern == null) {
+					IsUnpatternedTemplateCarriage = true;
 				}
 			}
 		}
 
-		Record . Entity = null ;
+		Record.Entity = null;
 
-		return ( IsUnpatternedTemplateCarriage ) ;
+		return (IsUnpatternedTemplateCarriage);
 	}
 
-	public void AbsorbPattern ( )
-	{
-		BlockRecordSet Pattern = new BlockRecordSet ( ) ;
+	public void AbsorbPattern() {
+		BlockRecordSet Pattern = new BlockRecordSet();
 
-		BlockRecordSet BlocksChecked = new BlockRecordSet ( ) ;
+		BlockRecordSet BlocksChecked = new BlockRecordSet();
 
-		BlocksChecked . add ( new BlockRecord ( xCoord , yCoord , zCoord ) ) ;
+		BlocksChecked.add(new BlockRecord(xCoord, yCoord, zCoord));
 
-		BlockRecordSet BlocksToCheck = new BlockRecordSet ( ) ;
+		BlockRecordSet BlocksToCheck = new BlockRecordSet();
 
-		BlocksToCheck . add ( new BlockRecord ( xCoord , yCoord , zCoord ) ) ;
+		BlocksToCheck.add(new BlockRecord(xCoord, yCoord, zCoord));
 
-		while ( BlocksToCheck . size ( ) > 0 )
-		{
-			BlockRecord Record = BlocksToCheck . pollFirst ( ) ;
+		while (BlocksToCheck.size() > 0) {
+			BlockRecord Record = BlocksToCheck.pollFirst();
 
-			for ( Directions Direction : Directions . values ( ) )
-			{
-				BlockRecord NextRecord = Record . NextInDirection ( Direction ) ;
+			for (Directions Direction : Directions.values()) {
+				BlockRecord NextRecord = Record.NextInDirection(Direction);
 
-				if ( ! BlocksChecked . add ( NextRecord ) )
-				{
-					continue ;
+				if (!BlocksChecked.add(NextRecord)) {
+					continue;
 				}
 
-				if ( IsUnpatternedTemplateCarriage ( NextRecord ) )
-				{
-					Pattern . add ( NextRecord ) ;
+				if (IsUnpatternedTemplateCarriage(NextRecord)) {
+					Pattern.add(NextRecord);
 
-					BlocksToCheck . add ( NextRecord ) ;
+					BlocksToCheck.add(NextRecord);
 				}
 			}
 		}
 
-		if ( Pattern . size ( ) == 0 )
-		{
-			return ;
+		if (Pattern.size() == 0) { return; }
+
+		for (BlockRecord PatternBlock : Pattern) {
+			WorldUtil.ClearBlock(worldObj, PatternBlock.X, PatternBlock.Y, PatternBlock.Z);
+
+			PatternBlock.X -= xCoord;
+			PatternBlock.Y -= yCoord;
+			PatternBlock.Z -= zCoord;
 		}
 
-		for ( BlockRecord PatternBlock : Pattern )
-		{
-			WorldUtil . ClearBlock ( worldObj , PatternBlock . X , PatternBlock . Y , PatternBlock . Z ) ;
-
-			PatternBlock . X -= xCoord ;
-			PatternBlock . Y -= yCoord ;
-			PatternBlock . Z -= zCoord ;
+		for (Directions Direction : Directions.values()) {
+			SideClosed[Direction.ordinal()] = true;
 		}
 
-		for ( Directions Direction : Directions . values ( ) )
-		{
-			SideClosed [ Direction . ordinal ( ) ] = true ;
-		}
+		this.Pattern = new BlockRecordList();
 
-		this . Pattern = new BlockRecordList ( ) ;
-
-		this . Pattern . addAll ( Pattern ) ;
+		this.Pattern.addAll(Pattern);
 	}
 
-	public void ReabsorbPattern ( )
-	{
-		BlockRecordSet Pattern = new BlockRecordSet ( ) ;
+	public void ReabsorbPattern() {
+		BlockRecordSet Pattern = new BlockRecordSet();
 
-		for ( BlockRecord Position : this . Pattern )
-		{
-			Position . X += xCoord ;
-			Position . Y += yCoord ;
-			Position . Z += zCoord ;
+		for (BlockRecord Position : this.Pattern) {
+			Position.X += xCoord;
+			Position.Y += yCoord;
+			Position.Z += zCoord;
 
-			Pattern . add ( Position ) ;
+			Pattern.add(Position);
 		}
-		
-		BlockRecordSet NewPositions = new BlockRecordSet ( ) ;
 
-		BlockRecordSet DeadPositions = new BlockRecordSet ( ) ;
+		BlockRecordSet NewPositions = new BlockRecordSet();
 
-		for ( BlockRecord Position : Pattern )
-		{
-			for ( Directions Direction : Directions . values ( ) )
-			{
-				BlockRecord Record = Position . NextInDirection ( Direction ) ;
+		BlockRecordSet DeadPositions = new BlockRecordSet();
 
-				if ( Pattern . contains ( Record ) )
-				{
-					continue ;
+		for (BlockRecord Position : Pattern) {
+			for (Directions Direction : Directions.values()) {
+				BlockRecord Record = Position.NextInDirection(Direction);
+
+				if (Pattern.contains(Record)) {
+					continue;
 				}
 
-				if ( NewPositions . contains ( Record ) )
-				{
-					continue ;
+				if (NewPositions.contains(Record)) {
+					continue;
 				}
 
-				if ( IsUnpatternedTemplateCarriage ( Record ) )
-				{
-					NewPositions . add ( Record ) ;
+				if (IsUnpatternedTemplateCarriage(Record)) {
+					NewPositions.add(Record);
 				}
 			}
 
-			if ( IsUnpatternedTemplateCarriage ( Position ) )
-			{
-				DeadPositions . add ( Position ) ;
+			if (IsUnpatternedTemplateCarriage(Position)) {
+				DeadPositions.add(Position);
 			}
 		}
-		
+
 		Debug.dbg(NewPositions);
 
-		for ( BlockRecord Position : DeadPositions )
-		{
-			WorldUtil . ClearBlock ( worldObj , Position . X , Position . Y , Position . Z ) ;
+		for (BlockRecord Position : DeadPositions) {
+			WorldUtil.ClearBlock(worldObj, Position.X, Position.Y, Position.Z);
 
-			Pattern . remove ( Position ) ;
+			Pattern.remove(Position);
 		}
 
-		for ( BlockRecord Position : NewPositions )
-		{
-			WorldUtil . ClearBlock ( worldObj , Position . X , Position . Y , Position . Z ) ;
+		for (BlockRecord Position : NewPositions) {
+			WorldUtil.ClearBlock(worldObj, Position.X, Position.Y, Position.Z);
 
-			Pattern . add ( Position ) ;
+			Pattern.add(Position);
 		}
 
-		for ( BlockRecord Position : Pattern )
-		{
-			Position . X -= xCoord ;
-			Position . Y -= yCoord ;
-			Position . Z -= zCoord ;
+		for (BlockRecord Position : Pattern) {
+			Position.X -= xCoord;
+			Position.Y -= yCoord;
+			Position.Z -= zCoord;
 		}
 
-		this . Pattern . clear ( ) ;
+		this.Pattern.clear();
 
-		this . Pattern . addAll ( Pattern ) ;
-		
+		this.Pattern.addAll(Pattern);
+
 		Debug.dbg(Pattern);
-		
+
 		Debug.dbg(this.Pattern);
 	}
 
-	public boolean RenderPattern ;
+	public boolean	RenderPattern;
 
 	@Override
-	public void ReadCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
-	{
-		super . ReadCommonRecord ( TagCompound ) ;
+	public void ReadCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+		super.ReadCommonRecord(TagCompound);
 
-		if ( TagCompound . hasKey ( "Pattern" ) )
-		{
+		if (TagCompound.hasKey("Pattern")) {
 			Debug.dbg("Found PatternRecord");
-			net . minecraft . nbt . NBTTagList PatternRecord = TagCompound . getTagList ( "Pattern", 10) ;
+			net.minecraft.nbt.NBTTagList PatternRecord = TagCompound.getTagList("Pattern", 10);
 
-			Pattern = new BlockRecordList ( ) ;
+			Pattern = new BlockRecordList();
 
-			int PatternSize = PatternRecord . tagCount ( ) ;
+			int PatternSize = PatternRecord.tagCount();
 
-			Debug.dbg("PatternRecord size="+PatternSize);
-			for ( int Index = 0 ; Index < PatternSize ; Index ++ )
-			{
-				net . minecraft . nbt . NBTTagCompound PatternBlockRecord = ( net . minecraft . nbt . NBTTagCompound ) PatternRecord.getCompoundTagAt( Index ) ;
+			Debug.dbg("PatternRecord size=" + PatternSize);
+			for (int Index = 0; Index < PatternSize; Index++) {
+				net.minecraft.nbt.NBTTagCompound PatternBlockRecord = (net.minecraft.nbt.NBTTagCompound) PatternRecord
+						.getCompoundTagAt(Index);
 
-				Pattern . add ( new BlockRecord ( PatternBlockRecord . getInteger ( "X" ) , PatternBlockRecord . getInteger ( "Y" ) , PatternBlockRecord . getInteger ( "Z" ) ) ) ;
+				Pattern.add(new BlockRecord(PatternBlockRecord.getInteger("X"), PatternBlockRecord.getInteger("Y"),
+						PatternBlockRecord.getInteger("Z")));
 			}
-		}
-		else
-		{
-			Pattern = null ;
+		} else {
+			Pattern = null;
 		}
 
-		RenderPattern = TagCompound . getBoolean ( "RenderPattern" ) ;
-		
+		RenderPattern = TagCompound.getBoolean("RenderPattern");
+
 	}
 
 	@Override
-	public void WriteCommonRecord ( net . minecraft . nbt . NBTTagCompound TagCompound )
-	{
-		super . WriteCommonRecord ( TagCompound ) ;
+	public void WriteCommonRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+		super.WriteCommonRecord(TagCompound);
 
-		if ( Pattern != null )
-		{
-			net . minecraft . nbt . NBTTagList PatternRecord = new net . minecraft . nbt . NBTTagList ( ) ;
+		if (Pattern != null) {
+			net.minecraft.nbt.NBTTagList PatternRecord = new net.minecraft.nbt.NBTTagList();
 
-			for ( BlockRecord PatternBlock : Pattern )
-			{
-				net . minecraft . nbt . NBTTagCompound PatternBlockRecord = new net . minecraft . nbt . NBTTagCompound ( ) ;
+			for (BlockRecord PatternBlock : Pattern) {
+				net.minecraft.nbt.NBTTagCompound PatternBlockRecord = new net.minecraft.nbt.NBTTagCompound();
 
-				PatternBlockRecord . setInteger ( "X" , PatternBlock . X ) ;
-				PatternBlockRecord . setInteger ( "Y" , PatternBlock . Y ) ;
-				PatternBlockRecord . setInteger ( "Z" , PatternBlock . Z ) ;
+				PatternBlockRecord.setInteger("X", PatternBlock.X);
+				PatternBlockRecord.setInteger("Y", PatternBlock.Y);
+				PatternBlockRecord.setInteger("Z", PatternBlock.Z);
 
-				PatternRecord . appendTag ( PatternBlockRecord ) ;
+				PatternRecord.appendTag(PatternBlockRecord);
 			}
 
-			TagCompound . setTag ( "Pattern" , PatternRecord ) ;
+			TagCompound.setTag("Pattern", PatternRecord);
 		}
 
-		TagCompound . setBoolean ( "RenderPattern" , RenderPattern ) ;
+		TagCompound.setBoolean("RenderPattern", RenderPattern);
 	}
 
 	@Override
-	public void fillPackage ( CarriagePackage Package ) throws CarriageMotionException
-	{
-		if ( Pattern == null )
-		{
-			throw ( new CarriageMotionException ( "template carriage has not yet been patterned" ) ) ;
+	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
+		if (Pattern == null) { throw (new CarriageMotionException("template carriage has not yet been patterned")); }
+
+		Package.AddBlock(Package.AnchorRecord);
+
+		if (Package.MotionDirection != null) {
+			Package.AddPotentialObstruction(Package.AnchorRecord.NextInDirection(Package.MotionDirection));
 		}
 
-		Package . AddBlock ( Package . AnchorRecord ) ;
+		for (BlockRecord PatternBlock : Pattern) {
+			BlockRecord Record = new BlockRecord(PatternBlock.X + xCoord, PatternBlock.Y + yCoord, PatternBlock.Z
+					+ zCoord);
 
-		if ( Package . MotionDirection != null )
-		{
-			Package . AddPotentialObstruction ( Package . AnchorRecord . NextInDirection ( Package . MotionDirection ) ) ;
-		}
-
-		for ( BlockRecord PatternBlock : Pattern )
-		{
-			BlockRecord Record = new BlockRecord ( PatternBlock . X + xCoord , PatternBlock . Y + yCoord , PatternBlock . Z + zCoord ) ;
-
-			if ( worldObj . isAirBlock ( Record . X , Record . Y , Record . Z ) )
-			{
-				continue ;
+			if (worldObj.isAirBlock(Record.X, Record.Y, Record.Z)) {
+				continue;
 			}
 
-			Record . Identify ( worldObj ) ;
+			Record.Identify(worldObj);
 
-			Package . AddBlock ( Record ) ;
+			Package.AddBlock(Record);
 
-			if ( Package . MotionDirection != null )
-			{
-				Package . AddPotentialObstruction ( Record . NextInDirection ( Package . MotionDirection ) ) ;
+			if (Package.MotionDirection != null) {
+				Package.AddPotentialObstruction(Record.NextInDirection(Package.MotionDirection));
 			}
 		}
 	}
-	
-	public String toString(){
-		return "Template carriage "+this.Pattern;
+
+	public String toString() {
+		return "Template carriage " + this.Pattern;
 	}
 }

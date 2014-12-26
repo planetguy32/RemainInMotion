@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.client ;
+package me.planetguy.remaininmotion.client;
 
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.BlockPosition;
@@ -8,189 +8,142 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 
-public abstract class CarriageRenderCache
-{
-	public static java . util . TreeMap < BlockPosition , RenderRecord > Cache = new java . util . TreeMap < BlockPosition , RenderRecord > ( ) ;
+public abstract class CarriageRenderCache {
+	public static java.util.TreeMap<BlockPosition, RenderRecord>	Cache	= new java.util.TreeMap<BlockPosition, RenderRecord>();
 
-	public static void Render ( net . minecraft . client . renderer . RenderBlocks BlockRenderer , BlockRecordSet Blocks , BlockRecordSet TileEntities , int Pass )
-	{
-		
-		BlockRenderer.renderAllFaces=true;
-		net . minecraft . client . renderer . RenderHelper . disableStandardItemLighting ( ) ;
+	public static void Render(net.minecraft.client.renderer.RenderBlocks BlockRenderer, BlockRecordSet Blocks,
+			BlockRecordSet TileEntities, int Pass) {
+
+		BlockRenderer.renderAllFaces = true;
+		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
 		{
-			Render . ResetBoundTexture ( ) ;
+			Render.ResetBoundTexture();
 
-			Render . BindBlockTexture ( ) ;
+			Render.BindBlockTexture();
 
-			Render . PushMatrix ( ) ;
+			Render.PushMatrix();
 
-			net . minecraft . client . renderer . Tessellator . instance . startDrawingQuads ( ) ;
+			net.minecraft.client.renderer.Tessellator.instance.startDrawingQuads();
 
-			for ( BlockRecord Record : Blocks )
-			{
-				try
-				{
-					if ( !  Record .block . canRenderInPass ( Pass ) )
-					{
-						continue ;
+			for (BlockRecord Record : Blocks) {
+				try {
+					if (!Record.block.canRenderInPass(Pass)) {
+						continue;
 					}
-				}
-				catch ( Throwable Throwable )
-				{
-					Throwable . printStackTrace ( ) ;
+				} catch (Throwable Throwable) {
+					Throwable.printStackTrace();
 
-					continue ;
+					continue;
 				}
 
-				try
-				{	
-					BlockRenderer . renderBlockByRenderType (Record .block , Record . X , Record . Y , Record . Z ) ;
-				}
-				catch ( Throwable Throwable )
-				{
-					Throwable . printStackTrace ( ) ;
+				try {
+					BlockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
+				} catch (Throwable Throwable) {
+					Throwable.printStackTrace();
 				}
 			}
 
-			try
-			{
-				net . minecraft . client . renderer . Tessellator . instance . draw ( ) ;
-			}
-			catch ( Throwable Throwable )
-			{
-				Throwable . printStackTrace ( ) ;
+			try {
+				net.minecraft.client.renderer.Tessellator.instance.draw();
+			} catch (Throwable Throwable) {
+				Throwable.printStackTrace();
 			}
 
-			Render . PopMatrix ( ) ;
+			Render.PopMatrix();
 		}
 
-		net . minecraft . client . renderer . RenderHelper . enableStandardItemLighting ( ) ;
+		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 
 		{
-			Render . PushMatrix ( ) ;
+			Render.PushMatrix();
 
-			Render . Translate
-			(
-				TileEntityRendererDispatcher . staticPlayerX ,
-				TileEntityRendererDispatcher . staticPlayerY ,
-				TileEntityRendererDispatcher . staticPlayerZ
-			) ;
+			Render.Translate(TileEntityRendererDispatcher.staticPlayerX, TileEntityRendererDispatcher.staticPlayerY,
+					TileEntityRendererDispatcher.staticPlayerZ);
 
-			for ( BlockRecord Record : TileEntities )
-			{
-				if ( ! Record . Entity . shouldRenderInPass ( Pass ) )
-				{
-					continue ;
+			for (BlockRecord Record : TileEntities) {
+				if (!Record.Entity.shouldRenderInPass(Pass)) {
+					continue;
 				}
 
-				Render . ResetBoundTexture ( ) ;
+				Render.ResetBoundTexture();
 
-				Render . PushMatrix ( ) ;
+				Render.PushMatrix();
 
-				try
-				{
-					TileEntityRendererDispatcher . instance . renderTileEntity ( Record . Entity , 0 ) ;
-				}
-				catch ( Throwable Throwable )
-				{
-					Throwable . printStackTrace ( ) ;
+				try {
+					TileEntityRendererDispatcher.instance.renderTileEntity(Record.Entity, 0);
+				} catch (Throwable Throwable) {
+					Throwable.printStackTrace();
 				}
 
-				if ((Boolean) Reflection.get(Tessellator.class, Tessellator.instance, "isDrawing"))
-				{
-					try
-					{
-						net . minecraft . client . renderer . Tessellator . instance . draw ( ) ;
-					}
-					catch ( Throwable Throwable )
-					{
-						Throwable . printStackTrace ( ) ;
+				if ((Boolean) Reflection.get(Tessellator.class, Tessellator.instance, "isDrawing")) {
+					try {
+						net.minecraft.client.renderer.Tessellator.instance.draw();
+					} catch (Throwable Throwable) {
+						Throwable.printStackTrace();
 					}
 				}
 
-				Render . PopMatrix ( ) ;
+				Render.PopMatrix();
 			}
 
-			Render . PopMatrix ( ) ;
+			Render.PopMatrix();
 
-			try
-			{
-				net . minecraft . client . renderer . Tessellator . instance . draw ( ) ;
-			}
-			catch ( Throwable Throwable )
-			{
-			}
+			try {
+				net.minecraft.client.renderer.Tessellator.instance.draw();
+			} catch (Throwable Throwable) {}
 
-			Render . ResetBoundTexture ( ) ;
+			Render.ResetBoundTexture();
 		}
-		BlockRenderer.renderAllFaces=false;
+		BlockRenderer.renderAllFaces = false;
 	}
 
-	public static void Assemble ( BlockRecordSet Blocks , BlockRecordSet TileEntities , net . minecraft . world . World World , BlockPosition Key )
-	{
-		if ( Cache . containsKey ( Key ) )
-		{
-			return ;
-		}
+	public static void Assemble(BlockRecordSet Blocks, BlockRecordSet TileEntities, net.minecraft.world.World World,
+			BlockPosition Key) {
+		if (Cache.containsKey(Key)) { return; }
 
-		net . minecraft . client . renderer . RenderBlocks BlockRenderer = new net . minecraft . client . renderer . RenderBlocks ( World ) ;
+		net.minecraft.client.renderer.RenderBlocks BlockRenderer = new net.minecraft.client.renderer.RenderBlocks(World);
 
-		RenderRecord RenderRecord = new RenderRecord ( ) ;
-		
-		RenderRecord . PrimaryPassDisplayList = Render . InitializeDisplayList ( ) ;
+		RenderRecord RenderRecord = new RenderRecord();
 
-		Render ( BlockRenderer , Blocks , TileEntities , 0 ) ;
+		RenderRecord.PrimaryPassDisplayList = Render.InitializeDisplayList();
 
-		Render . FinalizeDisplayList ( ) ;
+		Render(BlockRenderer, Blocks, TileEntities, 0);
 
-		RenderRecord . SecondaryPassDisplayList = Render . InitializeDisplayList ( ) ;
+		Render.FinalizeDisplayList();
 
-		Render ( BlockRenderer , Blocks , TileEntities , 1 ) ;
+		RenderRecord.SecondaryPassDisplayList = Render.InitializeDisplayList();
 
-		Render . FinalizeDisplayList ( ) ;
+		Render(BlockRenderer, Blocks, TileEntities, 1);
 
-		Cache . put ( Key , RenderRecord ) ;
+		Render.FinalizeDisplayList();
+
+		Cache.put(Key, RenderRecord);
 	}
 
-	public static Integer lookupDisplayList ( BlockPosition Key )
-	{
-		int Pass = net . minecraftforge . client . MinecraftForgeClient . getRenderPass ( ) ;
+	public static Integer lookupDisplayList(BlockPosition Key) {
+		int Pass = net.minecraftforge.client.MinecraftForgeClient.getRenderPass();
 
-		RenderRecord RenderRecord = Cache . get ( Key ) ;
+		RenderRecord RenderRecord = Cache.get(Key);
 
-		if ( RenderRecord == null )
-		{
-			return ( null ) ;
-		}
+		if (RenderRecord == null) { return (null); }
 
-		if ( Pass == 0 )
-		{
-			return ( RenderRecord . PrimaryPassDisplayList ) ;
-		}
+		if (Pass == 0) { return (RenderRecord.PrimaryPassDisplayList); }
 
-		if ( Pass == 1 )
-		{
-			return ( RenderRecord . SecondaryPassDisplayList ) ;
-		}
+		if (Pass == 1) { return (RenderRecord.SecondaryPassDisplayList); }
 
-		return ( null ) ;
+		return (null);
 	}
-	
-	public static void Release ( BlockPosition Key )
-	{
-		if ( Key == null )
-		{
-			return ;
-		}
 
-		RenderRecord RenderRecord = Cache . remove ( Key ) ;
+	public static void Release(BlockPosition Key) {
+		if (Key == null) { return; }
 
-		if ( RenderRecord != null )
-		{
-			Render . ReleaseDisplayList ( RenderRecord . PrimaryPassDisplayList ) ;
+		RenderRecord RenderRecord = Cache.remove(Key);
 
-			Render . ReleaseDisplayList ( RenderRecord . SecondaryPassDisplayList ) ;
+		if (RenderRecord != null) {
+			Render.ReleaseDisplayList(RenderRecord.PrimaryPassDisplayList);
+
+			Render.ReleaseDisplayList(RenderRecord.SecondaryPassDisplayList);
 		}
 	}
 }

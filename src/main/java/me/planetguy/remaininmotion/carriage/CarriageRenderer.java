@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.carriage ;
+package me.planetguy.remaininmotion.carriage;
 
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.Directions;
@@ -8,65 +8,48 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.util.IIcon;
 
-public class CarriageRenderer extends BlockRenderer
-{
-	public CarriageRenderer ( )
-	{
-		RIMBlocks . Carriage . RenderId = Initialize ( RIMBlocks . Carriage ) ;
+public class CarriageRenderer extends BlockRenderer {
+	public CarriageRenderer() {
+		RIMBlocks.Carriage.RenderId = Initialize(RIMBlocks.Carriage);
 	}
 
 	@Override
-	public void Render ( net . minecraft . tileentity . TileEntity TileEntity )
-	{
-		if ( TileEntity instanceof TemplateCarriageEntity )
-		{
-			TemplateCarriageEntity Carriage = ( TemplateCarriageEntity ) TileEntity ;
+	public void Render(net.minecraft.tileentity.TileEntity TileEntity) {
+		if (TileEntity instanceof TemplateCarriageEntity) {
+			TemplateCarriageEntity Carriage = (TemplateCarriageEntity) TileEntity;
 
-			if ( Carriage . Pattern == null )
-			{
-				return ;
-			}
+			if (Carriage.Pattern == null) { return; }
 
-			if ( Carriage . RenderPattern == false )
-			{
-				return ;
-			}
+			if (Carriage.RenderPattern == false) { return; }
 
-			SetSideSpan ( 0 , 0 , 1 , 1 ) ;
+			SetSideSpan(0, 0, 1, 1);
 
-			SetTextureSpan ( me.planetguy.remaininmotion.carriage.Carriage . PlaceholderIcon ) ;
+			SetTextureSpan(me.planetguy.remaininmotion.carriage.Carriage.PlaceholderIcon);
 
-			for ( BlockRecord Record : Carriage . Pattern )
-			{
-				RenderGhost ( Record . X , Record . Y , Record . Z ) ;
+			for (BlockRecord Record : Carriage.Pattern) {
+				RenderGhost(Record.X, Record.Y, Record.Z);
 			}
 		}
 	}
 
 	@Override
-	public IIcon GetIcon ( net . minecraft . item . ItemStack Item , Directions Side )
-	{
-		if ( Side != Directions . PosY )
-		{
-			int id=CarriageItem . GetDecorationId ( Item ) ;
-			
-			if ( id != 0 )
-			{
-				Block DecorationId =Block.getBlockById(id);
+	public IIcon GetIcon(net.minecraft.item.ItemStack Item, Directions Side) {
+		if (Side != Directions.PosY) {
+			int id = CarriageItem.GetDecorationId(Item);
 
-				int DecorationMeta = CarriageItem . GetDecorationMeta ( Item ) ;
+			if (id != 0) {
+				Block DecorationId = Block.getBlockById(id);
 
-				try
-				{
-					return ( DecorationId . getIcon ( Side . ordinal ( ) , DecorationMeta ) ) ;
-				}
-				catch ( Throwable Throwable )
-				{
-					Throwable . printStackTrace ( ) ;
+				int DecorationMeta = CarriageItem.GetDecorationMeta(Item);
+
+				try {
+					return (DecorationId.getIcon(Side.ordinal(), DecorationMeta));
+				} catch (Throwable Throwable) {
+					Throwable.printStackTrace();
 				}
 			}
 		}
 
-		return ( RIMBlocks . Carriage . getIcon ( 0 , BlockItem . GetBlockType ( Item ) ) ) ;
+		return (RIMBlocks.Carriage.getIcon(0, BlockItem.GetBlockType(Item)));
 	}
 }

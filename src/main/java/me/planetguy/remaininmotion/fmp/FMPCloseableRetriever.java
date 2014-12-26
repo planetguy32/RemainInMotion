@@ -15,13 +15,11 @@ public class FMPCloseableRetriever implements ICloseableFactory {
 
 	@Override
 	public ICloseable retrieve(TileEntity te) {
-		if(te instanceof TileMultipart){
-			TileMultipart tm=(TileMultipart) te;
-			for(TMultiPart part:tm.jPartList()){
+		if (te instanceof TileMultipart) {
+			TileMultipart tm = (TileMultipart) te;
+			for (TMultiPart part : tm.jPartList()) {
 				Debug.dbg(part);
-				if(part instanceof ICloseable){
-					return (ICloseable) part;
-				}
+				if (part instanceof ICloseable) { return (ICloseable) part; }
 			}
 		}
 		return null;

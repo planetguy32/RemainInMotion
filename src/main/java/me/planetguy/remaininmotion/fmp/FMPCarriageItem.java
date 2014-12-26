@@ -22,24 +22,23 @@ final class FMPCarriageItem extends JItemMultiPart {
 	}
 
 	@Override
-	public TMultiPart newPart(ItemStack arg0, EntityPlayer arg1,
-			World arg2, BlockCoord arg3, int arg4, Vector3 arg5) {
+	public TMultiPart newPart(ItemStack arg0, EntityPlayer arg1, World arg2, BlockCoord arg3, int arg4, Vector3 arg5) {
 		return MultiPartRegistry.createPart("FMPCarriage", false);
 	}
 
 	@Override
-	public String getUnlocalizedName(){
-		return Mod.Handle+":"+"FMPCarriage";
+	public String getUnlocalizedName() {
+		return Mod.Handle + ":" + "FMPCarriage";
 	}
 
-	public IIcon getIconFromDamage(int dmg){
+	public IIcon getIconFromDamage(int dmg) {
 		return RiMItems.SimpleItemSet.getIconFromDamage(2);
 	}
 
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List l, boolean par4) {
-		if ( Configuration . Cosmetic . ShowHelpInTooltips )return;
-		for(String s:Lang.translate(this.getUnlocalizedName()+".tooltip").split("\\n")){
-			l . add ( s);
+		if (Configuration.Cosmetic.ShowHelpInTooltips) return;
+		for (String s : Lang.translate(this.getUnlocalizedName() + ".tooltip").split("\\n")) {
+			l.add(s);
 		}
 	}
 }
