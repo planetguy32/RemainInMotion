@@ -117,11 +117,10 @@ public class BlockCarriage extends BlockRiM {
 	@Override
 	public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
 			try {
-				ArrayRotator.rotate(((TileEntityCarriage) worldObj.getTileEntity(x, y, z)).SideClosed, axis);
-				if (worldObj.getBlockMetadata(x, y, z) == Types.Template.ordinal()) {
-					TileEntityTemplateCarriage tile = (TileEntityTemplateCarriage) worldObj.getTileEntity(x, y, z);
-					tile.rotate(axis);
-				}
+				TileEntityCarriage tile = (TileEntityCarriage) worldObj.getTileEntity(x, y, z);
+				ArrayRotator.rotate(tile.SideClosed, axis);
+				tile.rotateSpecial(axis);
+				
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
