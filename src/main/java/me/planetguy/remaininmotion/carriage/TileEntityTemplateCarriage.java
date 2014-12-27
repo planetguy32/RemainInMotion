@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.carriage;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.ForgeDirection;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordList;
@@ -12,7 +13,10 @@ import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.spectre.RemIMRotator;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import me.planetguy.remaininmotion.util.transformations.Matrices;
+import me.planetguy.remaininmotion.util.transformations.Matrix;
 
 public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	public BlockRecordList	Pattern;
@@ -267,4 +271,21 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	public String toString() {
 		return "Template carriage " + Pattern;
 	}
+
+	public void rotate(ForgeDirection axis) {
+		for (BlockRecord toRotateRecord : Pattern) {
+			rotateOrthogonal(Directions.values()[axis.ordinal()], toRotateRecord);
+		}
+		Propagate();
+	}
+	
+	public void rotateOrthogonal(Directions clockwiseFace, BlockRecord pos) {
+		Matrix coordsMatrixNew = new Matrix(new double[][] { { pos.X }, { pos.Y }, { pos.Z } });
+		Matrix rotation = Matrices.ccwRotMatrices[clockwiseFace.ordinal()];
+		Matrix newCoords = rotation.crossProduct(coordsMatrixNew);
+		pos.X = (int) (newCoords.matrix[0][0]);
+		pos.Y = (int) (newCoords.matrix[1][0]);
+		pos.Z = (int) (newCoords.matrix[2][0]);
+	}
+
 }
