@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.carriage;
 
-import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;

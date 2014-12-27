@@ -1,7 +1,5 @@
 package me.planetguy.remaininmotion.base;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -16,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public abstract class BlockRiM extends BlockContainer {
@@ -110,7 +107,8 @@ public abstract class BlockRiM extends BlockContainer {
 			Throwable.printStackTrace();
 		}
 	}
-
+		
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
 		if (!world.isRemote) {
