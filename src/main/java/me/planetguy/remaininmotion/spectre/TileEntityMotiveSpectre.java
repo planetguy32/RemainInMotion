@@ -332,7 +332,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	@Override
-	public void WriteServerRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void WriteServerRecord(NBTTagCompound TagCompound) {
 		TagCompound.setInteger("DriveX", DriveRecord.X);
 		TagCompound.setInteger("DriveY", DriveRecord.Y);
 		TagCompound.setInteger("DriveZ", DriveRecord.Z);
@@ -342,10 +342,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		TagCompound.setTag("PendingBlockUpdates", PendingBlockUpdates);
 
 		{
-			net.minecraft.nbt.NBTTagList BodyRecord = new net.minecraft.nbt.NBTTagList();
+			NBTTagList BodyRecord = new NBTTagList();
 
 			for (BlockRecord Record : Body) {
-				net.minecraft.nbt.NBTTagCompound BodyBlockRecord = new net.minecraft.nbt.NBTTagCompound();
+				NBTTagCompound BodyBlockRecord = new NBTTagCompound();
 
 				BodyBlockRecord.setInteger("X", Record.X);
 				BodyBlockRecord.setInteger("Y", Record.Y);
@@ -369,7 +369,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	@Override
-	public void ReadServerRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
+	public void ReadServerRecord(NBTTagCompound TagCompound) {
 		DriveRecord = new BlockRecord(TagCompound.getInteger("DriveX"), TagCompound.getInteger("DriveY"),
 				TagCompound.getInteger("DriveZ"));
 
@@ -380,12 +380,12 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		Body = new BlockRecordSet();
 
 		{
-			net.minecraft.nbt.NBTTagList BodyRecord = TagCompound.getTagList("Body", 10);
+			NBTTagList BodyRecord = TagCompound.getTagList("Body", 10);
 
 			int BodyBlockCount = BodyRecord.tagCount();
 
 			for (int Index = 0; Index < BodyBlockCount; Index++) {
-				net.minecraft.nbt.NBTTagCompound BodyBlockRecord = BodyRecord.getCompoundTagAt(Index);
+				NBTTagCompound BodyBlockRecord = BodyRecord.getCompoundTagAt(Index);
 
 				BlockRecord Record = new BlockRecord(BodyBlockRecord.getInteger("X"), BodyBlockRecord.getInteger("Y"),
 						BodyBlockRecord.getInteger("Z"));
@@ -404,8 +404,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	@Override
-	public void WriteClientRecord(net.minecraft.nbt.NBTTagCompound TagCompound) {
-		net.minecraft.nbt.NBTTagList CapturedEntityRecords = new net.minecraft.nbt.NBTTagList();
+	public void WriteClientRecord(NBTTagCompound TagCompound) {
+		NBTTagList CapturedEntityRecords = new NBTTagList();
 
 		int i = 0;
 
@@ -417,7 +417,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 				// only)
 				break;
 			}
-			net.minecraft.nbt.NBTTagCompound CapturedEntityRecord = new net.minecraft.nbt.NBTTagCompound();
+			NBTTagCompound CapturedEntityRecord = new NBTTagCompound();
 
 			CapturedEntityRecord.setInteger("Id", Entity.entity.getEntityId());
 
