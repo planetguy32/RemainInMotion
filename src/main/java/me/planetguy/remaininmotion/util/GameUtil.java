@@ -1,9 +1,10 @@
-package me.planetguy.remaininmotion.util ;
+package me.planetguy.remaininmotion.util;
 
-public abstract class GameUtil
-{
-	public static net . minecraft . server . MinecraftServer GetServer ( )
-	{
-		return ( cpw . mods . fml . common . FMLCommonHandler . instance ( ) . getMinecraftServerInstance ( ) ) ;
+import net.minecraft.server.MinecraftServer;
+import cpw.mods.fml.common.FMLCommonHandler;
+
+public abstract class GameUtil {
+	public static MinecraftServer GetServer() {
+		return (FMLCommonHandler.instance().getMinecraftServerInstance());
 	}
 }

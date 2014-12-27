@@ -1,18 +1,23 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion;
 
-import me.planetguy.remaininmotion.core.Configuration;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 
-public class CarriageMotionException extends Exception
-{
-	public CarriageMotionException ( String Message )
-	{
-		super ( Message ) ;
-		//this.printStackTrace();
-		
+public class CarriageMotionException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long	serialVersionUID	= -4411286708532256473L;
+
+	public CarriageMotionException(String Message) {
+		super(Message);
+		// this.printStackTrace();
+
 	}
-	
-	public void printStackTrace(){ //Mute exceptions depending on config
-		if(!Configuration.Debug.MuteMotionExceptions)
+
+	@Override
+	public void printStackTrace() { // Mute exceptions depending on config
+		if (!RiMConfiguration.Debug.MuteMotionExceptions) {
 			super.printStackTrace();
+		}
 	}
 }

@@ -1,49 +1,44 @@
-package me.planetguy.remaininmotion.core ;
+package me.planetguy.remaininmotion.core;
 
-public abstract class Config
-{
-	public net . minecraftforge . common.config . Configuration Configuration ;
+import java.io.File;
+import net.minecraftforge.common.config.Configuration;
 
-	public String Category ;
+public abstract class Config {
+	public Configuration	Configuration;
 
-	public Config ( java . io . File File )
-	{
-		Configuration = new net . minecraftforge . common.config . Configuration ( File , true ) ;
+	public String			Category;
+
+	public Config(File File) {
+		Configuration = new Configuration(File, true);
 	}
 
-	public String String ( String Name , String Default )
-	{
-		return ( Configuration . get ( Category , Name , Default ) . getString ( ) ) ;
+	public String String(String Name, String Default) {
+		return (Configuration.get(Category, Name, Default).getString());
 	}
 
-	public boolean Boolean ( String Name , boolean Default )
-	{
-		return ( Configuration . get ( Category , Name , Default ) . getBoolean ( Default ) ) ;
+	public boolean Boolean(String Name, boolean Default) {
+		return (Configuration.get(Category, Name, Default).getBoolean(Default));
 	}
 
-	public int Integer ( String Name , int Default )
-	{
-		return ( Configuration . get ( Category , Name , Default ) . getInt ( Default ) ) ;
+	public int Integer(String Name, int Default) {
+		return (Configuration.get(Category, Name, Default).getInt(Default));
 	}
 
-	public int BoundedInteger ( String Name , int Min , int Default , int Max )
-	{
-		int Value = Integer ( Name , Default ) ;
+	public int BoundedInteger(String Name, int Min, int Default, int Max) {
+		int Value = Integer(Name, Default);
 
-		if ( Value < Min )
-		{
-			new RuntimeException ( Name + " must be at least " + Min ) . printStackTrace ( ) ;
+		if (Value < Min) {
+			new RuntimeException(Name + " must be at least " + Min).printStackTrace();
 
-			return ( Default ) ;
+			return (Default);
 		}
 
-		if ( Value > Max )
-		{
-			new RuntimeException ( Name + " must be at most " + Max ) . printStackTrace ( ) ;
+		if (Value > Max) {
+			new RuntimeException(Name + " must be at most " + Max).printStackTrace();
 
-			return ( Default ) ;
+			return (Default);
 		}
 
-		return ( Value ) ;
+		return (Value);
 	}
 }

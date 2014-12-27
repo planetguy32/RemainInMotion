@@ -1,56 +1,54 @@
-package me.planetguy.lib.util ;
+package me.planetguy.lib.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-public class Blacklist
-{
-	
-	public java . util . HashSet < Block > BlacklistedIds = new java . util . HashSet < Block > ( ) ;
+public class Blacklist {
 
-	public java . util . HashSet < BlockInt > BlacklistedIdAndMetaPairs = new java . util . HashSet < BlockInt > ( ) ;
+	public java.util.HashSet<Block>		BlacklistedIds				= new java.util.HashSet<Block>();
 
-	
-	public void blacklist ( Block Id )
-	{
-		BlacklistedIds . add ( Id ) ;
+	public java.util.HashSet<BlockInt>	BlacklistedIdAndMetaPairs	= new java.util.HashSet<BlockInt>();
+
+	public void blacklist(Block Id) {
+		BlacklistedIds.add(Id);
 	}
 
-	public void blacklist ( Block Id , int Meta )
-	{
-		BlacklistedIdAndMetaPairs . add ( new BlockInt(Id, Meta) ) ;
+	public void blacklist(Block Id, int Meta) {
+		BlacklistedIdAndMetaPairs.add(new BlockInt(Id, Meta));
 	}
 
-	public boolean lookup(World w, int x, int y, int z){
+	public boolean lookup(World w, int x, int y, int z) {
 
-		int meta=w.getBlockMetadata(x, y, z);
-		Block block=w.getBlock(x, y, z);
-		if(BlacklistedIds.contains(block) || BlacklistedIdAndMetaPairs.contains(new BlockInt(block, meta))){
+		int meta = w.getBlockMetadata(x, y, z);
+		Block block = w.getBlock(x, y, z);
+		if (BlacklistedIds.contains(block) || BlacklistedIdAndMetaPairs.contains(new BlockInt(block, meta))) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-	private class BlockInt{
-		
-		public final Block block;
-		public final int meta;
-		
-		public BlockInt(Block b, int i){
-			this.block=b;
-			this.meta=i;
+	private class BlockInt {
+
+		public final Block	block;
+		public final int	meta;
+
+		public BlockInt(Block b, int i) {
+			block = b;
+			meta = i;
 		}
-		
-		public boolean equals(Object o){
-			if(o instanceof BlockInt){
-				return ((BlockInt) o).block==block && ((BlockInt)o).meta == meta;
-			}else{
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof BlockInt) {
+				return ((BlockInt) o).block == block && ((BlockInt) o).meta == meta;
+			} else {
 				return false;
 			}
 		}
-		
-		public int hashCode(){
+
+		@Override
+		public int hashCode() {
 			return block.hashCode() ^ meta;
 		}
 	}

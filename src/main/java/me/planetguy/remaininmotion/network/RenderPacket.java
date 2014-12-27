@@ -1,136 +1,111 @@
-package me.planetguy.remaininmotion.network ;
+package me.planetguy.remaininmotion.network;
 
-import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.client.CarriageRenderCache;
-import me.planetguy.remaininmotion.core.Mod;
-import me.planetguy.remaininmotion.drive.CarriageDriveEntity;
-import me.planetguy.remaininmotion.drive.CarriageRotatorEntity;
-import me.planetguy.remaininmotion.spectre.RotativeSpectreEntity;
+import me.planetguy.remaininmotion.core.ModRiM;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageRotator;
+import me.planetguy.remaininmotion.render.CarriageRenderCache;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public abstract class RenderPacket
-{
-	public static void Dispatch ( CarriagePackage Package )
-	{
-		
-		//Debug.dbg("Dispatching render packet");
-		net . minecraft . nbt . NBTTagCompound Packet = new net . minecraft . nbt . NBTTagCompound ( ) ;
+public abstract class RenderPacket {
+	public static void Dispatch(CarriagePackage Package) {
 
-		Packet . setInteger ( "DriveX" , Package . DriveRecord . X ) ;
-		Packet . setInteger ( "DriveY" , Package . DriveRecord . Y ) ;
-		Packet . setInteger ( "DriveZ" , Package . DriveRecord . Z ) ;
-		
-		Mod.plHelper.playSound(Package.World, Package . DriveRecord . X, Package . DriveRecord . Y, Package . DriveRecord . Z, "hum", .8f, 1f);
+		// Debug.dbg("Dispatching render packet");
+		NBTTagCompound Packet = new NBTTagCompound();
 
-		Packet . setBoolean ( "Anchored" , Package . DriveIsAnchored ) ;
+		Packet.setInteger("DriveX", Package.DriveRecord.X);
+		Packet.setInteger("DriveY", Package.DriveRecord.Y);
+		Packet.setInteger("DriveZ", Package.DriveRecord.Z);
 
-		Packet . setInteger ( "Dimension" , Package . RenderCacheKey . Dimension ) ;
+		ModRiM.plHelper.playSound(Package.World, Package.DriveRecord.X, Package.DriveRecord.Y, Package.DriveRecord.Z,
+				"hum", .8f, 1f);
 
-		net . minecraft . nbt . NBTTagList Body = new net . minecraft . nbt . NBTTagList ( ) ;
+		Packet.setBoolean("Anchored", Package.DriveIsAnchored);
 
-		for ( BlockRecord Record : Package . Body )
-		{
-			net . minecraft . nbt . NBTTagCompound Tag = new net . minecraft . nbt . NBTTagCompound ( ) ;
+		Packet.setInteger("Dimension", Package.RenderCacheKey.Dimension);
 
-			Tag . setInteger ( "X" , Record . X ) ;
-			Tag . setInteger ( "Y" , Record . Y ) ;
-			Tag . setInteger ( "Z" , Record . Z ) ;
+		NBTTagList Body = new NBTTagList();
 
-			Body . appendTag ( Tag ) ;
+		for (BlockRecord Record : Package.Body) {
+			NBTTagCompound Tag = new NBTTagCompound();
+
+			Tag.setInteger("X", Record.X);
+			Tag.setInteger("Y", Record.Y);
+			Tag.setInteger("Z", Record.Z);
+
+			Body.appendTag(Tag);
 		}
 
-		Packet.setTag ( "Body" , Body ) ;
-		
+		Packet.setTag("Body", Body);
+
 		Packet.setInteger("axis", Package.axis);
-		
-		//Debug.dbg("RemIM tags:"+((NBTTagList) Packet.getTag("Body")).tagCount());
 
-		if ( Package . MotionDirection == null )
-		{
-			PacketManager . BroadcastPacketFromBlock ( Package . AnchorRecord . X , Package . AnchorRecord . Y , Package . AnchorRecord . Z , Package . World , PacketTypes . Render , Packet ) ;
+		// Debug.dbg("RemIM tags:"+((NBTTagList)
+		// Packet.getTag("Body")).tagCount());
 
-			PacketManager . BroadcastPacketFromBlock
-			(
-				Package . AnchorRecord . X - Package . DriveRecord . X + Package . Translocator . xCoord ,
-				Package . AnchorRecord . Y - Package . DriveRecord . Y + Package . Translocator . yCoord ,
-				Package . AnchorRecord . Z - Package . DriveRecord . Z + Package . Translocator . zCoord ,
-				Package . Translocator.getWorldObj() ,
-				PacketTypes . Render ,
-				Packet
-			) ;
-		}
-		else
-		{
-			PacketManager . BroadcastPacketFromBlock
-			(
-				Package . AnchorRecord . X + Package . MotionDirection . DeltaX ,
-				Package . AnchorRecord . Y + Package . MotionDirection . DeltaY ,
-				Package . AnchorRecord . Z + Package . MotionDirection . DeltaZ ,
-				Package . World ,
-				PacketTypes . Render ,
-				Packet
-			) ;
+		if (Package.MotionDirection == null) {
+			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X, Package.AnchorRecord.Y,
+					Package.AnchorRecord.Z, Package.World, PacketTypes.Render, Packet);
+
+			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X - Package.DriveRecord.X
+					+ Package.Translocator.xCoord, Package.AnchorRecord.Y - Package.DriveRecord.Y
+					+ Package.Translocator.yCoord, Package.AnchorRecord.Z - Package.DriveRecord.Z
+					+ Package.Translocator.zCoord, Package.Translocator.getWorldObj(), PacketTypes.Render, Packet);
+		} else {
+			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X + Package.MotionDirection.DeltaX,
+					Package.AnchorRecord.Y + Package.MotionDirection.DeltaY, Package.AnchorRecord.Z
+							+ Package.MotionDirection.DeltaZ, Package.World, PacketTypes.Render, Packet);
 		}
 	}
 
-	public static void Handle ( net . minecraft . nbt . NBTTagCompound Packet , net . minecraft . world . World World )
-	{
-		int DriveX = Packet . getInteger ( "DriveX" ) ;
-		int DriveY = Packet . getInteger ( "DriveY" ) ;
-		int DriveZ = Packet . getInteger ( "DriveZ" ) ;
-		
-		boolean DriveIsAnchored = Packet . getBoolean ( "Anchored" ) ;
+	public static void Handle(NBTTagCompound Packet, World World) {
+		int DriveX = Packet.getInteger("DriveX");
+		int DriveY = Packet.getInteger("DriveY");
+		int DriveZ = Packet.getInteger("DriveZ");
 
-		int Dimension = Packet . getInteger ( "Dimension" ) ;
+		boolean DriveIsAnchored = Packet.getBoolean("Anchored");
 
-		net . minecraft . nbt . NBTTagList Body = (NBTTagList) Packet.getTag("Body") ;
+		int Dimension = Packet.getInteger("Dimension");
 
-		//Debug.dbg("<Body= ("+Body.tagCount()+")");
-		
-		BlockRecordSet Blocks = new BlockRecordSet ( ) ;
+		NBTTagList Body = (NBTTagList) Packet.getTag("Body");
 
-		BlockRecordSet TileEntities = new BlockRecordSet ( ) ;
+		// Debug.dbg("<Body= ("+Body.tagCount()+")");
 
-		for ( int Index = 0 ; Index < Body . tagCount ( ) ; Index ++ )
-		{
-			net . minecraft . nbt . NBTTagCompound Tag = Body.getCompoundTagAt( Index ) ;
+		BlockRecordSet Blocks = new BlockRecordSet();
 
-			BlockRecord Record = new BlockRecord ( Tag . getInteger ( "X" ) , Tag . getInteger ( "Y" ) , Tag . getInteger ( "Z" ) ) ;
+		BlockRecordSet TileEntities = new BlockRecordSet();
 
-			Record . Identify ( World ) ;
+		for (int Index = 0; Index < Body.tagCount(); Index++) {
+			NBTTagCompound Tag = Body.getCompoundTagAt(Index);
 
-			Blocks . add ( Record ) ;
+			BlockRecord Record = new BlockRecord(Tag.getInteger("X"), Tag.getInteger("Y"), Tag.getInteger("Z"));
 
-			if ( Record . Entity != null )
-			{
-				TileEntities . add ( Record ) ;
+			Record.Identify(World);
+
+			Blocks.add(Record);
+
+			if (Record.Entity != null) {
+				TileEntities.add(Record);
 			}
-			
-			if ( ! DriveIsAnchored )
-			{
-				if ( Record . X == DriveX )
-				{
-					if ( Record . Y == DriveY )
-					{
-						if ( Record . Z == DriveZ )
-						{
-							try
-							{
-								( ( CarriageDriveEntity ) Record . Entity ) . Active = true ;
-								
-								if(Record.Entity instanceof CarriageRotatorEntity) {
-									((CarriageRotatorEntity) Record.Entity).setAxis(Packet.getInteger("axis"));
+
+			if (!DriveIsAnchored) {
+				if (Record.X == DriveX) {
+					if (Record.Y == DriveY) {
+						if (Record.Z == DriveZ) {
+							try {
+								((TileEntityCarriageDrive) Record.Entity).Active = true;
+
+								if (Record.Entity instanceof TileEntityCarriageRotator) {
+									((TileEntityCarriageRotator) Record.Entity).setAxis(Packet.getInteger("axis"));
 								}
-								
-							}
-							catch ( Throwable Throwable )
-							{
-								Throwable . printStackTrace ( ) ;
+
+							} catch (Throwable Throwable) {
+								Throwable.printStackTrace();
 							}
 						}
 					}
@@ -138,13 +113,11 @@ public abstract class RenderPacket
 			}
 		}
 
-		try
-		{
-			CarriageRenderCache . Assemble ( Blocks , TileEntities , World , new BlockPosition ( DriveX , DriveY , DriveZ , Dimension ) ) ;
-		}
-		catch ( Throwable Throwable )
-		{
-			Throwable . printStackTrace ( ) ;
+		try {
+			CarriageRenderCache.Assemble(Blocks, TileEntities, World, new BlockPosition(DriveX, DriveY, DriveZ,
+					Dimension));
+		} catch (Throwable Throwable) {
+			Throwable.printStackTrace();
 		}
 	}
 }

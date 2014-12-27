@@ -1,53 +1,46 @@
-package me.planetguy.remaininmotion ;
+package me.planetguy.remaininmotion;
 
-import net.minecraft.item.ItemStack;
-import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.base.Item;
-import me.planetguy.remaininmotion.core.Mod;
+import java.util.List;
+
+import me.planetguy.remaininmotion.base.ItemRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
-public class SimpleItemSet extends Item
-{
+public class SimpleItemSet extends ItemRiM {
 
-	public SimpleItemSet ( )
-	{
-		super ( ) ;
-	}
-
-	public String getUnlocalizedName(ItemStack stack){
-		return super.getUnlocalizedName()+"."+stack.getItemDamage();
+	public SimpleItemSet() {
+		super();
 	}
 
 	@Override
-	public void AddShowcaseStacks ( java . util . List Showcase )
-	{
-		for ( Types Type : Types . values ( ) )
-		{
-			Showcase . add ( Stack . New ( this , Type ) ) ;
+	public String getUnlocalizedName(ItemStack stack) {
+		return super.getUnlocalizedName() + "." + stack.getItemDamage();
+	}
+
+	@Override
+	public void AddShowcaseStacks(List Showcase) {
+		for (Types Type : Types.values()) {
+			Showcase.add(Stack.New(this, Type));
 		}
 	}
 
 	@Override
-	public void registerIcons ( net . minecraft . client . renderer . texture . IIconRegister IconRegister )
-	{
-		for ( Types Type : Types . values ( ) )
-		{
-			Type . Icon = Registry . RegisterIcon ( IconRegister , Type . name ( ) ) ;
+	public void registerIcons(IIconRegister IconRegister) {
+		for (Types Type : Types.values()) {
+			Type.Icon = Registry.RegisterIcon(IconRegister, Type.name());
 		}
 	}
 
 	@Override
-	public net . minecraft . util . IIcon getIconFromDamage ( int Damage )
-	{
-		try
-		{
-			return ( Types . values ( ) [ Damage ] . Icon ) ;
-		}
-		catch ( Throwable Throwable )
-		{
-			Throwable . printStackTrace ( ) ;
+	public IIcon getIconFromDamage(int Damage) {
+		try {
+			return (Types.values()[Damage].Icon);
+		} catch (Throwable Throwable) {
+			Throwable.printStackTrace();
 
-			return ( RIMBlocks . Spectre . getIcon ( 0 , 0 ) ) ;
+			return (RIMBlocks.Spectre.getIcon(0, 0));
 		}
 	}
 }
