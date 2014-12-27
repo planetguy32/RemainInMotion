@@ -4,13 +4,14 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import net.minecraft.nbt.NBTTagCompound;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.core.ModRiM;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityStructureCarriage extends TileEntityCarriage {
 	public enum EdgeTypes {
@@ -250,6 +251,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 		return (AssertCoordsMatch(AssertCoordsMatch(A, B), C));
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
 		if (EdgeType != null) {
@@ -356,14 +358,18 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 		for (Field f : this.getClass().getFields()) {
 			try {
 				str += f.getName() + "=" + f.get(this) + ", ";
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return str;
 	}
+
+	@Override
+	public void rotateSpecial(ForgeDirection axis) {
+		CheckSides();
+		Propagate();
+	}
+	
+	
 }

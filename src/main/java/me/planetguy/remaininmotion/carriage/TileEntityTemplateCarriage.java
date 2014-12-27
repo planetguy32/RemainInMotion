@@ -13,7 +13,6 @@ import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.spectre.RemIMRotator;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.Matrices;
 import me.planetguy.remaininmotion.util.transformations.Matrix;
