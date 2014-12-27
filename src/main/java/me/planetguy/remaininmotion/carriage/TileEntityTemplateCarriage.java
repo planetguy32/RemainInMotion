@@ -272,7 +272,8 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		return "Template carriage " + Pattern;
 	}
 
-	public void rotate(ForgeDirection axis) {
+	@Override
+	public void rotateSpecial(ForgeDirection axis) {
 		for (BlockRecord toRotateRecord : Pattern) {
 			rotateOrthogonal(Directions.values()[axis.ordinal()], toRotateRecord);
 		}

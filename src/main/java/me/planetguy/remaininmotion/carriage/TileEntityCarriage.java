@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.carriage;
 
+import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
@@ -10,6 +11,7 @@ import me.planetguy.remaininmotion.base.TileEntityRiM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityCarriage extends TileEntityRiM implements Moveable, ICloseable {
 	@Override
@@ -82,4 +84,7 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 
 	@Override
 	public abstract void fillPackage(CarriagePackage Package) throws CarriageMotionException;
+	
+	public void rotateSpecial(ForgeDirection axis) {}
+	
 }
