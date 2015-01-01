@@ -45,11 +45,11 @@ item.Hollow Carriage.name=Hollow Carriage
 JAKJ_RedstoneInMotion:FMPCarriage.tooltip=Carries blocks directly touching it.##/##Supports Forge Multipart.
 
 #Other carriages' names
-tile.JAKJ_RedstoneInMotion_BlockCarriage.0.name=Frame Carriage
-tile.JAKJ_RedstoneInMotion_BlockCarriage.1.name=Platform Carriage
-tile.JAKJ_RedstoneInMotion_BlockCarriage.2.name=Structure Carriage
-tile.JAKJ_RedstoneInMotion_BlockCarriage.3.name=Support Carriage
-tile.JAKJ_RedstoneInMotion_BlockCarriage.4.name=Template Carriage
+tile.JAKJ_RedstoneInMotion_Carriage.0.name=Frame Carriage
+tile.JAKJ_RedstoneInMotion_Carriage.1.name=Platform Carriage
+tile.JAKJ_RedstoneInMotion_Carriage.2.name=Structure Carriage
+tile.JAKJ_RedstoneInMotion_Carriage.3.name=Support Carriage
+tile.JAKJ_RedstoneInMotion_Carriage.4.name=Template Carriage
 
 #Other carriages' tooltips
 JAKJ_RedstoneInMotion.carriage.tooltip.0=Carries blocks directly touching it
@@ -60,13 +60,13 @@ JAKJ_RedstoneInMotion.carriage.tooltip.4=Carries blocks in the exact pattern pre
 
 
 #Carriage drives' names (including adapter carriage - it's more of a drive under the hood)
-tile.JAKJ_RedstoneInMotion_BlockCarriageDrive.0.name=Carriage Engine
-tile.JAKJ_RedstoneInMotion_BlockCarriageDrive.1.name=Carriage Motor
-tile.JAKJ_RedstoneInMotion_BlockCarriageDrive.2.name=Carriage Controller
-tile.JAKJ_RedstoneInMotion_BlockCarriageDrive.3.name=Carriage Translocator
-tile.JAKJ_RedstoneInMotion_BlockCarriageDrive.4.name=Carriage Transduplicator
-tile.JAKJ_RedstoneInMotion_BlockCarriageDrive.5.name=Carriage Adapter
-tile.JAKJ_RedstoneInMotion_BlockCarriageDrive.6.name=Carriage Rotator
+tile.JAKJ_RedstoneInMotion_CarriageDrive.0.name=Carriage Engine
+tile.JAKJ_RedstoneInMotion_CarriageDrive.1.name=Carriage Motor
+tile.JAKJ_RedstoneInMotion_CarriageDrive.2.name=Carriage Controller
+tile.JAKJ_RedstoneInMotion_CarriageDrive.3.name=Carriage Translocator
+tile.JAKJ_RedstoneInMotion_CarriageDrive.4.name=Carriage Transduplicator
+tile.JAKJ_RedstoneInMotion_CarriageDrive.5.name=Carriage Adapter
+tile.JAKJ_RedstoneInMotion_CarriageDrive.6.name=Carriage Rotator
 
 #Carriage drives' tooltips
 JAKJ_RedstoneInMotion.drive.tooltip.0=Moves with the carriage.

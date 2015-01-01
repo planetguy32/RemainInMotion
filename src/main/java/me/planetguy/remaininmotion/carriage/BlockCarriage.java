@@ -20,9 +20,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCarriage extends BlockRiM {
 	public BlockCarriage() {
-		super(Blocks.planks, ItemCarriage.class, HarvestToolTypes.Hatchet, TileEntityFrameCarriage.class,
-				TileEntitySupportCarriage.class, TileEntityStructureCarriage.class, TileEntityPlatformCarriage.class,
-				TileEntityTemplateCarriage.class);
+		super(Blocks.planks, ItemCarriage.class, TileEntityFrameCarriage.class, TileEntitySupportCarriage.class,
+				TileEntityStructureCarriage.class, TileEntityPlatformCarriage.class, TileEntityTemplateCarriage.class);
+		this.setHarvestLevel(HarvestToolTypes.Hatchet, 0);
 	}
 
 	public enum Types {
@@ -116,16 +116,16 @@ public class BlockCarriage extends BlockRiM {
 
 	@Override
 	public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
-			try {
-				TileEntityCarriage tile = (TileEntityCarriage) worldObj.getTileEntity(x, y, z);
-				ArrayRotator.rotate(tile.SideClosed, axis);
-				tile.rotateSpecial(axis);
-				
-				return true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		
+		try {
+			TileEntityCarriage tile = (TileEntityCarriage) worldObj.getTileEntity(x, y, z);
+			ArrayRotator.rotate(tile.SideClosed, axis);
+			tile.rotateSpecial(axis);
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 

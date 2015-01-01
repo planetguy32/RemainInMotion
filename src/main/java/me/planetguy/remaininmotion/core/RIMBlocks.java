@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.core;
 
+import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
@@ -16,6 +17,8 @@ public abstract class RIMBlocks {
 	public static Block					air	= Blocks.air;
 
 	public static void Initialize() {
+		BlockRiM.initLegacyClassMap();
+		
 		Carriage = new BlockCarriage();
 
 		CarriageDrive = new BlockCarriageDrive();

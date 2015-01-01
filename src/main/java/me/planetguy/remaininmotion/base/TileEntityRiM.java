@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.base;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,6 +23,12 @@ public abstract class TileEntityRiM extends TileEntity {
 		WriteCommonRecord(TagCompound);
 
 		WriteServerRecord(TagCompound);
+	}
+
+	// make all carriages render as far as the render distance
+	@Override
+	public double getMaxRenderDistanceSquared() {
+		return (16 * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks) * (16 * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
 	}
 
 	@Override

@@ -21,11 +21,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCarriageDrive extends BlockRiM {
 	public BlockCarriageDrive() {
-		super(Blocks.iron_block, ItemCarriageDrive.class, HarvestToolTypes.Pickaxe,
-
-		TileEntityCarriageEngine.class, TileEntityCarriageMotor.class, TileEntityCarriageController.class,
+		super(Blocks.iron_block, ItemCarriageDrive.class, TileEntityCarriageEngine.class,
+				TileEntityCarriageMotor.class, TileEntityCarriageController.class,
 				TileEntityCarriageTranslocator.class, TileEntityCarriageTransduplicator.class,
 				TileEntityCarriageAdapter.class, TileEntityCarriageRotator.class);
+		this.setHarvestLevel(HarvestToolTypes.Pickaxe, 0);
 	}
 
 	public enum Types {
