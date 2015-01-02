@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.fmp;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.ICloseableFactory;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraft.tileentity.TileEntity;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
@@ -14,7 +15,7 @@ public class FMPCloseableRetriever implements ICloseableFactory {
 		if (te instanceof TileMultipart) {
 			TileMultipart tm = (TileMultipart) te;
 			for (TMultiPart part : tm.jPartList()) {
-				Debug.dbg(part);
+				if(RiMConfiguration.Debug.verbose) Debug.dbg(part);
 				if (part instanceof ICloseable) { return (ICloseable) part; }
 			}
 		}

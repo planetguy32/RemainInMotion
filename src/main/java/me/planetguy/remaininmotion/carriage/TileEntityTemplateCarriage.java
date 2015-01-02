@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.carriage;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -10,9 +11,9 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.Matrices;
 import me.planetguy.remaininmotion.util.transformations.Matrix;
@@ -28,13 +29,19 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 		int PatternSize = Pattern.size();
 
+		ItemStack item;
+
 		while (PatternSize > 64) {
-			EmitDrop(Block, Stack.New(Block, Meta, 64));
+			item = ItemCarriage.Stack(Meta, Tier);
+			item.stackSize = 64;
+			EmitDrop(Block, item);
 
 			PatternSize -= 64;
 		}
+		item = ItemCarriage.Stack(Meta, Tier);
+		item.stackSize = PatternSize;
 
-		EmitDrop(Block, Stack.New(Block, Meta, PatternSize));
+		EmitDrop(Block, item);
 	}
 
 	@Override
@@ -157,7 +164,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 			}
 		}
 
-		Debug.dbg(NewPositions);
+		if(RiMConfiguration.Debug.verbose) Debug.dbg(NewPositions);
 
 		for (BlockRecord Position : DeadPositions) {
 			WorldUtil.ClearBlock(worldObj, Position.X, Position.Y, Position.Z);
@@ -181,9 +188,11 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 		this.Pattern.addAll(Pattern);
 
-		Debug.dbg(Pattern);
+		if (RiMConfiguration.Debug.verbose) {
+			Debug.dbg(Pattern);
 
-		Debug.dbg(this.Pattern);
+			Debug.dbg(this.Pattern);
+		}
 	}
 
 	public boolean	RenderPattern;
@@ -193,14 +202,14 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		super.ReadCommonRecord(TagCompound);
 
 		if (TagCompound.hasKey("Pattern")) {
-			Debug.dbg("Found PatternRecord");
+			if (RiMConfiguration.Debug.verbose) Debug.dbg("Found PatternRecord");
 			NBTTagList PatternRecord = TagCompound.getTagList("Pattern", 10);
 
 			Pattern = new BlockRecordList();
 
 			int PatternSize = PatternRecord.tagCount();
 
-			Debug.dbg("PatternRecord size=" + PatternSize);
+			if (RiMConfiguration.Debug.verbose) Debug.dbg("PatternRecord size=" + PatternSize);
 			for (int Index = 0; Index < PatternSize; Index++) {
 				NBTTagCompound PatternBlockRecord = PatternRecord.getCompoundTagAt(Index);
 
