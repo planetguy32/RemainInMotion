@@ -1,10 +1,12 @@
 #eclipse
 .project
+.externalToolBuilders
 .classpath
 .metadata
 org.*
 bin
 .settings
+.cache
 
 #idea
 *.iml

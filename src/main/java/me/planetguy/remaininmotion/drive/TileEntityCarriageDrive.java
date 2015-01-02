@@ -11,8 +11,10 @@ import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
@@ -228,6 +230,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 		try {
 			InitiateMotion(PreparePackage(SignalDirection.Opposite()));
+
+			ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, 1.2f, 1f);
 		} catch (CarriageMotionException Exception) {
 
 			String Message = "Drive at (" + xCoord + "," + yCoord + "," + zCoord + ") in dimension "

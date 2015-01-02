@@ -83,7 +83,7 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 
 	@Override
 	public abstract void fillPackage(CarriagePackage Package) throws CarriageMotionException;
-	
+
 	public void rotateSpecial(ForgeDirection axis) {}
-	
+
 }

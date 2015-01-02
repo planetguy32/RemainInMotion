@@ -278,7 +278,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		}
 		Propagate();
 	}
-	
+
 	public void rotateOrthogonal(Directions clockwiseFace, BlockRecord pos) {
 		Matrix coordsMatrixNew = new Matrix(new double[][] { { pos.X }, { pos.Y }, { pos.Z } });
 		Matrix rotation = Matrices.ccwRotMatrices[clockwiseFace.ordinal()];

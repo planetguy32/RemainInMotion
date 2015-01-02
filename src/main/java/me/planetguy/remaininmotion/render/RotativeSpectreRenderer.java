@@ -27,7 +27,7 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
 				} else {
 					Offset = Math.min(TileEntityMotiveSpectre.Velocity * (Spectre.TicksExisted + PartialTick), 1.0D);
 				}
-				if (Spectre != null && Spectre.RenderCacheKey != null) {
+				if (Spectre.RenderCacheKey != null) {
 
 					Render.Translate(X, Y, Z); // negative player pos
 

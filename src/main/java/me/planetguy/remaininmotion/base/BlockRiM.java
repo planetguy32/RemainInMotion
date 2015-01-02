@@ -41,7 +41,7 @@ public abstract class BlockRiM extends BlockContainer {
 		return (RenderId);
 	}
 
-	public Class<? extends TileEntityRiM>[]							TileEntityClasses;
+	public Class<? extends TileEntityRiM>[]								TileEntityClasses;
 	public static LinkedHashMap<Class<? extends TileEntityRiM>, String>	legacyClassToNameMap;
 
 	@Override
@@ -66,8 +66,6 @@ public abstract class BlockRiM extends BlockContainer {
 		}
 	}
 
-	
-	
 	public static void initLegacyClassMap() {
 		legacyClassToNameMap = new LinkedHashMap();
 		// Frames
@@ -93,7 +91,7 @@ public abstract class BlockRiM extends BlockContainer {
 		legacyClassToNameMap.put(TileEntityTransduplicativeSpectre.class,
 				"JAKJ_RedstoneInMotion_TransduplicativeSpectreEntity");
 		legacyClassToNameMap.put(TileEntityRotativeSpectre.class, "JAKJ_RedstoneInMotion_RotativeSpectreEntity");
-		
+
 		for (Class<? extends TileEntityRiM> TileEntityClass : legacyClassToNameMap.keySet()) {
 			if (TileEntityClass != null) {
 				if (legacyClassToNameMap.get(TileEntityClass) != null) {
@@ -103,9 +101,10 @@ public abstract class BlockRiM extends BlockContainer {
 		}
 	}
 
-	public BlockRiM(Block Template, Class<? extends ItemBlockRiM> BlockItemClass, Class<? extends TileEntityRiM>... TileEntityList) {
+	public BlockRiM(Block Template, Class<? extends ItemBlockRiM> BlockItemClass,
+			Class<? extends TileEntityRiM>... TileEntityList) {
 		super(Template.getMaterial());
-		
+
 		TileEntityClasses = TileEntityList;
 
 		setBlockName(ModRiM.Handle + "_" + getClass().getSimpleName().substring(5, getClass().getSimpleName().length()));

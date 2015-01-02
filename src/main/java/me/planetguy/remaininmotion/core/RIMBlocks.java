@@ -18,7 +18,7 @@ public abstract class RIMBlocks {
 
 	public static void Initialize() {
 		BlockRiM.initLegacyClassMap();
-		
+
 		Carriage = new BlockCarriage();
 
 		CarriageDrive = new BlockCarriageDrive();
