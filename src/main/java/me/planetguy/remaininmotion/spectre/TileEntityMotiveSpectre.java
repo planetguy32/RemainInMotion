@@ -449,7 +449,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 			CapturedEntityRecords.appendTag(CapturedEntityRecord);
 		}
 
-		Debug.dbg("Captured " + i + " tile entities.");
+		if(RiMConfiguration.Debug.verbose) Debug.dbg("Captured " + i + " tile entities.");
 
 		TagCompound.setTag("CapturedEntities", CapturedEntityRecords);
 	}
