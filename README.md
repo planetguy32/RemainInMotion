@@ -6,3 +6,5 @@ Continuation of JAKJ's excellent block-moving mod. I plan to update and expand m
 Pre-compiled binaries are available at the following URL: https://www.mediafire.com/folder/nx48d9udpfpln/RemainInMotion
 
 (The name is a pun on Newton's first law - a Redstone in Motion tends to Remain in Motion.)
+
+### There is info on the GitHub wiki section for each carriage. (The little book icon)
