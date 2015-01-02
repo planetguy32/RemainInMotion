@@ -9,6 +9,7 @@ import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.render.FMPRenderer;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.block.Block;
@@ -181,11 +182,11 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, M
 	}
 
 	private boolean isSideCovered(int side) {
-		Debug.dbg(side);
+		if(RiMConfiguration.Debug.verbose) Debug.dbg(side);
 		for (TMultiPart part : tile().jPartList()) {
-			Debug.dbg(part.getClass());
+			if(RiMConfiguration.Debug.verbose) Debug.dbg(part.getClass());
 			if (part instanceof CommonMicroblock) {
-				Debug.dbg(part.getClass());
+				if(RiMConfiguration.Debug.verbose) Debug.dbg(part.getClass());
 				CommonMicroblock mb = (CommonMicroblock) part;
 				if (mb.getShape() == side) {
 					int size = mb.getSize();
