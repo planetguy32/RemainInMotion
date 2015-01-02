@@ -6,6 +6,7 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Registry;
+import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.core.RiMConfiguration.DirtyHacks;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -23,8 +24,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCarriageRotator extends TileEntityCarriageDrive {
+public class TileEntityCarriageRotator extends TileEntityCarriageDrive implements ISpecialMoveBehavior{
 
+	public boolean	alreadyMoving;
+	
 	private int	directionIndex;
 
 	@Override
@@ -156,6 +159,33 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive {
 	public void rotate(ForgeDirection axis) {
 		super.rotate(axis);
 		directionIndex = Rotator.newSide(directionIndex, axis);
+	}
+
+	@Override
+	public void onAdded(CarriagePackage pkg, NBTTagCompound tag)
+			throws CarriageMotionException {
+
+		// icky hack to stop adding already-added adaptors
+		StackTraceElement[] e = Thread.currentThread().getStackTrace();
+		if (e[10].getClassName().equals(e[12].getClassName())) { return; }
+
+		HandleNeighbourBlockChange();
+		BlockRecord record = new BlockRecord(this);
+		pkg.AddBlock(record);
+		if (!alreadyMoving) {
+			alreadyMoving = true;
+			if (CarriageDirection != null) {
+				BlockRecord oldAnchor = pkg.AnchorRecord;
+				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.DeltaX,
+						yCoord + CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ);
+				pkg.AnchorRecord.Identify(worldObj);
+				MultiTypeCarriageUtil.fillPackage(pkg, worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord
+						+ CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ));
+				pkg.AnchorRecord = oldAnchor;
+
+			}
+		}
+		writeToNBT(tag);
 	}
 
 }

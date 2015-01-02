@@ -20,7 +20,7 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 	@Override
 	public void HandleToolUsage(int Side, boolean Sneaking) {
 		super.HandleToolUsage(Side, true); // Don't allow toggling continuous -
-		// it's meaningless
+		// it's meaningless and breaks our icons
 	}
 
 	@Override
@@ -91,7 +91,6 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 
 	public void fillPackage(CarriagePackage Package, TileEntity carriage) throws CarriageMotionException {
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
-
 	}
 
 	@Override
