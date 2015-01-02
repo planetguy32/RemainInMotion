@@ -40,6 +40,9 @@ public class RiMConfiguration extends Config {
 
 		public static int		TeleportationDuration			= 20 * 8;
 
+		public static int		SoundIndex						= 0;
+		public static String	SoundFile						= "hum";
+
 	}
 
 	public abstract static class Cosmetic {
@@ -210,6 +213,13 @@ public class RiMConfiguration extends Config {
 
 			CarriageMotion.TeleportationDuration = BoundedInteger("Duration of translocation in ticks", 10,
 					CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
+
+			CarriageMotion.SoundIndex = BoundedInteger("Sound File Index", 0, CarriageMotion.SoundIndex, 10);
+			switch(CarriageMotion.SoundIndex)
+			{
+				case 0: CarriageMotion.SoundFile = "hum"; break;
+				default: CarriageMotion.SoundFile = "engine" + CarriageMotion.SoundIndex; break;
+			}
 		}
 
 		{

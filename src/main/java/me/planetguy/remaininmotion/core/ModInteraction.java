@@ -199,9 +199,14 @@ public abstract class ModInteraction {
 		public static boolean isAWrench(ItemStack stk) {
 			for (Class c : wrenchClasses) { // must iterate - testing
 				// isAssignableFrom, not equals
-				if (stk != null && stk.getItem() != null && (stk.getItem().getClass().isAssignableFrom(c) || c.isInstance(stk.getItem()))) { return true; }
+				if (stk != null && stk.getItem() != null
+						&& (c.isInstance(stk.getItem()) || isEitherWayAssignable(c, stk.getItem().getClass()))) { return true; }
 			}
 			return false;
+		}
+
+		public static boolean isEitherWayAssignable(Class a, Class b) {
+			return a.isAssignableFrom(b) || b.isAssignableFrom(a);
 		}
 
 	}

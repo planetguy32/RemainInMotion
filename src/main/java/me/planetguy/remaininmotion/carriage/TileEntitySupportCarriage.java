@@ -46,6 +46,8 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 			}
 		}
 
+		if (SupportDirection == null) return;
+
 		BlockRecordSet ValidColumns = new BlockRecordSet();
 
 		int ValidColumnCheckFactorX = (SupportDirection.DeltaX == 0) ? (1) : (0);

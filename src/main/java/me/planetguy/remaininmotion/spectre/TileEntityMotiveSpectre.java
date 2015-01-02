@@ -14,9 +14,12 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
+import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
@@ -87,9 +90,27 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 		if (worldObj.isRemote) { return; }
 
+		if (TicksExisted > 0 && TicksExisted < RiMConfiguration.CarriageMotion.MotionDuration && TicksExisted % 20 == 0) {
+			if(bodyHasCarriageDrive())
+			{
+				ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, 0.8f, 1f);
+			}
+		}
+
 		if (TicksExisted < RiMConfiguration.CarriageMotion.MotionDuration) { return; }
 
 		Release();
+	}
+	
+	private boolean bodyHasCarriageDrive()
+	{
+		if(Body == null || Body.isEmpty()) return false;
+		for(BlockRecord body : Body)
+		{
+			if(body.block instanceof BlockCarriageDrive) return true;
+			if(body.Entity != null && body.Entity instanceof TileEntityCarriageDrive) return true;
+		}
+		return false;
 	}
 
 	public static Block	MultipartContainerBlockId;

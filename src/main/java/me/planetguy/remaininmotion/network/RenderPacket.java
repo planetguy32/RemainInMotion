@@ -4,7 +4,6 @@ import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageRotator;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
@@ -21,9 +20,6 @@ public abstract class RenderPacket {
 		Packet.setInteger("DriveX", Package.DriveRecord.X);
 		Packet.setInteger("DriveY", Package.DriveRecord.Y);
 		Packet.setInteger("DriveZ", Package.DriveRecord.Z);
-
-		ModRiM.plHelper.playSound(Package.World, Package.DriveRecord.X, Package.DriveRecord.Y, Package.DriveRecord.Z,
-				"hum", .8f, 1f);
 
 		Packet.setBoolean("Anchored", Package.DriveIsAnchored);
 

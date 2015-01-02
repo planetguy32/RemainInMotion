@@ -251,7 +251,6 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 		return (AssertCoordsMatch(AssertCoordsMatch(A, B), C));
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
 		if (EdgeType != null) {
@@ -370,6 +369,5 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 		CheckSides();
 		Propagate();
 	}
-	
-	
+
 }

@@ -28,7 +28,8 @@ public abstract class TileEntityRiM extends TileEntity {
 	// make all carriages render as far as the render distance
 	@Override
 	public double getMaxRenderDistanceSquared() {
-		return (16 * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks) * (16 * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
+		return (16 * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks)
+				* (16 * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
 	}
 
 	@Override

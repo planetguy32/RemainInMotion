@@ -11,7 +11,9 @@ import net.minecraft.world.World;
 
 public class BlockSpectre extends BlockRiM {
 	public BlockSpectre() {
-		super(Blocks.bedrock, ItemSpectre.class, TileEntityMotiveSpectre.class, null, TileEntityTeleportativeSpectre.class, TileEntityTransduplicativeSpectre.class, TileEntityRotativeSpectre.class);
+		super(Blocks.bedrock, ItemSpectre.class, TileEntityMotiveSpectre.class, null,
+				TileEntityTeleportativeSpectre.class, TileEntityTransduplicativeSpectre.class,
+				TileEntityRotativeSpectre.class);
 		RenderId = -1;
 	}
 

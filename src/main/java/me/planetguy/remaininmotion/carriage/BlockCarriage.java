@@ -106,7 +106,7 @@ public class BlockCarriage extends BlockRiM {
 			return (false);
 		}
 
-		return (true);
+		return true;
 	}
 
 	@Override
