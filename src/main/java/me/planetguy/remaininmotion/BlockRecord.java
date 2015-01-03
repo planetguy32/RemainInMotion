@@ -16,6 +16,7 @@ public class BlockRecord implements Comparable<BlockRecord> {
 
 	public BlockRecord(TileEntityRiM te) {
 		this(te.xCoord, te.yCoord, te.zCoord);
+		Identify(te.getWorldObj());
 	}
 
 	public BlockRecord(int X, int Y, int Z) {

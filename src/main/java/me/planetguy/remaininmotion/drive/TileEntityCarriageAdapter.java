@@ -4,6 +4,7 @@ import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,11 +17,9 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 	static {
 		// BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
 	}
-
-	@Override
-	public void HandleToolUsage(int Side, boolean Sneaking) {
-		super.HandleToolUsage(Side, true); // Don't allow toggling continuous -
-		// it's meaningless
+	
+	public TileEntityCarriageAdapter() {
+		this.SideClosed=new boolean[] {false, true, true, true, true, true, false};
 	}
 
 	@Override
@@ -91,12 +90,22 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 
 	public void fillPackage(CarriagePackage Package, TileEntity carriage) throws CarriageMotionException {
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
-
 	}
 
 	@Override
 	public String toString() {
 		return Debug.dump(this);
+	}
+	
+	@Override
+	public void HandleToolUsage(int clickedSide, boolean sneaking) {
+		for(int i=0; i<SideClosed.length; i++)
+			if(sneaking) {
+				SideClosed[i] = (i != Directions.values()[clickedSide].Opposite);
+			}else { 
+				SideClosed[i] = (i != clickedSide);
+			}
+		Propagate();
 	}
 
 }
