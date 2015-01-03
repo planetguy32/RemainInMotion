@@ -188,7 +188,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 					Record.Entity = TileEntity.createAndLoadEntity(Record.EntityRecord);
 				}
 
-				SneakyWorldUtil.SetTileEntity(worldObj, Record.X, Record.Y, Record.Z, Record.Entity);
+				if(Record.Entity != null) SneakyWorldUtil.SetTileEntity(worldObj, Record.X, Record.Y, Record.Z, Record.Entity);
 
 			}
 

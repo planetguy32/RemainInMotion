@@ -8,6 +8,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityRiM extends TileEntity {
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {}
@@ -110,4 +111,6 @@ public abstract class TileEntityRiM extends TileEntity {
 	public void EmitDrop(BlockRiM Block, ItemStack Drop) {
 		Block.dropBlockAsItem(worldObj, xCoord, yCoord, zCoord, Drop);
 	}
+	
+	public void rotateSpecial(ForgeDirection axis) {}
 }
