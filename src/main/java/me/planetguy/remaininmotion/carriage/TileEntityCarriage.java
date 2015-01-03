@@ -7,7 +7,6 @@ import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
-import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -85,11 +84,6 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 	@Override
 	public abstract void fillPackage(CarriagePackage Package) throws CarriageMotionException;
 
-	@Override
-	public void rotateSpecial(ForgeDirection axis) {
-		ArrayRotator.rotate(SideClosed, axis);
-	}
-	
-	
+	public void rotateSpecial(ForgeDirection axis) {}
 
 }

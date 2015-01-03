@@ -31,7 +31,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class BlockRiM extends BlockContainer {
@@ -179,20 +178,6 @@ public abstract class BlockRiM extends BlockContainer {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@Override
-	public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
-		try {
-			TileEntityRiM tile = (TileEntityRiM) worldObj.getTileEntity(x, y, z);
-			tile.rotateSpecial(axis);
-
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return false;
 	}
 
 }

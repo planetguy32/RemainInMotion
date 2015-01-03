@@ -17,6 +17,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCarriageDrive extends BlockRiM {
 	public BlockCarriageDrive() {
@@ -171,6 +172,18 @@ public class BlockCarriageDrive extends BlockRiM {
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
+		try {
+			TileEntityCarriageDrive entity = ((TileEntityCarriageDrive) worldObj.getTileEntity(x, y, z));
+			entity.rotate(axis);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override

@@ -156,8 +156,8 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	}
 
 	@Override
-	public void rotateSpecial(ForgeDirection axis) {
-		super.rotateSpecial(axis);
+	public void rotate(ForgeDirection axis) {
+		super.rotate(axis);
 		directionIndex = Rotator.newSide(directionIndex, axis);
 	}
 
@@ -185,6 +185,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 			}
 		}
+		writeToNBT(tag);
 	}
 
 }

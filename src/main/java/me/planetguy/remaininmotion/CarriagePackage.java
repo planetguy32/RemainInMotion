@@ -123,7 +123,6 @@ public class CarriagePackage {
 
 			if (Record.Entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(Record))) {
 				((ISpecialMoveBehavior) Record.Entity).onAdded(this, Record.EntityRecord);
-				Record.Entity.writeToNBT(Record.EntityRecord);
 			} else {
 				Record.Entity.writeToNBT(Record.EntityRecord);
 			}
