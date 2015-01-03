@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.drive;
 
+import scala.actors.threadpool.Arrays;
+import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -28,7 +30,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 	public boolean	alreadyMoving;
 	
-	private int	directionIndex;
+	private int	axisOfRotationIndex;
 
 	@Override
 	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
@@ -38,7 +40,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		CarriagePackage Package = new CarriagePackage(this, carriage, Directions.Null);
 
-		Package.axis = directionIndex;
+		Package.axis = axisOfRotationIndex;
 
 		Package.blacklistByRotation = true;
 
@@ -47,7 +49,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
 		for (BlockRecord record : Package.Body) {
-			if (directionIndex == 0 || directionIndex == 1) {
+			if (axisOfRotationIndex == 0 || axisOfRotationIndex == 1) {
 				// TODO collide
 			}
 		}
@@ -86,7 +88,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		TileEntityRotativeSpectre theEntity = new TileEntityRotativeSpectre();
 
-		theEntity.setAxis(directionIndex);
+		theEntity.setAxis(axisOfRotationIndex);
 
 		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, theEntity);
 
@@ -98,7 +100,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		if (sneaking) {
 			super.HandleToolUsage(side, true);
 		} else {
-			directionIndex = (directionIndex + 1) % 6;
+			axisOfRotationIndex = (axisOfRotationIndex + 1) % 6;
 		}
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		markDirty();
@@ -106,12 +108,12 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 	@Override
 	public void WriteCommonRecord(NBTTagCompound tag) {
-		tag.setByte("axis", (byte) directionIndex);
+		tag.setByte("axis", (byte) axisOfRotationIndex);
 	}
 
 	@Override
 	public void ReadCommonRecord(NBTTagCompound tag) {
-		directionIndex = tag.getByte("axis");
+		axisOfRotationIndex = tag.getByte("axis");
 	}
 
 	@Override
@@ -120,7 +122,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 			if (drawSideClosed(side)) {
 				return BlockCarriageDrive.InactiveIcon;
 			} else {
-				return icons[directionIndex][side];
+				return icons[axisOfRotationIndex][side];
 			}
 		} catch (ArrayIndexOutOfBoundsException e) { // testing only
 			return Blocks.activator_rail.getIcon(0, 0);
@@ -140,7 +142,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	}
 
 	public void setAxis(int axis) {
-		directionIndex = axis;
+		axisOfRotationIndex = axis;
 	}
 
 	public boolean drawSideClosed(int side) {
@@ -149,7 +151,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 	@Override
 	public void updateEntity() {
-		if (!(CarriageDirection != null && (CarriageDirection.ordinal() == directionIndex || CarriageDirection.Opposite == directionIndex))) {
+		if (!(CarriageDirection != null && (CarriageDirection.ordinal() == axisOfRotationIndex || CarriageDirection.Opposite == axisOfRotationIndex))) {
 			CarriageDirection = null;
 		}
 		super.updateEntity();
@@ -158,7 +160,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	@Override
 	public void rotate(ForgeDirection axis) {
 		super.rotate(axis);
-		directionIndex = Rotator.newSide(directionIndex, axis);
+		axisOfRotationIndex = Rotator.newSide(axisOfRotationIndex, axis);
 	}
 
 	@Override
@@ -172,7 +174,9 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		HandleNeighbourBlockChange();
 		BlockRecord record = new BlockRecord(this);
 		pkg.AddBlock(record);
-		if (!alreadyMoving) {
+		Debug.dbg("Carriage at "+CarriageDirection);
+		Debug.dbg("Closed "+Arrays.toString(SideClosed));
+		if (!alreadyMoving && this.CarriageDirection != null && this.CarriageDirection != Directions.Null) {
 			alreadyMoving = true;
 			if (CarriageDirection != null) {
 				BlockRecord oldAnchor = pkg.AnchorRecord;
