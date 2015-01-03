@@ -1,6 +1,8 @@
 package me.planetguy.lib.util;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +40,8 @@ public abstract class Debug {
 	public static void exception(Throwable t) {
 		dbg(t.toString());
 	}
-
+	
+	@Deprecated
 	public static String dump(Object o) {
 		String ret = "";
 		if (o == null) {
@@ -64,14 +67,22 @@ public abstract class Debug {
 			print(c + "(" + FMLCommonHandler.instance().getEffectiveSide() + ") @" + System.identityHashCode(o));
 			while (!baseClasses.contains(c)) {
 				for (Field f : c.getDeclaredFields()) {
-					try {
-						f.setAccessible(true);
-						print("   " + f.getName() + "     " + f.get(o));
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
+					if((f.getModifiers() & Modifier.STATIC) == 0) //does not have static bit set - do not print class fields
+						try {
+							f.setAccessible(true);
+							Object obj=f.get(o);
+							if(obj != null && obj.getClass().isArray()) {
+								for(int i=0; i<Array.getLength(obj); i++) {
+									print("   " + f.getName() + "     " + i + "     " + Array.get(obj, i));
+								}
+							} else {
+								print("   " + f.getName() + "     " + obj);
+							}
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						}
 				}
 				c = c.getSuperclass();
 			}

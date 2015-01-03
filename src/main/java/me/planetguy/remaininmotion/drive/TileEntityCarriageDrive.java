@@ -49,6 +49,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	public int			energyStored	= 0;
 
 	public EntityPlayer	lastUsingPlayer;
+	
+	public Directions	CarriageDirection;
+
+	public Directions	SignalDirection;
 
 	@Override
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
@@ -132,10 +136,6 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	public void Initialize() {
 		Stale = true;
 	}
-
-	public Directions	CarriageDirection;
-
-	public Directions	SignalDirection;
 
 	public void HandleNeighbourBlockChange() {
 		Stale = false;
