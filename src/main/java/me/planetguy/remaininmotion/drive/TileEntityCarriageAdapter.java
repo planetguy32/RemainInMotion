@@ -8,7 +8,6 @@ import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implements ISpecialMoveBehavior {
 
@@ -16,10 +15,6 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 
 	static {
 		// BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
-	}
-	
-	public TileEntityCarriageAdapter() {
-		this.SideClosed=new boolean[] {false, true, true, true, true, true, false};
 	}
 
 	@Override
@@ -85,11 +80,6 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 
 			}
 		}
-		writeToNBT(tag);
-	}
-
-	public void fillPackage(CarriagePackage Package, TileEntity carriage) throws CarriageMotionException {
-		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 	}
 
 	@Override
@@ -101,11 +91,11 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 	public void HandleToolUsage(int clickedSide, boolean sneaking) {
 		for(int i=0; i<SideClosed.length; i++)
 			if(sneaking) {
-				SideClosed[i] = (i != Directions.values()[clickedSide].Opposite);
+				setSideClosed(i, i != Directions.values()[clickedSide].Opposite);
 			}else { 
-				SideClosed[i] = (i != clickedSide);
+				setSideClosed(i, i != clickedSide);
 			}
 		Propagate();
-	}
+	}	
 
 }

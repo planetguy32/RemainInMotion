@@ -6,7 +6,6 @@ import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +15,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCarriage extends BlockRiM {
 	public BlockCarriage() {
@@ -112,21 +110,6 @@ public class BlockCarriage extends BlockRiM {
 	@Override
 	public boolean isOpaqueCube() {
 		return (false);
-	}
-
-	@Override
-	public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
-		try {
-			TileEntityCarriage tile = (TileEntityCarriage) worldObj.getTileEntity(x, y, z);
-			ArrayRotator.rotate(tile.SideClosed, axis);
-			tile.rotateSpecial(axis);
-
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return false;
 	}
 
 	@Override

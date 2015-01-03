@@ -421,8 +421,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 		markDirty();
 	}
 
-	public void rotate(ForgeDirection axis) {
+	@Override
+	public void rotateSpecial(ForgeDirection axis) {
 		ArrayRotator.rotate(SideClosed, axis);
+		Propagate();
 	}
 
 }
