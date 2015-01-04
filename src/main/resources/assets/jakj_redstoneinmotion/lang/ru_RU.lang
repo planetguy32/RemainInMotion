@@ -50,6 +50,8 @@ tile.JAKJ_RedstoneInMotion_Carriage.1.name=Платформенный фрейм
 tile.JAKJ_RedstoneInMotion_Carriage.2.name=Структурный фрейм
 tile.JAKJ_RedstoneInMotion_Carriage.3.name=Поддерживающий фрейм
 tile.JAKJ_RedstoneInMotion_Carriage.4.name=Шаблонный фрейм
+tile.JAKJ_RedstoneInMotion_Carriage.5.name=Запоминающий фрейм
+
 
 #Other carriages' tooltips
 JAKJ_RedstoneInMotion.carriage.tooltip.0=Переносит блоки, прикасаясь к ним напрямую
@@ -57,7 +59,7 @@ JAKJ_RedstoneInMotion.carriage.tooltip.1=Переносит прямую лин�
 JAKJ_RedstoneInMotion.carriage.tooltip.2=Переносит целый параллелепипед мира
 JAKJ_RedstoneInMotion.carriage.tooltip.3=Переносит целый корпус блоков, к которому подсоединён##/##(Ранее был известен как 'Платформенный фрейм'.)
 JAKJ_RedstoneInMotion.carriage.tooltip.4=Переносит блоки по подготовленному шаблону
-
+JAKJ_RedstoneInMotion.carriage.tooltip.5=Выбирает блоки при активации, после этого##/##будет всегда переносить блоки по этому шаблону
 
 #Carriage drives' names (including adapter carriage - it's more of a drive under the hood)
 tile.JAKJ_RedstoneInMotion_CarriageDrive.0.name=Двигатель фреймов
