@@ -6,6 +6,7 @@ import java.util.List;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
+import me.planetguy.remaininmotion.carriage.TileEntityMemoryCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityPlatformCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityStructureCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntitySupportCarriage;
@@ -69,12 +70,15 @@ public abstract class BlockRiM extends BlockContainer {
 
 	public static void initLegacyClassMap() {
 		legacyClassToNameMap = new LinkedHashMap();
+		
 		// Frames
 		legacyClassToNameMap.put(TileEntityFrameCarriage.class, "JAKJ_RedstoneInMotion_FrameCarriageEntity");
 		legacyClassToNameMap.put(TileEntitySupportCarriage.class, "JAKJ_RedstoneInMotion_SupportCarriageEntity");
 		legacyClassToNameMap.put(TileEntityStructureCarriage.class, "JAKJ_RedstoneInMotion_StructureCarriageEntity");
 		legacyClassToNameMap.put(TileEntityPlatformCarriage.class, "JAKJ_RedstoneInMotion_PlatformCarriageEntity");
 		legacyClassToNameMap.put(TileEntityTemplateCarriage.class, "JAKJ_RedstoneInMotion_TemplateCarriageEntity");
+		legacyClassToNameMap.put(TileEntityMemoryCarriage.class, "JAKJ_RedstoneInMotion_MemoryCarriageEntity");
+		
 		// Drives
 		legacyClassToNameMap.put(TileEntityCarriageEngine.class, "JAKJ_RedstoneInMotion_CarriageEngineEntity");
 		legacyClassToNameMap.put(TileEntityCarriageMotor.class, "JAKJ_RedstoneInMotion_CarriageMotorEntity");
@@ -85,6 +89,7 @@ public abstract class BlockRiM extends BlockContainer {
 				"JAKJ_RedstoneInMotion_CarriageTransduplicatorEntity");
 		legacyClassToNameMap.put(TileEntityCarriageAdapter.class, "JAKJ_RedstoneInMotion_CarriageAdapterEntity");
 		legacyClassToNameMap.put(TileEntityCarriageRotator.class, "JAKJ_RedstoneInMotion_CarriageRotatorEntity");
+		
 		// Specters
 		legacyClassToNameMap.put(TileEntityMotiveSpectre.class, "JAKJ_RedstoneInMotion_MotiveSpectreEntity");
 		legacyClassToNameMap.put(TileEntityTeleportativeSpectre.class,

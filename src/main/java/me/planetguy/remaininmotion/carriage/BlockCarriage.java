@@ -18,13 +18,19 @@ import net.minecraft.world.World;
 
 public class BlockCarriage extends BlockRiM {
 	public BlockCarriage() {
-		super(Blocks.planks, ItemCarriage.class, TileEntityFrameCarriage.class, TileEntitySupportCarriage.class,
-				TileEntityStructureCarriage.class, TileEntityPlatformCarriage.class, TileEntityTemplateCarriage.class);
+		super(Blocks.planks, ItemCarriage.class, 
+				TileEntityFrameCarriage.class, 
+				TileEntitySupportCarriage.class,
+				TileEntityStructureCarriage.class, 
+				TileEntityPlatformCarriage.class, 
+				TileEntityTemplateCarriage.class,
+				TileEntityMemoryCarriage.class);
+		
 		this.setHarvestLevel(HarvestToolTypes.Hatchet, 0);
 	}
 
 	public enum Types {
-		Frame, Support, Structure, Platform, Template;
+		Frame, Support, Structure, Platform, Template, Memory;
 
 		public double	Burden	= 1.0;
 

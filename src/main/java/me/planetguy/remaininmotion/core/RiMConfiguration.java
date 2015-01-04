@@ -13,6 +13,8 @@ public class RiMConfiguration extends Config {
 
 		public static int		MaxSupportBurden	= 5000;
 
+		public static int		MaxTemplateBurden	= 5000;
+
 		public static boolean	BlacklistBedrock	= true;
 
 		public static boolean	BlacklistByPiston	= false;
@@ -162,6 +164,9 @@ public class RiMConfiguration extends Config {
 
 			Carriage.MaxSupportBurden = BoundedInteger("Maximum blocks carried by a support carriage", 1,
 					Carriage.MaxSupportBurden, Integer.MAX_VALUE);
+			
+			Carriage.MaxTemplateBurden = BoundedInteger("Maximum blocks carried by a template carriage", 1,
+					Carriage.MaxTemplateBurden, Integer.MAX_VALUE);
 
 			Carriage.BlacklistBedrock = Boolean("Carriages refuse to move bedrock (DANGEROUS IF FALSE)",
 					Carriage.BlacklistBedrock);
