@@ -21,6 +21,14 @@ import me.planetguy.remaininmotion.util.transformations.Matrix;
 public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	public BlockRecordList	Pattern;
 
+	/**
+	 * Shim for memory carriage
+	 */
+	
+	protected void emitParentDrops(BlockRiM block, int meta) {
+		super.EmitDrops(block, meta);
+	}
+	
 	@Override
 	public void EmitDrops(BlockRiM Block, int Meta) {
 		super.EmitDrops(Block, Meta);
@@ -61,7 +69,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		Propagate();
 	}
 
-	public boolean IsUnpatternedTemplateCarriage(BlockRecord Record) {
+	public boolean isBlockValidMarkerForPattern(BlockRecord Record) {
 		boolean IsUnpatternedTemplateCarriage = false;
 
 		Record.Identify(worldObj);
@@ -90,7 +98,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 		BlocksToCheck.add(new BlockRecord(xCoord, yCoord, zCoord));
 
-		while (BlocksToCheck.size() > 0) {
+		while (BlocksToCheck.size() > 0 && BlocksChecked.size() < RiMConfiguration.Carriage.MaxTemplateBurden) {
 			BlockRecord Record = BlocksToCheck.pollFirst();
 
 			for (Directions Direction : Directions.values()) {
@@ -100,7 +108,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 					continue;
 				}
 
-				if (IsUnpatternedTemplateCarriage(NextRecord)) {
+				if (isBlockValidMarkerForPattern(NextRecord)) {
 					Pattern.add(NextRecord);
 
 					BlocksToCheck.add(NextRecord);
@@ -111,7 +119,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		if (Pattern.size() == 0) { return; }
 
 		for (BlockRecord PatternBlock : Pattern) {
-			WorldUtil.ClearBlock(worldObj, PatternBlock.X, PatternBlock.Y, PatternBlock.Z);
+			erase(PatternBlock);
 
 			PatternBlock.X -= xCoord;
 			PatternBlock.Y -= yCoord;
@@ -125,6 +133,10 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		this.Pattern = new BlockRecordList();
 
 		this.Pattern.addAll(Pattern);
+	}
+	
+	protected void erase(BlockRecord record) {
+		WorldUtil.ClearBlock(worldObj, record.X, record.Y, record.Z);
 	}
 
 	public void ReabsorbPattern() {
@@ -154,12 +166,12 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 					continue;
 				}
 
-				if (IsUnpatternedTemplateCarriage(Record)) {
+				if (isBlockValidMarkerForPattern(Record)) {
 					NewPositions.add(Record);
 				}
 			}
 
-			if (IsUnpatternedTemplateCarriage(Position)) {
+			if (isBlockValidMarkerForPattern(Position)) {
 				DeadPositions.add(Position);
 			}
 		}
@@ -249,7 +261,9 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 	@Override
 	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
-		if (Pattern == null) { throw (new CarriageMotionException("template carriage has not yet been patterned")); }
+		if (Pattern == null) {
+			updatePattern();
+		}
 
 		Package.AddBlock(Package.AnchorRecord);
 
@@ -273,6 +287,10 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 				Package.AddPotentialObstruction(Record.NextInDirection(Package.MotionDirection));
 			}
 		}
+	}
+	
+	public void updatePattern() throws CarriageMotionException{
+		throw (new CarriageMotionException("template carriage has not yet been patterned"));
 	}
 
 	@Override

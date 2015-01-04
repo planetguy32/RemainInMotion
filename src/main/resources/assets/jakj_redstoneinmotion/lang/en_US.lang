@@ -50,6 +50,8 @@ tile.JAKJ_RedstoneInMotion_Carriage.1.name=Platform Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.2.name=Structure Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.3.name=Support Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.4.name=Template Carriage
+tile.JAKJ_RedstoneInMotion_Carriage.5.name=Memory Carriage
+
 
 #Other carriages' tooltips
 JAKJ_RedstoneInMotion.carriage.tooltip.0=Carries blocks directly touching it
@@ -57,7 +59,7 @@ JAKJ_RedstoneInMotion.carriage.tooltip.1=Carries straight line of blocks##/##(Fo
 JAKJ_RedstoneInMotion.carriage.tooltip.2=Carries entire cuboid of world
 JAKJ_RedstoneInMotion.carriage.tooltip.3=Carries entire body of blocks it's connected to##/##(Formerly known as 'Platform Carriage'.)
 JAKJ_RedstoneInMotion.carriage.tooltip.4=Carries blocks in the exact pattern prepared
-
+JAKJ_RedstoneInMotion.carriage.tooltip.5=Selects blocks when first activated, after that##/##will always carry blocks in that exact pattern
 
 #Carriage drives' names (including adapter carriage - it's more of a drive under the hood)
 tile.JAKJ_RedstoneInMotion_CarriageDrive.0.name=Carriage Engine
@@ -75,7 +77,7 @@ JAKJ_RedstoneInMotion.drive.tooltip.2=Moves according to ComputerCraft control
 JAKJ_RedstoneInMotion.drive.tooltip.3=Teleports the carriage to a remote position
 JAKJ_RedstoneInMotion.drive.tooltip.4=Copies the carriage to both its##/##current and paired locations
 JAKJ_RedstoneInMotion.drive.tooltip.5=When moved by a carriage, picks##/##up another carriage
-JAKJ_RedstoneInMotion.drive.tooltip.6=[WIP] When powered, turns the connected carriages.##/##Note: It likely does not handle mod blocks properly
+JAKJ_RedstoneInMotion.drive.tooltip.6=[WIP] When powered, turns the connected carriages.##/##Note: May not handle mod blocks properly
 
 
 #Misc items
