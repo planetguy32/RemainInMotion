@@ -76,9 +76,9 @@ public class RiMConfiguration extends Config {
 	public static int		powerCapacity			= 10000;
 
 	public enum TextureSets {
-		JAKJ("default 256x textures", 256, 102, 99, 159, 155),
+		JAKJ("256x textures", 256, 102, 99, 159, 155),
 
-		cubemelon("16x textures by cubemelon", 16, 7, 7, 9, 9),
+		cubemelon("default 16x textures by cubemelon", 16, 7, 7, 9, 9),
 
 		JustHev("16x textures (with support for colourblindness) by JustHev", 16, 7, 5, 9, 7),
 
