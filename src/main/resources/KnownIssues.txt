@@ -1,3 +1,8 @@
+Note: This file hasn't been updated for about a year (as of 1 Jan 2015). Please note accordingly.
+
+For more up-to-date known issues, check https://github.com/planetguy32/RemainInMotion/issues
+
+
 *-*-* THINGS THAT ARE BUGS THAT WILL DEFINITELY BE FIXED *-*-*
 
 Multipart blocks that need scheduled world ticks (such as buttons that need a tick to pop back out) aren't receiving their ticks properly.
