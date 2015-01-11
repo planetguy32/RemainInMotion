@@ -10,7 +10,7 @@ public class CarriageObstructionException extends CarriageMotionException {
 	public int					Z;
 
 	public CarriageObstructionException(String Message, int X, int Y, int Z) {
-		super(Message);
+		super(ErrorStates.OBSTRUCTED, Message);
 
 		this.X = X;
 		this.Y = Y;

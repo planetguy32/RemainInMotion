@@ -153,20 +153,15 @@ public abstract class BlockRiM extends BlockContainer {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
+    public void breakBlock(World world, int x, int y, int z, Block self, int meta) {
 		if (!world.isRemote) {
-			if (!player.capabilities.isCreativeMode) {
-				try {
-					((TileEntityRiM) world.getTileEntity(x, y, z)).EmitDrops(this, world.getBlockMetadata(x, y, z));
-				} catch (Throwable Throwable) {
-					Throwable.printStackTrace();
-				}
+			try {
+				((TileEntityRiM) world.getTileEntity(x, y, z)).EmitDrops(this, world.getBlockMetadata(x, y, z));
+			} catch (Throwable Throwable) {
+				Throwable.printStackTrace();
 			}
 		}
-
-		return (super.removedByPlayer(world, player, x, y, z));
 	}
 
 	@Override

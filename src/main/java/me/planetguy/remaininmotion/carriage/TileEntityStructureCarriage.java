@@ -9,6 +9,7 @@ import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -214,14 +215,14 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 
 			if (Carriage.CornerType != null) { return (Carriage); }
 
-			if (Carriage.EdgeType != EdgeType) { throw (new CarriageMotionException("expected block at (" + Record.X
+			if (Carriage.EdgeType != EdgeType) { throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, "expected block at (" + Record.X
 					+ "," + Record.Y + "," + Record.Z + ") to be edge type " + EdgeType.name()
 					+ " of structure carriage")); }
 
 			Record = Record.NextInDirection(Direction);
 		}
 
-		throw (new CarriageMotionException("expected corner of structure carriage at (" + Record.X + "," + Record.Y
+		throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, "expected corner of structure carriage at (" + Record.X + "," + Record.Y
 				+ "," + Record.Z + ")"));
 	}
 
@@ -231,7 +232,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 
 		if (Carriage.CornerType == CornerType) { return (Carriage); }
 
-		throw (new CarriageMotionException("expected " + CornerType.name() + " corner of structure carriage at ("
+		throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, "expected " + CornerType.name() + " corner of structure carriage at ("
 				+ Carriage.xCoord + "," + Carriage.yCoord + "," + Carriage.zCoord + ")"));
 	}
 
@@ -243,7 +244,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 			}
 		}
 
-		throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".badCuboid")));
+		throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, Lang.translate(ModRiM.Handle + ".badCuboid")));
 	}
 
 	public TileEntityStructureCarriage AssertCoordsMatch(TileEntityStructureCarriage A, TileEntityStructureCarriage B,
@@ -259,7 +260,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 			return;
 		}
 
-		if (CornerType == null) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".notEdgeAnchor"))); }
+		if (CornerType == null) { throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, Lang.translate(ModRiM.Handle + ".notEdgeAnchor"))); }
 
 		TileEntityStructureCarriage NextAlongX = FollowEdgeToCorner(EdgeTypes.X, CornerType.NextAlongAxisX(), this,
 				CornerType.ToNextAlongX);

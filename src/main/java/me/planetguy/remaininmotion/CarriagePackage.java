@@ -5,6 +5,7 @@ import java.util.TreeSet;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityCarriage;
@@ -99,8 +100,7 @@ public class CarriagePackage {
 		Body.add(Record);
 
 		if (MaxBlockCount > 0) {
-			if (Body.size() > MaxBlockCount) { throw (new CarriageMotionException("carriage exceeds maximum size of "
-					+ MaxBlockCount + " blocks")); }
+			if (Body.size() > MaxBlockCount) { throw (new CarriageMotionException(ErrorStates.OVERSIZE)); }
 		}
 
 		if (MotionDirection == null) {

@@ -2,12 +2,15 @@ package me.planetguy.remaininmotion.drive;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
@@ -25,19 +28,19 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 
 	public int																	Label;
 
-	public static HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets	= new HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>();
+	public static Map<String, Map<Integer, List<BlockPosition>>>	ActiveTranslocatorSets	= new HashMap<String, Map<Integer, List<BlockPosition>>>();
 
 	@Override
 	public void RegisterLabel() {
-		HashMap<Integer, LinkedList<BlockPosition>> ActiveTranslocatorSet = ActiveTranslocatorSets.get(Player);
+		Map<Integer, List<BlockPosition>> ActiveTranslocatorSet = ActiveTranslocatorSets.get(Player);
 
 		if (ActiveTranslocatorSet == null) {
-			ActiveTranslocatorSet = new HashMap<Integer, LinkedList<BlockPosition>>();
+			ActiveTranslocatorSet = new HashMap<Integer, List<BlockPosition>>();
 
 			ActiveTranslocatorSets.put(Player, ActiveTranslocatorSet);
 		}
 
-		LinkedList<BlockPosition> ActiveTranslocators = ActiveTranslocatorSet.get(Label);
+		List<BlockPosition> ActiveTranslocators = ActiveTranslocatorSet.get(Label);
 
 		if (ActiveTranslocators == null) {
 			ActiveTranslocators = new LinkedList<BlockPosition>();
@@ -130,14 +133,14 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 
 		TileEntityCarriageTransduplicator Target = null;
 
-		LinkedList<BlockPosition> ActiveTranslocators;
+		List<BlockPosition> ActiveTranslocators;
 
 		try {
 			ActiveTranslocators = ActiveTranslocatorSets.get(Player).get(Label);
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 
-			throw (new CarriageMotionException("translocator array is corrupt"));
+			throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, "translocator array is corrupt"));
 		}
 
 		for (int Index = 0; Index < ActiveTranslocators.size(); Index++) {
@@ -172,8 +175,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 			}
 		}
 
-		if (Target == null) { throw (new CarriageMotionException(
-				"no other matching translocators available with space to receive carriage assembly")); }
+		if (Target == null) { throw (new CarriageMotionException(ErrorStates.OBSTRUCTED, "no other matching translocators available with space to receive carriage assembly")); }
 
 		Package.Translocator = Target;
 
@@ -188,7 +190,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
 		if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
-				"carriage is attempting to grab translocator")); }
+				ErrorStates.ANCHORED_MOVING_SELF)); }
 
 		Package.Finalize();
 

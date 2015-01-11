@@ -5,6 +5,7 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 
 public class TileEntitySupportCarriage extends TileEntityCarriage {
@@ -30,8 +31,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 	}
 
 	public void FailBecauseOverburdened() throws CarriageMotionException {
-		throw (new CarriageMotionException("support carriage exceeds maximum burden of "
-				+ RiMConfiguration.Carriage.MaxSupportBurden + " blocks carried"));
+		throw (new CarriageMotionException(ErrorStates.OVERSIZE));
 	}
 
 	@Override
@@ -71,8 +71,8 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 		while (CarriagesToCheck.size() > 0) {
 			BlockRecord CarriageRecord = CarriagesToCheck.pollFirst();
 
-			if (((TileEntitySupportCarriage) CarriageRecord.Entity).SideClosed[SupportDirection.ordinal()]) { throw (new CarriageMotionException(
-					"support carriage must have all open sides in the same direction")); }
+			if (((TileEntitySupportCarriage) CarriageRecord.Entity).SideClosed[SupportDirection.ordinal()]) {
+				throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, "support carriage must have all open sides in the same direction")); }
 
 			ValidColumns.add(new BlockRecord(CarriageRecord.X * ValidColumnCheckFactorX, CarriageRecord.Y
 					* ValidColumnCheckFactorY, CarriageRecord.Z * ValidColumnCheckFactorZ));

@@ -6,6 +6,7 @@ import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -13,8 +14,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityPlatformCarriage extends TileEntityCarriage {
 
 	public void FailBecauseOverburdened() throws CarriageMotionException {
-		throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".overburdened").replace("##BURDEN##",
-				RiMConfiguration.Carriage.MaxPlatformBurden + "")));
+		throw (new CarriageMotionException(ErrorStates.OVERSIZE));
 	}
 
 	@Override

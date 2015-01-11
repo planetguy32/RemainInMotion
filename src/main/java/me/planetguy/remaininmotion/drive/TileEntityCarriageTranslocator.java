@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.BlockRiM;
@@ -135,7 +136,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 
-			throw (new CarriageMotionException("translocator array is corrupt"));
+			throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, "translocator array is corrupt"));
 		}
 
 		for (int Index = 0; Index < ActiveTranslocators.size(); Index++) {
@@ -170,8 +171,10 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 			}
 		}
 
-		if (Target == null) { throw (new CarriageMotionException(
-				"no other matching translocators available with space to receive carriage assembly")); }
+		if (Target == null) { 
+			throw (new CarriageMotionException(ErrorStates.OBSTRUCTED, 
+					"no other matching translocators available with space to receive carriage assembly")); 
+		}
 
 		Package.Translocator = Target;
 
@@ -186,7 +189,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
 		if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
-				"carriage is attempting to grab translocator")); }
+				ErrorStates.ANCHORED_MOVING_SELF)); }
 
 		Package.Finalize();
 

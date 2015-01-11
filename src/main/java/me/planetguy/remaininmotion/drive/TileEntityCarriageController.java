@@ -217,6 +217,7 @@ import li.cil.oc.api.network.SimpleComponent;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.CarriageMotionException;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
@@ -308,10 +309,6 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 		return (Anchored);
 	}
 
-	public enum Commands {
-		move, anchored_move, check_anchored_move, unanchored_move, check_unanchored_move;
-	}
-
 	public void AssertArgumentCount(Object[] Arguments, int ArgumentCount) throws Exception {
 		if (Arguments.length < ArgumentCount) { throw (new Exception("too few arguments")); }
 
@@ -369,7 +366,7 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 	}
 
 	/**
-	 * Runs in computer threads - be careful of thread safety
+	 * Runs in either computer or main thread - be careful of thread safety
 	 */
 	@ECIExpose
 	public Object[] move(Object[] Arguments) throws Exception {
@@ -398,7 +395,29 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 				return new Object[] { energyStored, lastMoveWorked, Error.getMessage() };
 			}
 		}
-
+	}
+	
+	@ECIExpose
+	public Object[] errorCode(Object[] args) {
+		synchronized (this) {
+			try {
+				return new Object[] {Error.errorState.toString().toLowerCase()};
+			}catch(Exception e) {
+				return new Object[] {};
+			}
+		}
+	}
+	
+	/**
+	 * Reference method that lists all error states
+	 */
+	@ECIExpose
+	public Object[] listErrorCodes(Object[] args) {
+		Object[] res=new Object[ErrorStates.values().length];
+		for(int i=0; i<res.length; i++) {
+			res[i]=ErrorStates.values()[i].toString().toLowerCase();
+		}
+		return res;
 	}
 
 	@Override
@@ -406,15 +425,16 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 		// use energy iff not just simulating motion
 		if (!Simulating) {
 			super.removeUsedEnergy(_package);
+		} else {
+			//use small amount of energy for 
+			super.removeUsedEnergy(_package, 0.1);
 		}
 	}
 
 	public void Move() throws CarriageMotionException {
-		if (Active || CooldownRemaining > 0) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle
-				+ ".active"))); }
+		if (Active || CooldownRemaining > 0) { throw (new CarriageMotionException(ErrorStates.ALREADY_ACTIVE)); }
 
-		if (CarriageDirection == null) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle
-				+ ".noValidCarriage"))); }
+		if (CarriageDirection == null) { throw (new CarriageMotionException(ErrorStates.NO_CARRIAGE)); }
 
 		CarriagePackage Package = PreparePackage(MotionDirection);
 
@@ -429,21 +449,23 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 		CarriagePackage Package;
 
 		if (Anchored) {
-			if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle
-					+ ".noPushWhenAnchored"))); }
+			if (MotionDirection == CarriageDirection) { 
+				throw (new CarriageMotionException(ErrorStates.ANCHORED_PUSHING)); 
+			}
 
-			if (MotionDirection == CarriageDirection.Opposite()) { throw (new CarriageMotionException(
-					Lang.translate(ModRiM.Handle + ".noPullWhenAnchored"))); }
+			if (MotionDirection == CarriageDirection.Opposite()) { 
+				throw (new CarriageMotionException(ErrorStates.ANCHORED_PULLING)); 
+			}
 
 			Package = new CarriagePackage(this, carriage, MotionDirection);
 
 			MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
 			if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
-					"carriage is attempting to move controller while in anchored mode")); }
+					ErrorStates.ANCHORED_MOVING_SELF)); }
 
 			if (Package.Body.contains(Package.DriveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageMotionException(
-					"carriage is obstructed by controller while in anchored mode")); }
+					ErrorStates.ANCHORED_BLOCKING_SELF)); }
 		} else {
 			Package = new CarriagePackage(this, carriage, MotionDirection);
 

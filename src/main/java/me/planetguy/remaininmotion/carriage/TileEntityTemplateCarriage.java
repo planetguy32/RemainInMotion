@@ -11,6 +11,7 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
@@ -290,7 +291,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	}
 	
 	public void updatePattern() throws CarriageMotionException{
-		throw (new CarriageMotionException("template carriage has not yet been patterned"));
+		throw (new CarriageMotionException(ErrorStates.INVALID_CARRIAGE, "template carriage has not yet been patterned"));
 	}
 
 	@Override

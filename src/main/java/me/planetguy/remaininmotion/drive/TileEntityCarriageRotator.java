@@ -8,6 +8,7 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Registry;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.core.RiMConfiguration.DirtyHacks;
 import me.planetguy.remaininmotion.core.ModRiM;
@@ -35,8 +36,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	@Override
 	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
 			throws CarriageMotionException {
-		if (!DirtyHacks.allowRotation) { throw new CarriageMotionException(Lang.translate(ModRiM.Handle
-				+ ".noRotatorCarriage")); }
+		if (!DirtyHacks.allowRotation) { throw new CarriageMotionException(ErrorStates.ROTATION_BANNED); }
 
 		CarriagePackage Package = new CarriagePackage(this, carriage, Directions.Null);
 

@@ -8,17 +8,18 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.CarriageMotionException.ErrorStates;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
-import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
+import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
@@ -31,8 +32,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
+import cpw.mods.fml.common.Optional;
 
-//@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
+@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class TileEntityCarriageDrive extends TileEntityRiM implements IEnergyHandler {
 	public boolean		Continuous;
 
@@ -276,6 +278,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	}
 
 	public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException {
+		removeUsedEnergy(_package, 1);
+	}
+	
+	public void removeUsedEnergy(CarriagePackage _package, double carriageDependentMultiplier) throws CarriageMotionException {
 
 		if (RiMConfiguration.HardmodeActive) {
 			int Type = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
@@ -289,21 +295,19 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 				// MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] .
 				// MaxBurdenFactor +" = "+MaxBurden);
 
-				if (_package.getMass() > MaxBurden) { throw (new CarriageMotionException(
-						"(HARDMODE) carriage too massive (by roughly " + ((int) (_package.getMass() - MaxBurden))
-								+ " units) for drive to handle")); }
+				if (_package.getMass() > MaxBurden) { throw (new CarriageMotionException(ErrorStates.OVERSIZE)); }
 			}
 
 			double EnergyRequired = _package.getMass() * BlockCarriageDrive.Types.values()[Type].EnergyConsumption
 					* BlockCarriageDrive.Tiers.values()[Tier].EnergyConsumptionFactor;
 
-			int powerConsumed = (int) Math.ceil(EnergyRequired * RiMConfiguration.PowerConsumptionFactor);
+			int powerConsumed = (int) Math.ceil(EnergyRequired * RiMConfiguration.PowerConsumptionFactor * carriageDependentMultiplier);
 
 			// System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
 
 			if (powerConsumed > energyStored) {
-				throw (new CarriageMotionException("(HARDMODE) not enough power to move carriage (have " + energyStored
-						+ ", need " + powerConsumed));
+				throw (new CarriageMotionException(ErrorStates.NOT_ENOUGH_ENERGY, " ("+energyStored
+						+ " / " + powerConsumed+")"));
 			} else {
 				energyStored -= powerConsumed;
 			}
