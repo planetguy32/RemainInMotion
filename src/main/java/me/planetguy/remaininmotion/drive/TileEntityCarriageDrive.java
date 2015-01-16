@@ -281,6 +281,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 			int Type = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			{
+				/* non-configurable carriage package size - commented out
 				double MaxBurden = BlockCarriageDrive.Types.values()[Type].MaxBurden
 						* BlockCarriageDrive.Tiers.values()[Tier].MaxBurdenFactor;
 
@@ -292,6 +293,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 				if (_package.getMass() > MaxBurden) { throw (new CarriageMotionException(
 						"(HARDMODE) carriage too massive (by roughly " + ((int) (_package.getMass() - MaxBurden))
 								+ " units) for drive to handle")); }
+				 */
 			}
 
 			double EnergyRequired = _package.getMass() * BlockCarriageDrive.Types.values()[Type].EnergyConsumption
