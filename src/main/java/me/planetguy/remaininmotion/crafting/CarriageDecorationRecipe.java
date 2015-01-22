@@ -54,11 +54,11 @@ public class CarriageDecorationRecipe extends Recipe {
 
 			int DecorationMeta = Decoration.getItem().getMetadata(Decoration.getItemDamage());
 
-			return (ItemCarriage.Stack(Carriage.getItemDamage(), Tier, DecorationId, DecorationMeta));
+			return (ItemCarriage.Stack(Carriage.getItemDamage(), DecorationId, DecorationMeta));
 		}
 
 		if (Decoration != null) { return (null); }
 
-		return (ItemCarriage.Stack(ItemBlockRiM.GetBlockType(Carriage), Tier));
+		return (ItemCarriage.Stack(ItemBlockRiM.GetBlockType(Carriage)));
 	}
 }

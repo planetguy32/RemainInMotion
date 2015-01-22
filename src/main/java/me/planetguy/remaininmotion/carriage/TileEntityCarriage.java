@@ -40,20 +40,17 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 
 	public int	DecorationMeta;
 
-	public int	Tier;
-
 	@Override
 	public void Setup(EntityPlayer Player, ItemStack Item) {
 		DecorationId = ItemCarriage.GetDecorationId(Item);
 
 		DecorationMeta = ItemCarriage.GetDecorationMeta(Item);
 
-		Tier = ItemCarriage.GetTier(Item);
 	}
 
 	@Override
 	public void EmitDrops(BlockRiM Block, int Meta) {
-		EmitDrop(Block, ItemCarriage.Stack(Meta, Tier, DecorationId, DecorationMeta));
+		EmitDrop(Block, ItemCarriage.Stack(Meta, DecorationId, DecorationMeta));
 	}
 
 	@Override
@@ -65,8 +62,6 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 		DecorationId = TagCompound.getInteger("DecorationId");
 
 		DecorationMeta = TagCompound.getInteger("DecorationMeta");
-
-		Tier = TagCompound.getInteger("Tier");
 	}
 
 	@Override
@@ -78,8 +73,6 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 		TagCompound.setInteger("DecorationId", DecorationId);
 
 		TagCompound.setInteger("DecorationMeta", DecorationMeta);
-
-		TagCompound.setInteger("Tier", Tier);
 	}
 
 	@Override

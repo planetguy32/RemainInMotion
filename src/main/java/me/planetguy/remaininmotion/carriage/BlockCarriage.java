@@ -51,7 +51,7 @@ public class BlockCarriage extends BlockRiM {
 	@Override
 	public void AddShowcaseStacks(List Showcase) {
 		for (Types Type : Types.values()) {
-			Showcase.add(ItemCarriage.Stack(Type.ordinal(), 0));
+			Showcase.add(ItemCarriage.Stack(Type.ordinal()));
 		}
 	}
 
@@ -124,7 +124,7 @@ public class BlockCarriage extends BlockRiM {
 		if (tile != null) {
 			int decoID = tile.DecorationId;
 			int decoMeta = tile.DecorationMeta;
-			ItemStack stack = ItemCarriage.Stack(world.getBlockMetadata(x, y, z), 0, decoID, decoMeta);
+			ItemStack stack = ItemCarriage.Stack(world.getBlockMetadata(x, y, z), decoID, decoMeta);
 			if (stack != null) return stack;
 		}
 		return super.getPickBlock(target, world, x, y, z);

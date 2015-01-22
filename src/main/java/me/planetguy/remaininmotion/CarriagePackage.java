@@ -133,8 +133,7 @@ public class CarriagePackage {
 			if (Record.block == RIMBlocks.Carriage) {
 				Carriages.add(Record);
 
-				setMass(getMass() + BlockCarriage.Types.values()[Record.Meta].Burden
-						* BlockCarriage.Tiers.values()[((TileEntityCarriage) Record.Entity).Tier].CarriageBurdenFactor);
+				setMass(getMass() + BlockCarriage.Types.values()[Record.Meta].Burden);
 			} else {
 
 				Cargo.add(Record);
@@ -301,8 +300,8 @@ public class CarriagePackage {
 
 	public void updateHardModeData() throws CarriageMotionException {
 		if (RiMConfiguration.HardmodeActive) {
-			for (BlockRecord CarriageRecord : Carriages) {
-				int Tier = ((TileEntityCarriage) CarriageRecord.Entity).Tier;
+			//Comment out hard mode burden calculation
+			/*for (BlockRecord CarriageRecord : Carriages) {
 
 				double Factor = BlockCarriage.Tiers.values()[Tier].CargoBurdenFactor;
 
@@ -334,7 +333,7 @@ public class CarriagePackage {
 						}
 					}
 				}
-			}
+			}*/
 
 			for (BlockRecord CargoRecord : Cargo) {
 				Double BurdenFactor = CargoBurdenFactors.get(CargoRecord);

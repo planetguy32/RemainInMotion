@@ -24,7 +24,9 @@ import codechicken.lib.vec.Vector3;
 import codechicken.microblock.CommonMicroblock;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
 import codechicken.multipart.minecraft.McBlockPart;
+import codechicken.multipart.scalatraits.TSlottedTile;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -107,17 +109,16 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, M
 			public Iterator iterator() {
 				return new Iterator() {
 
-					// int idx=-1;
+					boolean done=false;
 
 					@Override
 					public boolean hasNext() {
-						return false;// idx+1<cubeOutsideEdges.length;
+						return !done;
 					}
 
 					@Override
 					public Object next() {
-						// idx++;
-						return null;// cubeOutsideEdges[idx];
+						return Cuboid6.full;
 					}
 
 					@Override
@@ -138,7 +139,7 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, M
 	@Override
 	@Optional.Method(modid = "ForgeMultipart")
 	public Cuboid6 getBounds() {
-		return Cuboid6.full;
+		return Cuboid6.full.expand(-0.1);
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
@@ -251,11 +252,5 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, M
 	public ItemStack pickItem(MovingObjectPosition hit) {
 		return new ItemStack(ModHollowCarriages.hollowCarriage);
 	}
-	/*
-	 * I got some more work done on Remain in Motion today - FMP carriages
-	 * should now support closing sides JAKJ-style, and work is in progress to
-	 * support Eloraam-style closing of carriages with microblocks. Oh, and a
-	 * secret feature that's sure to turn some heads.
-	 */
 
 }
