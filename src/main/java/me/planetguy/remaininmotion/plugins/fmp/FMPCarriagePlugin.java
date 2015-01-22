@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.fmp;
+package me.planetguy.remaininmotion.plugins.fmp;
 
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CreativeTab;
@@ -26,8 +26,8 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.core.ModRiM.Handle + "_HollowCarriages", dependencies = "required-after:JAKJ_RedstoneInMotion;after:ForgeMultipart")
-public class ModHollowCarriages {
+@Mod(modid = me.planetguy.remaininmotion.core.ModRiM.Handle + "_HollowCarriages", dependencies = "required-after:JAKJ_RedstoneInMotion;after:BuildCraft@[2.4.0)")
+public class FMPCarriagePlugin {
 
 	boolean				alive;
 	public static Item	hollowCarriage;
@@ -99,10 +99,10 @@ public class ModHollowCarriages {
 	public void postInit(FMLPostInitializationEvent ev) {
 		if (!alive) { return; }
 		hollowCarriage.setCreativeTab(CreativeTab.Instance);
-		GameRegistry.addRecipe(new ItemStack(ModHollowCarriages.hollowCarriage, 8), "ccc", "c c", "ccc",
+		GameRegistry.addRecipe(new ItemStack(FMPCarriagePlugin.hollowCarriage, 8), "ccc", "c c", "ccc",
 				Character.valueOf('c'), new ItemStack(RIMBlocks.Carriage, 1, 0));
 		GameRegistry.addShapelessRecipe(new ItemStack(RiMItems.SimpleItemSet), new ItemStack(
-				ModHollowCarriages.hollowCarriage));
+				FMPCarriagePlugin.hollowCarriage));
 	}
 
 }

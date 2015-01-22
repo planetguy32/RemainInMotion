@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.fmp;
+package me.planetguy.remaininmotion.plugins.fmp;
 
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.ICloseable;

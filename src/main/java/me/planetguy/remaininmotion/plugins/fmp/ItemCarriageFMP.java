@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.fmp;
+package me.planetguy.remaininmotion.plugins.fmp;
 
 import java.util.List;
 

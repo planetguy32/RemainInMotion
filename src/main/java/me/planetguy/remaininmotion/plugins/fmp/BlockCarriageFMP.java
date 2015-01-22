@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.fmp;
+package me.planetguy.remaininmotion.plugins.fmp;
 
 import java.util.Iterator;
 
@@ -250,7 +250,7 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, M
 
 	@Override
 	public ItemStack pickItem(MovingObjectPosition hit) {
-		return new ItemStack(ModHollowCarriages.hollowCarriage);
+		return new ItemStack(FMPCarriagePlugin.hollowCarriage);
 	}
 
 }

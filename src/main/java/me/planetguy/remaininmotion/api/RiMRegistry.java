@@ -19,5 +19,7 @@ public class RiMRegistry {
 	public static void registerCloseableFactory(ICloseableFactory factory) {
 		Closeables.register(factory);
 	}
+	
+	
 
 }

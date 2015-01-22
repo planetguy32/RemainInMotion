@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.fmp;
+package me.planetguy.remaininmotion.plugins.fmp;
 
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
