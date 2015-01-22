@@ -33,7 +33,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.Interface(iface = "JNormalOcclusion", modid = "ForgeMultipart")
-public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, Moveable, ICloseable {
+public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, ICloseable {
 
 	private boolean[]				sidesClosed	= new boolean[6];
 
@@ -154,12 +154,6 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, M
 	public boolean renderStatic(Vector3 pos, int pass) {
 		renderer.renderCovers(world(), pos, pass, this);
 		return pass == 0;
-	}
-
-	@Optional.Method(modid = "ForgeMultipart")
-	@Override
-	public void fillPackage(CarriagePackage _package) throws CarriageMotionException {
-		MultiTypeCarriageUtil.fillFramePackage(_package, world());
 	}
 
 	@Override

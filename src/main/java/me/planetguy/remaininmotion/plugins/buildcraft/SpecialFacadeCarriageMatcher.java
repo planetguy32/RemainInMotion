@@ -1,23 +1,29 @@
 package me.planetguy.remaininmotion.plugins.buildcraft;
 
+import buildcraft.api.transport.IPipePluggable;
+import buildcraft.api.transport.IPipeTile;
+import buildcraft.api.transport.pluggable.PipePluggable;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 import me.planetguy.remaininmotion.api.CarriageMatcher;
+import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
 
-public class SpecialFacadeCarriageMatcher implements CarriageMatcher {
+public class SpecialFacadeCarriageMatcher implements FrameCarriageMatcher {
 
 	@Override
-	public boolean matches(Block block1, int meta1, TileEntity entity1,
-			Block bloc2k, int meta2, TileEntity entity2) {
-		// TODO Auto-generated method stub
+	public boolean isFrameCarriage(Block block1, int meta1, TileEntity entity1) {
+		if( entity1 instanceof IPipeTile) {
+			IPipeTile pipe=(IPipeTile) entity1;
+			for(ForgeDirection direction:ForgeDirection.VALID_DIRECTIONS) {
+				PipePluggable plug=pipe.getPipePluggable(direction);
+				if(plug instanceof SpecialFacade)
+					return true;
+			}
+		}
 		return false;
 	}
 
-	@Override
-	public Moveable getCarriage(Block block, int meta, TileEntity te) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

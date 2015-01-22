@@ -57,7 +57,7 @@ public class FMPCarriagePlugin {
 
 		}, new String[] { "FMPCarriage" });
 
-		RiMRegistry.registerMatcher(new FMPCarriageMatcher());
+		RiMRegistry.registerFrameCarriageMatcher(new FMPCarriageMatcher());
 
 		RiMRegistry.registerCloseableFactory(new FMPCloseableRetriever());
 

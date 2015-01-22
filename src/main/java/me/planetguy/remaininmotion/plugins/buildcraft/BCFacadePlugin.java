@@ -15,7 +15,7 @@ public class BCFacadePlugin {
 		if(Loader.isModLoaded("BuildCraft")) {
 			Debug.dbg("Buildcraft special facade: loading");
 			
-			RiMRegistry.registerMatcher(new SpecialFacadeCarriageMatcher());
+			RiMRegistry.registerFrameCarriageMatcher(new SpecialFacadeCarriageMatcher());
 			
 		}else {
 			Debug.dbg("Buildcraft special facade: not loading");
