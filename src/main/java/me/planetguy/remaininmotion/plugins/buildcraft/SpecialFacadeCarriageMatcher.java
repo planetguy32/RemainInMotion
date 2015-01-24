@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.plugins.buildcraft;
 
 import buildcraft.api.transport.IPipePluggable;
 import buildcraft.api.transport.IPipeTile;
+import buildcraft.api.transport.pluggable.IFacadePluggable;
 import buildcraft.api.transport.pluggable.PipePluggable;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -9,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 
 public class SpecialFacadeCarriageMatcher implements FrameCarriageMatcher {
 
@@ -18,8 +20,13 @@ public class SpecialFacadeCarriageMatcher implements FrameCarriageMatcher {
 			IPipeTile pipe=(IPipeTile) entity1;
 			for(ForgeDirection direction:ForgeDirection.VALID_DIRECTIONS) {
 				PipePluggable plug=pipe.getPipePluggable(direction);
-				if(plug instanceof SpecialFacade)
-					return true;
+				if(plug instanceof IFacadePluggable) {
+					IFacadePluggable facade=(IFacadePluggable) plug;
+					if(facade.getCurrentBlock()==RIMBlocks.Carriage
+							&& facade.getCurrentMetadata() ==0) { //frame carriage facade
+						return true;						
+					}
+				}
 			}
 		}
 		return false;
