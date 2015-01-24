@@ -6,6 +6,7 @@ import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -168,7 +169,11 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, I
 	}
 
 	@Override
-	public boolean isSideClosed(int side) {
+	public ConnectabilityState isSideClosed(int side) {
+		return treatSideAsClosed(side) ? ConnectabilityState.CLOSED : ConnectabilityState.OPEN;
+	}
+	
+	public boolean treatSideAsClosed(int side) {
 		return sidesClosed[side] || isSideCovered(side);
 	}
 

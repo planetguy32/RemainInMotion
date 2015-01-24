@@ -7,6 +7,7 @@ import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
+import me.planetguy.remaininmotion.plugins.buildcraft.BCFacadePlugin;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -27,29 +28,28 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.core.ModRiM.Handle + "_HollowCarriages", dependencies = "required-after:JAKJ_RedstoneInMotion")
 public class FMPCarriagePlugin {
 
-	boolean				alive;
 	public static Item	hollowCarriage;
 
-	@Optional.Method(modid = "ForgeMultipart")
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		alive = Loader.isModLoaded("ForgeMultipart");
-		Debug.dbg("FMP carriage: " + (alive ? "loading" : "not loading"));
-		if (!alive) { return; }
-		hollowCarriage = new ItemCarriageFMP();
+	private static boolean load;
+	
+	public static void tryLoad() {
+		load=Loader.isModLoaded("ForgeMultipart");
+		if(load) {
+			Debug.dbg("FMP carriage: loading");			
+			hollowCarriage = new ItemCarriageFMP();
 
-		hollowCarriage.setUnlocalizedName("hollowCarriage");
-		GameRegistry.registerItem(hollowCarriage, "Hollow Carriage");
-
+			hollowCarriage.setUnlocalizedName("hollowCarriage");
+			GameRegistry.registerItem(hollowCarriage, "Hollow Carriage");
+		}else {
+			Debug.dbg("FMP carriage: not loading");	
+		}
 		// Attempting to fix FMP crashing when trying to set creative tab
 	}
 
-	@Optional.Method(modid = "ForgeMultipart")
-	@EventHandler
-	public void init(FMLInitializationEvent ev) {
+	public static void init() {
+		if(!load)return;
 		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(RemIMPluginsCommon.getFrameBlock(), 0), "tile.hollowCarriage.open");
 		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(RemIMPluginsCommon.getFrameBlock(), 1), "tile.hollowCarriage.closed");
 		MicroMaterialRegistry.registerMaterial(new BlockMicroMaterial(RemIMPluginsCommon.getFrameBlock(), 2), "tile.hollowCarriage.corners");
@@ -69,15 +69,17 @@ public class FMPCarriagePlugin {
 
 	}
 
-	@Optional.Method(modid = "ForgeMultipart")
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent ev) {
-		if (!alive) { return; }
+	public static void postInit() {
+		if(!load)return;
 		hollowCarriage.setCreativeTab(CreativeTab.Instance);
-		GameRegistry.addRecipe(new ItemStack(FMPCarriagePlugin.hollowCarriage, 8), "ccc", "c c", "ccc",
+		GameRegistry.addRecipe(new ItemStack(FMPCarriagePlugin.hollowCarriage, 8), 
+				"ccc", 
+				"c c", 
+				"ccc",
 				Character.valueOf('c'), new ItemStack(RemIMPluginsCommon.getFrameBlock(), 1, 0));
-		GameRegistry.addShapelessRecipe(new ItemStack(RiMItems.SimpleItemSet), new ItemStack(
-				FMPCarriagePlugin.hollowCarriage));
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(RemIMPluginsCommon.getFrameBlock()), 
+				new ItemStack(FMPCarriagePlugin.hollowCarriage));
 	}
 
 }

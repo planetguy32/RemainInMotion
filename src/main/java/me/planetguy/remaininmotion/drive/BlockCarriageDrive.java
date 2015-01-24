@@ -28,7 +28,14 @@ public class BlockCarriageDrive extends BlockRiM {
 	}
 
 	public enum Types {
-		Engine(1.0), Motor(1.01), Controller(1.1), Translocator(4.0), Transduplicator(0.0), Adapter(1.0), Rotator(1.0);
+		Engine(1.0), 
+		Motor(1.01), 
+		Controller(1.1), 
+		Translocator(4.0), 
+		Transduplicator(0.0), 
+		Adapter(1.0), 
+		Rotator(1.0),
+		Predirected(1.01);
 
 		public IIcon	NormalIcon;
 

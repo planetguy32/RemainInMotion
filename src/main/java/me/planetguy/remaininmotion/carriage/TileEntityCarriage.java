@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.carriage;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
@@ -30,9 +31,12 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 
 		Propagate();
 	}
+	
+	public ConnectabilityState isSideClosed(int side) {
+		return treatSideAsClosed(side) ? ConnectabilityState.CLOSED :ConnectabilityState.OPEN;
+	}
 
-	@Override
-	public boolean isSideClosed(int side) {
+	public boolean treatSideAsClosed(int side) {
 		return SideClosed[side];
 	}
 

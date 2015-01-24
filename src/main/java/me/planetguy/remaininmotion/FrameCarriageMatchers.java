@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
@@ -15,7 +16,7 @@ public class FrameCarriageMatchers {
 
 	private static boolean hasRegisteredMatcher=false;
 	
-	public static List<FrameCarriageMatcher>	matchers	= new ArrayList<FrameCarriageMatcher>();
+	private static List<FrameCarriageMatcher>	matchers = new ArrayList<FrameCarriageMatcher>();
 
 	public static void register(FrameCarriageMatcher matcher) {
 		matchers.add(matcher);
@@ -33,11 +34,15 @@ public class FrameCarriageMatchers {
 
 				@Override
 				public Moveable getCarriage(Block block, int meta, final TileEntity te) {
-					return new Moveable() {
-						public void fillPackage(CarriagePackage _package) throws CarriageMotionException {
-							MultiTypeCarriageUtil.fillFramePackage(_package, te.getWorldObj());
-						}
-					};
+					if(FrameCarriageMatchers.matches(block, meta, te)) {
+						return new Moveable() {
+							public void fillPackage(CarriagePackage _package) throws CarriageMotionException {
+								MultiTypeCarriageUtil.fillFramePackage(_package, te.getWorldObj());
+							}
+						};
+					} else {
+						return null;
+					}
 				}
 				
 			});
@@ -46,7 +51,9 @@ public class FrameCarriageMatchers {
 
 	public static boolean matches(Block b, int meta, TileEntity te) {
 		for (FrameCarriageMatcher m : matchers) {
+			Debug.dbg(m);
 			if (m.isFrameCarriage(b, meta, te)) { 
+				Debug.dbg(m);
 				return true; 
 			}
 		}

@@ -5,6 +5,8 @@ import buildcraft.api.transport.pluggable.IFacadePluggable;
 import buildcraft.api.transport.pluggable.PipePluggable;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.ICloseableFactory;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -18,16 +20,23 @@ public class SpecialFacadeCloseableFactory implements ICloseableFactory {
 			return new ICloseable() {
 
 				@Override
-				public boolean isSideClosed(int side) {
+				public ConnectabilityState isSideClosed(int side) {
 					PipePluggable plug=pipe.getPipePluggable(ForgeDirection.values()[side]);
 					if(plug instanceof IFacadePluggable) {
 						IFacadePluggable facade=(IFacadePluggable) plug;
 						if(facade.getCurrentBlock()==RIMBlocks.Carriage
 								&& facade.getCurrentMetadata() ==0) { //frame carriage facade
-							return false;	 //if facade then not closed					
+							return ConnectabilityState.OPEN;	 //if facade then not closed					
+						}
+					}else {
+						for(int i=0; i<6; i++) {
+							//exclude opposite and this side.
+							if(i!=side && i != Directions.values()[side].Opposite) {
+								return ConnectabilityState.FRAMES_ONLY;
+							}
 						}
 					}
-					return true;
+					return ConnectabilityState.CLOSED;
 						
 				}
 				

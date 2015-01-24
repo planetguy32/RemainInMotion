@@ -18,7 +18,10 @@ public class NativeCarriageMatcher implements CarriageMatcher {
 
 	@Override
 	public Moveable getCarriage(Block block, int meta, TileEntity te) {
-		return (Moveable) te;
+		if(te instanceof Moveable)
+			return (Moveable) te;
+		else
+			return null;
 	}
 
 }

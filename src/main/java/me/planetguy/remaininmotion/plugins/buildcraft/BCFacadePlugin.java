@@ -13,13 +13,13 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-//@Mod(modid="remainInMotion-BCFacadePlugin", dependencies="required-after:JAKJ_RedstoneInMotion")
 public class BCFacadePlugin {
 	
-	@EventHandler
-	public void preInit(FMLInitializationEvent event) {
-		if(Loader.isModLoaded("BuildCraft")) {
+	public static void tryLoad() {
+		if(Loader.isModLoaded("BuildCraft|Transport")) {
 			Debug.dbg("Buildcraft special facade: loading");
+			
+			RemIMPluginsCommon.getFrameBlock();
 			
 			RiMRegistry.registerFrameCarriageMatcher(new SpecialFacadeCarriageMatcher());
 			
