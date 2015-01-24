@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.core;
 
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.NativeCarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
@@ -31,6 +32,8 @@ public abstract class Core {
 				return entity1 instanceof TileEntityFrameCarriage;
 			}
 		});
+		
+		RiMRegistry.registerMatcher(new NativeCarriageMatcher());
 
 		PacketManager.init();
 

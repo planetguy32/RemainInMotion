@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -24,7 +25,7 @@ public class BCFacadePlugin {
 			
 			RiMRegistry.registerCloseableFactory(new SpecialFacadeCloseableFactory());
 			
-			FMLInterModComms.sendMessage("BuildCraft|Transport", "add-facade", Block.blockRegistry.getNameForObject(RIMBlocks.Carriage)+"@0");
+			FMLInterModComms.sendMessage("BuildCraft|Transport", "add-facade", RemIMPluginsCommon.getFrameBlock()+"@1");
 			
 		}else {
 			Debug.dbg("Buildcraft special facade: not loading");

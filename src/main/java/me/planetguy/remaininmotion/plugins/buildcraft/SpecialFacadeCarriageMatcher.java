@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.plugins.buildcraft;
 
-import buildcraft.api.transport.IPipePluggable;
 import buildcraft.api.transport.IPipeTile;
 import buildcraft.api.transport.pluggable.IFacadePluggable;
 import buildcraft.api.transport.pluggable.PipePluggable;
@@ -11,6 +10,7 @@ import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 
 public class SpecialFacadeCarriageMatcher implements FrameCarriageMatcher {
 
@@ -22,7 +22,7 @@ public class SpecialFacadeCarriageMatcher implements FrameCarriageMatcher {
 				PipePluggable plug=pipe.getPipePluggable(direction);
 				if(plug instanceof IFacadePluggable) {
 					IFacadePluggable facade=(IFacadePluggable) plug;
-					if(facade.getCurrentBlock()==RIMBlocks.Carriage
+					if(facade.getCurrentBlock()==RemIMPluginsCommon.getFrameBlock()
 							&& facade.getCurrentMetadata() ==0) { //frame carriage facade
 						return true;						
 					}
