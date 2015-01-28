@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion.drive;
 
-import scala.actors.threadpool.Arrays;
+import java.util.Arrays;
+
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.BlockRecord;

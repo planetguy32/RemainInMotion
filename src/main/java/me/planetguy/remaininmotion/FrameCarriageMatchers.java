@@ -51,9 +51,7 @@ public class FrameCarriageMatchers {
 
 	public static boolean matches(Block b, int meta, TileEntity te) {
 		for (FrameCarriageMatcher m : matchers) {
-			Debug.dbg(m);
 			if (m.isFrameCarriage(b, meta, te)) { 
-				Debug.dbg(m);
 				return true; 
 			}
 		}

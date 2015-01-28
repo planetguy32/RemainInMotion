@@ -166,7 +166,6 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 			Moveable m = CarriageMatchers.getMover(Id, worldObj.getBlockMetadata(X, Y, Z), te);
 			
-			Debug.details(m);
 			if (m != null) {
 				if (CarriageDirection != null) {
 					CarriageDirectionValid = false;
@@ -437,6 +436,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	public void setSignalDirection(Directions signalDirection) {
 		SignalDirection = signalDirection;
+	}
+
+	public boolean onRightClicked(int side, EntityPlayer player) {
+		return false;
 	}
 
 }

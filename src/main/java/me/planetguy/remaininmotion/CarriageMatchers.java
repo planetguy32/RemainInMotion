@@ -29,7 +29,6 @@ public class CarriageMatchers {
 	public static Moveable getMover(Block blockslist, int meta, TileEntity te) {
 		for (CarriageMatcher m : matchers) {
 			Moveable mv = m.getCarriage(blockslist, meta, te);
-			Debug.dbg(mv+"   "+m);
 			if (mv != null) { 
 				return mv; 
 			}

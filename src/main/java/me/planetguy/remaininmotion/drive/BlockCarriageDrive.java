@@ -20,10 +20,15 @@ import net.minecraft.world.World;
 
 public class BlockCarriageDrive extends BlockRiM {
 	public BlockCarriageDrive() {
-		super(Blocks.iron_block, ItemCarriageDrive.class, TileEntityCarriageEngine.class,
-				TileEntityCarriageMotor.class, TileEntityCarriageController.class,
-				TileEntityCarriageTranslocator.class, TileEntityCarriageTransduplicator.class,
-				TileEntityCarriageAdapter.class, TileEntityCarriageRotator.class);
+		super(Blocks.iron_block, ItemCarriageDrive.class, 
+				TileEntityCarriageEngine.class,
+				TileEntityCarriageMotor.class, 
+				TileEntityCarriageController.class,
+				TileEntityCarriageTranslocator.class, 
+				TileEntityCarriageTransduplicator.class,
+				TileEntityCarriageAdapter.class, 
+				TileEntityCarriageRotator.class,
+				TileEntityCarriageDirected.class);
 		this.setHarvestLevel(HarvestToolTypes.Pickaxe, 0);
 	}
 
@@ -153,22 +158,26 @@ public class BlockCarriageDrive extends BlockRiM {
 	public boolean onBlockActivated(World World, int X, int Y, int Z, EntityPlayer Player, int Side, float HitX,
 			float HitY, float HitZ) {
 
-		if (World.isRemote) { return (false); }
+		if (World.isRemote) { 
+			return (false); 
+		}
 
-		if (!ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem())) { return (false); }
-
+		
 		try {
 			TileEntityCarriageDrive cde = (TileEntityCarriageDrive) World.getTileEntity(X, Y, Z);
 			cde.lastUsingPlayer = Player;
-			cde.HandleToolUsage(Side, Player.isSneaking());
-
+			if (ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem()))
+				cde.HandleToolUsage(Side, Player.isSneaking());
+			else
+				return cde.onRightClicked(Side, Player);
+			
+			return true;
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
-
 			return (false);
 		}
 
-		return (true);
+
 	}
 
 	@Override
