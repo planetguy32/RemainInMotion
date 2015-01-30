@@ -175,8 +175,6 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		HandleNeighbourBlockChange();
 		BlockRecord record = new BlockRecord(this);
 		pkg.AddBlock(record);
-		Debug.dbg("Carriage at "+CarriageDirection);
-		Debug.dbg("Closed "+Arrays.toString(SideClosed));
 		if (!alreadyMoving && this.CarriageDirection != null && this.CarriageDirection != Directions.Null) {
 			alreadyMoving = true;
 			if (CarriageDirection != null) {
