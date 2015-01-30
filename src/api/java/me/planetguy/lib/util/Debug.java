@@ -6,6 +6,7 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
+import me.planetguy.lib.PlanetguyLib;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 
@@ -19,7 +20,8 @@ public abstract class Debug {
 	static final Logger	log	= LogManager.getLogger("PL");
 
 	public static void print(String s) {
-		log.info(s);
+		if(PlanetguyLib.doPLLogging)
+			log.info(s);
 	}
 
 	public static void dbt(Object o) {
