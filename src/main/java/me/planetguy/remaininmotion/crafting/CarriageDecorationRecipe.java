@@ -4,6 +4,7 @@ import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -43,7 +44,7 @@ public class CarriageDecorationRecipe extends Recipe {
 
 		int Tier = ItemCarriage.GetTier(Carriage);
 
-		int DecorationId = ItemCarriage.GetDecorationId(Carriage);
+		int DecorationId = Block.getIdFromBlock(ItemCarriage.GetDecorationId(Carriage));
 
 		if (DecorationId == 0) {
 			if (Decoration == null) { return (null); }

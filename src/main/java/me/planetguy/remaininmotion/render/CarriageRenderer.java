@@ -38,7 +38,7 @@ public class CarriageRenderer extends BlockRenderer {
 	@Override
 	public IIcon GetIcon(ItemStack Item, Directions Side) {
 		if (Side != Directions.PosY) {
-			int id = ItemCarriage.GetDecorationId(Item);
+			int id = Block.getIdFromBlock(ItemCarriage.GetDecorationId(Item));
 
 			if (id != 0) {
 				Block DecorationId = Block.getBlockById(id);

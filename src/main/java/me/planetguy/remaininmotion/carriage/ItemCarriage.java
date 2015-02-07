@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public class ItemCarriage extends ItemBlockRiM {
@@ -17,14 +18,18 @@ public class ItemCarriage extends ItemBlockRiM {
 		super(b);
 	}
 
-	public static int GetDecorationId(ItemStack Item) {
-		if (Item.stackTagCompound != null) { return (Item.stackTagCompound.getInteger("DecorationId")); }
+	public static Block GetDecorationId(ItemStack Item) {
+		if (Item.stackTagCompound != null) { 
+			return Block.getBlockById(Item.stackTagCompound.getInteger("DecorationId")); 
+		}
 
-		return (Item.getItemDamage() >>> 8);
+		return Block.getBlockById(Item.getItemDamage() >>> 8);
 	}
 
 	public static int GetDecorationMeta(ItemStack Item) {
-		if (Item.stackTagCompound != null) { return (Item.stackTagCompound.getInteger("DecorationMeta")); }
+		if (Item.stackTagCompound != null) { 
+			return (Item.stackTagCompound.getInteger("DecorationMeta")); 
+		}
 
 		return ((Item.getItemDamage() >>> 4) & 0xF);
 	}
@@ -131,15 +136,15 @@ public class ItemCarriage extends ItemBlockRiM {
 			}
 		}
 
-		int DecorationId = GetDecorationId(Item);
+		Block DecorationId = GetDecorationId(Item);
 
-		if (DecorationId == 0) { return; }
+		if (DecorationId == Blocks.air) { return; }
 
 		if (Item.stackTagCompound == null) {
 			TooltipLines.add(Arrays.asList(Lang.translate(ModRiM.Handle + ".pleaseUpdateCarriage").split("##/##")));
 		}
 
-		ItemStack Decoration = Stack.New(Block.getBlockById(DecorationId), GetDecorationMeta(Item));
+		ItemStack Decoration = Stack.New(DecorationId, GetDecorationMeta(Item));
 
 		try {
 			TooltipLines.add(Lang.translate(ModRiM.Handle + ".decoration")

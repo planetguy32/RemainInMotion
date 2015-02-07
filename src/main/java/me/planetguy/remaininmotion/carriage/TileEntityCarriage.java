@@ -7,14 +7,16 @@ import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
+import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityCarriage extends TileEntityRiM implements Moveable, ICloseable {
+public abstract class TileEntityCarriage extends TileEntityCamouflageable implements Moveable, ICloseable {
 	@Override
 	public boolean canUpdate() {
 		return (false);
@@ -40,21 +42,9 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 		return SideClosed[side];
 	}
 
-	public int	DecorationId;
-
-	public int	DecorationMeta;
-
-	@Override
-	public void Setup(EntityPlayer Player, ItemStack Item) {
-		DecorationId = ItemCarriage.GetDecorationId(Item);
-
-		DecorationMeta = ItemCarriage.GetDecorationMeta(Item);
-
-	}
-
 	@Override
 	public void EmitDrops(BlockRiM Block, int Meta) {
-		EmitDrop(Block, ItemCarriage.Stack(Meta, DecorationId, DecorationMeta));
+		EmitDrop(Block, ItemCarriage.Stack(Meta, Block.getIdFromBlock(getDecoration()), getDecorationMeta()));
 	}
 
 	@Override
@@ -63,7 +53,7 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 			SideClosed[Index] = TagCompound.getBoolean("SideClosed" + Index);
 		}
 
-		DecorationId = TagCompound.getInteger("DecorationId");
+		Decoration = Block.getBlockById(TagCompound.getInteger("DecorationId"));
 
 		DecorationMeta = TagCompound.getInteger("DecorationMeta");
 	}
@@ -74,7 +64,7 @@ public abstract class TileEntityCarriage extends TileEntityRiM implements Moveab
 			TagCompound.setBoolean("SideClosed" + Index, SideClosed[Index]);
 		}
 
-		TagCompound.setInteger("DecorationId", DecorationId);
+		TagCompound.setInteger("DecorationId", Block.getIdFromBlock(Decoration));
 
 		TagCompound.setInteger("DecorationMeta", DecorationMeta);
 	}
