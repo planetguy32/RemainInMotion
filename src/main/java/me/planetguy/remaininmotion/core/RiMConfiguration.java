@@ -227,6 +227,7 @@ public class RiMConfiguration extends Config {
 			}
 		}
 
+		/*
 		{
 			Category = "Texture Sets";
 
@@ -249,6 +250,7 @@ public class RiMConfiguration extends Config {
 
 			Configuration.addCustomCategoryComment(Category, TextureSetDescriptions);
 		}
+		*/
 
 		{
 			Category = "Cosmetics";
