@@ -40,13 +40,13 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		ItemStack item;
 
 		while (PatternSize > 64) {
-			item = ItemCarriage.Stack(Meta, Tier);
+			item = ItemCarriage.Stack(Meta);
 			item.stackSize = 64;
 			EmitDrop(Block, item);
 
 			PatternSize -= 64;
 		}
-		item = ItemCarriage.Stack(Meta, Tier);
+		item = ItemCarriage.Stack(Meta);
 		item.stackSize = PatternSize;
 
 		EmitDrop(Block, item);

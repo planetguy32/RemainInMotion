@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.core;
 
+import java.io.File;
+
 import me.planetguy.lib.PLHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -25,7 +27,12 @@ public class ModRiM {
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent Event) {
-		(new RiMConfiguration(Event.getSuggestedConfigurationFile())).Process();
+		File oldFile=Event.getSuggestedConfigurationFile();
+		File newFile=new File(oldFile.getParentFile().getAbsoluteFile()+File.separator+"remainInMotion.cfg");
+		if(oldFile.exists()) {
+			oldFile.renameTo(newFile);
+		}
+		(new RiMConfiguration(newFile)).Process();
 
 		Core.HandlePreInit();
 	}

@@ -14,6 +14,7 @@ import me.planetguy.remaininmotion.carriage.TileEntityTemplateCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageAdapter;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageDirected;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageEngine;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageMotor;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageRotator;
@@ -89,6 +90,7 @@ public abstract class BlockRiM extends BlockContainer {
 				"JAKJ_RedstoneInMotion_CarriageTransduplicatorEntity");
 		legacyClassToNameMap.put(TileEntityCarriageAdapter.class, "JAKJ_RedstoneInMotion_CarriageAdapterEntity");
 		legacyClassToNameMap.put(TileEntityCarriageRotator.class, "JAKJ_RedstoneInMotion_CarriageRotatorEntity");
+		legacyClassToNameMap.put(TileEntityCarriageDirected.class, "JAKJ_RedstoneInMotion_DirectedEntity");
 		
 		// Specters
 		legacyClassToNameMap.put(TileEntityMotiveSpectre.class, "JAKJ_RedstoneInMotion_MotiveSpectreEntity");

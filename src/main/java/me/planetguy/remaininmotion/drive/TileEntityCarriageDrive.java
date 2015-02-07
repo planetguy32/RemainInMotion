@@ -52,7 +52,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	
 	public Directions	CarriageDirection;
 
-	public Directions	SignalDirection;
+	private Directions	SignalDirection;
 
 	@Override
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
@@ -144,7 +144,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 		boolean CarriageDirectionValid = true;
 
-		SignalDirection = null;
+		setSignalDirection(null);
 
 		boolean SignalDirectionValid = true;
 
@@ -165,6 +165,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 			net.minecraft.tileentity.TileEntity te = worldObj.getTileEntity(X, Y, Z);
 
 			Moveable m = CarriageMatchers.getMover(Id, worldObj.getBlockMetadata(X, Y, Z), te);
+			
 			if (m != null) {
 				if (CarriageDirection != null) {
 					CarriageDirectionValid = false;
@@ -173,10 +174,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 				}
 			}
 			if (Id.isProvidingWeakPower(worldObj, X, Y, Z, Direction.ordinal()) > 0) {
-				if (SignalDirection != null) {
+				if (getSignalDirection() != null) {
 					SignalDirectionValid = false;
 				} else {
-					SignalDirection = Direction;
+					setSignalDirection(Direction);
 				}
 			}
 		}
@@ -186,7 +187,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 		}
 
 		if (!SignalDirectionValid) {
-			SignalDirection = null;
+			setSignalDirection(null);
 		}
 	}
 
@@ -208,7 +209,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 		if (Active) { return; }
 
-		if (SignalDirection == null) {
+		if (getSignalDirection() == null) {
 			if (Signalled) {
 				Signalled = false;
 
@@ -229,7 +230,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 		}
 
 		try {
-			InitiateMotion(PreparePackage(SignalDirection.Opposite()));
+			InitiateMotion(PreparePackage(getSignalDirection().Opposite()));
 
 			ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, 1.2f, 1f);
 		} catch (CarriageMotionException Exception) {
@@ -427,6 +428,18 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 	public void rotateSpecial(ForgeDirection axis) {
 		ArrayRotator.rotate(SideClosed, axis);
 		Propagate();
+	}
+
+	public Directions getSignalDirection() {
+		return SignalDirection;
+	}
+
+	public void setSignalDirection(Directions signalDirection) {
+		SignalDirection = signalDirection;
+	}
+
+	public boolean onRightClicked(int side, EntityPlayer player) {
+		return false;
 	}
 
 }

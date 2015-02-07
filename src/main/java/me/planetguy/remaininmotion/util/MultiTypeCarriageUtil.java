@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.util;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMatchers;
@@ -7,6 +8,7 @@ import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Closeables;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import net.minecraft.tileentity.TileEntity;
@@ -48,7 +50,9 @@ public abstract class MultiTypeCarriageUtil {
 
 					int direction = TargetDirection.ordinal();
 
-					if (direction >= 0 && direction < 6 && closeable.isSideClosed(direction)) {
+					ConnectabilityState state=closeable.isSideClosed(direction);
+					
+					if (direction >= 0 && direction < 6 && state == ConnectabilityState.CLOSED) {
 						// DEBUG =!= SideClosed");
 						if (TargetDirection == Package.MotionDirection) {
 							Package.AddPotentialObstruction(TargetRecord);

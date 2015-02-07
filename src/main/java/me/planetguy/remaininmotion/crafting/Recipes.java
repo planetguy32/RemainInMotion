@@ -60,7 +60,7 @@ public abstract class Recipes {
 	}
 
 	public static void RegisterCarriageRecipe(BlockCarriage.Types CarriageType, Vanilla.DyeTypes DyeType) {
-		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal(), 0), 8),
+		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 8),
 
 		Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
 				Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
@@ -69,7 +69,7 @@ public abstract class Recipes {
 				DyeType.Handle);
 
 		// allow dyeing carriages one at a time - more convenient that way
-		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal(), 0), 8),
+		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 8),
 
 		Types.CarriageFramework.Stack(),
 

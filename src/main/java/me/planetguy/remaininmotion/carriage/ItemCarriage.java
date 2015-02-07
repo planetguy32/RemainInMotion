@@ -35,18 +35,16 @@ public class ItemCarriage extends ItemBlockRiM {
 		return (0);
 	}
 
-	public static ItemStack Stack(int Type, int Tier) {
-		return (Stack(Type, Tier, 0, 0));
+	public static ItemStack Stack(int Type) {
+		return (Stack(Type, 0, 0));
 	}
 
-	public static ItemStack Stack(int Type, int Tier, int DecorationId, int DecorationMeta) {
+	public static ItemStack Stack(int Type, int DecorationId, int DecorationMeta) {
 		ItemStack Item = Stack.Tag(Stack.New(RIMBlocks.Carriage, Type));
 
 		Item.stackTagCompound.setInteger("DecorationId", DecorationId);
 
 		Item.stackTagCompound.setInteger("DecorationMeta", DecorationMeta);
-
-		Item.stackTagCompound.setInteger("Tier", Tier);
 
 		return (Item);
 	}

@@ -32,14 +32,32 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	}
 
 	@Override
-	public void doSpecialMotion(Entity e) {
+	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
 		if (worldObj.isRemote) { return; }
-		Matrix entityPos = new Matrix(new double[][] { { e.posX }, { e.posY }, { e.posZ } });
+		Matrix entityPos = new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
 		double partialAngle = Math.min(((double) TicksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
 		RemIMRotator.rotatePartial(DriveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
-		e.posX = entityPos.matrix[0][0];
-		e.posY = entityPos.matrix[1][0];
-		e.posZ = entityPos.matrix[2][0];
+		entity.posX = entityPos.matrix[0][0];
+		entity.posY = entityPos.matrix[1][0];
+		entity.posZ = entityPos.matrix[2][0];
+		
+		entity.fallDistance = 0;
+		if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+			capture.SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY, MotionDirection.DeltaZ);
+			capture.stop(entity);
+			entity.onGround = capture.WasOnGround;
+			entity.isAirBorne = capture.WasAirBorne;
+			return;
+		}
+		entity.onGround = false;
+		entity.isAirBorne = true;
+		entity.motionX = Velocity * MotionDirection.DeltaX;
+		entity.motionY = Velocity * MotionDirection.DeltaY;
+		entity.motionZ = Velocity * MotionDirection.DeltaZ;
+		capture.SetPosition(entity.posX, entity.posY, entity.posZ);
+		entity.prevPosX = entity.posX - entity.motionX;
+		entity.prevPosY = entity.posY - entity.motionY;
+		entity.prevPosZ = entity.posZ - entity.motionZ;
 	}
 
 	/*

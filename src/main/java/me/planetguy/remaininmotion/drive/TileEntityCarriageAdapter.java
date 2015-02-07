@@ -35,7 +35,7 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 
 		if (Active) { return; }
 
-		if (SignalDirection == null) {
+		if (getSignalDirection() == null) {
 			if (Signalled) {
 				Signalled = false;
 

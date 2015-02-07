@@ -511,34 +511,37 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		}
 
 		public void Update() {
-			entity.fallDistance = 0;
-			if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
-				entity.motionX = 0;
-				entity.motionY = 0;
-				entity.motionZ = 0;
-				SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY, MotionDirection.DeltaZ);
-				entity.prevPosX = entity.posX;
-				entity.prevPosY = entity.posY;
-				entity.prevPosZ = entity.posZ;
-				entity.onGround = WasOnGround;
-				entity.isAirBorne = WasAirBorne;
-				return;
-			}
-			entity.onGround = false;
-			entity.isAirBorne = true;
-			entity.motionX = Velocity * MotionDirection.DeltaX;
-			entity.motionY = Velocity * MotionDirection.DeltaY;
-			entity.motionZ = Velocity * MotionDirection.DeltaZ;
-			SetPosition(entity.motionX * TicksExisted, entity.motionY * TicksExisted, entity.motionZ * TicksExisted);
-			doSpecialMotion(entity);
-			entity.prevPosX = entity.posX - entity.motionX;
-			entity.prevPosY = entity.posY - entity.motionY;
-			entity.prevPosZ = entity.posZ - entity.motionZ;
+			doPerSpectreUpdate(this, entity);
+		}
+		
+		public void stop(Entity e) {
+			entity.motionX = 0;
+			entity.motionY = 0;
+			entity.motionZ = 0;
+			entity.prevPosX = entity.posX;
+			entity.prevPosY = entity.posY;
+			entity.prevPosZ = entity.posZ;
 		}
 	}
 
-	public void doSpecialMotion(Entity e) {
-
+	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
+		entity.fallDistance = 0;
+		if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+			capture.SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY, MotionDirection.DeltaZ);
+			capture.stop(entity);
+			entity.onGround = capture.WasOnGround;
+			entity.isAirBorne = capture.WasAirBorne;
+			return;
+		}
+		entity.onGround = false;
+		entity.isAirBorne = true;
+		entity.motionX = Velocity * MotionDirection.DeltaX;
+		entity.motionY = Velocity * MotionDirection.DeltaY;
+		entity.motionZ = Velocity * MotionDirection.DeltaZ;
+		capture.SetPosition(entity.motionX * TicksExisted, entity.motionY * TicksExisted, entity.motionZ * TicksExisted);
+		entity.prevPosX = entity.posX - entity.motionX;
+		entity.prevPosY = entity.posY - entity.motionY;
+		entity.prevPosZ = entity.posZ - entity.motionZ;
 	}
 
 	public java.util.ArrayList<CapturedEntity>	CapturedEntities	= new ArrayList<CapturedEntity>();
