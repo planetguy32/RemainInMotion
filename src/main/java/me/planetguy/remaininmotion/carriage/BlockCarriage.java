@@ -82,8 +82,9 @@ public class BlockCarriage extends BlockRiM {
 		try {
 			TileEntityCarriage Carriage = (TileEntityCarriage) World.getTileEntity(X, Y, Z);
 
-			if ((Carriage.DecorationId != 0) && (Carriage.SideClosed[Side])) { return (Block
-					.getBlockById(Carriage.DecorationId).getIcon(Side, Carriage.DecorationMeta)); }
+			if ((Carriage.Decoration != null) && (Carriage.SideClosed[Side])) { 
+				return (Carriage.Decoration.getIcon(Side, Carriage.DecorationMeta)); 
+			}
 
 			Types Type = Types.values()[World.getBlockMetadata(X, Y, Z)];
 
@@ -122,7 +123,7 @@ public class BlockCarriage extends BlockRiM {
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
 		TileEntityCarriage tile = (TileEntityCarriage) world.getTileEntity(x, y, z);
 		if (tile != null) {
-			int decoID = tile.DecorationId;
+			int decoID = Block.getIdFromBlock(tile.Decoration);
 			int decoMeta = tile.DecorationMeta;
 			ItemStack stack = ItemCarriage.Stack(world.getBlockMetadata(x, y, z), decoID, decoMeta);
 			if (stack != null) return stack;
