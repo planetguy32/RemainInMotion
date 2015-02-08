@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion;
 
 import me.planetguy.lib.util.Blacklist;
+import me.planetguy.lib.util.BlacklistDynamic;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
@@ -8,9 +9,9 @@ import net.minecraft.init.Blocks;
 
 public class BlacklistManager {
 
-	public static Blacklist	blacklistHard		= new Blacklist();
-	public static Blacklist	blacklistSoft		= new Blacklist();
-	public static Blacklist	blacklistRotation	= new Blacklist();
+	public static Blacklist	blacklistHard;
+	public static Blacklist	blacklistSoft;
+	public static Blacklist	blacklistRotation;
 
 	public static void Initialize() {
 		blacklistSoft.blacklist(RIMBlocks.Spectre);
