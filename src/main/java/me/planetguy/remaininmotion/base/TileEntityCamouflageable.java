@@ -13,7 +13,7 @@ public class TileEntityCamouflageable extends TileEntityRiM{
 
 	@Override
 	public void Setup(EntityPlayer Player, ItemStack Item) {
-		Decoration = ItemCarriage.GetDecorationId(Item);
+		Decoration = ItemCarriage.GetDecorationBlock(Item);
 
 		DecorationMeta = ItemCarriage.GetDecorationMeta(Item);
 

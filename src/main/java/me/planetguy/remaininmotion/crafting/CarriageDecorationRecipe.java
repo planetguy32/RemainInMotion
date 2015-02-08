@@ -44,7 +44,7 @@ public class CarriageDecorationRecipe extends Recipe {
 
 		int Tier = ItemCarriage.GetTier(Carriage);
 
-		int DecorationId = Block.getIdFromBlock(ItemCarriage.GetDecorationId(Carriage));
+		int DecorationId = Block.getIdFromBlock(ItemCarriage.GetDecorationBlock(Carriage));
 
 		if (DecorationId == 0) {
 			if (Decoration == null) { return (null); }

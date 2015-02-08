@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.NextTickListEntry;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class CarriagePackage {
 	public boolean							blacklistByRotation	= false;
@@ -154,35 +156,37 @@ public class CarriagePackage {
 	}
 
 	public void FailBecauseObstructed(BlockRecord Record, String Type) throws CarriageMotionException {
-		throw (new CarriageObstructionException("carriage motion obstructed by " + Type, Record.X, Record.Y, Record.Z));
+		throw (new CarriageObstructionException("Carriage motion obstructed by " + Type, Record.X, Record.Y, Record.Z));
 	}
 
 	public static boolean	ObstructedByLiquids;
 
 	public static boolean	ObstructedByFragileBlocks;
 
-	public void AssertNotObstruction(BlockRecord Record) throws CarriageMotionException {
-		if (Body.contains(Record)) { return; }
+	public void AssertNotObstruction(BlockRecord record) throws CarriageMotionException {
+		if (Body.contains(record)) { return; }
+		
+		if (World.isAirBlock(record.X, record.Y, record.Z)) return;
 
-		if (World.isAirBlock(Record.X, Record.Y, Record.Z)) { return; }
-
-		if (World.getBlock(Record.X, Record.Y, Record.Z).getMaterial().isLiquid()) {
-			if (ObstructedByLiquids) {
-				FailBecauseObstructed(Record, "liquid");
+		Block block = World.getBlock(record.X, record.Y,
+				record.Z);
+		if (block != null) {
+			if(!ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null))
+			{
+				return;
+			}else if(ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null))
+			{
+				FailBecauseObstructed(record, "liquid");
 			}
-
-			return;
-		}
-
-		if (World.getBlock(Record.X, Record.Y, Record.Z).canBeReplacedByLeaves(World, Record.X, Record.Y, Record.Z)) {
-			if (ObstructedByFragileBlocks) {
-				FailBecauseObstructed(Record, "fragile block");
+			if(!ObstructedByFragileBlocks && block.getMaterial().isReplaceable())
+			{
+				return;
+			}else if(ObstructedByFragileBlocks && block.getMaterial().isReplaceable())
+			{
+				FailBecauseObstructed(record, "fragile");
 			}
-
-			return;
+			FailBecauseObstructed(record, "block");
 		}
-
-		FailBecauseObstructed(Record, "block");
 	}
 
 	public BlockRecordSet	PotentialObstructions	= new BlockRecordSet();
@@ -236,7 +240,7 @@ public class CarriagePackage {
 
 			Set ticksHash = (Set) Reflection.get(WorldServer.class, World, "pendingTickListEntriesHashSet");
 
-			java.util.Iterator PendingBlockUpdateSetIterator = ticks.iterator();
+			Iterator<NextTickListEntry> PendingBlockUpdateSetIterator = ticks.iterator();
 
 			while (PendingBlockUpdateSetIterator.hasNext()) {
 				NextTickListEntry PendingBlockUpdate = (NextTickListEntry) PendingBlockUpdateSetIterator.next();

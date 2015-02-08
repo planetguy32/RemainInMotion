@@ -10,15 +10,18 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	public String																Player;
@@ -126,42 +129,41 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	public CarriagePackage PreparePackage(Directions MotionDirection) throws CarriageMotionException {
 		CarriagePackage Package = super.PreparePackage(null);
 
-		TileEntityCarriageTranslocator Target = null;
+		TileEntityCarriageTranslocator target = null;
 
-		java.util.LinkedList<BlockPosition> ActiveTranslocators;
+		java.util.LinkedList<BlockPosition> activeTranslocators;
 
 		try {
-			ActiveTranslocators = ActiveTranslocatorSets.get(Player).get(Label);
+			activeTranslocators = ActiveTranslocatorSets.get(Player).get(Label);
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 
 			throw (new CarriageMotionException("translocator array is corrupt"));
 		}
 
-		for (int Index = 0; Index < ActiveTranslocators.size(); Index++) {
-			BlockPosition Position = ActiveTranslocators.get(Index);
+		for (int index = 0; index < activeTranslocators.size(); index++) {
+			BlockPosition position = activeTranslocators.get(index);
 
 			try {
-				TileEntityCarriageTranslocator Translocator = (TileEntityCarriageTranslocator) WorldUtil.GetWorld(
-						Position.Dimension).getTileEntity(Position.X, Position.Y, Position.Z);
+				TileEntityCarriageTranslocator translocator = (TileEntityCarriageTranslocator) WorldUtil.GetWorld(
+						position.Dimension).getTileEntity(position.X, position.Y, position.Z);
 
-				if (Translocator == this) {
+				if (translocator == this) {
 					continue;
 				}
 
-				boolean TargetValid = true;
+				boolean targetValid = true;
 
-				for (BlockRecord Record : Package.NewPositions) {
-					if (!Translocator.worldObj.isAirBlock(Record.X + Translocator.xCoord, Record.Y
-							+ Translocator.yCoord, Record.Z + Translocator.zCoord)) {
-						TargetValid = false;
+				for (BlockRecord record : Package.NewPositions) {
+					if (!targetBlockReplaceable(translocator, record)) {
+						targetValid = false;
 
 						break;
 					}
 				}
 
-				if (TargetValid) {
-					Target = Translocator;
+				if (targetValid) {
+					target = translocator;
 
 					break;
 				}
@@ -170,10 +172,10 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 			}
 		}
 
-		if (Target == null) { throw (new CarriageMotionException(
+		if (target == null) { throw (new CarriageMotionException(
 				"no other matching translocators available with space to receive carriage assembly")); }
 
-		Package.Translocator = Target;
+		Package.Translocator = target;
 
 		return (Package);
 	}

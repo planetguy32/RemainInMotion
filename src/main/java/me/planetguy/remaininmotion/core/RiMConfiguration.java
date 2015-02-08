@@ -3,7 +3,6 @@ package me.planetguy.remaininmotion.core;
 import me.planetguy.lib.util.Blacklist;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.block.Block;
 
@@ -14,6 +13,8 @@ public class RiMConfiguration extends Config {
 		public static int		MaxSupportBurden	= 5000;
 
 		public static int		MaxTemplateBurden	= 5000;
+
+		public static int		MaxMemoryBurden		= 5000;
 
 		public static boolean	BlacklistBedrock	= true;
 
@@ -156,149 +157,156 @@ public class RiMConfiguration extends Config {
 				setupBlacklist("rotationBlacklist", BlacklistManager.blacklistRotation);
 			}
 
-			CarriagePackage.MaxBlockCount = BoundedInteger("Maximum size of any carriage (0 = no limit)", 0,
-					CarriagePackage.MaxBlockCount, Integer.MAX_VALUE);
+			CarriagePackage.MaxBlockCount = BoundedInteger("CarriageMaxSize",
+					"Maximum size of any carriage (0 = no limit)", 0, CarriagePackage.MaxBlockCount, Integer.MAX_VALUE);
 
-			Carriage.MaxPlatformBurden = BoundedInteger("Maximum blocks carried by platform carriage", 1,
-					Carriage.MaxPlatformBurden, Integer.MAX_VALUE);
+			Carriage.MaxPlatformBurden = BoundedInteger("PlatformCarriageMaxSize",
+					"Maximum blocks carried by platform carriage", 1, Carriage.MaxPlatformBurden, Integer.MAX_VALUE);
 
-			Carriage.MaxSupportBurden = BoundedInteger("Maximum blocks carried by a support carriage", 1,
-					Carriage.MaxSupportBurden, Integer.MAX_VALUE);
-			
-			Carriage.MaxTemplateBurden = BoundedInteger("Maximum blocks carried by a template carriage", 1,
-					Carriage.MaxTemplateBurden, Integer.MAX_VALUE);
+			Carriage.MaxSupportBurden = BoundedInteger("SupportCarriageMaxSize",
+					"Maximum blocks carried by a support carriage", 1, Carriage.MaxSupportBurden, Integer.MAX_VALUE);
 
-			Carriage.BlacklistBedrock = Boolean("Carriages refuse to move bedrock (DANGEROUS IF FALSE)",
-					Carriage.BlacklistBedrock);
+			Carriage.MaxTemplateBurden = BoundedInteger("TemplateCarriageMaxSize",
+					"Maximum blocks carried by a template carriage", 1, Carriage.MaxTemplateBurden, Integer.MAX_VALUE);
 
-			Carriage.BlacklistByPiston = Boolean("Carriages refuse to move blocks that pistons cannot move",
-					Carriage.BlacklistByPiston);
+			Carriage.MaxMemoryBurden = BoundedInteger("MemoryCarriageMaxSize",
+					"Maximum blocks carried by a memory carriage", 1, Carriage.MaxMemoryBurden, Integer.MAX_VALUE);
+
+			Carriage.BlacklistBedrock = Boolean("BlacklistBedrock",
+					"Carriages refuse to move bedrock (DANGEROUS IF FALSE)", Carriage.BlacklistBedrock);
+
+			Carriage.BlacklistByPiston = Boolean("RespectPistonBlacklist",
+					"Carriages refuse to move blocks that pistons cannot move", Carriage.BlacklistByPiston);
 		}
 
 		{
 			Category = "Carriage Drive";
 
-			CarriageDrive.ContinuousCooldown = BoundedInteger("Cooldown (in ticks) between motions in continuous mode",
-					0, CarriageDrive.ContinuousCooldown, Integer.MAX_VALUE);
+			CarriageDrive.ContinuousCooldown = BoundedInteger("ContinuousModeCooldown",
+					"Cooldown (in ticks) between motions in continuous mode", 0, CarriageDrive.ContinuousCooldown,
+					Integer.MAX_VALUE);
 		}
 
 		{
 			Category = "Carriage Motion";
 
-			CarriageMotion.CapturePlayerEntities = Boolean("Should grab players during motion",
+			CarriageMotion.CapturePlayerEntities = Boolean("MovePlayers", "Should grab players during motion",
 					CarriageMotion.CapturePlayerEntities);
 
-			CarriageMotion.CaptureOtherLivingEntities = Boolean("Should grab non-player living entities during motion",
-					CarriageMotion.CaptureOtherLivingEntities);
+			CarriageMotion.CaptureOtherLivingEntities = Boolean("MoveNonPlayerLiving",
+					"Should grab non-player living entities during motion", CarriageMotion.CaptureOtherLivingEntities);
 
-			CarriageMotion.CaptureItemEntities = Boolean("Should grab floating items during motion",
+			CarriageMotion.CaptureItemEntities = Boolean("MoveItemEnities", "Should grab floating items during motion",
 					CarriageMotion.CaptureItemEntities);
 
-			CarriageMotion.CaptureOtherEntities = Boolean("Should grab all other miscellaneous entities during motion",
-					CarriageMotion.CaptureOtherEntities);
+			CarriageMotion.CaptureOtherEntities = Boolean("MoveAllOtherEntities",
+					"Should grab all other miscellaneous entities during motion", CarriageMotion.CaptureOtherEntities);
 
-			CarriageMotion.TeleportEntities = Boolean("Should translocate grabbed entities",
+			CarriageMotion.TeleportEntities = Boolean("TeleportEntities", "Should translocate grabbed entities",
 					CarriageMotion.TeleportEntities);
 
-			CarriagePackage.ObstructedByLiquids = Boolean("Carriage motion is obstructed by liquids",
-					CarriagePackage.ObstructedByLiquids);
+			CarriagePackage.ObstructedByLiquids = Boolean("LiquidsBlockMovement",
+					"Carriage motion/teleportation is obstructed by liquids", CarriagePackage.ObstructedByLiquids);
 
-			CarriagePackage.ObstructedByFragileBlocks = Boolean(
+			CarriagePackage.ObstructedByFragileBlocks = Boolean("SoftTilesBlockMovement",
 					"Carriage motion is obstructed by fragile blocks like tall grass",
 					CarriagePackage.ObstructedByFragileBlocks);
 
-			CarriageMotion.RenderInFinalPositionDuringLag = Boolean(
-					"Animation of motion should stop even during severe lag",
-					CarriageMotion.RenderInFinalPositionDuringLag);
+			CarriageMotion.RenderInFinalPositionDuringLag = Boolean("StopAnimationDuringLag",
+					"Animation of motion should stop during severe lag", CarriageMotion.RenderInFinalPositionDuringLag);
 
-			CarriageMotion.MotionDuration = BoundedInteger("Duration of motion in ticks", 10,
+			CarriageMotion.MotionDuration = BoundedInteger("MotionDurationInTicks", "Duration of motion in ticks", 10,
 					CarriageMotion.MotionDuration, Integer.MAX_VALUE);
 
 			TileEntityMotiveSpectre.Velocity = 1 / ((double) CarriageMotion.MotionDuration);
 
-			CarriageMotion.TeleportationDuration = BoundedInteger("Duration of translocation in ticks", 10,
-					CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
+			CarriageMotion.TeleportationDuration = BoundedInteger("TeleportDurationInTicks",
+					"Duration of translocation in ticks", 10, CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
 
-			CarriageMotion.SoundIndex = BoundedInteger("Sound File Index", 0, CarriageMotion.SoundIndex, 10);
-			switch(CarriageMotion.SoundIndex)
-			{
-				case 0: CarriageMotion.SoundFile = "hum"; break;
-				default: CarriageMotion.SoundFile = "engine" + CarriageMotion.SoundIndex; break;
+			CarriageMotion.SoundIndex = BoundedInteger("Sound File Index",
+					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made.", 0, CarriageMotion.SoundIndex,
+					10);
+			switch (CarriageMotion.SoundIndex) {
+				case 0:
+					CarriageMotion.SoundFile = "hum";
+					break;
+				default:
+					CarriageMotion.SoundFile = "engine" + CarriageMotion.SoundIndex;
+					break;
 			}
 		}
 
 		/*
-		{
-			Category = "Texture Sets";
-
-			int TextureSetCount = TextureSets.values().length;
-
-			TextureSets.TextureSet = BoundedInteger("Index of texture set", 0, TextureSets.TextureSet,
-					TextureSetCount - 1);
-
-			Registry.TexturePrefix = TextureSets.values()[TextureSets.TextureSet].name() + "/";
-
-			String TextureSetDescriptions = "";
-
-			for (TextureSets TextureSet : TextureSets.values()) {
-				if (TextureSet.ordinal() > 0) {
-					TextureSetDescriptions += "\n";
-				}
-
-				TextureSetDescriptions += TextureSet.ordinal() + " - " + TextureSet.Description;
-			}
-
-			Configuration.addCustomCategoryComment(Category, TextureSetDescriptions);
-		}
-		*/
+		 * { Category = "Texture Sets";
+		 * 
+		 * int TextureSetCount = TextureSets.values().length;
+		 * 
+		 * TextureSets.TextureSet = BoundedInteger("Index of texture set", 0,
+		 * TextureSets.TextureSet, TextureSetCount - 1);
+		 * 
+		 * Registry.TexturePrefix =
+		 * TextureSets.values()[TextureSets.TextureSet].name() + "/";
+		 * 
+		 * String TextureSetDescriptions = "";
+		 * 
+		 * for (TextureSets TextureSet : TextureSets.values()) { if
+		 * (TextureSet.ordinal() > 0) { TextureSetDescriptions += "\n"; }
+		 * 
+		 * TextureSetDescriptions += TextureSet.ordinal() + " - " +
+		 * TextureSet.Description; }
+		 * 
+		 * Configuration.addCustomCategoryComment(Category,
+		 * TextureSetDescriptions); }
+		 */
 
 		{
 			Category = "Cosmetics";
 
-			Cosmetic.ShowHelpInTooltips = Boolean("Show descriptions of purposes/uses of blocks/items in tooltips",
-					Cosmetic.ShowHelpInTooltips);
+			Cosmetic.ShowHelpInTooltips = Boolean("ExtendedTooltips",
+					"Show descriptions of purposes/uses of blocks/items in tooltips", Cosmetic.ShowHelpInTooltips);
 
-			Cosmetic.renderFallback = Boolean(
+			Cosmetic.renderFallback = Boolean("FailsafeRendering",
 					"Use the fallback renderer (try this if Minecraft closes instantly when moving carriages)",
 					Cosmetic.renderFallback);
 
-			Cosmetic.maxTags = Configuration
-					.get(Category,
-							"Limit on size of carriage to transmit, or -1 for no limit. Decrease if clients get errors like: Unexpected end of ZLIB input stream",
-							Cosmetic.maxTags).getInt(Cosmetic.maxTags);
+			Cosmetic.maxTags = Integer(
+					"PacketMaxSize",
+					"Limit on size of carriage to transmit, or -1 for no limit. Decrease if clients get errors like: Unexpected end of ZLIB input stream",
+					Cosmetic.maxTags);
 		}
 
 		{
 			Category = "Dirty Hacks";
 
-			DirtyHacks.UpdateBuildcraftPipes = Boolean("Attempt to hyper-reinitialize Buildcraft pipes after motion",
-					DirtyHacks.UpdateBuildcraftPipes);
+			DirtyHacks.UpdateBuildcraftPipes = Boolean("ForceBCPipeUpdate",
+					"Attempt to hyper-reinitialize Buildcraft pipes after motion", DirtyHacks.UpdateBuildcraftPipes);
 
-			DirtyHacks.allowRotation = Boolean("Allow rotator carriage", DirtyHacks.allowRotation);
+			DirtyHacks.allowRotation = Boolean("EnableRotationCarriage", "Allow rotator carriage",
+					DirtyHacks.allowRotation);
 		}
 
 		{
 			Category = "Debugging";
 
-			Debug.LogMotionExceptions = Boolean("Write carriage-motion errors to client/server log",
+			Debug.LogMotionExceptions = Boolean("LogExceptions", "Write carriage-motion errors to client/server log",
 					Debug.LogMotionExceptions);
 
-			Debug.MuteMotionExceptions = Boolean("Mute carriage-motion errors completely", Debug.MuteMotionExceptions);
+			Debug.MuteMotionExceptions = Boolean("MuteAllMotionErrors", "Mute carriage-motion errors completely",
+					Debug.MuteMotionExceptions);
 
-			Debug.verbose = Boolean("Log everything (will fill up your console/logs)", Debug.verbose);
+			Debug.verbose = Boolean("VerboseLogging", "Log everything (will fill up your console/logs)", Debug.verbose);
 
 		}
 
 		{
 			Category = "Hardmode";
 
-			HardmodeActive = Boolean("Hardmode is activated", HardmodeActive);
+			HardmodeActive = Boolean("EnableHardmode", "Use RF to power carriages in addition to redstone",
+					HardmodeActive);
 
-			PowerConsumptionFactor = Configuration.get(Category, "Power consumption factor", PowerConsumptionFactor)
-					.getDouble(PowerConsumptionFactor);
+			PowerConsumptionFactor = Double("EnergyUseScalar", "Power consumption factor", PowerConsumptionFactor);
 
-			powerCapacity = Configuration.get(Category, "Power capacity of carriages", powerCapacity).getInt(
-					powerCapacity);
+			powerCapacity = Integer("MaxEnergyStored", "Power capacity of carriages", powerCapacity);
 		}
 
 		Configuration.save();

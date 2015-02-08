@@ -78,21 +78,21 @@ public class BlockCarriage extends BlockRiM {
 	}
 
 	@Override
-	public IIcon getIcon(IBlockAccess World, int X, int Y, int Z, int Side) {
+	public IIcon getIcon(IBlockAccess world, int X, int Y, int Z, int Side) {
 		try {
-			TileEntityCarriage Carriage = (TileEntityCarriage) World.getTileEntity(X, Y, Z);
+			TileEntityCarriage carriage = (TileEntityCarriage) world.getTileEntity(X, Y, Z);
 
-			if ((Carriage.Decoration != null) && (Carriage.SideClosed[Side])) { 
-				return (Carriage.Decoration.getIcon(Side, Carriage.DecorationMeta)); 
+			if ((carriage.Decoration != null) && (carriage.SideClosed[Side])) { 
+				return (carriage.Decoration.getIcon(Side, carriage.DecorationMeta)); 
 			}
 
-			Types Type = Types.values()[World.getBlockMetadata(X, Y, Z)];
+			Types type = Types.values()[world.getBlockMetadata(X, Y, Z)];
 
-			return (Carriage.SideClosed[Side] ? Type.ClosedIcon : Type.OpenIcon);
+			return (carriage.SideClosed[Side] ? type.ClosedIcon : type.OpenIcon);
 		} catch (Throwable t) {
 			t.printStackTrace();
 
-			return (RIMBlocks.Spectre.getIcon(0, 0));
+			return (RIMBlocks.Spectre.getIcon(world, X, Y, Z, Side));
 		}
 	}
 

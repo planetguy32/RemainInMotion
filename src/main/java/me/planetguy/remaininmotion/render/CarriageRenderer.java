@@ -8,6 +8,8 @@ import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityTemplateCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
@@ -38,17 +40,15 @@ public class CarriageRenderer extends BlockRenderer {
 	@Override
 	public IIcon GetIcon(ItemStack Item, Directions Side) {
 		if (Side != Directions.PosY) {
-			int id = Block.getIdFromBlock(ItemCarriage.GetDecorationId(Item));
-
-			if (id != 0) {
-				Block DecorationId = Block.getBlockById(id);
-
+			Block decorationBlock = ItemCarriage.GetDecorationBlock(Item);
+			if (decorationBlock != null && decorationBlock != Blocks.air) {
 				int DecorationMeta = ItemCarriage.GetDecorationMeta(Item);
 
 				try {
-					return (DecorationId.getIcon(Side.ordinal(), DecorationMeta));
+					return (decorationBlock.getIcon(Side.ordinal(), DecorationMeta));
 				} catch (Throwable Throwable) {
 					Throwable.printStackTrace();
+					return (RIMBlocks.Carriage.getIcon(0, ItemBlockRiM.GetBlockType(Item)));
 				}
 			}
 		}
