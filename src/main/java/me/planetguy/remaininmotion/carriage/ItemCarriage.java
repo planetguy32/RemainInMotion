@@ -18,12 +18,12 @@ public class ItemCarriage extends ItemBlockRiM {
 		super(b);
 	}
 
-	public static Block GetDecorationId(ItemStack Item) {
+	public static Block GetDecorationBlock(ItemStack Item) {
 		if (Item.stackTagCompound != null) { 
 			return Block.getBlockById(Item.stackTagCompound.getInteger("DecorationId")); 
 		}
 
-		return Block.getBlockById(Item.getItemDamage() >>> 8);
+		return Block.getBlockFromItem(Item.getItem());
 	}
 
 	public static int GetDecorationMeta(ItemStack Item) {
@@ -31,7 +31,7 @@ public class ItemCarriage extends ItemBlockRiM {
 			return (Item.stackTagCompound.getInteger("DecorationMeta")); 
 		}
 
-		return ((Item.getItemDamage() >>> 4) & 0xF);
+		return Item.getItemDamage();
 	}
 
 	public static int GetTier(ItemStack Item) {
@@ -136,7 +136,7 @@ public class ItemCarriage extends ItemBlockRiM {
 			}
 		}
 
-		Block DecorationId = GetDecorationId(Item);
+		Block DecorationId = GetDecorationBlock(Item);
 
 		if (DecorationId == Blocks.air) { return; }
 

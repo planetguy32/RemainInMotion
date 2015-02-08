@@ -22,6 +22,7 @@ import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -30,6 +31,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
 
 //@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
@@ -257,6 +259,22 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	public CarriagePackage PreparePackage(Directions dir) throws CarriageMotionException {
 		return prepareDefaultPackage(dir);
+	}
+	
+	public boolean targetBlockReplaceable(TileEntity translocator, BlockRecord record) {
+		boolean flag = false;
+		boolean flag2 = false;
+		boolean flag3 = false;
+		Block block = translocator.getWorldObj().getBlock(record.X + translocator.xCoord, record.Y + translocator.yCoord,
+				record.Z + translocator.zCoord);
+		if (block != null) {
+			flag2 = !CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
+			flag3 = !CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
+		}
+		if (translocator.getWorldObj().isAirBlock(record.X + translocator.xCoord, record.Y + translocator.yCoord, record.Z
+				+ translocator.zCoord)
+				|| flag2 || flag3) flag = true;
+		return flag;
 	}
 
 	public CarriagePackage prepareDefaultPackage(Directions MotionDirection) throws CarriageMotionException {

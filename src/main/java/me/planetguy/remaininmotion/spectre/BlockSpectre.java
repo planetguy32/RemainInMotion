@@ -7,6 +7,7 @@ import me.planetguy.remaininmotion.util.WorldUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockSpectre extends BlockRiM {
@@ -38,6 +39,11 @@ public class BlockSpectre extends BlockRiM {
 	@Override
 	public IIcon getIcon(int a, int b) {
 		return Blocks.planks.getIcon(0, 0);
+	}
+
+	@Override
+	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z, int meta) {
+		return Blocks.planks.getIcon(iblockaccess, x, y, z, meta);
 	}
 
 	@Override
