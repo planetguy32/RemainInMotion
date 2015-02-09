@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
+import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
@@ -35,7 +36,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
 
 //@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
-public abstract class TileEntityCarriageDrive extends TileEntityRiM implements IEnergyHandler {
+public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable implements IEnergyHandler {
 	public boolean		Continuous;
 
 	public boolean[]	SideClosed		= new boolean[Directions.values().length];
@@ -108,6 +109,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	@Override
 	public void Setup(EntityPlayer Player, ItemStack Item) {
+		super.Setup(Player, Item);
 		lastUsingPlayer = Player;
 		Tier = ItemCarriageDrive.GetTier(Item);
 	}
@@ -418,7 +420,12 @@ public abstract class TileEntityCarriageDrive extends TileEntityRiM implements I
 
 	public IIcon getIcon(int Side, int meta) {
 		try {
-			if (SideClosed[Side]) { return (BlockCarriageDrive.InactiveIcon); }
+			if (SideClosed[Side]) {
+				if(this.getDecoration() != null)
+					return this.getDecoration().getIcon(Side, this.DecorationMeta);
+				else
+					return (BlockCarriageDrive.InactiveIcon); 
+			}
 
 			Types Type = Types.values()[meta];
 
