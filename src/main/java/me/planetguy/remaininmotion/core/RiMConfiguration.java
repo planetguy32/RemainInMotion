@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion.core;
 
 import me.planetguy.lib.util.Blacklist;
+import me.planetguy.lib.util.BlacklistDynamic;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
@@ -115,46 +116,19 @@ public class RiMConfiguration extends Config {
 		super(File);
 	}
 
-	private void setupBlacklist(String bl, Blacklist blacklist) {
-		String Blacklist = String(bl, "");
-
-		if (!Blacklist.equals("")) {
-			for (String BlacklistItem : Blacklist.split(",")) {
-				String[] BlacklistItemElements = BlacklistItem.split(":");
-
-				try {
-					if (BlacklistItemElements.length == 1) {
-						blacklist.blacklist(Block.getBlockFromName(BlacklistItemElements[0]));
-
-						continue;
-					}
-
-					if (BlacklistItemElements.length == 2) {
-						blacklist.blacklist(Block.getBlockFromName(BlacklistItemElements[0]),
-								Integer.parseInt(BlacklistItemElements[1]));
-
-						continue;
-					}
-				} catch (Throwable Throwable) {
-					Throwable.printStackTrace();
-				}
-
-				new RuntimeException("Invalid blacklist item: " + BlacklistItem).printStackTrace();
-			}
-		}
-	}
-
 	public void Process() {
 
 		{
 			Category = "Carriage";
 
 			{
-				setupBlacklist("blacklistSoft", BlacklistManager.blacklistSoft);
+				
+				BlacklistManager.blacklistSoft=new BlacklistDynamic(Configuration,Configuration.get(Category, "blacklistSoft", ""), "RemIMBlacklistSoft");
 
-				setupBlacklist("blacklistHard", BlacklistManager.blacklistHard);
+				BlacklistManager.blacklistHard=new BlacklistDynamic(Configuration,Configuration.get(Category, "blacklistHard", ""), "RemIMBlacklistHard");
+				
+				BlacklistManager.blacklistRotation=new BlacklistDynamic(Configuration,Configuration.get(Category, "rotationBlacklist", ""), "RemIMBlacklistRotation");
 
-				setupBlacklist("rotationBlacklist", BlacklistManager.blacklistRotation);
 			}
 
 			CarriagePackage.MaxBlockCount = BoundedInteger("CarriageMaxSize",

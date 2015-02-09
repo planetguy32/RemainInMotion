@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.Core;
@@ -18,7 +19,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCarriageDrive extends BlockRiM {
+public class BlockCarriageDrive extends BlockCamouflageable {
 	public BlockCarriageDrive() {
 		super(Blocks.iron_block, ItemCarriageDrive.class, 
 				TileEntityCarriageEngine.class,

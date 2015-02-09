@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.crafting;
 
+import me.planetguy.remaininmotion.Stack;
+import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
@@ -27,7 +29,7 @@ public class CarriageDecorationRecipe extends Recipe {
 			}
 
 			if (Item.getItem() instanceof ItemBlock
-					&& ((ItemBlock) Item.getItem()).field_150939_a == RIMBlocks.Carriage) {
+					&& ((ItemBlock) Item.getItem()).field_150939_a instanceof BlockCamouflageable) {
 				if (Carriage != null) { return (null); }
 
 				Carriage = Item;
@@ -51,15 +53,23 @@ public class CarriageDecorationRecipe extends Recipe {
 
 			if (!(Decoration.getItem() instanceof net.minecraft.item.ItemBlock)) { return (null); }
 
-			DecorationId = Item.getIdFromItem(Decoration.getItem());
+			DecorationId = Block.getIdFromBlock( ((ItemBlock)Decoration.getItem()).field_150939_a);
 
 			int DecorationMeta = Decoration.getItem().getMetadata(Decoration.getItemDamage());
 
-			return (ItemCarriage.Stack(Carriage.getItemDamage(), DecorationId, DecorationMeta));
+			ItemStack stk = new ItemStack(Carriage.getItem(), 1,Carriage.getItemDamage());
+			
+			Stack.Tag(stk);
+			
+			stk.stackTagCompound.setInteger("DecorationID", DecorationId);
+			
+			stk.stackTagCompound.setInteger("DecorationMeta",DecorationMeta);
+			
+			return stk;
 		}
 
 		if (Decoration != null) { return (null); }
 
-		return (ItemCarriage.Stack(ItemBlockRiM.GetBlockType(Carriage)));
+		return (new ItemStack(Carriage.getItem(), 1, ItemBlockRiM.GetBlockType(Carriage)));
 	}
 }

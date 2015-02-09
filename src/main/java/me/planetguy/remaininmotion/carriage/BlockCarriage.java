@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
@@ -16,7 +17,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCarriage extends BlockRiM {
+public class BlockCarriage extends BlockCamouflageable {
 	public BlockCarriage() {
 		super(Blocks.planks, ItemCarriage.class, 
 				TileEntityFrameCarriage.class, 
@@ -82,13 +83,17 @@ public class BlockCarriage extends BlockRiM {
 		try {
 			TileEntityCarriage carriage = (TileEntityCarriage) world.getTileEntity(X, Y, Z);
 
-			if ((carriage.Decoration != null) && (carriage.SideClosed[Side])) { 
-				return (carriage.Decoration.getIcon(Side, carriage.DecorationMeta)); 
+			Types type = Types.values()[world.getBlockMetadata(X, Y, Z)];
+			
+			if ((carriage.SideClosed[Side])) { 
+				IIcon ico=this.getIconCamouflaged(world, X, Y, Z, Side);
+				if(ico != null)
+					return ico;
+				else
+					return type.ClosedIcon;
 			}
 
-			Types type = Types.values()[world.getBlockMetadata(X, Y, Z)];
-
-			return (carriage.SideClosed[Side] ? type.ClosedIcon : type.OpenIcon);
+			return (type.OpenIcon);
 		} catch (Throwable t) {
 			t.printStackTrace();
 
