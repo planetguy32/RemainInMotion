@@ -24,6 +24,7 @@ import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -52,7 +53,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 	public int			energyStored	= 0;
 
 	public EntityPlayer	lastUsingPlayer;
-	
+
 	public Directions	CarriageDirection;
 
 	private Directions	SignalDirection;
@@ -169,7 +170,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 			net.minecraft.tileentity.TileEntity te = worldObj.getTileEntity(X, Y, Z);
 
 			Moveable m = CarriageMatchers.getMover(Id, worldObj.getBlockMetadata(X, Y, Z), te);
-			
+
 			if (m != null) {
 				if (CarriageDirection != null) {
 					CarriageDirectionValid = false;
@@ -262,20 +263,31 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 	public CarriagePackage PreparePackage(Directions dir) throws CarriageMotionException {
 		return prepareDefaultPackage(dir);
 	}
-	
+
 	public boolean targetBlockReplaceable(TileEntity translocator, BlockRecord record) {
 		boolean flag = false;
 		boolean flag2 = false;
 		boolean flag3 = false;
-		Block block = translocator.getWorldObj().getBlock(record.X + translocator.xCoord, record.Y + translocator.yCoord,
-				record.Z + translocator.zCoord);
+		Block block = translocator.getWorldObj().getBlock(record.X + translocator.xCoord,
+				record.Y + translocator.yCoord, record.Z + translocator.zCoord);
 		if (block != null) {
 			flag2 = !CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
 			flag3 = !CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
 		}
-		if (translocator.getWorldObj().isAirBlock(record.X + translocator.xCoord, record.Y + translocator.yCoord, record.Z
-				+ translocator.zCoord)
-				|| flag2 || flag3) flag = true;
+		if ((block.getMaterial() == Material.air) || flag2 || flag3) flag = true;
+		return flag;
+	}
+
+	public boolean targetBlockReplaceableNoTranslate(TileEntity translocator, BlockRecord record) {
+		boolean flag = false;
+		boolean flag2 = false;
+		boolean flag3 = false;
+		Block block = translocator.getWorldObj().getBlock(record.X, record.Y, record.Z);
+		if (block != null) {
+			flag2 = !CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
+			flag3 = !CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
+		}
+		if ((block.getMaterial() == Material.air) || flag2 || flag3) flag = true;
 		return flag;
 	}
 
@@ -302,18 +314,22 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 			int Type = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			{
-				/* non-configurable carriage package size - commented out
-				double MaxBurden = BlockCarriageDrive.Types.values()[Type].MaxBurden
-						* BlockCarriageDrive.Tiers.values()[Tier].MaxBurdenFactor;
-
-				// System.out.println("Package mass: "+Package.Mass+", max burden "+
-				// CarriageDrive . Types . values ( ) [ Type ] .
-				// MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] .
-				// MaxBurdenFactor +" = "+MaxBurden);
-
-				if (_package.getMass() > MaxBurden) { throw (new CarriageMotionException(
-						"(HARDMODE) carriage too massive (by roughly " + ((int) (_package.getMass() - MaxBurden))
-								+ " units) for drive to handle")); }
+				/*
+				 * non-configurable carriage package size - commented out double
+				 * MaxBurden = BlockCarriageDrive.Types.values()[Type].MaxBurden
+				 * BlockCarriageDrive.Tiers.values()[Tier].MaxBurdenFactor;
+				 * 
+				 * //
+				 * System.out.println("Package mass: "+Package.Mass+", max burden "
+				 * + // CarriageDrive . Types . values ( ) [ Type ] . //
+				 * MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . //
+				 * MaxBurdenFactor +" = "+MaxBurden);
+				 * 
+				 * if (_package.getMass() > MaxBurden) { throw (new
+				 * CarriageMotionException(
+				 * "(HARDMODE) carriage too massive (by roughly " + ((int)
+				 * (_package.getMass() - MaxBurden)) +
+				 * " units) for drive to handle")); }
 				 */
 			}
 
@@ -421,10 +437,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 	public IIcon getIcon(int Side, int meta) {
 		try {
 			if (SideClosed[Side]) {
-				if(this.getDecoration() != null)
+				if (this.getDecoration() != null)
 					return this.getDecoration().getIcon(Side, this.DecorationMeta);
 				else
-					return (BlockCarriageDrive.InactiveIcon); 
+					return (BlockCarriageDrive.InactiveIcon);
 			}
 
 			Types Type = Types.values()[meta];
