@@ -13,6 +13,7 @@ import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.core.RiMConfiguration.DirtyHacks;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.spectre.RemIMRotator;
 import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
@@ -50,9 +51,11 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
 		for (BlockRecord record : Package.Body) {
-			if (axisOfRotationIndex == 0 || axisOfRotationIndex == 1) {
-				// TODO collide
-			}
+			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), Directions.values()[axisOfRotationIndex], record);
+				if(!targetBlockReplaceableNoTranslate(this, dest))
+				{				
+					throw new CarriageMotionException("Motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z);
+				}
 		}
 
 		Package.Finalize();
