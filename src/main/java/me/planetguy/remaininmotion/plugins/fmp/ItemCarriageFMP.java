@@ -3,8 +3,8 @@ package me.planetguy.remaininmotion.plugins.fmp;
 import java.util.List;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModRiM;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

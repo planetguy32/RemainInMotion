@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.render;
 
-import net.minecraft.tileentity.TileEntity;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
+import net.minecraft.tileentity.TileEntity;
 
 public class MotiveSpectreRenderer extends RIMTileEntityRenderer {
 	@Override

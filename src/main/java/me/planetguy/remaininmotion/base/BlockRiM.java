@@ -71,7 +71,7 @@ public abstract class BlockRiM extends BlockContainer {
 
 	public static void initLegacyClassMap() {
 		legacyClassToNameMap = new LinkedHashMap();
-		
+
 		// Frames
 		legacyClassToNameMap.put(TileEntityFrameCarriage.class, "JAKJ_RedstoneInMotion_FrameCarriageEntity");
 		legacyClassToNameMap.put(TileEntitySupportCarriage.class, "JAKJ_RedstoneInMotion_SupportCarriageEntity");
@@ -79,7 +79,7 @@ public abstract class BlockRiM extends BlockContainer {
 		legacyClassToNameMap.put(TileEntityPlatformCarriage.class, "JAKJ_RedstoneInMotion_PlatformCarriageEntity");
 		legacyClassToNameMap.put(TileEntityTemplateCarriage.class, "JAKJ_RedstoneInMotion_TemplateCarriageEntity");
 		legacyClassToNameMap.put(TileEntityMemoryCarriage.class, "JAKJ_RedstoneInMotion_MemoryCarriageEntity");
-		
+
 		// Drives
 		legacyClassToNameMap.put(TileEntityCarriageEngine.class, "JAKJ_RedstoneInMotion_CarriageEngineEntity");
 		legacyClassToNameMap.put(TileEntityCarriageMotor.class, "JAKJ_RedstoneInMotion_CarriageMotorEntity");
@@ -91,7 +91,7 @@ public abstract class BlockRiM extends BlockContainer {
 		legacyClassToNameMap.put(TileEntityCarriageAdapter.class, "JAKJ_RedstoneInMotion_CarriageAdapterEntity");
 		legacyClassToNameMap.put(TileEntityCarriageRotator.class, "JAKJ_RedstoneInMotion_CarriageRotatorEntity");
 		legacyClassToNameMap.put(TileEntityCarriageDirected.class, "JAKJ_RedstoneInMotion_DirectedEntity");
-		
+
 		// Specters
 		legacyClassToNameMap.put(TileEntityMotiveSpectre.class, "JAKJ_RedstoneInMotion_MotiveSpectreEntity");
 		legacyClassToNameMap.put(TileEntityTeleportativeSpectre.class,
@@ -123,7 +123,7 @@ public abstract class BlockRiM extends BlockContainer {
 
 		GameRegistry.registerBlock(this, BlockItemClass, getUnlocalizedName());
 
-		this.setCreativeTab(CreativeTab.Instance);
+		setCreativeTab(CreativeTab.Instance);
 	}
 
 	public abstract static class HarvestToolTypes {
@@ -187,7 +187,7 @@ public abstract class BlockRiM extends BlockContainer {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
 		try {

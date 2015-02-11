@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion.render;
 
-import net.minecraft.tileentity.TileEntity;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
+import net.minecraft.tileentity.TileEntity;
 
 public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
 

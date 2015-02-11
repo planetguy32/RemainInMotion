@@ -8,11 +8,10 @@ import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
-import me.planetguy.remaininmotion.carriage.TileEntityCarriage;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
-import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import net.minecraft.block.Block;
@@ -165,24 +164,19 @@ public class CarriagePackage {
 
 	public void AssertNotObstruction(BlockRecord record) throws CarriageMotionException {
 		if (Body.contains(record)) { return; }
-		
-		if (World.isAirBlock(record.X, record.Y, record.Z)) return;
 
-		Block block = World.getBlock(record.X, record.Y,
-				record.Z);
+		if (World.isAirBlock(record.X, record.Y, record.Z)) { return; }
+
+		Block block = World.getBlock(record.X, record.Y, record.Z);
 		if (block != null) {
-			if(!ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null))
-			{
+			if (!ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
 				return;
-			}else if(ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null))
-			{
+			} else if (ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
 				FailBecauseObstructed(record, "liquid");
 			}
-			if(!ObstructedByFragileBlocks && block.getMaterial().isReplaceable())
-			{
+			if (!ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
 				return;
-			}else if(ObstructedByFragileBlocks && block.getMaterial().isReplaceable())
-			{
+			} else if (ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
 				FailBecauseObstructed(record, "fragile");
 			}
 			FailBecauseObstructed(record, "block");
@@ -243,7 +237,7 @@ public class CarriagePackage {
 			Iterator<NextTickListEntry> PendingBlockUpdateSetIterator = ticks.iterator();
 
 			while (PendingBlockUpdateSetIterator.hasNext()) {
-				NextTickListEntry PendingBlockUpdate = (NextTickListEntry) PendingBlockUpdateSetIterator.next();
+				NextTickListEntry PendingBlockUpdate = PendingBlockUpdateSetIterator.next();
 
 				if (Body.contains(new BlockRecord(PendingBlockUpdate.xCoord, PendingBlockUpdate.yCoord,
 						PendingBlockUpdate.zCoord))) {
@@ -304,40 +298,33 @@ public class CarriagePackage {
 
 	public void updateHardModeData() throws CarriageMotionException {
 		if (RiMConfiguration.HardmodeActive) {
-			//Comment out hard mode burden calculation
-			/*for (BlockRecord CarriageRecord : Carriages) {
-
-				double Factor = BlockCarriage.Tiers.values()[Tier].CargoBurdenFactor;
-
-				if (Tier == 0) {
-					for (Directions Direction : Directions.values()) {
-						BlockRecord Position = CarriageRecord.NextInDirection(Direction);
-
-						ApplyCargoBurdenFactor(Position, Factor);
-					}
-				} else {
-					for (int Distance = 1; Distance <= Tier; Distance++, Factor = Math.sqrt(Factor)) {
-						int MinX = CarriageRecord.X - Distance;
-						int MinY = CarriageRecord.Y - Distance;
-						int MinZ = CarriageRecord.Z - Distance;
-
-						int MaxX = CarriageRecord.X + Distance;
-						int MaxY = CarriageRecord.Y + Distance;
-						int MaxZ = CarriageRecord.Z + Distance;
-
-						for (int X = MinX; X <= MaxX; X++) {
-							for (int Y = MinY; Y <= MaxY; Y++) {
-								for (int Z = MinZ; Z <= MaxZ; Z++) {
-									if ((X == MinX) || (X == MaxX) || (Y == MinY) || (Y == MaxY) || (Z == MinZ)
-											|| (Z == MaxZ)) {
-										ApplyCargoBurdenFactor(new BlockRecord(X, Y, Z), Factor);
-									}
-								}
-							}
-						}
-					}
-				}
-			}*/
+			// Comment out hard mode burden calculation
+			/*
+			 * for (BlockRecord CarriageRecord : Carriages) {
+			 * 
+			 * double Factor =
+			 * BlockCarriage.Tiers.values()[Tier].CargoBurdenFactor;
+			 * 
+			 * if (Tier == 0) { for (Directions Direction : Directions.values())
+			 * { BlockRecord Position =
+			 * CarriageRecord.NextInDirection(Direction);
+			 * 
+			 * ApplyCargoBurdenFactor(Position, Factor); } } else { for (int
+			 * Distance = 1; Distance <= Tier; Distance++, Factor =
+			 * Math.sqrt(Factor)) { int MinX = CarriageRecord.X - Distance; int
+			 * MinY = CarriageRecord.Y - Distance; int MinZ = CarriageRecord.Z -
+			 * Distance;
+			 * 
+			 * int MaxX = CarriageRecord.X + Distance; int MaxY =
+			 * CarriageRecord.Y + Distance; int MaxZ = CarriageRecord.Z +
+			 * Distance;
+			 * 
+			 * for (int X = MinX; X <= MaxX; X++) { for (int Y = MinY; Y <=
+			 * MaxY; Y++) { for (int Z = MinZ; Z <= MaxZ; Z++) { if ((X == MinX)
+			 * || (X == MaxX) || (Y == MinY) || (Y == MaxY) || (Z == MinZ) || (Z
+			 * == MaxZ)) { ApplyCargoBurdenFactor(new BlockRecord(X, Y, Z),
+			 * Factor); } } } } } } }
+			 */
 
 			for (BlockRecord CargoRecord : Cargo) {
 				Double BurdenFactor = CargoBurdenFactors.get(CargoRecord);

@@ -5,7 +5,6 @@ import java.util.List;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
-import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -19,14 +18,10 @@ import net.minecraft.world.World;
 
 public class BlockCarriage extends BlockCamouflageable {
 	public BlockCarriage() {
-		super(Blocks.planks, ItemCarriage.class, 
-				TileEntityFrameCarriage.class, 
-				TileEntitySupportCarriage.class,
-				TileEntityStructureCarriage.class, 
-				TileEntityPlatformCarriage.class, 
-				TileEntityTemplateCarriage.class,
+		super(Blocks.planks, ItemCarriage.class, TileEntityFrameCarriage.class, TileEntitySupportCarriage.class,
+				TileEntityStructureCarriage.class, TileEntityPlatformCarriage.class, TileEntityTemplateCarriage.class,
 				TileEntityMemoryCarriage.class);
-		
+
 		this.setHarvestLevel(HarvestToolTypes.Hatchet, 0);
 	}
 
@@ -84,13 +79,14 @@ public class BlockCarriage extends BlockCamouflageable {
 			TileEntityCarriage carriage = (TileEntityCarriage) world.getTileEntity(X, Y, Z);
 
 			Types type = Types.values()[world.getBlockMetadata(X, Y, Z)];
-			
-			if ((carriage.SideClosed[Side])) { 
-				IIcon ico=this.getIconCamouflaged(world, X, Y, Z, Side);
-				if(ico != null)
+
+			if ((carriage.SideClosed[Side])) {
+				IIcon ico = getIconCamouflaged(world, X, Y, Z, Side);
+				if (ico != null) {
 					return ico;
-				else
+				} else {
 					return type.ClosedIcon;
+				}
 			}
 
 			return (type.OpenIcon);
@@ -131,7 +127,7 @@ public class BlockCarriage extends BlockCamouflageable {
 			int decoID = Block.getIdFromBlock(tile.Decoration);
 			int decoMeta = tile.DecorationMeta;
 			ItemStack stack = ItemCarriage.Stack(world.getBlockMetadata(x, y, z), decoID, decoMeta);
-			if (stack != null) return stack;
+			if (stack != null) { return stack; }
 		}
 		return super.getPickBlock(target, world, x, y, z);
 	}

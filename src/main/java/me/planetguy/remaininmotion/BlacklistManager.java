@@ -1,9 +1,8 @@
 package me.planetguy.remaininmotion;
 
 import me.planetguy.lib.util.Blacklist;
-import me.planetguy.lib.util.BlacklistDynamic;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 

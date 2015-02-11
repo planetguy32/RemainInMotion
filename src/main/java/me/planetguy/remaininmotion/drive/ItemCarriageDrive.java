@@ -7,9 +7,9 @@ import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.Vanilla;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 

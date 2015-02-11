@@ -5,7 +5,6 @@ import java.util.List;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
-import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -21,27 +20,16 @@ import net.minecraft.world.World;
 
 public class BlockCarriageDrive extends BlockCamouflageable {
 	public BlockCarriageDrive() {
-		super(Blocks.iron_block, ItemCarriageDrive.class, 
-				TileEntityCarriageEngine.class,
-				TileEntityCarriageMotor.class, 
-				TileEntityCarriageController.class,
-				TileEntityCarriageTranslocator.class, 
-				TileEntityCarriageTransduplicator.class,
-				TileEntityCarriageAdapter.class, 
-				TileEntityCarriageRotator.class,
-				TileEntityCarriageDirected.class);
+		super(Blocks.iron_block, ItemCarriageDrive.class, TileEntityCarriageEngine.class,
+				TileEntityCarriageMotor.class, TileEntityCarriageController.class,
+				TileEntityCarriageTranslocator.class, TileEntityCarriageTransduplicator.class,
+				TileEntityCarriageAdapter.class, TileEntityCarriageRotator.class, TileEntityCarriageDirected.class);
 		this.setHarvestLevel(HarvestToolTypes.Pickaxe, 0);
 	}
 
 	public enum Types {
-		Engine(1.0), 
-		Motor(1.01), 
-		Controller(1.1), 
-		Translocator(4.0), 
-		Transduplicator(0.0), 
-		Adapter(1.0), 
-		Rotator(1.0),
-		Predirected(1.01);
+		Engine(1.0), Motor(1.01), Controller(1.1), Translocator(4.0), Transduplicator(0.0), Adapter(1.0), Rotator(1.0), Predirected(
+				1.01);
 
 		public IIcon	NormalIcon;
 
@@ -159,25 +147,22 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	public boolean onBlockActivated(World World, int X, int Y, int Z, EntityPlayer Player, int Side, float HitX,
 			float HitY, float HitZ) {
 
-		if (World.isRemote) { 
-			return (false); 
-		}
+		if (World.isRemote) { return (false); }
 
-		
 		try {
 			TileEntityCarriageDrive cde = (TileEntityCarriageDrive) World.getTileEntity(X, Y, Z);
 			cde.lastUsingPlayer = Player;
-			if (ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem()))
+			if (ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem())) {
 				cde.HandleToolUsage(Side, Player.isSneaking());
-			else
+			} else {
 				return cde.onRightClicked(Side, Player);
-			
+			}
+
 			return true;
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 			return (false);
 		}
-
 
 	}
 
@@ -199,7 +184,7 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 				label = ((TileEntityCarriageTranslocator) tile).Label;
 			}
 			ItemStack stack = ItemCarriageDrive.Stack(world.getBlockMetadata(x, y, z), 0, false, label);
-			if (stack != null) return stack;
+			if (stack != null) { return stack; }
 		}
 		return super.getPickBlock(target, world, x, y, z);
 	}

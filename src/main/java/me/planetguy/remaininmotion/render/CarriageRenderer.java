@@ -8,7 +8,6 @@ import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityTemplateCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;

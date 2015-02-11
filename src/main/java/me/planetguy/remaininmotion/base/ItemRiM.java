@@ -2,7 +2,6 @@ package me.planetguy.remaininmotion.base;
 
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class ItemRiM extends Item {
 	public ItemRiM() {

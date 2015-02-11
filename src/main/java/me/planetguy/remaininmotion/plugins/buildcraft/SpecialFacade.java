@@ -1,18 +1,10 @@
 package me.planetguy.remaininmotion.plugins.buildcraft;
 
-import io.netty.buffer.ByteBuf;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
-import buildcraft.api.transport.IPipeTile;
 import buildcraft.api.transport.pluggable.IFacadePluggable;
-import buildcraft.api.transport.pluggable.IPipePluggableRenderer;
-import buildcraft.api.transport.pluggable.PipePluggable;
 
-public class SpecialFacade implements IFacadePluggable{
+public class SpecialFacade implements IFacadePluggable {
 
 	@Override
 	public Block getCurrentBlock() {
@@ -33,5 +25,5 @@ public class SpecialFacade implements IFacadePluggable{
 	public boolean isHollow() {
 		return false;
 	}
-	
+
 }

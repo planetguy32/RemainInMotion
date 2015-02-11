@@ -1,9 +1,6 @@
 package me.planetguy.remaininmotion.plugins.fmp;
 
-import me.planetguy.remaininmotion.api.CarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
-import me.planetguy.remaininmotion.api.Moveable;
-import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import codechicken.multipart.TMultiPart;
@@ -15,7 +12,7 @@ public class FMPCarriageMatcher implements FrameCarriageMatcher {
 	public boolean isFrameCarriage(Block block1, int meta1, TileEntity entity1) {
 		return isFmpCarriage(entity1);
 	}
-	
+
 	public static boolean isFmpCarriage(TileEntity te) {
 		if (te instanceof TileMultipart) {
 			TileMultipart tm = (TileMultipart) te;

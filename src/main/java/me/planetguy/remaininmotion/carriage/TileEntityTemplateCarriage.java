@@ -1,9 +1,5 @@
 package me.planetguy.remaininmotion.carriage;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordList;
@@ -17,6 +13,10 @@ import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.Matrices;
 import me.planetguy.remaininmotion.util.transformations.Matrix;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	public BlockRecordList	Pattern;
@@ -24,11 +24,11 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	/**
 	 * Shim for memory carriage
 	 */
-	
+
 	protected void emitParentDrops(BlockRiM block, int meta) {
 		super.EmitDrops(block, meta);
 	}
-	
+
 	@Override
 	public void EmitDrops(BlockRiM Block, int Meta) {
 		super.EmitDrops(Block, Meta);
@@ -134,7 +134,7 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 		this.Pattern.addAll(Pattern);
 	}
-	
+
 	protected void erase(BlockRecord record) {
 		WorldUtil.ClearBlock(worldObj, record.X, record.Y, record.Z);
 	}
@@ -176,7 +176,9 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 			}
 		}
 
-		if(RiMConfiguration.Debug.verbose) Debug.dbg(NewPositions);
+		if (RiMConfiguration.Debug.verbose) {
+			Debug.dbg(NewPositions);
+		}
 
 		for (BlockRecord Position : DeadPositions) {
 			WorldUtil.ClearBlock(worldObj, Position.X, Position.Y, Position.Z);
@@ -214,14 +216,18 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		super.ReadCommonRecord(TagCompound);
 
 		if (TagCompound.hasKey("Pattern")) {
-			if (RiMConfiguration.Debug.verbose) Debug.dbg("Found PatternRecord");
+			if (RiMConfiguration.Debug.verbose) {
+				Debug.dbg("Found PatternRecord");
+			}
 			NBTTagList PatternRecord = TagCompound.getTagList("Pattern", 10);
 
 			Pattern = new BlockRecordList();
 
 			int PatternSize = PatternRecord.tagCount();
 
-			if (RiMConfiguration.Debug.verbose) Debug.dbg("PatternRecord size=" + PatternSize);
+			if (RiMConfiguration.Debug.verbose) {
+				Debug.dbg("PatternRecord size=" + PatternSize);
+			}
 			for (int Index = 0; Index < PatternSize; Index++) {
 				NBTTagCompound PatternBlockRecord = PatternRecord.getCompoundTagAt(Index);
 
@@ -288,8 +294,8 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 			}
 		}
 	}
-	
-	public void updatePattern() throws CarriageMotionException{
+
+	public void updatePattern() throws CarriageMotionException {
 		throw (new CarriageMotionException("template carriage has not yet been patterned"));
 	}
 

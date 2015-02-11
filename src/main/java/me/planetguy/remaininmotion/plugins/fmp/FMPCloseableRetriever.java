@@ -15,7 +15,9 @@ public class FMPCloseableRetriever implements ICloseableFactory {
 		if (te instanceof TileMultipart) {
 			TileMultipart tm = (TileMultipart) te;
 			for (TMultiPart part : tm.jPartList()) {
-				if(RiMConfiguration.Debug.verbose) Debug.dbg(part);
+				if (RiMConfiguration.Debug.verbose) {
+					Debug.dbg(part);
+				}
 				if (part instanceof ICloseable) { return (ICloseable) part; }
 			}
 		}

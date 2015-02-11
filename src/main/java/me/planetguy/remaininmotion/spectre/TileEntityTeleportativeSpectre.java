@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.spectre;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
@@ -16,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	public boolean	Source;

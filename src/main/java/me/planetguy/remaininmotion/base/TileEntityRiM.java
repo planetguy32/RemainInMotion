@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.base;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,6 +8,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public abstract class TileEntityRiM extends TileEntity {
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {}
@@ -111,6 +111,6 @@ public abstract class TileEntityRiM extends TileEntity {
 	public void EmitDrop(BlockRiM Block, ItemStack Drop) {
 		Block.dropBlockAsItem(worldObj, xCoord, yCoord, zCoord, Drop);
 	}
-	
+
 	public void rotateSpecial(ForgeDirection axis) {}
 }

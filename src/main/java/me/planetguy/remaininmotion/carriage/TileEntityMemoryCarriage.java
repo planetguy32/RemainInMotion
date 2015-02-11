@@ -2,29 +2,31 @@ package me.planetguy.remaininmotion.carriage;
 
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.base.BlockRiM;
 
 public class TileEntityMemoryCarriage extends TileEntityTemplateCarriage {
-	
+
+	@Override
 	public void EmitDrops(BlockRiM block, int meta) {
 		emitParentDrops(block, meta);
 	}
-	
+
+	@Override
 	public boolean isBlockValidMarkerForPattern(BlockRecord record) {
 		record.Identify(worldObj);
-		boolean isBlacklisted= BlacklistManager.lookup(BlacklistManager.blacklistHard, record)
-				||BlacklistManager.lookup(BlacklistManager.blacklistSoft, record);
-		record.Entity=null;
+		boolean isBlacklisted = BlacklistManager.lookup(BlacklistManager.blacklistHard, record)
+				|| BlacklistManager.lookup(BlacklistManager.blacklistSoft, record);
+		record.Entity = null;
 		return !isBlacklisted;
 	}
-	
-	//Do not remove pattern
+
+	// Do not remove pattern
+	@Override
 	public void erase(BlockRecord record) {
-		
+
 	}
-	
+
 	@Override
 	public void ToggleSide(int Side, boolean Sneaking) {
 		if (Pattern == null) {
@@ -37,11 +39,11 @@ public class TileEntityMemoryCarriage extends TileEntityTemplateCarriage {
 
 		Propagate();
 	}
-	
+
+	@Override
 	public void updatePattern() throws CarriageMotionException {
 		AbsorbPattern();
-		if(Pattern==null)
-			throw (new CarriageMotionException("template carriage has not yet been patterned"));
+		if (Pattern == null) { throw (new CarriageMotionException("template carriage has not yet been patterned")); }
 	}
 
 }

@@ -6,8 +6,8 @@ import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModRiM;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPlatformCarriage extends TileEntityCarriage {

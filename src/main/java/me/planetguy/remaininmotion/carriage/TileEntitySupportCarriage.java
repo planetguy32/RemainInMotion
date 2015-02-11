@@ -46,7 +46,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 			}
 		}
 
-		if (SupportDirection == null) return;
+		if (SupportDirection == null) { return; }
 
 		BlockRecordSet ValidColumns = new BlockRecordSet();
 

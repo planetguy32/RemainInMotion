@@ -86,16 +86,17 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 	public String toString() {
 		return Debug.dump(this);
 	}
-	
+
 	@Override
 	public void HandleToolUsage(int clickedSide, boolean sneaking) {
-		for(int i=0; i<SideClosed.length; i++)
-			if(sneaking) {
+		for (int i = 0; i < SideClosed.length; i++) {
+			if (sneaking) {
 				setSideClosed(i, i != Directions.values()[clickedSide].Opposite);
-			}else { 
+			} else {
 				setSideClosed(i, i != clickedSide);
 			}
+		}
 		Propagate();
-	}	
+	}
 
 }
