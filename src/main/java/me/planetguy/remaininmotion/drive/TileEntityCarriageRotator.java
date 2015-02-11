@@ -55,13 +55,13 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 					&& (record.X == xCoord || record.Y == yCoord || record.Z == zCoord)) {
 				continue;
 			}
-			if ((axis == Directions.NegX || axis == Directions.PosX) && record.X == xCoord) {
+			if ((axis == Directions.NegX || axis == Directions.PosX) && record.Z == zCoord && record.Y == yCoord) {
 				continue;
 			}
-			if ((axis == Directions.NegY || axis == Directions.PosY) && record.Y == yCoord) {
+			if ((axis == Directions.NegY || axis == Directions.PosY) && record.Z == zCoord && record.X == xCoord) {
 				continue;
 			}
-			if ((axis == Directions.NegZ || axis == Directions.PosZ) && record.Z == zCoord) {
+			if ((axis == Directions.NegZ || axis == Directions.PosZ) && record.X == xCoord && record.Y == yCoord) {
 				continue;
 			}
 
