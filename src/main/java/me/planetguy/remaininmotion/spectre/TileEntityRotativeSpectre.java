@@ -37,13 +37,17 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		Matrix entityPos = new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
 		double partialAngle = Math.min(((double) TicksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
 		RemIMRotator.rotatePartial(DriveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
+		// Start 'This might be Wrong'
 		entity.posX = entityPos.matrix[0][0];
 		entity.posY = entityPos.matrix[1][0];
 		entity.posZ = entityPos.matrix[2][0];
-
+		// End 'This might be Wrong
+		
 		entity.fallDistance = 0;
 		if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+			// Start 'This is Wrong'
 			capture.SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY, MotionDirection.DeltaZ);
+			// End 'This is Wrong'
 			capture.stop(entity);
 			entity.onGround = capture.WasOnGround;
 			entity.isAirBorne = capture.WasAirBorne;
@@ -51,10 +55,12 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		}
 		entity.onGround = false;
 		entity.isAirBorne = true;
+		// Start 'This is Wrong'
 		entity.motionX = Velocity * MotionDirection.DeltaX;
 		entity.motionY = Velocity * MotionDirection.DeltaY;
 		entity.motionZ = Velocity * MotionDirection.DeltaZ;
 		capture.SetPosition(entity.posX, entity.posY, entity.posZ);
+		// End 'This is Wrong'
 		entity.prevPosX = entity.posX - entity.motionX;
 		entity.prevPosY = entity.posY - entity.motionY;
 		entity.prevPosZ = entity.posZ - entity.motionZ;
