@@ -27,9 +27,9 @@ public class ModRiM {
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent Event) {
-		File oldFile=Event.getSuggestedConfigurationFile();
-		File newFile=new File(oldFile.getParentFile().getAbsoluteFile()+File.separator+"remainInMotion.cfg");
-		if(oldFile.exists()) {
+		File oldFile = Event.getSuggestedConfigurationFile();
+		File newFile = new File(oldFile.getParentFile().getAbsoluteFile() + File.separator + "remainInMotion.cfg");
+		if (oldFile.exists()) {
 			oldFile.renameTo(newFile);
 		}
 		(new RiMConfiguration(newFile)).Process();

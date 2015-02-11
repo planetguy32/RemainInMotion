@@ -8,11 +8,8 @@ import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
-import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -33,9 +30,10 @@ public abstract class TileEntityCarriage extends TileEntityCamouflageable implem
 
 		Propagate();
 	}
-	
+
+	@Override
 	public ConnectabilityState isSideClosed(int side) {
-		return treatSideAsClosed(side) ? ConnectabilityState.CLOSED :ConnectabilityState.OPEN;
+		return treatSideAsClosed(side) ? ConnectabilityState.CLOSED : ConnectabilityState.OPEN;
 	}
 
 	public boolean treatSideAsClosed(int side) {
@@ -44,7 +42,8 @@ public abstract class TileEntityCarriage extends TileEntityCamouflageable implem
 
 	@Override
 	public void EmitDrops(BlockRiM Block, int Meta) {
-		EmitDrop(Block, ItemCarriage.Stack(Meta, Block.getIdFromBlock(getDecoration()), getDecorationMeta()));
+		EmitDrop(Block, ItemCarriage.Stack(Meta, net.minecraft.block.Block.getIdFromBlock(getDecoration()),
+				getDecorationMeta()));
 	}
 
 	@Override
@@ -76,7 +75,5 @@ public abstract class TileEntityCarriage extends TileEntityCamouflageable implem
 	public void rotateSpecial(ForgeDirection axis) {
 		ArrayRotator.rotate(SideClosed, axis);
 	}
-	
-	
 
 }

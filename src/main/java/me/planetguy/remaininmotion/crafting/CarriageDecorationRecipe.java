@@ -5,10 +5,8 @@ import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
-import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -53,18 +51,18 @@ public class CarriageDecorationRecipe extends Recipe {
 
 			if (!(Decoration.getItem() instanceof net.minecraft.item.ItemBlock)) { return (null); }
 
-			DecorationId = Block.getIdFromBlock( ((ItemBlock)Decoration.getItem()).field_150939_a);
+			DecorationId = Block.getIdFromBlock(((ItemBlock) Decoration.getItem()).field_150939_a);
 
 			int DecorationMeta = Decoration.getItem().getMetadata(Decoration.getItemDamage());
 
-			ItemStack stk = new ItemStack(Carriage.getItem(), 1,Carriage.getItemDamage());
-			
+			ItemStack stk = new ItemStack(Carriage.getItem(), 1, Carriage.getItemDamage());
+
 			Stack.Tag(stk);
-			
+
 			stk.stackTagCompound.setInteger("DecorationID", DecorationId);
-			
-			stk.stackTagCompound.setInteger("DecorationMeta",DecorationMeta);
-			
+
+			stk.stackTagCompound.setInteger("DecorationMeta", DecorationMeta);
+
 			return stk;
 		}
 

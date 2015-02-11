@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
@@ -10,6 +9,7 @@ import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class Registry {
 	public static void RegisterCustomRecipe(IRecipe Recipe) {

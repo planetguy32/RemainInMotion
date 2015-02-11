@@ -14,10 +14,10 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
-import me.planetguy.remaininmotion.core.ModRiM;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModInteraction;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
@@ -91,8 +91,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		if (worldObj.isRemote) { return; }
 
 		if (TicksExisted > 0 && TicksExisted < RiMConfiguration.CarriageMotion.MotionDuration && TicksExisted % 20 == 0) {
-			if(bodyHasCarriageDrive())
-			{
+			if (bodyHasCarriageDrive()) {
 				ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, 0.8f, 1f);
 			}
 		}
@@ -101,14 +100,12 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 		Release();
 	}
-	
-	private boolean bodyHasCarriageDrive()
-	{
-		if(Body == null || Body.isEmpty()) return false;
-		for(BlockRecord body : Body)
-		{
-			if(body.block instanceof BlockCarriageDrive) return true;
-			if(body.Entity != null && body.Entity instanceof TileEntityCarriageDrive) return true;
+
+	private boolean bodyHasCarriageDrive() {
+		if (Body == null || Body.isEmpty()) { return false; }
+		for (BlockRecord body : Body) {
+			if (body.block instanceof BlockCarriageDrive) { return true; }
+			if (body.Entity != null && body.Entity instanceof TileEntityCarriageDrive) { return true; }
 		}
 		return false;
 	}
@@ -186,10 +183,12 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 					}
 				} else {
 					Record.Entity = TileEntity.createAndLoadEntity(Record.EntityRecord);
-					Debug.dbg(Record.Entity + " @ "+Record);
+					Debug.dbg(Record.Entity + " @ " + Record);
 				}
 
-				if(Record.Entity != null) SneakyWorldUtil.SetTileEntity(worldObj, Record.X, Record.Y, Record.Z, Record.Entity);
+				if (Record.Entity != null) {
+					SneakyWorldUtil.SetTileEntity(worldObj, Record.X, Record.Y, Record.Z, Record.Entity);
+				}
 
 			}
 
@@ -433,7 +432,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 		for (CapturedEntity Entity : CapturedEntities) {
 			if (i++ == RiMConfiguration.Cosmetic.maxTags) { // not >= to allow
-															// no
+				// no
 				// limit (eg.
 				// singleplayer
 				// only)
@@ -450,7 +449,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 			CapturedEntityRecords.appendTag(CapturedEntityRecord);
 		}
 
-		if(RiMConfiguration.Debug.verbose) Debug.dbg("Captured " + i + " tile entities.");
+		if (RiMConfiguration.Debug.verbose) {
+			Debug.dbg("Captured " + i + " tile entities.");
+		}
 
 		TagCompound.setTag("CapturedEntities", CapturedEntityRecords);
 	}
@@ -513,7 +514,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		public void Update() {
 			doPerSpectreUpdate(this, entity);
 		}
-		
+
 		public void stop(Entity e) {
 			entity.motionX = 0;
 			entity.motionY = 0;

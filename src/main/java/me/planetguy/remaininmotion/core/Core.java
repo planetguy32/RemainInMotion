@@ -28,11 +28,12 @@ public abstract class Core {
 		CreativeTab.Initialize(Item.getItemFromBlock(RIMBlocks.Carriage));
 
 		RiMRegistry.registerFrameCarriageMatcher(new FrameCarriageMatcher() {
+			@Override
 			public boolean isFrameCarriage(Block block1, int meta1, TileEntity entity1) {
 				return entity1 instanceof TileEntityFrameCarriage;
 			}
 		});
-		
+
 		RiMRegistry.registerMatcher(new NativeCarriageMatcher());
 
 		PacketManager.init();

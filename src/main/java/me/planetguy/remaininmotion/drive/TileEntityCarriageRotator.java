@@ -1,8 +1,5 @@
 package me.planetguy.remaininmotion.drive;
 
-import java.util.Arrays;
-
-import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.CarriageMotionException;
@@ -10,12 +7,13 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
-import me.planetguy.remaininmotion.core.RiMConfiguration.DirtyHacks;
+import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration.DirtyHacks;
+import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.RemIMRotator;
 import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
-import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
@@ -28,11 +26,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCarriageRotator extends TileEntityCarriageDrive implements ISpecialMoveBehavior{
+public class TileEntityCarriageRotator extends TileEntityCarriageDrive implements ISpecialMoveBehavior {
 
 	public boolean	alreadyMoving;
-	
-	private int	axisOfRotationIndex;
+
+	private int		axisOfRotationIndex;
 
 	@Override
 	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
@@ -50,12 +48,27 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
+		Directions axis = Directions.values()[axisOfRotationIndex];
+
 		for (BlockRecord record : Package.Body) {
-			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), Directions.values()[axisOfRotationIndex], record);
-				if(!targetBlockReplaceableNoTranslate(this, dest))
-				{				
-					throw new CarriageMotionException("Motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z);
-				}
+			if (record.block instanceof BlockCarriage
+					&& (record.X == xCoord || record.Y == yCoord || record.Z == zCoord)) {
+				continue;
+			}
+			if ((axis == Directions.NegX || axis == Directions.PosX) && record.X == xCoord) {
+				continue;
+			}
+			if ((axis == Directions.NegY || axis == Directions.PosY) && record.Y == yCoord) {
+				continue;
+			}
+			if ((axis == Directions.NegZ || axis == Directions.PosZ) && record.Z == zCoord) {
+				continue;
+			}
+
+			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), axis,
+					record);
+			if (!targetBlockReplaceableNoTranslate(this, dest)) { throw new CarriageMotionException(
+					"Motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z); }
 		}
 
 		Package.Finalize();
@@ -168,8 +181,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	}
 
 	@Override
-	public void onAdded(CarriagePackage pkg, NBTTagCompound tag)
-			throws CarriageMotionException {
+	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException {
 
 		// icky hack to stop adding already-added adaptors
 		StackTraceElement[] e = Thread.currentThread().getStackTrace();
@@ -178,7 +190,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		HandleNeighbourBlockChange();
 		BlockRecord record = new BlockRecord(this);
 		pkg.AddBlock(record);
-		if (!alreadyMoving && this.CarriageDirection != null && this.CarriageDirection != Directions.Null) {
+		if (!alreadyMoving && CarriageDirection != null && CarriageDirection != Directions.Null) {
 			alreadyMoving = true;
 			if (CarriageDirection != null) {
 				BlockRecord oldAnchor = pkg.AnchorRecord;

@@ -40,7 +40,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		entity.posX = entityPos.matrix[0][0];
 		entity.posY = entityPos.matrix[1][0];
 		entity.posZ = entityPos.matrix[2][0];
-		
+
 		entity.fallDistance = 0;
 		if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
 			capture.SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY, MotionDirection.DeltaZ);

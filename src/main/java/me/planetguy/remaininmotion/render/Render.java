@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion.render;
 
-import org.lwjgl.opengl.GL11;
-
+import me.planetguy.remaininmotion.Directions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
-import me.planetguy.remaininmotion.Directions;
 import net.minecraft.client.renderer.texture.TextureManager;
+
+import org.lwjgl.opengl.GL11;
 
 public abstract class Render {
 	public static void Begin() {

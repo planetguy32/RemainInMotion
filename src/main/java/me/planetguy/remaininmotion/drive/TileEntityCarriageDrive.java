@@ -11,15 +11,14 @@ import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
-import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
-import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
+import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
@@ -274,7 +273,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 			flag2 = !CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
 			flag3 = !CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
 		}
-		if ((block.getMaterial() == Material.air) || flag2 || flag3) flag = true;
+		if ((block.getMaterial() == Material.air) || flag2 || flag3) {
+			flag = true;
+		}
 		return flag;
 	}
 
@@ -287,7 +288,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 			flag2 = !CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
 			flag3 = !CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
 		}
-		if ((block.getMaterial() == Material.air) || flag2 || flag3) flag = true;
+		if ((block.getMaterial() == Material.air) || flag2 || flag3) {
+			flag = true;
+		}
 		return flag;
 	}
 
@@ -437,10 +440,11 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 	public IIcon getIcon(int Side, int meta) {
 		try {
 			if (SideClosed[Side]) {
-				if (this.getDecoration() != null)
-					return this.getDecoration().getIcon(Side, this.DecorationMeta);
-				else
+				if (getDecoration() != null) {
+					return getDecoration().getIcon(Side, DecorationMeta);
+				} else {
 					return (BlockCarriageDrive.InactiveIcon);
+				}
 			}
 
 			Types Type = Types.values()[meta];

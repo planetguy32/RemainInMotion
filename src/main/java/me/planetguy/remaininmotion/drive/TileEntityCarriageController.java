@@ -209,6 +209,7 @@ package me.planetguy.remaininmotion.drive;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.ManagedPeripheral;
@@ -496,7 +497,7 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 		return type();
 	}
 
-	@Optional.Method(modid="ComputerCraft")
+	@Optional.Method(modid = "ComputerCraft")
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments)
 			throws LuaException, InterruptedException {
@@ -512,11 +513,11 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 	@Override
 	public void attach(IComputerAccess computer) {}
 
-	@Optional.Method(modid="ComputerCraft")
+	@Optional.Method(modid = "ComputerCraft")
 	@Override
 	public void detach(IComputerAccess computer) {}
 
-	@Optional.Method(modid="ComputerCraft")
+	@Optional.Method(modid = "ComputerCraft")
 	@Override
 	public boolean equals(IPeripheral other) {
 		return other == this;

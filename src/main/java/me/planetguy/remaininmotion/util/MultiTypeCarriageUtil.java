@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.util;
 
-import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMatchers;
@@ -50,8 +49,8 @@ public abstract class MultiTypeCarriageUtil {
 
 					int direction = TargetDirection.ordinal();
 
-					ConnectabilityState state=closeable.isSideClosed(direction);
-					
+					ConnectabilityState state = closeable.isSideClosed(direction);
+
 					if (direction >= 0 && direction < 6 && state == ConnectabilityState.CLOSED) {
 						// DEBUG =!= SideClosed");
 						if (TargetDirection == Package.MotionDirection) {

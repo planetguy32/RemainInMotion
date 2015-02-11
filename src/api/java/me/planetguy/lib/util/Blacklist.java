@@ -9,12 +9,6 @@ public class Blacklist {
 
 	private java.util.HashSet<BlockInt>	BlacklistedIdAndMetaPairs	= new java.util.HashSet<BlockInt>();
 
-	/**
-	 * A BlacklistDynamic is more powerful and nicer to use.
-	 */
-	@Deprecated
-	public Blacklist() {}
-	
 	public void blacklist(Block Id) {
 		BlacklistedIds.add(Id);
 	}

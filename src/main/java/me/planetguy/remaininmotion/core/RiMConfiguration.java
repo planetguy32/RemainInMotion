@@ -1,11 +1,9 @@
 package me.planetguy.remaininmotion.core;
 
-import me.planetguy.lib.util.Blacklist;
 import me.planetguy.lib.util.BlacklistDynamic;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
-import net.minecraft.block.Block;
 
 public class RiMConfiguration extends Config {
 	public abstract static class Carriage {
@@ -122,12 +120,15 @@ public class RiMConfiguration extends Config {
 			Category = "Carriage";
 
 			{
-				
-				BlacklistManager.blacklistSoft=new BlacklistDynamic(Configuration,Configuration.get(Category, "blacklistSoft", ""), "RemIMBlacklistSoft");
 
-				BlacklistManager.blacklistHard=new BlacklistDynamic(Configuration,Configuration.get(Category, "blacklistHard", ""), "RemIMBlacklistHard");
-				
-				BlacklistManager.blacklistRotation=new BlacklistDynamic(Configuration,Configuration.get(Category, "rotationBlacklist", ""), "RemIMBlacklistRotation");
+				BlacklistManager.blacklistSoft = new BlacklistDynamic(Configuration, Configuration.get(Category,
+						"blacklistSoft", ""), "RemIMBlacklistSoft");
+
+				BlacklistManager.blacklistHard = new BlacklistDynamic(Configuration, Configuration.get(Category,
+						"blacklistHard", ""), "RemIMBlacklistHard");
+
+				BlacklistManager.blacklistRotation = new BlacklistDynamic(Configuration, Configuration.get(Category,
+						"rotationBlacklist", ""), "RemIMBlacklistRotation");
 
 			}
 

@@ -3,16 +3,12 @@ package me.planetguy.remaininmotion.plugins.fmp;
 import java.util.Iterator;
 
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
-import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.render.FMPRenderer;
-import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,9 +21,7 @@ import codechicken.lib.vec.Vector3;
 import codechicken.microblock.CommonMicroblock;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.TMultiPart;
-import codechicken.multipart.TileMultipart;
 import codechicken.multipart.minecraft.McBlockPart;
-import codechicken.multipart.scalatraits.TSlottedTile;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -110,7 +104,7 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, I
 			public Iterator iterator() {
 				return new Iterator() {
 
-					boolean done=false;
+					boolean	done	= false;
 
 					@Override
 					public boolean hasNext() {
@@ -172,7 +166,7 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, I
 	public ConnectabilityState isSideClosed(int side) {
 		return treatSideAsClosed(side) ? ConnectabilityState.CLOSED : ConnectabilityState.OPEN;
 	}
-	
+
 	public boolean treatSideAsClosed(int side) {
 		return sidesClosed[side] || isSideCovered(side);
 	}
@@ -182,11 +176,17 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, I
 	}
 
 	private boolean isSideCovered(int side) {
-		if(RiMConfiguration.Debug.verbose) Debug.dbg(side);
+		if (RiMConfiguration.Debug.verbose) {
+			Debug.dbg(side);
+		}
 		for (TMultiPart part : tile().jPartList()) {
-			if(RiMConfiguration.Debug.verbose) Debug.dbg(part.getClass());
+			if (RiMConfiguration.Debug.verbose) {
+				Debug.dbg(part.getClass());
+			}
 			if (part instanceof CommonMicroblock) {
-				if(RiMConfiguration.Debug.verbose) Debug.dbg(part.getClass());
+				if (RiMConfiguration.Debug.verbose) {
+					Debug.dbg(part.getClass());
+				}
 				CommonMicroblock mb = (CommonMicroblock) part;
 				if (mb.getShape() == side) {
 					int size = mb.getSize();

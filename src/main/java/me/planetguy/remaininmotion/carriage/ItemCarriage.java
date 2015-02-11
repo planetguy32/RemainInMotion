@@ -6,9 +6,9 @@ import java.util.List;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -19,17 +19,14 @@ public class ItemCarriage extends ItemBlockRiM {
 	}
 
 	public static Block GetDecorationBlock(ItemStack Item) {
-		if (Item.stackTagCompound != null) { 
-			return Block.getBlockById(Item.stackTagCompound.getInteger("DecorationId")); 
-		}
+		if (Item.stackTagCompound != null) { return Block
+				.getBlockById(Item.stackTagCompound.getInteger("DecorationId")); }
 
 		return Block.getBlockFromItem(Item.getItem());
 	}
 
 	public static int GetDecorationMeta(ItemStack Item) {
-		if (Item.stackTagCompound != null) { 
-			return (Item.stackTagCompound.getInteger("DecorationMeta")); 
-		}
+		if (Item.stackTagCompound != null) { return (Item.stackTagCompound.getInteger("DecorationMeta")); }
 
 		return Item.getItemDamage();
 	}

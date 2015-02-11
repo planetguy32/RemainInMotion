@@ -23,9 +23,9 @@ public class RemIMRotator {
 		pos.Y = (int) (newCoords.matrix[1][0] + py);
 		pos.Z = (int) (newCoords.matrix[2][0] + pz);
 	}
-	
+
 	public static BlockRecord simulateRotateOrthogonal(BlockRecord pivot, Directions clockwiseFace, BlockRecord pos) {
-		
+
 		double offset = 0;
 		double px = pivot.X + offset;
 		double py = pivot.Y + offset;
@@ -33,7 +33,8 @@ public class RemIMRotator {
 		Matrix coordsMatrixNew = new Matrix(new double[][] { { pos.X - px }, { pos.Y - py }, { pos.Z - pz } });
 		Matrix rotation = Matrices.ccwRotMatrices[clockwiseFace.ordinal()];
 		Matrix newCoords = rotation.crossProduct(coordsMatrixNew);
-		BlockRecord newRecord = new BlockRecord((int) (newCoords.matrix[0][0] + px),(int) (newCoords.matrix[1][0] + py),(int) (newCoords.matrix[2][0] + pz));
+		BlockRecord newRecord = new BlockRecord((int) (newCoords.matrix[0][0] + px),
+				(int) (newCoords.matrix[1][0] + py), (int) (newCoords.matrix[2][0] + pz));
 		newRecord.block = pos.block;
 		newRecord.Meta = pos.Meta;
 		newRecord.World = pos.World;
