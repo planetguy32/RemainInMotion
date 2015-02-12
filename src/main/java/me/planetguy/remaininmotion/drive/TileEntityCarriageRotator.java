@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.drive;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
@@ -50,23 +51,26 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		Directions axis = Directions.values()[axisOfRotationIndex];
 
+		BlockRecordSet temp = Package.Body;
+		
+		label0:
 		for (BlockRecord record : Package.Body) {
 			if (record.block instanceof BlockCarriage
 					&& (record.X == xCoord || record.Y == yCoord || record.Z == zCoord)) {
 				continue;
 			}
-			if ((axis == Directions.NegX || axis == Directions.PosX) && record.Z == zCoord && record.Y == yCoord) {
-				continue;
-			}
-			if ((axis == Directions.NegY || axis == Directions.PosY) && record.Z == zCoord && record.X == xCoord) {
-				continue;
-			}
-			if ((axis == Directions.NegZ || axis == Directions.PosZ) && record.X == xCoord && record.Y == yCoord) {
-				continue;
-			}
 
 			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), axis,
 					record);
+
+			for(BlockRecord record2 : temp)
+			{
+				if(record2.X == dest.X && record2.Y == dest.Y && record2.X == dest.X)
+				{
+					continue label0;
+				}
+			}
+			
 			if (!targetBlockReplaceableNoTranslate(this, dest)) { throw new CarriageMotionException(
 					"Motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z); }
 		}
