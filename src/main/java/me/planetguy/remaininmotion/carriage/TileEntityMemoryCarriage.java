@@ -15,6 +15,9 @@ public class TileEntityMemoryCarriage extends TileEntityTemplateCarriage {
 	@Override
 	public boolean isBlockValidMarkerForPattern(BlockRecord record) {
 		record.Identify(worldObj);
+		if (worldObj.isAirBlock(record.X, record.Y, record.Z)) {
+			return false;
+		}
 		boolean isBlacklisted = BlacklistManager.lookup(BlacklistManager.blacklistHard, record)
 				|| BlacklistManager.lookup(BlacklistManager.blacklistSoft, record);
 		record.Entity = null;
