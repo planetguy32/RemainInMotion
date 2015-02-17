@@ -67,9 +67,9 @@ public class BlockRecord implements Comparable<BlockRecord> {
 
 	public int									Meta;
 
-	public net.minecraft.tileentity.TileEntity	Entity;
+	public net.minecraft.tileentity.TileEntity	entity;
 
-	public net.minecraft.nbt.NBTTagCompound		EntityRecord;
+	public net.minecraft.nbt.NBTTagCompound		entityRecord;
 	public net.minecraft.world.World			World;
 
 	public void Identify(net.minecraft.world.World World) {
@@ -79,7 +79,7 @@ public class BlockRecord implements Comparable<BlockRecord> {
 
 		Meta = World.getBlockMetadata(X, Y, Z);
 
-		Entity = World.getTileEntity(X, Y, Z);
+		entity = World.getTileEntity(X, Y, Z);
 	}
 
 	public static BlockRecord Identified(TileEntityRiM Anchor, int X, int Y, int Z) {

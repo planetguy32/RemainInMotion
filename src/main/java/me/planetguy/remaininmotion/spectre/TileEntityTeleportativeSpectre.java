@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.spectre;
 
+import buildcraft.transport.TravelingItem;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
@@ -100,10 +101,10 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 		DriveRecord = new BlockRecord(Package.DriveRecord);
 
 		{
-			Body = new BlockRecordSet();
+			body = new BlockRecordSet();
 
 			for (BlockRecord Record : Package.Body) {
-				Body.add(new BlockRecord(Record));
+				body.add(new BlockRecord(Record));
 			}
 		}
 
@@ -154,7 +155,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 				Throwable.printStackTrace();
 			}
 
-			for (BlockRecord Record : Body) {
+			for (BlockRecord Record : body) {
 				WorldUtil.ClearBlock(worldObj, Record.X, Record.Y, Record.Z);
 			}
 
@@ -252,5 +253,12 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 		}
 
 		return (entity);
+	}
+
+	@Override
+	public void offsetBuildcraftTravelingItem(TravelingItem item) {
+			item.xCoord += ShiftX;
+			item.yCoord += ShiftY;
+			item.zCoord += ShiftZ;
 	}
 }

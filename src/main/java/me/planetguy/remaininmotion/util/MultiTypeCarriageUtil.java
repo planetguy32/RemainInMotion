@@ -17,7 +17,7 @@ public abstract class MultiTypeCarriageUtil {
 
 	public static void fillPackage(CarriagePackage package1, TileEntity carriage) throws CarriageMotionException {
 		Moveable m = CarriageMatchers.getMover(package1.AnchorRecord.block, package1.AnchorRecord.Meta,
-				package1.AnchorRecord.Entity);
+				package1.AnchorRecord.entity);
 		m.fillPackage(package1);
 	}
 
@@ -43,7 +43,7 @@ public abstract class MultiTypeCarriageUtil {
 			for (Directions TargetDirection : Directions.values()) {
 				BlockRecord TargetRecord = CarriageRecord.NextInDirection(TargetDirection);
 
-				ICloseable closeable = Closeables.getCloseable(CarriageRecord.Entity);
+				ICloseable closeable = Closeables.getCloseable(CarriageRecord.entity);
 
 				if (closeable != null) {
 

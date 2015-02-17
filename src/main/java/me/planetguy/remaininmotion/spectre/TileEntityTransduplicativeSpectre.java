@@ -8,7 +8,7 @@ public class TileEntityTransduplicativeSpectre extends TileEntityTeleportativeSp
 	public void Release() {
 		doRelease();
 
-		for (BlockRecord r : Body) {
+		for (BlockRecord r : body) {
 			ShiftBlockPosition(r);
 		}
 
