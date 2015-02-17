@@ -76,13 +76,13 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 		if (Record.block == RIMBlocks.Carriage) {
 			if (Record.Meta == BlockCarriage.Types.Template.ordinal()) {
-				if (((TileEntityTemplateCarriage) Record.Entity).Pattern == null) {
+				if (((TileEntityTemplateCarriage) Record.entity).Pattern == null) {
 					IsUnpatternedTemplateCarriage = true;
 				}
 			}
 		}
 
-		Record.Entity = null;
+		Record.entity = null;
 
 		return (IsUnpatternedTemplateCarriage);
 	}

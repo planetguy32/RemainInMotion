@@ -18,7 +18,7 @@ public class CarriageMatchers {
 
 	public static boolean matches(Block b, int meta, TileEntity te, CarriagePackage pkg) {
 		for (CarriageMatcher m : matchers) {
-			if (m.matches(b, meta, te, pkg.AnchorRecord.block, pkg.AnchorRecord.Meta, pkg.AnchorRecord.Entity)) { return true; }
+			if (m.matches(b, meta, te, pkg.AnchorRecord.block, pkg.AnchorRecord.Meta, pkg.AnchorRecord.entity)) { return true; }
 		}
 		return false;
 	}

@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import cpw.mods.fml.common.Loader;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
@@ -57,25 +58,7 @@ public abstract class ModInteraction {
 	public static Field		PendingBlockUpdateSetField;
 	public static Method	RemovePendingBlockUpdate;
 
-	public static Class		BC_TileGenericPipe;
-	public static Field		BC_TileGenericPipe_pipe;
-	public static Method	BC_TileGenericPipe_initialize;
-	public static Class		BC_Pipe;
-	public static Field		BC_Pipe_transport;
-	public static Class		BC_PipeTransportItems;
-	public static Field		BC_PipeTransportItems_delay;
-	public static Field		BC_PipeTransportItems_delayedEntitiesToLoad;
-	public static Field		BC_PipeTransportItems_travelingEntities;
-	public static Class		BC_EntityData;
-	public static Field		BC_EntityData_item;
-	public static Class		BC_EntityPassiveItem;
-	public static Method	BC_EntityPassiveItem_setWorld;
-	public static Method	BC_EntityPassiveItem_getEntityId;
-	public static Field		BC_EntityPassiveItem_position;
-	public static Class		BC_Position;
-	public static Field		BC_Position_x;
-	public static Field		BC_Position_y;
-	public static Field		BC_Position_z;
+	public static boolean BCInstalled;
 
 	public static void Establish() {
 		Wrenches.init();
@@ -95,45 +78,7 @@ public abstract class ModInteraction {
 					net.minecraft.world.NextTickListEntry.class);
 		}
 
-		{
-			BC_TileGenericPipe = getClass("buildcraft.transport.TileGenericPipe");
-
-			BC_TileGenericPipe_pipe = getField(BC_TileGenericPipe, "pipe");
-
-			BC_TileGenericPipe_initialize = getMethod(BC_TileGenericPipe, "initialize", BC_Pipe);
-
-			BC_Pipe = getClass("buildcraft.transport.Pipe");
-
-			BC_Pipe_transport = getField(BC_Pipe, "transport");
-
-			BC_PipeTransportItems = getClass("buildcraft.transport.PipeTransportItems");
-
-			BC_PipeTransportItems_delay = getField(BC_PipeTransportItems, "delay");
-
-			BC_PipeTransportItems_delayedEntitiesToLoad = getField(BC_PipeTransportItems, "delayedEntitiesToLoad");
-
-			BC_PipeTransportItems_travelingEntities = getField(BC_PipeTransportItems, "travelingEntities");
-
-			BC_EntityData = getClass("buildcraft.transport.EntityData");
-
-			BC_EntityData_item = getField(BC_EntityData, "item");
-
-			BC_EntityPassiveItem = getClass("buildcraft.core.EntityPassiveItem");
-
-			BC_EntityPassiveItem_setWorld = getMethod(BC_EntityPassiveItem, "setWorld", net.minecraft.world.World.class);
-
-			BC_EntityPassiveItem_getEntityId = getMethod(BC_EntityPassiveItem, "getEntityId");
-
-			BC_EntityPassiveItem_position = getField(BC_EntityPassiveItem, "position");
-
-			BC_Position = getClass("buildcraft.api.core.Position");
-
-			BC_Position_x = getField(BC_Position, "x");
-
-			BC_Position_y = getField(BC_Position, "y");
-
-			BC_Position_z = getField(BC_Position, "z");
-		}
+		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
 	}
 
 	static Class getClass(String string) {

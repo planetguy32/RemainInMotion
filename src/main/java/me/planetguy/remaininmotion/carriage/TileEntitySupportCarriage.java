@@ -71,7 +71,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 		while (CarriagesToCheck.size() > 0) {
 			BlockRecord CarriageRecord = CarriagesToCheck.pollFirst();
 
-			if (((TileEntitySupportCarriage) CarriageRecord.Entity).SideClosed[SupportDirection.ordinal()]) { throw (new CarriageMotionException(
+			if (((TileEntitySupportCarriage) CarriageRecord.entity).SideClosed[SupportDirection.ordinal()]) { throw (new CarriageMotionException(
 					"support carriage must have all open sides in the same direction")); }
 
 			ValidColumns.add(new BlockRecord(CarriageRecord.X * ValidColumnCheckFactorX, CarriageRecord.Y

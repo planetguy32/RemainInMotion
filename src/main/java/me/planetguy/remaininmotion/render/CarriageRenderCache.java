@@ -66,7 +66,7 @@ public abstract class CarriageRenderCache {
 					TileEntityRendererDispatcher.staticPlayerZ);
 
 			for (BlockRecord Record : TileEntities) {
-				if (!Record.Entity.shouldRenderInPass(Pass)) {
+				if (!Record.entity.shouldRenderInPass(Pass)) {
 					continue;
 				}
 
@@ -75,7 +75,7 @@ public abstract class CarriageRenderCache {
 				Render.PushMatrix();
 
 				try {
-					TileEntityRendererDispatcher.instance.renderTileEntity(Record.Entity, 0);
+					TileEntityRendererDispatcher.instance.renderTileEntity(Record.entity, 0);
 				} catch (Throwable Throwable) {
 					Throwable.printStackTrace();
 				}

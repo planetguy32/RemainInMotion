@@ -143,7 +143,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 	public boolean IsStructureCarriage(BlockRecord Record) {
 		Record.Identify(worldObj);
 
-		return Record.Entity instanceof TileEntityStructureCarriage;
+		return Record.entity instanceof TileEntityStructureCarriage;
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 		BlockRecord NextNextRecord = NextRecord.NextInDirection(PropagationDirection);
 
 		while (true) {
-			TileEntityStructureCarriage NextCarriage = (TileEntityStructureCarriage) NextRecord.Entity;
+			TileEntityStructureCarriage NextCarriage = (TileEntityStructureCarriage) NextRecord.entity;
 
 			if (IsStructureCarriage(NextNextRecord)) {
 				for (Directions Target : Directions.values()) {
@@ -210,7 +210,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 		Record.Shift(Direction);
 
 		while (IsStructureCarriage(Record)) {
-			TileEntityStructureCarriage Carriage = (TileEntityStructureCarriage) Record.Entity;
+			TileEntityStructureCarriage Carriage = (TileEntityStructureCarriage) Record.entity;
 
 			if (Carriage.CornerType != null) { return (Carriage); }
 

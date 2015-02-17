@@ -57,7 +57,7 @@ public class CarriagePackage {
 	}
 
 	public boolean MatchesCarriageType(BlockRecord record) {
-		return CarriageMatchers.matches(record.block, record.Meta, record.Entity, this);
+		return CarriageMatchers.matches(record.block, record.Meta, record.entity, this);
 	}
 
 	public BlockRecordSet	Body			= new BlockRecordSet();
@@ -119,14 +119,14 @@ public class CarriagePackage {
 		MaxY = Math.max(MaxY, Record.Y);
 		MaxZ = Math.max(MaxZ, Record.Z);
 
-		if (Record.Entity != null) {
-			Record.EntityRecord = new NBTTagCompound();
+		if (Record.entity != null) {
+			Record.entityRecord = new NBTTagCompound();
 
-			if (Record.Entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(Record))) {
-				((ISpecialMoveBehavior) Record.Entity).onAdded(this, Record.EntityRecord);
-				Record.Entity.writeToNBT(Record.EntityRecord);
+			if (Record.entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(Record))) {
+				((ISpecialMoveBehavior) Record.entity).onAdded(this, Record.entityRecord);
+				Record.entity.writeToNBT(Record.entityRecord);
 			} else {
-				Record.Entity.writeToNBT(Record.EntityRecord);
+				Record.entity.writeToNBT(Record.entityRecord);
 			}
 		}
 
@@ -339,14 +339,14 @@ public class CarriagePackage {
 			}
 		}
 
-		TileEntityCarriageDrive drive = (TileEntityCarriageDrive) DriveRecord.Entity;
+		TileEntityCarriageDrive drive = (TileEntityCarriageDrive) DriveRecord.entity;
 
 		drive.removeUsedEnergy(this);
 
 		NBTTagCompound tag = new NBTTagCompound();
 		drive.writeToNBT(tag);
 
-		DriveRecord.EntityRecord = tag;
+		DriveRecord.entityRecord = tag;
 	}
 
 	public double GetBaseBurden(BlockRecord Record) {

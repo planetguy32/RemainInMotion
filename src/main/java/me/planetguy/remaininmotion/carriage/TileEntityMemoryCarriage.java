@@ -20,7 +20,7 @@ public class TileEntityMemoryCarriage extends TileEntityTemplateCarriage {
 		}
 		boolean isBlacklisted = BlacklistManager.lookup(BlacklistManager.blacklistHard, record)
 				|| BlacklistManager.lookup(BlacklistManager.blacklistSoft, record);
-		record.Entity = null;
+		record.entity = null;
 		return !isBlacklisted;
 	}
 

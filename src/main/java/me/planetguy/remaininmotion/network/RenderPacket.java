@@ -85,7 +85,7 @@ public abstract class RenderPacket {
 
 			Blocks.add(Record);
 
-			if (Record.Entity != null) {
+			if (Record.entity != null) {
 				TileEntities.add(Record);
 			}
 
@@ -94,10 +94,10 @@ public abstract class RenderPacket {
 					if (Record.Y == DriveY) {
 						if (Record.Z == DriveZ) {
 							try {
-								((TileEntityCarriageDrive) Record.Entity).Active = true;
+								((TileEntityCarriageDrive) Record.entity).Active = true;
 
-								if (Record.Entity instanceof TileEntityCarriageRotator) {
-									((TileEntityCarriageRotator) Record.Entity).setAxis(Packet.getInteger("axis"));
+								if (Record.entity instanceof TileEntityCarriageRotator) {
+									((TileEntityCarriageRotator) Record.entity).setAxis(Packet.getInteger("axis"));
 								}
 
 							} catch (Throwable Throwable) {
