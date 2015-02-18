@@ -21,11 +21,11 @@ import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
-import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
+import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
@@ -256,7 +256,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 				try {
 					for (EntityPlayerMP Player : ((List<EntityPlayerMP>)
-
+							//TODO FFS don't lookup method every call!!!!
 					Reflection
 							.get(Class
 									.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
@@ -358,6 +358,12 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 					.getCompoundTagAt(Index));
 
 		}
+		
+		for(BlockRecord record:body) {
+			if(ModInteraction.fmpProxy.isMultipart(record.entity))
+				ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
+		}
+		
 		for (BlockRecord Record : body) {
 			onMotionFinalized(Record);
 		}

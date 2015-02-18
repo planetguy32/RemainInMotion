@@ -6,6 +6,7 @@ import me.planetguy.remaininmotion.NativeCarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
+import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.crafting.Recipes;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import me.planetguy.remaininmotion.network.PacketManager;

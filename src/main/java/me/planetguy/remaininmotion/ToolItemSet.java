@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.base.ItemRiM;
-import me.planetguy.remaininmotion.core.ModInteraction.Wrenches;
+import me.planetguy.remaininmotion.core.interop.ModInteraction.Wrenches;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
