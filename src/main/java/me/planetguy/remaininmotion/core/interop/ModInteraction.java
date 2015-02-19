@@ -16,45 +16,8 @@ public abstract class ModInteraction {
 	public static FMPHandler fmpProxy;
 	
 	public abstract static class ForgeMultipart {
-		public static Class		MultipartSaveLoad;
-		public static Method	MultipartSaveLoad_loadingWorld_$eq;
-
-		public static Class		MultipartSPH;
-		public static Method	MultipartSPH_onChunkWatch;
-
-		public static Class		TileMultipart;
-		public static Method	TileMultipart_createFromNBT;
-		public static Method	TileMultipart_onChunkLoad;
-
-		public static Class		MultipartHelper;
-		public static Method	MultipartHelper_createTileFromNBT;
-		public static Method	MultipartHelper_sendDescPacket;
 		
 		public static void Establish() {
-			MultipartSaveLoad = ModInteraction.getClass("codechicken.multipart.handler.MultipartSaveLoad");
-
-			MultipartSaveLoad_loadingWorld_$eq = getMethod(MultipartSaveLoad, "loadingWorld_$eq",
-					net.minecraft.world.World.class);
-
-			MultipartSPH = ModInteraction.getClass("codechicken.multipart.handler.MultipartSPH");
-
-			MultipartSPH_onChunkWatch = getMethod(MultipartSPH, "onChunkWatch",
-					net.minecraft.entity.player.EntityPlayer.class, net.minecraft.world.chunk.Chunk.class);
-
-			TileMultipart = ModInteraction.getClass("codechicken.multipart.TileMultipart");
-
-			TileMultipart_createFromNBT = getMethod(TileMultipart, "createFromNBT",
-					net.minecraft.nbt.NBTTagCompound.class);
-
-			TileMultipart_onChunkLoad = getMethod(TileMultipart, "onChunkLoad");
-
-			MultipartHelper = ModInteraction.getClass("codechicken.multipart.MultipartHelper");
-
-			MultipartHelper_createTileFromNBT = getMethod(MultipartHelper, "createTileFromNBT",
-					net.minecraft.world.World.class, net.minecraft.nbt.NBTTagCompound.class);
-
-			MultipartHelper_sendDescPacket = getMethod(MultipartHelper, "sendDescPacket",
-					net.minecraft.world.World.class, net.minecraft.tileentity.TileEntity.class);
 			
 			codechicken.multipart.TMultiPart a;
 			
