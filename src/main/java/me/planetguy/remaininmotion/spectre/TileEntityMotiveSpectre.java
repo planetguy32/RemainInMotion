@@ -1,17 +1,10 @@
 package me.planetguy.remaininmotion.spectre;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import buildcraft.core.Box;
-import buildcraft.factory.TileQuarry;
-import buildcraft.transport.Pipe;
-import buildcraft.transport.PipeTransportItems;
-import buildcraft.transport.TileGenericPipe;
-import buildcraft.transport.TravelingItem;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.BlockPosition;
@@ -44,6 +37,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
+import buildcraft.factory.TileQuarry;
+import buildcraft.transport.Pipe;
+import buildcraft.transport.PipeTransportItems;
+import buildcraft.transport.TileGenericPipe;
+import buildcraft.transport.TravelingItem;
 
 public class TileEntityMotiveSpectre extends TileEntityRiM {
 	public Directions MotionDirection = Directions.Null;
@@ -149,13 +147,19 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 	}
 
 	public void doRelease() {
+		
+		int[] offset = getOffset();
 
 		for (BlockRecord record : body) {
 			SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
 					record.block, record.Meta);
 		}
 
-		BlockRecordList pipesToInitialize = new BlockRecordList();
+		// TODO So much nasty reflection that can freeze an entire world if
+		// moving anything that is a 'MultiPart'
+		
+		// TODO WAY LESS iterating, we don't need to iterate 'body' 5-6 times in
+		// a single tick per block (move an entire house => world freezing)
 
 		if (ModInteraction.ForgeMultipart.MultipartSaveLoad_loadingWorld_$eq != null) {
 			try {
@@ -177,8 +181,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 				record.entityRecord.setInteger("y", record.Y);
 				record.entityRecord.setInteger("z", record.Z);
 
-				if (record.entityRecord.getString("id")
-						.equals("savedMultipart")) {
+				if (ModInteraction.MPInstalled
+						&& record.entityRecord.getString("id").equals(
+								"savedMultipart")) {
 					try {
 						if (ModInteraction.ForgeMultipart.MultipartHelper_createTileFromNBT != null) {
 							record.entity = (TileEntity) ModInteraction.ForgeMultipart.MultipartHelper_createTileFromNBT
@@ -213,6 +218,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 						continue;
 					}
 				} else {
+					if (ModInteraction.BCInstalled)
+						performBuildcraftPreInit(record, offset);
+
 					record.entity = TileEntity
 							.createAndLoadEntity(record.entityRecord);
 					Debug.dbg(record.entity + " @ " + record);
@@ -292,43 +300,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 			}
 		}
 
-		for (BlockRecord record : pipesToInitialize) {
-			if (ModInteraction.BCInstalled) {
-				try {
-
-					if (record.entity instanceof TileGenericPipe) {
-						TileGenericPipe tile = (TileGenericPipe) record.entity;
-						Pipe pipe = tile.pipe;
-						if (!tile.initialized) {
-							tile.initialize(pipe);
-						}
-
-						if (pipe.transport instanceof PipeTransportItems) {
-							if (!((PipeTransportItems) pipe.transport).items.iterating) {
-								for (TravelingItem item : ((PipeTransportItems) pipe.transport).items) {
-									// to set up for correct displacement when teleporting
-									offsetBuildcraftTravelingItem(item);
-								}
-							}
-						}
-					}/* else if (record.entity instanceof TileQuarry) {
-						((TileQuarry) record.entity).invalidate();
-						// box is protected, so we actually need reflection
-						Field field = TileQuarry.class.getDeclaredField("box");
-						field.setAccessible(true);
-						Box box = (Box) field.get(((TileQuarry) record.entity));
-						box.initialized = false;
-						field.setAccessible(false);
-						
-						((TileQuarry) record.entity).initialize();
-						
-						((TileQuarry) record.entity).createUtilsIfNeeded();
-					}*/
-				} catch (Throwable Throwable) {
-					Throwable.printStackTrace();
-				}
-			}
-		}
+		if (ModInteraction.BCInstalled)
+			performBuildcraftPostInit();
 
 		try {
 			TileEntityCarriageDrive Drive = (TileEntityCarriageDrive) worldObj
@@ -358,7 +331,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 					.getCompoundTagAt(Index));
 
 		}
-		
+
 		for(BlockRecord record:body) {
 			if(ModInteraction.fmpProxy.isMultipart(record.entity))
 				ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
@@ -374,10 +347,78 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 	}
 
-	public void offsetBuildcraftTravelingItem(TravelingItem item) {
-		item.xCoord += MotionDirection.DeltaX;
-		item.yCoord += MotionDirection.DeltaY;
-		item.zCoord += MotionDirection.DeltaZ;
+	public int[] getOffset() {
+		return new int[] { MotionDirection.DeltaX, MotionDirection.DeltaY,
+				MotionDirection.DeltaZ };
+	}
+
+	private void performBuildcraftPreInit(BlockRecord record, int[] offset) {
+		// Screw PostInit access, I'll just modify the quarry at save level.
+		if (record.entityRecord.getString("id").equals("Machine")
+				&& record.entityRecord.hasKey("box")) {
+			NBTTagCompound boxNBT = record.entityRecord.getCompoundTag("box");
+			if (!boxNBT.hasNoTags()) {
+				int xMax = boxNBT.getInteger("xMax");
+				int xMin = boxNBT.getInteger("xMin");
+				int yMax = boxNBT.getInteger("yMax");
+				int yMin = boxNBT.getInteger("yMin");
+				int zMax = boxNBT.getInteger("zMax");
+				int zMin = boxNBT.getInteger("zMin");
+				
+				boxNBT.setInteger("xMax", xMax += offset[0]);
+				boxNBT.setInteger("xMin", xMin += offset[0]);
+				boxNBT.setInteger("yMax", yMax += offset[1]);
+				boxNBT.setInteger("yMin", yMin += offset[1]);
+				boxNBT.setInteger("zMax", zMax += offset[2]);
+				boxNBT.setInteger("zMin", zMin += offset[2]);
+				
+			}
+			record.entityRecord.setInteger("targetX", 0);
+			record.entityRecord.setInteger("targetY", 0);
+			record.entityRecord.setInteger("targetZ", 0);
+			
+			record.entityRecord.setDouble("headPosX", 0.0D);
+			record.entityRecord.setDouble("headPosY", 0.0D);
+			record.entityRecord.setDouble("headPosZ", 0.0D);
+		}
+	}
+
+	private void performBuildcraftPostInit() {
+		// At least this is clean now.
+		BlockRecordList pipesToInitialize = new BlockRecordList();
+		for (BlockRecord record : pipesToInitialize) {
+			try {
+
+				if (record.entity instanceof TileGenericPipe) {
+					TileGenericPipe tile = (TileGenericPipe) record.entity;
+					Pipe pipe = tile.pipe;
+					if (!tile.initialized) {
+						tile.initialize(pipe);
+					}
+
+					if (pipe.transport instanceof PipeTransportItems) {
+						if (!((PipeTransportItems) pipe.transport).items.iterating) {
+							for (TravelingItem item : ((PipeTransportItems) pipe.transport).items) {
+								// to set up for correct displacement when
+								// teleporting
+								int[] offset = getOffset();
+								item.xCoord += offset[0];
+								item.yCoord += offset[1];
+								item.zCoord += offset[2];
+							}
+						}
+					}
+				} else if (record.entity instanceof TileQuarry) {
+
+					((TileQuarry) record.entity).invalidate();
+					((TileQuarry) record.entity).initialize();
+
+					((TileQuarry) record.entity).createUtilsIfNeeded();
+				}
+			} catch (Throwable Throwable) {
+				Throwable.printStackTrace();
+			}
+		}
 	}
 
 	public void onMotionFinalized(BlockRecord Record) {

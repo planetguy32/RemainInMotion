@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 public abstract class ModInteraction {
 	
 	public static FMPHandler fmpProxy;
-
+	
 	public abstract static class ForgeMultipart {
 		public static Class		MultipartSaveLoad;
 		public static Method	MultipartSaveLoad_loadingWorld_$eq;
@@ -72,6 +72,7 @@ public abstract class ModInteraction {
 	public static Method	RemovePendingBlockUpdate;
 
 	public static boolean BCInstalled;
+	public static boolean MPInstalled;
 
 	public static void Establish() {
 		Wrenches.init();
@@ -92,6 +93,7 @@ public abstract class ModInteraction {
 		}
 
 		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
+		MPInstalled = Loader.isModLoaded("ForgeMultipart");
 	}
 
 	static Class getClass(String string) {
