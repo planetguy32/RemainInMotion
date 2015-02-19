@@ -1,15 +1,11 @@
 package me.planetguy.remaininmotion.spectre;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.planetguy.lib.util.Debug;
-import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.BlockPosition;
 import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.BlockRecordList;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
@@ -21,7 +17,6 @@ import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
-import me.planetguy.remaininmotion.network.MultipartPropagationPacket;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import net.minecraft.block.Block;
@@ -29,19 +24,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.Chunk;
 import buildcraft.factory.TileQuarry;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.TravelingItem;
+import codechicken.multipart.MultipartHelper;
+import codechicken.multipart.TileMultipart;
+import codechicken.multipart.handler.MultipartSaveLoad;
 
 public class TileEntityMotiveSpectre extends TileEntityRiM {
 	public Directions MotionDirection = Directions.Null;
@@ -161,18 +157,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		// TODO WAY LESS iterating, we don't need to iterate 'body' 5-6 times in
 		// a single tick per block (move an entire house => world freezing)
 
-		if (ModInteraction.ForgeMultipart.MultipartSaveLoad_loadingWorld_$eq != null) {
-			try {
-				ModInteraction.ForgeMultipart.MultipartSaveLoad_loadingWorld_$eq
-						.invoke(null, worldObj);
-			} catch (Throwable Throwable) {
-				Throwable.printStackTrace();
-			}
-		}
-
-		BlockRecordList multipartTilesToInitialize = new BlockRecordList();
-
-		HashMap<Chunk, HashMap<Object, TileEntity>> MultipartTileSetsToPropagate = new HashMap<Chunk, HashMap<Object, TileEntity>>();
+		
+		if(ModInteraction.MPInstalled) MultipartSaveLoad.loadingWorld_$eq(worldObj);
 
 		for (BlockRecord record : body) {
 
@@ -185,36 +171,15 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 						&& record.entityRecord.getString("id").equals(
 								"savedMultipart")) {
 					try {
-						if (ModInteraction.ForgeMultipart.MultipartHelper_createTileFromNBT != null) {
-							record.entity = (TileEntity) ModInteraction.ForgeMultipart.MultipartHelper_createTileFromNBT
-									.invoke(null, worldObj, record.entityRecord);
-						} else {
-							record.entity = (TileEntity) ModInteraction.ForgeMultipart.TileMultipart_createFromNBT
-									.invoke(null, record.entityRecord);
-
-							MultipartContainerBlockId = record.block;
-
-							Chunk Chunk = worldObj.getChunkFromBlockCoords(
-									record.X, record.Z);
-
-							HashMap<Object, TileEntity> MultipartTilesToPropagate = MultipartTileSetsToPropagate
-									.get(Chunk);
-
-							if (MultipartTilesToPropagate == null) {
-								MultipartTilesToPropagate = new HashMap<Object, TileEntity>();
-
-								MultipartTileSetsToPropagate.put(Chunk,
-										MultipartTilesToPropagate);
-							}
-
-							MultipartTilesToPropagate.put(record.entity,
-									record.entity);
+						record.entity = MultipartHelper.createTileFromNBT(worldObj,record.entityRecord);
+						if (record.entity != null) {
+							SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
+									record.Z, record.entity);
 						}
-
-						multipartTilesToInitialize.add(record);
+						((TileMultipart)record.entity).onChunkLoad();
+						MultipartHelper.sendDescPacket(worldObj, record.entity);
 					} catch (Throwable Throwable) {
 						Throwable.printStackTrace();
-
 						continue;
 					}
 				} else {
@@ -223,85 +188,20 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 					record.entity = TileEntity
 							.createAndLoadEntity(record.entityRecord);
+					if (record.entity != null) {
+						SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
+								record.Z, record.entity);
+					}
+					if (ModInteraction.BCInstalled)
+						performBuildcraftPostInit(record);
+					
 					Debug.dbg(record.entity + " @ " + record);
 				}
-
-				if (record.entity != null) {
-					SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
-							record.Z, record.entity);
-				}
-
 			}
 
 		}
 
-		for (BlockRecord record : multipartTilesToInitialize) {
-			try {
-				ModInteraction.ForgeMultipart.TileMultipart_onChunkLoad
-						.invoke(record.entity);
-			} catch (Throwable Throwable) {
-				Throwable.printStackTrace();
-			}
-		}
-
-		if (ModInteraction.ForgeMultipart.MultipartHelper_sendDescPacket != null) {
-			for (BlockRecord record : multipartTilesToInitialize) {
-				try {
-					ModInteraction.ForgeMultipart.MultipartHelper_sendDescPacket
-							.invoke(null, worldObj, record.entity);
-				} catch (Throwable Throwable) {
-					Throwable.printStackTrace();
-				}
-			}
-		} else {
-			for (Map.Entry<Chunk, HashMap<Object, TileEntity>> MultipartTilesToPropagate : MultipartTileSetsToPropagate
-					.entrySet()) {
-				Chunk Chunk = MultipartTilesToPropagate.getKey();
-
-				Map SavedTileEntityMap = Chunk.chunkTileEntityMap;
-
-				Chunk.chunkTileEntityMap = MultipartTilesToPropagate.getValue();
-
-				try {
-					for (EntityPlayerMP Player : ((List<EntityPlayerMP>)
-							//TODO FFS don't lookup method every call!!!!
-					Reflection
-							.get(Class
-									.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
-									Reflection.runMethod(WorldServer.class,
-											(((WorldServer) worldObj)
-													.getPlayerManager()),
-											"getOrCreateChunkWatcher",
-											Chunk.xPosition, Chunk.zPosition,
-											false), "playersWatchingChunk")))
-
-					{
-						if (!Player.loadedChunks.contains(Chunk
-								.getChunkCoordIntPair())) {
-							try {
-								if (ModInteraction.ForgeMultipart.MultipartSaveLoad_loadingWorld_$eq == null) {
-									MultipartPropagationPacket.Dispatch(Player,
-											MultipartTilesToPropagate
-													.getValue().values());
-								}
-
-								ModInteraction.ForgeMultipart.MultipartSPH_onChunkWatch
-										.invoke(null, Player, Chunk);
-							} catch (Throwable Throwable) {
-								Throwable.printStackTrace();
-							}
-						}
-					}
-				} catch (Throwable Throwable) {
-					Throwable.printStackTrace();
-				}
-
-				Chunk.chunkTileEntityMap = SavedTileEntityMap;
-			}
-		}
-
-		if (ModInteraction.BCInstalled)
-			performBuildcraftPostInit();
+		
 
 		try {
 			TileEntityCarriageDrive Drive = (TileEntityCarriageDrive) worldObj
@@ -332,13 +232,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 		}
 
-		for(BlockRecord record:body) {
+		for(BlockRecord record : body) {
 			if(ModInteraction.fmpProxy.isMultipart(record.entity))
 				ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
-		}
-		
-		for (BlockRecord Record : body) {
-			onMotionFinalized(Record);
+			onMotionFinalized(record);
 		}
 
 		if (worldObj.getBlock(xCoord, yCoord, zCoord) == RIMBlocks.Spectre) {
@@ -383,10 +280,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 		}
 	}
 
-	private void performBuildcraftPostInit() {
-		// At least this is clean now.
-		BlockRecordList pipesToInitialize = new BlockRecordList();
-		for (BlockRecord record : pipesToInitialize) {
+	private void performBuildcraftPostInit(BlockRecord record) {
 			try {
 
 				if (record.entity instanceof TileGenericPipe) {
@@ -418,7 +312,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 			} catch (Throwable Throwable) {
 				Throwable.printStackTrace();
 			}
-		}
 	}
 
 	public void onMotionFinalized(BlockRecord Record) {
