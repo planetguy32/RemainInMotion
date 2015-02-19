@@ -256,9 +256,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	}
 
 	@Override
-	public void offsetBuildcraftTravelingItem(TravelingItem item) {
-			item.xCoord += ShiftX;
-			item.yCoord += ShiftY;
-			item.zCoord += ShiftZ;
+	public int[] getOffset() {
+		return new int[] { ShiftX, ShiftY, ShiftZ };
 	}
 }
