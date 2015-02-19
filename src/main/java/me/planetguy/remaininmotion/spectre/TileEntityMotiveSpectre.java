@@ -251,8 +251,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 	private void performBuildcraftPreInit(BlockRecord record, int[] offset) {
 		// Screw PostInit access, I'll just modify the quarry at save level.
-		if (record.entityRecord.getString("id").equals("Machine")
-				&& record.entityRecord.hasKey("box")) {
+		// This will work for anything with a box (filler, quarry, architect table)
+		if (record.entityRecord.hasKey("box")) {
 			NBTTagCompound boxNBT = record.entityRecord.getCompoundTag("box");
 			if (!boxNBT.hasNoTags()) {
 				int xMax = boxNBT.getInteger("xMax");
@@ -270,6 +270,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 				boxNBT.setInteger("zMin", zMin += offset[2]);
 				
 			}
+		}
+		// reset quarry
+		if(record.entityRecord.getString("id").equals("Machine"))
+		{
 			record.entityRecord.setInteger("targetX", 0);
 			record.entityRecord.setInteger("targetY", 0);
 			record.entityRecord.setInteger("targetZ", 0);
