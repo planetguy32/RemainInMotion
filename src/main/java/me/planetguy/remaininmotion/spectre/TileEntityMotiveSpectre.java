@@ -264,7 +264,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
 				try {
 					for (EntityPlayerMP Player : ((List<EntityPlayerMP>)
-					// TODO FFS don't lookup method every call!!!!
+							//TODO FFS don't lookup method every call!!!!
 					Reflection
 							.get(Class
 									.forName("net.minecraft.server.management.PlayerManager.PlayerInstance"),
@@ -331,11 +331,14 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 					.getCompoundTagAt(Index));
 
 		}
-		for (BlockRecord record : body) {
-			if (ModInteraction.fmpProxy.isMultipart(record.entity))
-				ModInteraction.fmpProxy.loadMultipartTick(record.entity,
-						record.entityRecord);
-			onMotionFinalized(record);
+
+		for(BlockRecord record:body) {
+			if(ModInteraction.fmpProxy.isMultipart(record.entity))
+				ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
+		}
+		
+		for (BlockRecord Record : body) {
+			onMotionFinalized(Record);
 		}
 
 		if (worldObj.getBlock(xCoord, yCoord, zCoord) == RIMBlocks.Spectre) {

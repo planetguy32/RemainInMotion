@@ -12,7 +12,7 @@ import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.ItemStack;
 
 public abstract class ModInteraction {
-
+	
 	public static FMPHandler fmpProxy;
 	
 	public abstract static class ForgeMultipart {
@@ -29,7 +29,7 @@ public abstract class ModInteraction {
 		public static Class		MultipartHelper;
 		public static Method	MultipartHelper_createTileFromNBT;
 		public static Method	MultipartHelper_sendDescPacket;
-
+		
 		public static void Establish() {
 			MultipartSaveLoad = ModInteraction.getClass("codechicken.multipart.handler.MultipartSaveLoad");
 
@@ -57,14 +57,14 @@ public abstract class ModInteraction {
 					net.minecraft.world.World.class, net.minecraft.tileentity.TileEntity.class);
 			
 			codechicken.multipart.TMultiPart a;
-						
-						try {
-							Class.forName("codechicken.multipart.TMultiPart");
-							fmpProxy=new FMPHandlerImpl();
-						}catch(Exception e) {
-							Debug.dbg("Special FMP handler not loading");
-							fmpProxy=new FMPHandlerDummy();
-						}
+			
+			try {
+				Class.forName("codechicken.multipart.TMultiPart");
+				fmpProxy=new FMPHandlerImpl();
+			}catch(Exception e) {
+				Debug.dbg("Special FMP handler not loading");
+				fmpProxy=new FMPHandlerDummy();
+			}
 		}
 	}
 
