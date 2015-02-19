@@ -19,14 +19,11 @@ public abstract class ModInteraction {
 		
 		public static void Establish() {
 			
-			codechicken.multipart.TMultiPart a;
-			
-			try {
-				Class.forName("codechicken.multipart.TMultiPart");
-				fmpProxy=new FMPHandlerImpl();
-			}catch(Exception e) {
-				Debug.dbg("Special FMP handler not loading");
-				fmpProxy=new FMPHandlerDummy();
+			if(MPInstalled)
+			{
+				fmpProxy = new FMPHandlerImpl();
+			} else {
+				fmpProxy = new FMPHandlerDummy();
 			}
 		}
 	}
@@ -38,6 +35,9 @@ public abstract class ModInteraction {
 	public static boolean MPInstalled;
 
 	public static void Establish() {
+		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
+		MPInstalled = Loader.isModLoaded("ForgeMultipart");
+		
 		Wrenches.init();
 
 		Computers.setup();
@@ -54,9 +54,6 @@ public abstract class ModInteraction {
 			RemovePendingBlockUpdate = getMethod(net.minecraft.world.WorldServer.class, "removeNextTickIfNeeded",
 					net.minecraft.world.NextTickListEntry.class);
 		}
-
-		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
-		MPInstalled = Loader.isModLoaded("ForgeMultipart");
 	}
 
 	static Class getClass(String string) {
