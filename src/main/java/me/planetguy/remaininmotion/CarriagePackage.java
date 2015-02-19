@@ -8,10 +8,10 @@ import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
-import me.planetguy.remaininmotion.core.ModInteraction;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import net.minecraft.block.Block;
@@ -127,6 +127,10 @@ public class CarriagePackage {
 				Record.entity.writeToNBT(Record.entityRecord);
 			} else {
 				Record.entity.writeToNBT(Record.entityRecord);
+			}
+			
+			if(ModInteraction.fmpProxy.isMultipart(Record.entity)) {
+				ModInteraction.fmpProxy.saveMultipartTick(Record.entity, Record.entityRecord);
 			}
 		}
 

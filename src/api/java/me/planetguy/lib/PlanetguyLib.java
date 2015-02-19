@@ -35,7 +35,7 @@ public class PlanetguyLib {
 		configFolder.mkdir();
 		Configuration cfg=new Configuration(pie.getSuggestedConfigurationFile());
 		cfg.load();
-		cfg.getBoolean("muteLogging", Configuration.CATEGORY_GENERAL, doPLLogging, "Suppresses all log output. Turn off if you get lots of lines starting with \"[PL]\" and server lag.");
+		doPLLogging=cfg.getBoolean("muteLogging", Configuration.CATEGORY_GENERAL, doPLLogging, "Turn on or off all logging through PlanetguyLib. Set this to true if asked by a modder.");
 		cfg.save();
 	}
 	
