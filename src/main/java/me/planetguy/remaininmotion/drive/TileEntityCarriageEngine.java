@@ -12,10 +12,10 @@ public class TileEntityCarriageEngine extends TileEntityCarriageDrive {
 			throws CarriageMotionException {
 		CarriagePackage Package = new CarriagePackage(this, carriage, MotionDirection);
 
-		Package.AddBlock(Package.DriveRecord);
+		Package.AddBlock(Package.driveRecord);
 
 		if (MotionDirection != CarriageDirection) {
-			Package.AddPotentialObstruction(Package.DriveRecord.NextInDirection(MotionDirection));
+			Package.AddPotentialObstruction(Package.driveRecord.NextInDirection(MotionDirection));
 		}
 
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);

@@ -28,7 +28,7 @@ public abstract class MultiTypeCarriageUtil {
 
 		BlockRecordSet BlocksChecked = new BlockRecordSet();
 
-		BlocksChecked.add(Package.DriveRecord);
+		BlocksChecked.add(Package.driveRecord);
 
 		BlocksChecked.add(Package.AnchorRecord);
 

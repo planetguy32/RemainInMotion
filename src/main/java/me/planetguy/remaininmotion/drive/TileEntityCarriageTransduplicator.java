@@ -187,7 +187,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
-		if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
+		if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
 				"carriage is attempting to grab translocator")); }
 
 		Package.Finalize();

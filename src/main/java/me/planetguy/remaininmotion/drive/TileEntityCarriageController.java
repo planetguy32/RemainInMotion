@@ -439,18 +439,18 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 
 			MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
-			if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
+			if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
 					"carriage is attempting to move controller while in anchored mode")); }
 
-			if (Package.Body.contains(Package.DriveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageMotionException(
+			if (Package.Body.contains(Package.driveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageMotionException(
 					"carriage is obstructed by controller while in anchored mode")); }
 		} else {
 			Package = new CarriagePackage(this, carriage, MotionDirection);
 
-			Package.AddBlock(Package.DriveRecord);
+			Package.AddBlock(Package.driveRecord);
 
 			if (MotionDirection != CarriageDirection) {
-				Package.AddPotentialObstruction(Package.DriveRecord.NextInDirection(MotionDirection));
+				Package.AddPotentialObstruction(Package.driveRecord.NextInDirection(MotionDirection));
 			}
 
 			MultiTypeCarriageUtil.fillPackage(Package, carriage);

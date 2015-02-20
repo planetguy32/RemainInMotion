@@ -21,10 +21,10 @@ public class TileEntityCarriageMotor extends TileEntityCarriageDrive {
 
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
-		if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
+		if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
 				"carriage is attempting to move motor")); }
 
-		if (Package.Body.contains(Package.DriveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageObstructionException(
+		if (Package.Body.contains(Package.driveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageObstructionException(
 				"carriage motion is obstructed by motor", xCoord, yCoord, zCoord)); }
 
 		Package.Finalize();
