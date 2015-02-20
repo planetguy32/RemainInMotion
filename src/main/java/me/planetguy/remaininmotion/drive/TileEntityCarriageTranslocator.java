@@ -152,7 +152,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 				boolean targetValid = true;
 
 				for (BlockRecord record : Package.NewPositions) {
-					if (!targetBlockReplaceable(translocator, record)) {
+					if (targetBlockReplaceable(translocator, record) != 0) {
 						targetValid = false;
 
 						break;
@@ -184,7 +184,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
-		if (Package.Body.contains(Package.DriveRecord)) { throw (new CarriageMotionException(
+		if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
 				"carriage is attempting to grab translocator")); }
 
 		Package.Finalize();

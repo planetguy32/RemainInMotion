@@ -43,11 +43,11 @@ public abstract class Computers {
 			/*
 			 * Driver.add(new Block(){
 			 * 
-			 * @Override public boolean worksWith(World world, int x, int y, int
+			 * @Override public boolean worksWith(world world, int x, int y, int
 			 * z) { return world.getTileEntity(x,y,z) instanceof
 			 * me.planetguy.util.TComputerInterface; }
 			 * 
-			 * @Override public ManagedEnvironment createEnvironment(World
+			 * @Override public ManagedEnvironment createEnvironment(world
 			 * world, int x, int y, int z) { return new
 			 * li.cil.oc.api.prefab.ManagedEnvironment(){
 			 * 

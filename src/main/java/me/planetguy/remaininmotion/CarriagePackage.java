@@ -28,9 +28,9 @@ public class CarriagePackage {
 
 	public TileEntityCarriageTranslocator	Translocator;
 
-	public WorldServer						World;
+	public WorldServer world;
 
-	public final BlockRecord				DriveRecord;
+	public final BlockRecord driveRecord;
 
 	public boolean							DriveIsAnchored;
 
@@ -41,17 +41,17 @@ public class CarriagePackage {
 	public int								axis;
 
 	public CarriagePackage(TileEntityCarriageDrive Drive, TileEntity Anchor, Directions MotionDirection) {
-		World = (WorldServer) Drive.getWorldObj();
+		world = (WorldServer) Drive.getWorldObj();
 
-		DriveRecord = new BlockRecord(Drive.xCoord, Drive.yCoord, Drive.zCoord);
+		driveRecord = new BlockRecord(Drive.xCoord, Drive.yCoord, Drive.zCoord);
 
-		DriveRecord.Identify(World);
+		driveRecord.Identify(world);
 
 		DriveIsAnchored = Drive.Anchored();
 
 		AnchorRecord = new BlockRecord(Anchor.xCoord, Anchor.yCoord, Anchor.zCoord);
 
-		AnchorRecord.Identify(World);
+		AnchorRecord.Identify(world);
 
 		this.MotionDirection = MotionDirection;
 	}
@@ -105,8 +105,8 @@ public class CarriagePackage {
 		}
 
 		if (MotionDirection == null) {
-			NewPositions.add(new BlockRecord(Record.X - DriveRecord.X, Record.Y - DriveRecord.Y, Record.Z
-					- DriveRecord.Z));
+			NewPositions.add(new BlockRecord(Record.X - driveRecord.X, Record.Y - driveRecord.Y, Record.Z
+					- driveRecord.Z));
 		} else {
 			NewPositions.add(Record.NextInDirection(MotionDirection));
 		}
@@ -169,22 +169,17 @@ public class CarriagePackage {
 	public void AssertNotObstruction(BlockRecord record) throws CarriageMotionException {
 		if (Body.contains(record)) { return; }
 
-		if (World.isAirBlock(record.X, record.Y, record.Z)) { return; }
+        TileEntityCarriageDrive tile = ((TileEntityCarriageDrive) world.getTileEntity(driveRecord.X, driveRecord.Y, driveRecord.Z));
 
-		Block block = World.getBlock(record.X, record.Y, record.Z);
-		if (block != null) {
-			if (!ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
-				return;
-			} else if (ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
-				FailBecauseObstructed(record, "liquid");
-			}
-			if (!ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
-				return;
-			} else if (ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
-				FailBecauseObstructed(record, "fragile");
-			}
-			FailBecauseObstructed(record, "block");
-		}
+        // Now we only modify TileEntityCarriageDrive.targetBlockReplaceable
+		int i = TileEntityCarriageDrive.targetBlockReplaceable(tile, record);
+        switch(i)
+        {
+            case 0: return;
+            case 1: FailBecauseObstructed(record, "fragile"); break;
+            case 2: FailBecauseObstructed(record, "liquid"); break;
+            case 3: FailBecauseObstructed(record, "block"); break;
+        }
 	}
 
 	public BlockRecordSet	PotentialObstructions	= new BlockRecordSet();
@@ -230,13 +225,13 @@ public class CarriagePackage {
 			AssertNotObstruction(PotentialObstruction);
 		}
 
-		long WorldTime = World.getWorldInfo().getWorldTotalTime();
+		long WorldTime = world.getWorldInfo().getWorldTotalTime();
 
 		try {
-			TreeSet<NextTickListEntry> ticks = (TreeSet<NextTickListEntry>) Reflection.get(WorldServer.class, World,
+			TreeSet<NextTickListEntry> ticks = (TreeSet<NextTickListEntry>) Reflection.get(WorldServer.class, world,
 					"pendingTickListEntriesTreeSet");
 
-			Set ticksHash = (Set) Reflection.get(WorldServer.class, World, "pendingTickListEntriesHashSet");
+			Set ticksHash = (Set) Reflection.get(WorldServer.class, world, "pendingTickListEntriesHashSet");
 
 			Iterator<NextTickListEntry> PendingBlockUpdateSetIterator = ticks.iterator();
 
@@ -261,7 +256,7 @@ public class CarriagePackage {
 			if (VanillaThrowable instanceof ThreadDeath) { throw ((ThreadDeath) VanillaThrowable); }
 			try {
 				java.util.Set PendingBlockUpdateSet = (java.util.Set) ModInteraction.PendingBlockUpdateSetField
-						.get(World);
+						.get(world);
 
 				while (true) {
 					NextTickListEntry PendingBlockUpdate = null;
@@ -283,7 +278,7 @@ public class CarriagePackage {
 
 					StorePendingBlockUpdateRecord(PendingBlockUpdate, WorldTime);
 
-					ModInteraction.RemovePendingBlockUpdate.invoke(World, PendingBlockUpdate);
+					ModInteraction.RemovePendingBlockUpdate.invoke(world, PendingBlockUpdate);
 				}
 			} catch (Throwable McpcThrowable) {
 				McpcThrowable.printStackTrace();
@@ -343,14 +338,14 @@ public class CarriagePackage {
 			}
 		}
 
-		TileEntityCarriageDrive drive = (TileEntityCarriageDrive) DriveRecord.entity;
+		TileEntityCarriageDrive drive = (TileEntityCarriageDrive) driveRecord.entity;
 
 		drive.removeUsedEnergy(this);
 
 		NBTTagCompound tag = new NBTTagCompound();
 		drive.writeToNBT(tag);
 
-		DriveRecord.entityRecord = tag;
+		driveRecord.entityRecord = tag;
 	}
 
 	public double GetBaseBurden(BlockRecord Record) {

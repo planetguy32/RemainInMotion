@@ -17,9 +17,9 @@ public abstract class RenderPacket {
 		// Debug.dbg("Dispatching render packet");
 		NBTTagCompound Packet = new NBTTagCompound();
 
-		Packet.setInteger("DriveX", Package.DriveRecord.X);
-		Packet.setInteger("DriveY", Package.DriveRecord.Y);
-		Packet.setInteger("DriveZ", Package.DriveRecord.Z);
+		Packet.setInteger("DriveX", Package.driveRecord.X);
+		Packet.setInteger("DriveY", Package.driveRecord.Y);
+		Packet.setInteger("DriveZ", Package.driveRecord.Z);
 
 		Packet.setBoolean("Anchored", Package.DriveIsAnchored);
 
@@ -46,16 +46,16 @@ public abstract class RenderPacket {
 
 		if (Package.MotionDirection == null) {
 			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X, Package.AnchorRecord.Y,
-					Package.AnchorRecord.Z, Package.World, PacketTypes.Render, Packet);
+					Package.AnchorRecord.Z, Package.world, PacketTypes.Render, Packet);
 
-			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X - Package.DriveRecord.X
-					+ Package.Translocator.xCoord, Package.AnchorRecord.Y - Package.DriveRecord.Y
-					+ Package.Translocator.yCoord, Package.AnchorRecord.Z - Package.DriveRecord.Z
+			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X - Package.driveRecord.X
+					+ Package.Translocator.xCoord, Package.AnchorRecord.Y - Package.driveRecord.Y
+					+ Package.Translocator.yCoord, Package.AnchorRecord.Z - Package.driveRecord.Z
 					+ Package.Translocator.zCoord, Package.Translocator.getWorldObj(), PacketTypes.Render, Packet);
 		} else {
 			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X + Package.MotionDirection.DeltaX,
 					Package.AnchorRecord.Y + Package.MotionDirection.DeltaY, Package.AnchorRecord.Z
-							+ Package.MotionDirection.DeltaZ, Package.World, PacketTypes.Render, Packet);
+							+ Package.MotionDirection.DeltaZ, Package.world, PacketTypes.Render, Packet);
 		}
 	}
 

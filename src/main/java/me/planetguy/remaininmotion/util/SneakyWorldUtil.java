@@ -62,21 +62,23 @@ public abstract class SneakyWorldUtil {
 	/*
 	 * out of context, this is woefully redundant and inefficient, and really
 	 * needs to be fixed
+	 *
+	 * Minecraft does this now by default anyway, we can just remove it.
 	 */
 	public static void UpdateLighting(World world, int X, int Y, int Z) {
 		/*
 		 * TODO fix the reflection try{ net . minecraft . world . chunk . Chunk
-		 * Chunk = World . getChunkFromBlockCoords ( X , Z ) ;
-		 * 
+		 * Chunk = world . getChunkFromBlockCoords ( X , Z ) ;
+		 *
 		 * int ChunkX = X & 0xF ; int ChunkY = Y & 0xF ; int ChunkZ = Z & 0xF ;
-		 * 
+		 *
 		 * int HeightMapIndex = ChunkZ << 4 | ChunkX ;
-		 * 
+		 *
 		 * if ( Y >= Chunk . precipitationHeightMap [ HeightMapIndex ] - 1 ) {
 		 * Chunk . precipitationHeightMap [ HeightMapIndex ] = -999 ; }
-		 * 
+		 *
 		 * int HeightMapValue = Chunk . heightMap [ HeightMapIndex ] ;
-		 * 
+		 *
 		 * if ( Y >= HeightMapValue ) { Chunk . generateSkylightMap ( ) ; } else
 		 * { Object o=Reflection.runMethod(Chunk.class, Chunk,
 		 * "getBlockLightOpacity",ChunkX , Y , ChunkZ ); if (
@@ -86,11 +88,11 @@ public abstract class SneakyWorldUtil {
 		 * Chunk,"relightBlock", ChunkX , Y + 1 , ChunkZ ) ; } } else if ( Y ==
 		 * HeightMapValue - 1 ) { Reflection.runMethod(Chunk.class,
 		 * Chunk,"relightBlock", ChunkX , Y , ChunkZ ) ; }
-		 * 
+		 *
 		 * Reflection.runMethod(Chunk.class, Chunk,"propagateSkylightOcclusion",
 		 * ChunkX , ChunkZ ) ; } }
-		 * 
-		 * World . func_147451_t ( X , Y , Z ) ; }catch(Exception e){
+		 *
+		 * world . func_147451_t ( X , Y , Z ) ; }catch(Exception e){
 		 * e.printStackTrace(); }
 		 */
 	}
