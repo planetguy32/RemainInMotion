@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.spectre;
 
-import buildcraft.transport.TravelingItem;
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.BlockRecordSet;
 import me.planetguy.remaininmotion.CarriagePackage;
@@ -75,9 +74,9 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	}
 
 	public void AbsorbCommon(CarriagePackage Package) {
-		ShiftX = -Package.DriveRecord.X + Package.Translocator.xCoord;
-		ShiftY = -Package.DriveRecord.Y + Package.Translocator.yCoord;
-		ShiftZ = -Package.DriveRecord.Z + Package.Translocator.zCoord;
+		ShiftX = -Package.driveRecord.X + Package.Translocator.xCoord;
+		ShiftY = -Package.driveRecord.Y + Package.Translocator.yCoord;
+		ShiftZ = -Package.driveRecord.Z + Package.Translocator.zCoord;
 
 		MinX = Package.MinX;
 		MinY = Package.MinY;
@@ -98,7 +97,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 		RenderCacheKey = Package.RenderCacheKey;
 
-		DriveRecord = new BlockRecord(Package.DriveRecord);
+		DriveRecord = new BlockRecord(Package.driveRecord);
 
 		{
 			body = new BlockRecordSet();
@@ -256,9 +255,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 	}
 
 	@Override
-	public void offsetBuildcraftTravelingItem(TravelingItem item) {
-			item.xCoord += ShiftX;
-			item.yCoord += ShiftY;
-			item.zCoord += ShiftZ;
+	public int[] getOffset() {
+		return new int[] { ShiftX, ShiftY, ShiftZ };
 	}
 }

@@ -20,7 +20,7 @@ public class TileEntityPlatformCarriage extends TileEntityCarriage {
 	@Override
 	public void fillPackage(CarriagePackage pkg) throws CarriageMotionException {
 		BlockRecordSet checked = new BlockRecordSet();
-		checked.add(pkg.DriveRecord);
+		checked.add(pkg.driveRecord);
 		BlockRecordSet todo = new BlockRecordSet();
 		todo.add(pkg.AnchorRecord);
 
@@ -66,7 +66,7 @@ public class TileEntityPlatformCarriage extends TileEntityCarriage {
 	 * 
 	 * BlockRecordSet BlocksChecked = new BlockRecordSet ( ) ;
 	 * 
-	 * BlocksChecked . add ( Package . DriveRecord ) ;
+	 * BlocksChecked . add ( Package . driveRecord ) ;
 	 * 
 	 * BlocksChecked . add ( Package . AnchorRecord ) ;
 	 * 

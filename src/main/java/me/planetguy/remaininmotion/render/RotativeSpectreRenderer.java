@@ -35,14 +35,11 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
 
 					int axis = Spectre.getAxis();
 
-					Render.Rotate(Offset * -90, matrices[axis][0], matrices[axis][1], matrices[axis][2]); // TODO
-					// implement
-					// other
-					// angles
+                    // TODO implement other angles
+					Render.Rotate(Offset * -90, matrices[axis][0], matrices[axis][1], matrices[axis][2]);
 
-					Render.Translate(-Spectre.xCoord - .5, -Spectre.yCoord - .5, -Spectre.zCoord - .5); // negative
-					// block
-					// pos
+                    // negative block pos
+					Render.Translate(-Spectre.xCoord - .5, -Spectre.yCoord - .5, -Spectre.zCoord - .5);
 
 					Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.RenderCacheKey);
 

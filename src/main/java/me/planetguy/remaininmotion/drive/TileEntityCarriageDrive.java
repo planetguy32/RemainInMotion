@@ -263,35 +263,35 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 		return prepareDefaultPackage(dir);
 	}
 
-	public boolean targetBlockReplaceable(TileEntity translocator, BlockRecord record) {
-		boolean flag = false;
-		boolean flag2 = false;
-		boolean flag3 = false;
-		Block block = translocator.getWorldObj().getBlock(record.X + translocator.xCoord,
-				record.Y + translocator.yCoord, record.Z + translocator.zCoord);
-		if (block != null) {
-			flag2 = !CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
-			flag3 = !CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
-		}
-		if ((block.getMaterial() == Material.air) || flag2 || flag3) {
-			flag = true;
-		}
-		return flag;
+    /**
+     * @return 0 -> did not fail, 1 -> fragile, 2 -> liquid, 3 -> block
+     **/
+	public static int targetBlockReplaceable(TileEntity translocator, BlockRecord record) {
+		return targetBlockReplaceableNoTranslate(translocator, new BlockRecord(record.X + translocator.xCoord,
+				record.Y + translocator.yCoord, record.Z + translocator.zCoord));
 	}
 
-	public boolean targetBlockReplaceableNoTranslate(TileEntity translocator, BlockRecord record) {
-		boolean flag = false;
-		boolean flag2 = false;
-		boolean flag3 = false;
-		Block block = translocator.getWorldObj().getBlock(record.X, record.Y, record.Z);
-		if (block != null) {
-			flag2 = !CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
-			flag3 = !CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
-		}
-		if ((block.getMaterial() == Material.air) || flag2 || flag3) {
-			flag = true;
-		}
-		return flag;
+    /**
+     * @return 1 -> fragile, 2 -> liquid, 3 -> block
+     **/
+	public static int targetBlockReplaceableNoTranslate(TileEntity translocator, BlockRecord record) {
+        if (translocator.getWorldObj().isAirBlock(record.X, record.Y, record.Z)) { return 0; }
+
+        Block block = translocator.getWorldObj().getBlock(record.X, record.Y, record.Z);
+        if (block != null) {
+            if (!CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
+                return 0;
+            } else if (CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
+                return 2;
+            }
+            if (!CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
+                return 0;
+            } else if (CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
+                return 1;
+            }
+            return 3;
+        }
+        return 0;
 	}
 
 	public CarriagePackage prepareDefaultPackage(Directions MotionDirection) throws CarriageMotionException {
@@ -386,6 +386,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
 	public void RefreshWorld(CarriagePackage Package) {
 		for (BlockRecord Record : Package.Body) {
+            // TODO First Step to making light work better
 			SneakyWorldUtil.RefreshBlock(worldObj, Record.X, Record.Y, Record.Z, Record.block, Blocks.air);
 		}
 	}

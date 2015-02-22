@@ -45,14 +45,14 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		Package.blacklistByRotation = true;
 
-		Package.AddBlock(Package.DriveRecord);
+		Package.AddBlock(Package.driveRecord);
 
 		MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
 		Directions axis = Directions.values()[axisOfRotationIndex];
 
 		BlockRecordSet temp = Package.Body;
-		
+
 		label0:
 		for (BlockRecord record : Package.Body) {
 			if (record.block instanceof BlockCarriage
@@ -70,8 +70,8 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 					continue label0;
 				}
 			}
-			
-			if (!targetBlockReplaceableNoTranslate(this, dest)) { throw new CarriageMotionException(
+
+			if (targetBlockReplaceableNoTranslate(this, dest) != 0) { throw new CarriageMotionException(
 					"Motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z); }
 		}
 

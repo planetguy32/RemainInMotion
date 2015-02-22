@@ -23,7 +23,13 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		RemIMRotator.rotateOrthogonal(DriveRecord, Directions.values()[axisOfRotation], record);
 	}
 
-	@Override
+    @Override
+    public int[] getOffset(BlockRecord record) {
+        BlockRecord out = RemIMRotator.simulateRotateOrthogonal(this.DriveRecord, Directions.values()[axisOfRotation], record);
+        return new int[] { out.X, out.Y, out.Z};
+    }
+
+    @Override
 	public void onMotionFinalized(BlockRecord record) {
 		Block b = worldObj.getBlock(record.X, record.Y, record.Z);
 		if (!worldObj.isRemote) {
@@ -36,7 +42,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		if (worldObj.isRemote) { return; }/*
 		Matrix entityPos = new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
 		double partialAngle = Math.min(((double) TicksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
-		RemIMRotator.rotatePartial(DriveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
+		RemIMRotator.rotatePartial(driveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
 		// Start 'This might be Wrong'
 		entity.posX = entityPos.matrix[0][0];
 		entity.posY = entityPos.matrix[1][0];
@@ -71,7 +77,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	 * public void applyVelocityToEntity(Entity entity, double time) {
 	 * double[][] pos=new double[][] { {entity.posX}, {entity.posY},
 	 * {entity.posZ} }; Matrix entityMatrix=new Matrix(pos);
-	 * RemIMRotator.rotatePartial(this.DriveRecord,
+	 * RemIMRotator.rotatePartial(this.driveRecord,
 	 * Directions.values()[axisOfRotation], entityMatrix, time / 4.0);
 	 * 
 	 * entityMatrix.scalarMultiply(Velocity); Debug.dbg(entityMatrix);
@@ -82,7 +88,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	 * public Matrix shiftPosition(Matrix m, double time, int ticks, Entity
 	 * entity) { Matrix entityMatrix=new Matrix(new double[][] { {entity.posX},
 	 * {entity.posY}, {entity.posZ} });
-	 * RemIMRotator.rotatePartial(this.DriveRecord,
+	 * RemIMRotator.rotatePartial(this.driveRecord,
 	 * Directions.values()[axisOfRotation], entityMatrix, time/4.0); return
 	 * entityMatrix; }
 	 */
