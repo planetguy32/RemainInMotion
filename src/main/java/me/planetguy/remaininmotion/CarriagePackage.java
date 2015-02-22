@@ -12,6 +12,7 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
+import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import net.minecraft.block.Block;
@@ -81,23 +82,28 @@ public class CarriagePackage {
 
 	public BlockRecord		lastRecord;
 
-	public void AddBlock(BlockRecord Record) throws CarriageMotionException {
+	public void AddBlock(BlockRecord record) throws CarriageMotionException {
 
-		if ((MotionDirection == Directions.PosY) && (Record.Y >= 254)) { throw (new CarriageObstructionException(
-				"cannot move carriage above height limit", Record.X, Record.Y, Record.Z)); }
+		if ((MotionDirection == Directions.PosY) && (record.Y >= 254)) { throw (new CarriageObstructionException(
+				"cannot move carriage above height limit", record.X, record.Y, record.Z)); }
 
-		if ((MotionDirection == Directions.NegY) && (Record.Y <= 0)) { throw (new CarriageObstructionException(
-				"cannot move carriage below depth limit", Record.X, Record.Y, Record.Z)); }
+		if ((MotionDirection == Directions.NegY) && (record.Y <= 0)) { throw (new CarriageObstructionException(
+				"cannot move carriage below depth limit", record.X, record.Y, record.Z)); }
 
-		if (BlacklistManager.lookup(BlacklistManager.blacklistHard, Record)) { throw (new CarriageObstructionException(
-				Lang.translate(ModRiM.Handle + ".bannedBlock"), Record.X, Record.Y, Record.Z)); }
+		if (BlacklistManager.lookup(BlacklistManager.blacklistHard, record)) { throw (new CarriageObstructionException(
+				Lang.translate(ModRiM.Handle + ".bannedBlock"), record.X, record.Y, record.Z)); }
 
-		if (blacklistByRotation && BlacklistManager.lookup(BlacklistManager.blacklistRotation, Record)) { throw (new CarriageObstructionException(
-				Lang.translate(ModRiM.Handle + ".bannedTurningBlock"), Record.X, Record.Y, Record.Z)); }
+		if (blacklistByRotation && BlacklistManager.lookup(BlacklistManager.blacklistRotation, record)) { throw (new CarriageObstructionException(
+				Lang.translate(ModRiM.Handle + ".bannedTurningBlock"), record.X, record.Y, record.Z)); }
 
-		if (BlacklistManager.lookup(BlacklistManager.blacklistSoft, Record)) { return; }
+		if (BlacklistManager.lookup(BlacklistManager.blacklistSoft, record)) { return; }
 
-		Body.add(Record);
+        if(record.X == driveRecord.X && record.Y == driveRecord.Y && record.Z == driveRecord.Z)
+        {
+            if(record.entity instanceof TileEntityCarriageTranslocator) return;
+        }
+
+		Body.add(record);
 
 		if (MaxBlockCount > 0) {
 			if (Body.size() > MaxBlockCount) { throw (new CarriageMotionException("carriage exceeds maximum size of "
@@ -105,48 +111,48 @@ public class CarriagePackage {
 		}
 
 		if (MotionDirection == null) {
-			NewPositions.add(new BlockRecord(Record.X - driveRecord.X, Record.Y - driveRecord.Y, Record.Z
+			NewPositions.add(new BlockRecord(record.X - driveRecord.X, record.Y - driveRecord.Y, record.Z
 					- driveRecord.Z));
 		} else {
-			NewPositions.add(Record.NextInDirection(MotionDirection));
+			NewPositions.add(record.NextInDirection(MotionDirection));
 		}
 
-		MinX = Math.min(MinX, Record.X);
-		MinY = Math.min(MinY, Record.Y);
-		MinZ = Math.min(MinZ, Record.Z);
+		MinX = Math.min(MinX, record.X);
+		MinY = Math.min(MinY, record.Y);
+		MinZ = Math.min(MinZ, record.Z);
 
-		MaxX = Math.max(MaxX, Record.X);
-		MaxY = Math.max(MaxY, Record.Y);
-		MaxZ = Math.max(MaxZ, Record.Z);
+		MaxX = Math.max(MaxX, record.X);
+		MaxY = Math.max(MaxY, record.Y);
+		MaxZ = Math.max(MaxZ, record.Z);
 
-		if (Record.entity != null) {
-			Record.entityRecord = new NBTTagCompound();
+		if (record.entity != null) {
+			record.entityRecord = new NBTTagCompound();
 
-			if (Record.entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(Record))) {
-				((ISpecialMoveBehavior) Record.entity).onAdded(this, Record.entityRecord);
-				Record.entity.writeToNBT(Record.entityRecord);
+			if (record.entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(record))) {
+				((ISpecialMoveBehavior) record.entity).onAdded(this, record.entityRecord);
+				record.entity.writeToNBT(record.entityRecord);
 			} else {
-				Record.entity.writeToNBT(Record.entityRecord);
+				record.entity.writeToNBT(record.entityRecord);
 			}
 			
-			if(ModInteraction.fmpProxy.isMultipart(Record.entity)) {
-				ModInteraction.fmpProxy.saveMultipartTick(Record.entity, Record.entityRecord);
+			if(ModInteraction.fmpProxy.isMultipart(record.entity)) {
+				ModInteraction.fmpProxy.saveMultipartTick(record.entity, record.entityRecord);
 			}
 		}
 
 		if (RiMConfiguration.HardmodeActive) {
-			if (Record.block == RIMBlocks.Carriage) {
-				Carriages.add(Record);
+			if (record.block == RIMBlocks.Carriage) {
+				Carriages.add(record);
 
-				setMass(getMass() + BlockCarriage.Types.values()[Record.Meta].Burden);
+				setMass(getMass() + BlockCarriage.Types.values()[record.Meta].Burden);
 			} else {
 
-				Cargo.add(Record);
+				Cargo.add(record);
 
-				net.minecraft.block.Block b = Record.block;
+				net.minecraft.block.Block b = record.block;
 
 				// take least of block's hardness and TNT resistance
-				double massFactor = Math.min(b.getBlockHardness(Record.World, Record.X, Record.Y, Record.Z),
+				double massFactor = Math.min(b.getBlockHardness(record.World, record.X, record.Y, record.Z),
 						b.getExplosionResistance(null));
 				// Debug.dbg("For "+b.getLocalizedName()+", factor="+massFactor+", lf="+Math.log(massFactor));
 				// always add 0.1 to weight, sometimes more if hard block to
@@ -155,7 +161,7 @@ public class CarriagePackage {
 
 			}
 		}
-		lastRecord = Record;
+		lastRecord = record;
 	}
 
 	public void FailBecauseObstructed(BlockRecord Record, String Type) throws CarriageMotionException {
@@ -172,7 +178,7 @@ public class CarriagePackage {
         TileEntityCarriageDrive tile = ((TileEntityCarriageDrive) world.getTileEntity(driveRecord.X, driveRecord.Y, driveRecord.Z));
 
         // Now we only modify TileEntityCarriageDrive.targetBlockReplaceable
-		int i = TileEntityCarriageDrive.targetBlockReplaceable(tile, record);
+		int i = TileEntityCarriageDrive.targetBlockReplaceableNoTranslate(tile, record);
         switch(i)
         {
             case 0: return;
