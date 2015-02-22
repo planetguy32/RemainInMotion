@@ -275,19 +275,22 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
      * @return 1 -> fragile, 2 -> liquid, 3 -> block
      **/
 	public static int targetBlockReplaceableNoTranslate(TileEntity translocator, BlockRecord record) {
-		boolean flag = false;
-		boolean flag2 = false;
-		boolean flag3 = false;
-		Block block = translocator.getWorldObj().getBlock(record.X, record.Y, record.Z);
-		if (block != null) {
-			flag2 = CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null);
-			flag3 = CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable();
-		}
-        flag = !(block.getMaterial() == Material.air);
+        if (translocator.getWorldObj().isAirBlock(record.X, record.Y, record.Z)) { return 0; }
 
-        if(flag3) return 1;
-        if(flag2) return 2;
-        if(flag) return 3;
+        Block block = translocator.getWorldObj().getBlock(record.X, record.Y, record.Z);
+        if (block != null) {
+            if (!CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
+                return 0;
+            } else if (CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
+                return 2;
+            }
+            if (!CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
+                return 0;
+            } else if (CarriagePackage.ObstructedByFragileBlocks && block.getMaterial().isReplaceable()) {
+                return 1;
+            }
+            return 3;
+        }
         return 0;
 	}
 

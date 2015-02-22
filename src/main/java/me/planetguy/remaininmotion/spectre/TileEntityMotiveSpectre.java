@@ -218,12 +218,18 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             if (ModInteraction.fmpProxy.isMultipart(record.entity))
                 ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
             onMotionFinalized(record);
+            record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
         }
 
+        cleanupSpecter();
+
+    }
+
+    public void cleanupSpecter()
+    {
         if (worldObj.getBlock(xCoord, yCoord, zCoord) == RIMBlocks.Spectre) {
             worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
         }
-
     }
 
     public int[] getOffset() {
