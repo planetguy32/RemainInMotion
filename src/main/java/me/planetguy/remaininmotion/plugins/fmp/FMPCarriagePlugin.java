@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.plugins.fmp;
 
+import buildcraft.core.InterModComms;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.api.RiMRegistry;
@@ -12,6 +13,7 @@ import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultiPartRegistry.IPartFactory;
 import codechicken.multipart.TMultiPart;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class FMPCarriagePlugin {
@@ -28,6 +30,9 @@ public class FMPCarriagePlugin {
 
 			hollowCarriage.setUnlocalizedName("hollowCarriage");
 			GameRegistry.registerItem(hollowCarriage, "Hollow Carriage");
+			
+			FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(RemIMPluginsCommon.getFrameBlock()));
+			
 		} else {
 			Debug.dbg("FMP carriage: not loading");
 		}
@@ -51,7 +56,7 @@ public class FMPCarriagePlugin {
 			}
 
 		}, new String[] { "FMPCarriage" });
-
+		
 		RiMRegistry.registerFrameCarriageMatcher(new FMPCarriageMatcher());
 
 		RiMRegistry.registerCloseableFactory(new FMPCloseableRetriever());

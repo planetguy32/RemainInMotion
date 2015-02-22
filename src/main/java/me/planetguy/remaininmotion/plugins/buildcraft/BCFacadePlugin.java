@@ -12,11 +12,11 @@ public class BCFacadePlugin {
 		if (Loader.isModLoaded("BuildCraft|Transport")) {
 
 			try {
+				//reflection check if IFacadePluggable exists - if this throws, our
+				//hook is missing so don't even bother loading
 				Class.forName("buildcraft.api.transport.pluggable.IFacadePluggable");
 
 				Debug.dbg("Buildcraft special facade: loading");
-
-				RemIMPluginsCommon.getFrameBlock();
 
 				RiMRegistry.registerFrameCarriageMatcher(new SpecialFacadeCarriageMatcher());
 

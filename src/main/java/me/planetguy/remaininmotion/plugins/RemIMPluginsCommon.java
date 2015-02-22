@@ -18,10 +18,12 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = me.planetguy.remaininmotion.core.ModRiM.Handle + "_HollowCarriages", dependencies = "required-after:JAKJ_RedstoneInMotion")
+//@Mod(modid = me.planetguy.remaininmotion.core.ModRiM.Handle + "_HollowCarriages", dependencies = "required-after:JAKJ_RedstoneInMotion")
 public class RemIMPluginsCommon {
 
 	private static Block	frameBlock;
+	
+	public static RemIMPluginsCommon instance=new RemIMPluginsCommon();
 
 	public static Block getFrameBlock() {
 		if (frameBlock == null) {
@@ -47,7 +49,7 @@ public class RemIMPluginsCommon {
 
 			};
 
-			GameRegistry.registerBlock(frameBlock, ItemBlock.class, "tile.hollowCarriage", ModRiM.Handle);
+			GameRegistry.registerBlock(frameBlock, ItemBlock.class, "tile.hollowCarriage");
 
 			frameBlock.setBlockName("hollowCarriage");
 
@@ -61,6 +63,8 @@ public class RemIMPluginsCommon {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		getFrameBlock();
+		
 		FMPCarriagePlugin.tryLoad();
 
 		BCFacadePlugin.tryLoad();

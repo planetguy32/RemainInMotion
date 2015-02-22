@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.core;
 import java.io.File;
 
 import me.planetguy.lib.PLHelper;
+import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -35,11 +36,14 @@ public class ModRiM {
 		(new RiMConfiguration(newFile)).Process();
 
 		Core.HandlePreInit();
+		
+		RemIMPluginsCommon.instance.preInit(Event);
 	}
 
 	@EventHandler
 	public void Init(FMLInitializationEvent Event) {
 		Core.HandleInit();
+		RemIMPluginsCommon.instance.init(Event);
 	}
 
 	@EventHandler
@@ -47,6 +51,7 @@ public class ModRiM {
 		ClientSetupProxy.Instance.Execute();
 
 		Core.HandlePostInit();
+		RemIMPluginsCommon.instance.postInit(Event);
 	}
 
 	@EventHandler
