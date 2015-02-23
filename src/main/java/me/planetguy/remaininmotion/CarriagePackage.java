@@ -129,7 +129,21 @@ public class CarriagePackage {
 		if (record.entity != null) {
 			
 			if(record.entity instanceof IMotionCallback) {
-				((IMotionCallback) record.entity).onSelectedForMotion();
+				try {
+					switch(((IMotionCallback) record.entity).onSelectedForMotion()) {
+					case 0:
+						break;
+					case 1:
+						Body.remove(record);
+						return;
+					case 2:
+						throw new CarriageMotionException("TileEntity at "+record+" has excluded itself");
+					default:
+						break;
+					}
+				}catch(Exception e) {
+					throw new CarriageMotionException(e.getLocalizedMessage());
+				}
 			}
 			
 			record.entityRecord = new NBTTagCompound();
