@@ -12,6 +12,7 @@ import codechicken.multipart.TileMultipart;
 import codechicken.multipart.handler.MultipartSaveLoad;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
+import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -171,6 +172,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
                     record.entity = TileEntity
                             .createAndLoadEntity(record.entityRecord);
+                    
                     if (record.entity != null) {
                         SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
                                 record.Z, record.entity);
@@ -219,6 +221,12 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
             onMotionFinalized(record);
             record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
+        }
+        
+        for(BlockRecord record:body) {
+			if(record.entity instanceof IMotionCallback) {
+				((IMotionCallback) record.entity).onPlacedFromMotion();
+			}
         }
 
         cleanupSpecter();

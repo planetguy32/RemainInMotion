@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
+import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
@@ -126,6 +127,11 @@ public class CarriagePackage {
 		MaxZ = Math.max(MaxZ, record.Z);
 
 		if (record.entity != null) {
+			
+			if(record.entity instanceof IMotionCallback) {
+				((IMotionCallback) record.entity).onSelectedForMotion();
+			}
+			
 			record.entityRecord = new NBTTagCompound();
 
 			if (record.entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(record))) {
