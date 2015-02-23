@@ -58,26 +58,24 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 
 	@Override
 	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException {
-
-		// icky hack to stop adding already-added adaptors
-		StackTraceElement[] e = Thread.currentThread().getStackTrace();
-		if (e[10].getClassName().equals(e[12].getClassName())) { return; }
-
+		Debug.mark();
 		HandleNeighbourBlockChange();
-		BlockRecord record = new BlockRecord(xCoord, yCoord, zCoord);
-		record.Identify(worldObj);
-		pkg.AddBlock(record);
+		BlockRecord record = new BlockRecord(this);
 		if (!alreadyMoving) {
 			alreadyMoving = true;
+			pkg.AddBlock(record);
 			if (CarriageDirection != null) {
 				BlockRecord oldAnchor = pkg.AnchorRecord;
+				
 				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.DeltaX,
 						yCoord + CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ);
+
 				pkg.AnchorRecord.Identify(worldObj);
+				Debug.dbg(pkg.AnchorRecord);
+				
 				MultiTypeCarriageUtil.fillPackage(pkg, worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord
 						+ CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ));
 				pkg.AnchorRecord = oldAnchor;
-
 			}
 		}
 	}

@@ -179,8 +179,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     }
                     if (ModInteraction.BCInstalled)
                         performBuildcraftPostInit(record);
-
-                    Debug.dbg(record.entity + " @ " + record);
                 }
             }
 

@@ -187,16 +187,12 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	@Override
 	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException {
 
-		// icky hack to stop adding already-added adaptors
-		StackTraceElement[] e = Thread.currentThread().getStackTrace();
-		if (e[10].getClassName().equals(e[12].getClassName())) { return; }
-
 		HandleNeighbourBlockChange();
 		BlockRecord record = new BlockRecord(this);
-		pkg.AddBlock(record);
-		if (!alreadyMoving && CarriageDirection != null && CarriageDirection != Directions.Null) {
+		if(!alreadyMoving) {
 			alreadyMoving = true;
-			if (CarriageDirection != null) {
+			pkg.AddBlock(record);
+			if (CarriageDirection != null && CarriageDirection != Directions.Null) {
 				BlockRecord oldAnchor = pkg.AnchorRecord;
 				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.DeltaX,
 						yCoord + CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ);
