@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.drive;
 
 import java.util.List;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
@@ -124,8 +125,15 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	@Override
 	public IIcon getIcon(int Side, int Meta) {
 		try {
-			if (Meta == Types.Rotator.ordinal()) { return TileEntityCarriageRotator.icons[0][Side]; }
-			return (Types.values()[Meta].NormalIcon);
+			switch (Types.values()[Meta]) {
+			case Rotator:
+				return TileEntityCarriageRotator.icons[0][Side];
+			case Predirected:
+				return TileEntityCarriageDirected.cachedIcons[0][Side];
+			default:
+				return (Types.values()[Meta].NormalIcon);
+			}
+			
 		} catch (Throwable Throwable) {
 			// Throwable . printStackTrace ( ) ; //Fix log spam with MapWriter
 

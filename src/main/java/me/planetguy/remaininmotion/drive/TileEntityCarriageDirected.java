@@ -15,15 +15,17 @@ import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 
 public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 
-	private Directions	pointedDir=Directions.PosY;
+	private Directions	pointedDir=Directions.NegY;
 	
-	private static IIcon[][] cachedIcons;
+	public static IIcon[][] cachedIcons;
 
 	@Override
 	public Directions getSignalDirection() {
@@ -35,8 +37,11 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 
 	@Override
 	public boolean onRightClicked(int side, EntityPlayer player) {
-		if (player.getHeldItem() != null) {
+		if (player.getHeldItem() != null
+				&& player.getHeldItem().getItem() == Items.stick
+				) {
 			pointedDir = Directions.values()[side].Opposite();
+			Debug.dbg(pointedDir.ordinal());
 			Propagate();
 			return true;
 		}
@@ -110,18 +115,19 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 		}
 	}
 	
-	public static void setupIcons(IIcon face, IIcon sid0, IIcon sid1, IIcon sid3, IIcon back) {
-		IIcon sid2=new IconFlipped(sid0, false, true);
+	public static void setupIcons(IIcon face, IIcon sid0, IIcon sid2, IIcon sid3, IIcon back) {
+		IIcon sid1=new IconFlipped(sid3, true, false);
+		
+		Debug.mark();
 		
 		//TODO fix this icon matrix
 		cachedIcons=new IIcon[][] {
 				{back, face, sid0, sid0, sid0, sid0},
-				{face, back, sid0, sid0, sid0, sid0},
-				{sid0, sid0, back, face, sid0, sid0},
-				{sid0, sid0, face, back, sid0, sid0},
-				{sid0, sid0, sid0, sid0, back, face},
-				{sid0, sid0, sid0, sid0, face, back}
-				
+				{face, back, sid2, sid2, sid2, sid2},
+				{sid2, sid2, back, face, sid1, sid3},
+				{sid0, sid0, face, back, sid3, sid1},
+				{sid1, sid1, sid3, sid1, back, face},//TODO
+				{sid3, sid3, sid1, sid3, face, back}//TODO
 		};
 	}
 
