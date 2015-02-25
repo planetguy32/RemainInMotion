@@ -110,6 +110,13 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 		PrivateToSelfIcon = Registry.RegisterIcon(IconRegister, "CarriageTranslocator_LabelPrivateToSelf");
 
 		PrivateToOtherIcon = Registry.RegisterIcon(IconRegister, "CarriageTranslocator_LabelPrivateToOther");
+		
+		TileEntityCarriageDirected.setupIcons(
+				Registry.RegisterIcon(IconRegister, "DirectedFront"),
+				Registry.RegisterIcon(IconRegister, "DirectedSide"),
+				Registry.RegisterIcon(IconRegister, "DirectedSide1"),
+				Registry.RegisterIcon(IconRegister, "DirectedSide2"),
+				Registry.RegisterIcon(IconRegister, "DirectedBack"));
 
 		TileEntityCarriageRotator.onRegisterIcons(IconRegister);
 	}
