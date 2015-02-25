@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.drive;
 import javax.swing.text.html.HTML.Tag;
 
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.SidedIcons;
 import me.planetguy.remaininmotion.CarriageMatchers;
 import me.planetguy.remaininmotion.CarriageMotionException;
 import me.planetguy.remaininmotion.CarriageObstructionException;
@@ -20,13 +21,14 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 
 	private Directions	pointedDir=Directions.NegY;
 	
-	public static IIcon[][] cachedIcons;
-
+	public static SidedIcons helper;
+	
 	@Override
 	public Directions getSignalDirection() {
 		if(super.getSignalDirection() != null)
@@ -107,29 +109,11 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 	
 	public IIcon getIcon(int side, int meta) {
 		try {
-			return cachedIcons[pointedDir.ordinal()][side];
+			return helper.getIcon(ForgeDirection.values()[pointedDir.ordinal()], side);
 		} catch (Throwable Throwable) {
 			 Throwable . printStackTrace ( ) ;
 
 			return (Blocks.iron_block.getIcon(0, 0));
 		}
 	}
-	
-	public static void setupIcons(IIcon face, IIcon sid0, IIcon sid2, IIcon sid3, IIcon back) {
-		IIcon sid1=new IconFlipped(sid3, true, false);
-		
-		Debug.mark();
-		
-		//TODO fix this icon matrix
-		cachedIcons=new IIcon[][] {
-				{back, face, sid0, sid0, sid0, sid0},
-				{face, back, sid2, sid2, sid2, sid2},
-				{sid2, sid2, back, face, sid1, sid3},
-				{sid0, sid0, face, back, sid3, sid1},
-				{sid1, sid1, sid3, sid1, back, face},//TODO
-				{sid3, sid3, sid1, sid3, face, back}//TODO
-		};
-	}
-
-
 }
