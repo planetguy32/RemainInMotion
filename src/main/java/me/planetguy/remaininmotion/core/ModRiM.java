@@ -2,7 +2,9 @@ package me.planetguy.remaininmotion.core;
 
 import java.io.File;
 
+import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
+import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -64,10 +66,26 @@ public class ModRiM {
 	@EventHandler
 	public void handleIMCMessage(FMLInterModComms.IMCEvent event) {
 		for (final FMLInterModComms.IMCMessage message : event.getMessages()) {
-			if (message.key.equals("blacklist")) {
+			if (message.key.equals("blacklistHard")) {
 				String block = message.getStringValue();
 				try {
-					int id = Integer.parseInt(block);
+					BlacklistManager.blacklistHard.blacklist(Block.getBlockFromName(block));
+
+				} catch (NumberFormatException e) {
+					System.err.println("Recieved bad blacklist request from " + message.getSender() + ": " + block);
+				}
+			}else if (message.key.equals("blacklistSoft")) {
+				String block = message.getStringValue();
+				try {
+					BlacklistManager.blacklistSoft.blacklist(Block.getBlockFromName(block));
+
+				} catch (NumberFormatException e) {
+					System.err.println("Recieved bad blacklist request from " + message.getSender() + ": " + block);
+				}
+			}else if (message.key.equals("blacklistRotation")) {
+				String block = message.getStringValue();
+				try {
+					BlacklistManager.blacklistRotation.blacklist(Block.getBlockFromName(block));
 
 				} catch (NumberFormatException e) {
 					System.err.println("Recieved bad blacklist request from " + message.getSender() + ": " + block);
