@@ -37,12 +37,14 @@ public class ModRiM {
 
 		Core.HandlePreInit();
 		
+		Core.HandleInit();
+		
 		RemIMPluginsCommon.instance.preInit(Event);
 	}
 
 	@EventHandler
 	public void Init(FMLInitializationEvent Event) {
-		Core.HandleInit();
+		
 		RemIMPluginsCommon.instance.init(Event);
 	}
 

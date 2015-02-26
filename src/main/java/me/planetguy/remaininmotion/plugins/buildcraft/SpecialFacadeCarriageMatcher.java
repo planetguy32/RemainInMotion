@@ -20,9 +20,7 @@ public class SpecialFacadeCarriageMatcher implements FrameCarriageMatcher {
 				if (plug instanceof IFacadePluggable) {
 					IFacadePluggable facade = (IFacadePluggable) plug;
 					if (facade.getCurrentBlock() == RemIMPluginsCommon.getFrameBlock()
-							&& facade.getCurrentMetadata() == 0) { // frame
-																	// carriage
-																	// facade
+							&& facade.getCurrentMetadata() == 0) { // frame carriage facade
 						return true;
 					}
 				}

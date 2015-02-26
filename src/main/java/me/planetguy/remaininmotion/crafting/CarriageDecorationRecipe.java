@@ -1,11 +1,15 @@
 package me.planetguy.remaininmotion.crafting;
 
+import me.planetguy.lib.prefab.ItemBlockBase;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.Stack;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
+import me.planetguy.remaininmotion.base.ICamouflageable;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
+import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemBlock;
@@ -28,7 +32,7 @@ public class CarriageDecorationRecipe extends Recipe {
 			}
 
 			if (Item.getItem() instanceof ItemBlock
-					&& ((ItemBlock) Item.getItem()).field_150939_a instanceof BlockCamouflageable) {
+					&& ((ItemBlock) Item.getItem()).field_150939_a instanceof ICamouflageable) {
 				if (Carriage != null) { return (null); }
 
 				Carriage = Item;
@@ -56,7 +60,13 @@ public class CarriageDecorationRecipe extends Recipe {
 
 			int DecorationMeta = Decoration.getItem().getMetadata(Decoration.getItemDamage());
 
-			ItemStack stk = new ItemStack(Carriage.getItem(), 1, Carriage.getItemDamage());
+			ItemStack stk;
+			
+			if(Carriage.getItem() instanceof ItemBlock 
+					&& ((ItemBlock)Carriage.getItem()).field_150939_a == RIMBlocks.plainFrame)
+				stk=new ItemStack(RIMBlocks.Carriage, 1, BlockCarriage.Types.Frame.ordinal());
+			else
+				stk	= new ItemStack(Carriage.getItem(), 1, Carriage.getItemDamage());
 
 			Stack.Tag(stk);
 

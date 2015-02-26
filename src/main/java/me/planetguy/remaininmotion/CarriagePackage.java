@@ -59,6 +59,9 @@ public class CarriagePackage {
 	}
 
 	public boolean MatchesCarriageType(BlockRecord record) {
+		if(record.entity == null) {
+			record.entity=new TileEntity();
+		}
 		return CarriageMatchers.matches(record.block, record.Meta, record.entity, this);
 	}
 

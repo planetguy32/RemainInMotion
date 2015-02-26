@@ -131,14 +131,12 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 			case Rotator:
 				return TileEntityCarriageRotator.icons[0][Side];
 			case Predirected:
-				return TileEntityCarriageDirected.helper.getIcon(ForgeDirection.EAST, Side);
+				return TileEntityCarriageDirected.helper.getIcon(ForgeDirection.NORTH, Side);
 			default:
 				return (Types.values()[Meta].NormalIcon);
 			}
 			
 		} catch (Throwable Throwable) {
-			// Throwable . printStackTrace ( ) ; //Fix log spam with MapWriter
-
 			return (RIMBlocks.Spectre.getIcon(0, 0));
 		}
 	}

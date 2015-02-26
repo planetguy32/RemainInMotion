@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockCamouflageable extends BlockRiM {
+public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
 
 	public BlockCamouflageable(Block Template, Class<? extends ItemBlockRiM> BlockItemClass,
 			Class<? extends TileEntityRiM>... TileEntityList) {
@@ -13,6 +13,7 @@ public class BlockCamouflageable extends BlockRiM {
 
 	}
 
+	@Override
 	public IIcon getIconCamouflaged(IBlockAccess world, int x, int y, int z, int side) {
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof TileEntityCamouflageable) {

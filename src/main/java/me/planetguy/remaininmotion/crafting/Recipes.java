@@ -8,11 +8,13 @@ import me.planetguy.remaininmotion.Vanilla;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.Core;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.ItemCarriageDrive;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class Recipes {
@@ -60,7 +62,17 @@ public abstract class Recipes {
 	}
 
 	public static void RegisterCarriageRecipe(BlockCarriage.Types CarriageType, Vanilla.DyeTypes DyeType) {
-		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 8),
+		
+		
+		ItemStack output;
+		if(CarriageType == BlockCarriage.Types.Frame)
+			output=new ItemStack(RIMBlocks.plainFrame, 8);
+		else
+			output=Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 8);
+		
+		
+		Registry.RegisterShapelessDictionaryRecipe(
+				output,
 
 		Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
 				Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
