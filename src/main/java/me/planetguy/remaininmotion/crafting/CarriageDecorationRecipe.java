@@ -70,7 +70,7 @@ public class CarriageDecorationRecipe extends Recipe {
 
 			Stack.Tag(stk);
 
-			stk.stackTagCompound.setInteger("DecorationID", DecorationId);
+			stk.stackTagCompound.setInteger("DecorationId", DecorationId);
 
 			stk.stackTagCompound.setInteger("DecorationMeta", DecorationMeta);
 

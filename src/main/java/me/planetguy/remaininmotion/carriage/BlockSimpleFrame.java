@@ -10,6 +10,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import me.planetguy.lib.prefab.BlockBase;
 import me.planetguy.lib.prefab.BlockContainerBase;
+import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.base.ICamouflageable;
@@ -48,7 +49,7 @@ public class BlockSimpleFrame extends BlockContainerBase implements ICamouflagea
 	@Override
 	public boolean onBlockActivated(World w, int x, int y, int z, EntityPlayer Player, int Side, float HitX,
 			float HitY, float HitZ) {
-		if(Wrenches.isAWrench(Player.getHeldItem())) {
+		if(ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem())) {
 			w.setBlock(x, y, z, RIMBlocks.Carriage);
 			w.getBlock(x, y, z).onBlockActivated(w, x, y, z, Player, Side, HitX, HitY, HitZ);
 			return true;

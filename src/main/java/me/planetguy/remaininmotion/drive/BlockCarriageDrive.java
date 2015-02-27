@@ -150,7 +150,12 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 
 			int meta = World.getBlockMetadata(X, Y, Z);
 
-			return Drive.getIcon(Side, meta);
+			IIcon icon=Drive.getIcon(Side, meta);
+			
+			if(icon==null)
+				icon=InactiveIcon;
+			
+			return icon;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
