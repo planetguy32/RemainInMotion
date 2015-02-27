@@ -58,7 +58,6 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 
 	@Override
 	public void onAdded(CarriagePackage pkg, NBTTagCompound tag) throws CarriageMotionException {
-		Debug.mark();
 		HandleNeighbourBlockChange();
 		BlockRecord record = new BlockRecord(this);
 		if (!alreadyMoving) {
@@ -69,12 +68,10 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 				
 				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.DeltaX,
 						yCoord + CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ);
-
 				pkg.AnchorRecord.Identify(worldObj);
-				Debug.dbg(pkg.AnchorRecord);
-				
 				MultiTypeCarriageUtil.fillPackage(pkg, worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord
 						+ CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ));
+				
 				pkg.AnchorRecord = oldAnchor;
 			}
 		}

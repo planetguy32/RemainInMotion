@@ -20,7 +20,7 @@ public class ItemCarriage extends ItemBlockRiM {
 
 	public static Block GetDecorationBlock(ItemStack Item) {
 		if (Item.stackTagCompound != null) { return Block
-				.getBlockById(Item.stackTagCompound.getInteger("DecorationId")); }
+				.getBlockById(Item.getTagCompound().getInteger("DecorationId")); }
 
 		return Block.getBlockFromItem(Item.getItem());
 	}

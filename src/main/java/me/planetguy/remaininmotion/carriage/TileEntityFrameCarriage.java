@@ -5,7 +5,10 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.ICloseableFactory;
 import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.base.BlockRiM;
+import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityFrameCarriage extends TileEntityCarriage {
@@ -26,6 +29,14 @@ public class TileEntityFrameCarriage extends TileEntityCarriage {
 	@Override
 	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
 		MultiTypeCarriageUtil.fillFramePackage(Package, worldObj);
+	}
+	
+	public void EmitDrops(BlockRiM Block, int Meta)  {
+		if(this.getDecoration() == null) {
+			EmitDrop(Block, new ItemStack(RIMBlocks.plainFrame));
+		}else {
+			super.EmitDrops(Block, Meta) ;
+		}
 	}
 
 }

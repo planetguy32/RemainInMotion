@@ -159,9 +159,12 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		IIcon pivotCCW = Registry.RegisterIcon(iconRegister, "RotatorArrowCCW");
 		IIcon pivotCW = new IconFlipped(pivotCCW, true, false);
 		IIcon arrow = Registry.RegisterIcon(iconRegister, "RotatorArrowUp");
-		icons = new IIcon[][] { { pivotCW, pivotCCW, arrow, arrow, arrow, arrow },
-				{ pivotCCW, pivotCW, arrow, arrow, arrow, arrow }, { arrow, arrow, pivotCW, pivotCCW, arrow, arrow },
-				{ arrow, arrow, pivotCCW, pivotCW, arrow, arrow }, { arrow, arrow, arrow, arrow, pivotCW, pivotCCW },
+		icons = new IIcon[][] { 
+				{ pivotCW, pivotCCW, arrow, arrow, arrow, arrow },
+				{ pivotCCW, pivotCW, arrow, arrow, arrow, arrow }, 
+				{ arrow, arrow, pivotCW, pivotCCW, arrow, arrow },
+				{ arrow, arrow, pivotCCW, pivotCW, arrow, arrow }, 
+				{ arrow, arrow, arrow, arrow, pivotCW, pivotCCW },
 				{ arrow, arrow, arrow, arrow, pivotCCW, pivotCW }, };
 	}
 
@@ -197,11 +200,13 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 			pkg.AddBlock(record);
 			if (CarriageDirection != null && CarriageDirection != Directions.Null) {
 				BlockRecord oldAnchor = pkg.AnchorRecord;
+				
 				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.DeltaX,
 						yCoord + CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ);
 				pkg.AnchorRecord.Identify(worldObj);
 				MultiTypeCarriageUtil.fillPackage(pkg, worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord
 						+ CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ));
+				
 				pkg.AnchorRecord = oldAnchor;
 
 			}

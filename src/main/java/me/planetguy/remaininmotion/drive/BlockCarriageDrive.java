@@ -2,6 +2,8 @@ package me.planetguy.remaininmotion.drive;
 
 import java.util.List;
 
+import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.SidedIcons;
 import me.planetguy.remaininmotion.Registry;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
@@ -17,6 +19,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCarriageDrive extends BlockCamouflageable {
 	public BlockCarriageDrive() {
@@ -110,6 +113,13 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 		PrivateToSelfIcon = Registry.RegisterIcon(IconRegister, "CarriageTranslocator_LabelPrivateToSelf");
 
 		PrivateToOtherIcon = Registry.RegisterIcon(IconRegister, "CarriageTranslocator_LabelPrivateToOther");
+		
+		TileEntityCarriageDirected.helper=new SidedIcons(
+				Registry.RegisterIcon(IconRegister, "DirectedFront"),
+				Registry.RegisterIcon(IconRegister, "DirectedSide"),
+				Registry.RegisterIcon(IconRegister, "DirectedSide1"),
+				Registry.RegisterIcon(IconRegister, "DirectedSide2"),
+				Registry.RegisterIcon(IconRegister, "DirectedBack"));
 
 		TileEntityCarriageRotator.onRegisterIcons(IconRegister);
 	}
@@ -117,11 +127,16 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	@Override
 	public IIcon getIcon(int Side, int Meta) {
 		try {
-			if (Meta == Types.Rotator.ordinal()) { return TileEntityCarriageRotator.icons[0][Side]; }
-			return (Types.values()[Meta].NormalIcon);
+			switch (Types.values()[Meta]) {
+			case Rotator:
+				return TileEntityCarriageRotator.icons[0][Side];
+			case Predirected:
+				return TileEntityCarriageDirected.helper.getIcon(ForgeDirection.NORTH, Side);
+			default:
+				return (Types.values()[Meta].NormalIcon);
+			}
+			
 		} catch (Throwable Throwable) {
-			// Throwable . printStackTrace ( ) ; //Fix log spam with MapWriter
-
 			return (RIMBlocks.Spectre.getIcon(0, 0));
 		}
 	}
@@ -135,7 +150,12 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 
 			int meta = World.getBlockMetadata(X, Y, Z);
 
-			return Drive.getIcon(Side, meta);
+			IIcon icon=Drive.getIcon(Side, meta);
+			
+			if(icon==null)
+				icon=InactiveIcon;
+			
+			return icon;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

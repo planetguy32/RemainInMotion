@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class Core {
+	
 	public static void HandlePreInit() {}
 
 	public static void HandleInit() {

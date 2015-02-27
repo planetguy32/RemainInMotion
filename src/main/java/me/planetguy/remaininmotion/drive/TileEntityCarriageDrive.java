@@ -51,7 +51,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public Directions CarriageDirection;
 
-    private Directions SignalDirection;
+	protected Directions	SignalDirection;
 
     @Override
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
@@ -213,9 +213,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
             return;
         }
 
-        if (getSignalDirection() == null) {
-            if (Signalled) {
-                Signalled = false;
+		if (SignalDirection == null) {
+			if (Signalled) {
+				Signalled = false;
 
                 MarkServerRecordDirty();
             }

@@ -27,6 +27,7 @@ public class RemIMPluginsCommon {
 
 	public static Block getFrameBlock() {
 		if (frameBlock == null) {
+			/*
 			frameBlock = new Block(Material.wood) {
 
 				IIcon[]	icons;
@@ -57,14 +58,15 @@ public class RemIMPluginsCommon {
 			// GameRegistry.addSmelting(new ItemStack(frameBlock, 0), new
 			// ItemStack(frameBlock, 1), 0);
 			GameRegistry.addSmelting(new ItemStack(frameBlock, 0), new ItemStack(RIMBlocks.Carriage), 0);
+			/* */
+			frameBlock=RIMBlocks.plainFrame;
+			// */
 		}
 		return frameBlock;
 	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		getFrameBlock();
-		
 		FMPCarriagePlugin.tryLoad();
 
 		BCFacadePlugin.tryLoad();

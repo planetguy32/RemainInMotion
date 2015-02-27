@@ -1,7 +1,13 @@
 package me.planetguy.remaininmotion.core;
 
+import java.util.HashMap;
+
+import me.planetguy.lib.prefab.BlockBase;
+import me.planetguy.lib.prefab.BlockContainerBase;
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
+import me.planetguy.remaininmotion.carriage.BlockSimpleFrame;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import net.minecraft.block.Block;
@@ -15,6 +21,8 @@ public abstract class RIMBlocks {
 	public static BlockSpectre			Spectre;
 
 	public static Block					air	= Blocks.air;
+	
+	public static Block plainFrame;
 
 	public static void Initialize() {
 		BlockRiM.initLegacyClassMap();
@@ -24,6 +32,7 @@ public abstract class RIMBlocks {
 		CarriageDrive = new BlockCarriageDrive();
 
 		Spectre = new BlockSpectre();
-
+		
+		plainFrame=(Block) ModRiM.plHelper.loadContainer(BlockSimpleFrame.class, new HashMap());
 	}
 }

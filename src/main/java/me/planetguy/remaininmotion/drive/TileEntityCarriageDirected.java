@@ -1,42 +1,119 @@
 package me.planetguy.remaininmotion.drive;
 
+import javax.swing.text.html.HTML.Tag;
+
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.SidedIcons;
+import me.planetguy.remaininmotion.CarriageMatchers;
+import me.planetguy.remaininmotion.CarriageMotionException;
+import me.planetguy.remaininmotion.CarriageObstructionException;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.remaininmotion.core.ModRiM;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
+import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
+import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 
-	private boolean		powered	= false;
-
-	private Directions	pointedDir;
-
-	@Override
-	public void setSignalDirection(Directions dir) {
-		if (dir != null) {
-			powered = true;
-		}
-	}
-
+	private Directions	pointedDir=Directions.NegY;
+	
+	public static SidedIcons helper;
+	
 	@Override
 	public Directions getSignalDirection() {
-		return pointedDir;
+		if(super.getSignalDirection() != null)
+			return pointedDir;
+		else
+			return null;
 	}
 
 	@Override
 	public boolean onRightClicked(int side, EntityPlayer player) {
-		if (player.getHeldItem() != null) {
-			pointedDir = Directions.values()[side];
+		if (player.getHeldItem() != null
+				&& player.getHeldItem().getItem() == Items.stick
+				) {
+			pointedDir = Directions.values()[side].Opposite();
+			Debug.dbg(pointedDir.ordinal());
+			Propagate();
 			return true;
 		}
 		return false;
 	}
 
-	@Override
 	public void HandleNeighbourBlockChange() {
-		Debug.details(this);
-		powered = false;
-		super.HandleNeighbourBlockChange();
-		Debug.details(this);
-	}
+		Stale = false;
 
+		CarriageDirection = null;
+
+		boolean CarriageDirectionValid = true;
+
+		setSignalDirection(null);
+
+		for (Directions Direction : Directions.values()) {
+			int X = xCoord + Direction.DeltaX;
+			int Y = yCoord + Direction.DeltaY;
+			int Z = zCoord + Direction.DeltaZ;
+
+			if (worldObj.isAirBlock(X, Y, Z)) {
+				continue;
+			}
+
+			if (isSideClosed(Direction.ordinal())) {
+				continue;
+			}
+
+			net.minecraft.block.Block Id = worldObj.getBlock(X, Y, Z);
+			net.minecraft.tileentity.TileEntity te = worldObj.getTileEntity(X, Y, Z);
+
+			Moveable m = CarriageMatchers.getMover(Id, worldObj.getBlockMetadata(X, Y, Z), te);
+
+			if (m != null) {
+				if (CarriageDirection != null) {
+					CarriageDirectionValid = false;
+				} else {
+					CarriageDirection = Direction;
+				}
+			}
+			if (Id.isProvidingWeakPower(worldObj, X, Y, Z, Direction.ordinal()) > 0) {
+				setSignalDirection(Directions.NegX); //doesn't matter
+			}
+		}
+
+		if (!CarriageDirectionValid) {
+			CarriageDirection = null;
+		}
+
+	}
+	
+	public void WriteCommonRecord(NBTTagCompound TagCompound) {
+		super.WriteCommonRecord(TagCompound);
+		if(pointedDir != null)
+			TagCompound.setByte("pointedDir", (byte) pointedDir.ordinal());
+	}
+	
+	public void ReadCommonRecord(NBTTagCompound TagCompound) {
+		super.ReadCommonRecord(TagCompound);
+		if(TagCompound.hasKey("pointedDir"))
+			pointedDir=Directions.values()[TagCompound.getByte("pointedDir")];
+	}
+	
+	public IIcon getIcon(int side, int meta) {
+		try {
+			return helper.getIcon(ForgeDirection.values()[pointedDir.ordinal()], side);
+		} catch (Throwable Throwable) {
+			 Throwable . printStackTrace ( ) ;
+
+			return (Blocks.iron_block.getIcon(0, 0));
+		}
+	}
 }
