@@ -13,6 +13,7 @@ import codechicken.multipart.handler.MultipartSaveLoad;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.IMotionCallback;
+import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -665,4 +666,52 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
     }
 
+    public int getLightValue()
+    {
+        Block b = null;
+        NBTTagCompound nbt = null;
+        if(body == null) return RIMBlocks.Spectre.getLightValue();
+        for(BlockRecord temp : body){
+            if(temp.X == xCoord && temp.Y == yCoord && temp.Z == zCoord)
+            {
+                b = temp.block;
+                nbt = temp.entityRecord;
+            }
+        }
+        if(b instanceof  BlockCamouflageable) {
+            if(nbt != null) {
+                Block b2 = Block.getBlockById(nbt.getInteger("DecorationId"));
+                if(b2 != null){
+                    return b2.getLightValue();
+                }
+            }
+        }
+        if(b != null) return b.getLightValue();
+        return RIMBlocks.Spectre.getLightValue();
+    }
+
+    public int getLightOpacity()
+    {
+        Block b = null;
+        NBTTagCompound nbt = null;
+        if(body == null) return RIMBlocks.Spectre.getLightOpacity();
+        for(BlockRecord temp : body){
+            if(temp.X == xCoord && temp.Y == yCoord && temp.Z == zCoord)
+            {
+                b = temp.block;
+                nbt = temp.entityRecord;
+                break;
+            }
+        }
+        if(b instanceof  BlockCamouflageable) {
+            if(nbt != null) {
+                Block b2 = Block.getBlockById(nbt.getInteger("DecorationId"));
+                if(b2 != null){
+                    return b2.getLightOpacity();
+                }
+            }
+        }
+        if(b != null) return b.getLightOpacity();
+        return RIMBlocks.Spectre.getLightOpacity();
+    }
 }

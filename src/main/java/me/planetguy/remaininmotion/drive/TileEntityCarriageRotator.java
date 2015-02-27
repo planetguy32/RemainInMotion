@@ -114,6 +114,9 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, theEntity);
 
 		theEntity.Absorb(Package);
+
+        worldObj.markBlockForUpdate(CarriageX, CarriageY, CarriageZ);
+        worldObj.func_147451_t(CarriageX, CarriageY, CarriageZ);
 	}
 
 	@Override

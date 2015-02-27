@@ -20,10 +20,7 @@ import me.planetguy.remaininmotion.drive.TileEntityCarriageMotor;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageRotator;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTransduplicator;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
-import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
-import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
-import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
-import me.planetguy.remaininmotion.spectre.TileEntityTransduplicativeSpectre;
+import me.planetguy.remaininmotion.spectre.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.creativetab.CreativeTabs;
@@ -94,6 +91,7 @@ public abstract class BlockRiM extends BlockContainer {
 
 		// Specters
 		legacyClassToNameMap.put(TileEntityMotiveSpectre.class, "JAKJ_RedstoneInMotion_MotiveSpectreEntity");
+        legacyClassToNameMap.put(TileEntitySupportiveSpectre.class, "JAKJ_RedstoneInMotion_SupportiveSpectreEntity");
 		legacyClassToNameMap.put(TileEntityTeleportativeSpectre.class,
 				"JAKJ_RedstoneInMotion_TeleportativeSpectreEntity");
 		legacyClassToNameMap.put(TileEntityTransduplicativeSpectre.class,

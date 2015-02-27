@@ -25,3 +25,5 @@ gradlew.bat
 #runtime
 run
 .gradle/gradle.log
+src/api/java/buildcraft/*
+

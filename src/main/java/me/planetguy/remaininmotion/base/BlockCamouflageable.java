@@ -23,4 +23,34 @@ public class BlockCamouflageable extends BlockRiM {
 		}
 	}
 
+    /**
+     * Gets the light value of the specified block coords. Args: x, y, z
+     */
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCamouflageable) {
+            Block deco = ((TileEntityCamouflageable) te).Decoration;
+            if(deco != null)
+            {
+                return ((Block) deco).getLightValue();
+            }
+        }
+        return super.getLightValue();
+
+    }
+
+    @Override
+    public int getLightOpacity(IBlockAccess world, int x, int y, int z) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityCamouflageable) {
+            Block deco = ((TileEntityCamouflageable) te).Decoration;
+            if(deco != null)
+            {
+                return ((Block) deco).getLightOpacity();
+            }
+        }
+        return super.getLightOpacity();
+    }
+
 }

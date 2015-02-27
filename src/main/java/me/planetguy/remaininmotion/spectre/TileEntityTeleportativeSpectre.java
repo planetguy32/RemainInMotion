@@ -18,6 +18,8 @@ import net.minecraft.world.WorldServer;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
+
+
 	public boolean	Source;
 
 	public int		ShiftX;

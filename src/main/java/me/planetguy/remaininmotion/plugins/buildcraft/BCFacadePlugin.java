@@ -14,7 +14,8 @@ public class BCFacadePlugin {
 			try {
 				//reflection check if IFacadePluggable exists - if this throws, our
 				//hook is missing so don't even bother loading
-				Class.forName("buildcraft.api.transport.pluggable.IFacadePluggable");
+                //Loader.isModLoaded does this already
+				//Class.forName("buildcraft.api.transport.pluggable.IFacadePluggable");
 
 				Debug.dbg("Buildcraft special facade: loading");
 

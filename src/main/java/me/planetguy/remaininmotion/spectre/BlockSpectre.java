@@ -4,15 +4,17 @@ import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockSpectre extends BlockRiM {
 	public BlockSpectre() {
-		super(Blocks.bedrock, ItemSpectre.class, TileEntityMotiveSpectre.class, null,
+		super(Blocks.bedrock, ItemSpectre.class, TileEntityMotiveSpectre.class, TileEntitySupportiveSpectre.class,
 				TileEntityTeleportativeSpectre.class, TileEntityTransduplicativeSpectre.class,
 				TileEntityRotativeSpectre.class);
 		RenderId = -1;
@@ -57,4 +59,32 @@ public class BlockSpectre extends BlockRiM {
 		// System.out.println("Render fallback (RANB): "+Configuration.Cosmetic.renderFallback);
 		return (RiMConfiguration.Cosmetic.renderFallback);
 	}
+
+    /**
+     * Gets the light value of the specified block coords. Args: x, y, z
+     */
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityMotiveSpectre) {
+            return ((TileEntityMotiveSpectre) te).getLightValue();
+        } else if(te instanceof TileEntitySupportiveSpectre)
+        {
+            return ((TileEntitySupportiveSpectre) te).getLightValue();
+        }
+        return super.getLightValue(world, x, y, z);
+
+    }
+
+    @Override
+    public int getLightOpacity(IBlockAccess world, int x, int y, int z) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TileEntityMotiveSpectre) {
+            return ((TileEntityMotiveSpectre) te).getLightOpacity();
+        } else if(te instanceof TileEntitySupportiveSpectre)
+        {
+            return ((TileEntitySupportiveSpectre) te).getLightOpacity();
+        }
+        return super.getLightOpacity(world, x, y, z);
+    }
 }
