@@ -16,7 +16,7 @@ public class TileEntitySupportiveSpectre extends TileEntityRiM {
     {
         lightValue = block.getLightValue();
         lightOpacity = block.getLightOpacity();
-        Propagate();
+
     }
 
     @Override

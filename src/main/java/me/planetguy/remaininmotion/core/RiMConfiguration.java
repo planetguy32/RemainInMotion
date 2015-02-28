@@ -59,6 +59,8 @@ public class RiMConfiguration extends Config {
 		public static boolean	UpdateBuildcraftPipes	= true;
 
 		public static boolean	allowRotation			= true;
+
+        public static boolean experimentalColor = true;
 	}
 
 	public abstract static class Debug {
@@ -258,6 +260,9 @@ public class RiMConfiguration extends Config {
 
 			DirtyHacks.allowRotation = Boolean("EnableRotationCarriage", "Allow rotator carriage",
 					DirtyHacks.allowRotation);
+
+            DirtyHacks.experimentalColor = Boolean("EnableExperimentalColor", "Things like grass that have colorizers do 'interesting' things when used as camouflage. Who likes funny color glitches?",
+                    DirtyHacks.experimentalColor);
 		}
 
 		{

@@ -43,7 +43,7 @@ public class SafeDraw {
 	}
 
 	public static void protectISBRHs() {
-		IdentityHashMap<ISimpleBlockRenderingHandler, ISimpleBlockRenderingHandler> cachedISBRHs=new IdentityHashMap<>();
+		IdentityHashMap<ISimpleBlockRenderingHandler, ISimpleBlockRenderingHandler> cachedISBRHs=new IdentityHashMap<ISimpleBlockRenderingHandler, ISimpleBlockRenderingHandler>();
 		Map<Integer, ISimpleBlockRenderingHandler> blockRenderers = (Map<Integer, ISimpleBlockRenderingHandler>) Reflection.get(RenderingRegistry.class, RenderingRegistry.instance(), "blockRenderers");
 		for(Integer i:blockRenderers.keySet()) {
 			final ISimpleBlockRenderingHandler handler=blockRenderers.get(i);
@@ -93,7 +93,7 @@ public class SafeDraw {
 	}
 
 	public static void protectEntityRenderers() {
-		IdentityHashMap<Render, Render> cache=new IdentityHashMap<>();
+		IdentityHashMap<Render, Render> cache=new IdentityHashMap<Render, Render>();
 		Map<Class<? extends Entity>, Render> map=(Map<Class<? extends Entity>, Render>)RenderManager.instance.entityRenderMap;
 		try{
 			final Method m=Render.class.getDeclaredMethod("getEntityTexture", Entity.class);
@@ -131,7 +131,7 @@ public class SafeDraw {
 	}
 	
 	public static void protectTESRs() {
-		IdentityHashMap<TileEntitySpecialRenderer, TileEntitySpecialRenderer> cache=new IdentityHashMap<>();
+		IdentityHashMap<TileEntitySpecialRenderer, TileEntitySpecialRenderer> cache=new IdentityHashMap<TileEntitySpecialRenderer, TileEntitySpecialRenderer>();
 		Map<Class, TileEntitySpecialRenderer> map=TileEntityRendererDispatcher.instance.mapSpecialRenderers;
 		for(Class c:map.keySet()) {
 			final TileEntitySpecialRenderer tesr=map.get(c);
