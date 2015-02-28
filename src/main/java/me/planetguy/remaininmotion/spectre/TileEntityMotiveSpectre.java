@@ -173,7 +173,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
                     record.entity = TileEntity
                             .createAndLoadEntity(record.entityRecord);
-                    
+
                     if (record.entity != null) {
                         SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
                                 record.Z, record.entity);
@@ -221,11 +221,11 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             onMotionFinalized(record);
             record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
         }
-        
+
         for(BlockRecord record:body) {
-			if(record.entity instanceof IMotionCallback) {
-				((IMotionCallback) record.entity).onPlacedFromMotion();
-			}
+            if(record.entity instanceof IMotionCallback) {
+                ((IMotionCallback) record.entity).onPlacedFromMotion();
+            }
         }
 
         cleanupSpecter();
@@ -360,82 +360,97 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     }
 
     @Override
-    public void WriteServerRecord(NBTTagCompound TagCompound) {
-        TagCompound.setInteger("DriveX", DriveRecord.X);
-        TagCompound.setInteger("DriveY", DriveRecord.Y);
-        TagCompound.setInteger("DriveZ", DriveRecord.Z);
+    public void writeToNBT(NBTTagCompound TagCompound) {
+        super.writeToNBT(TagCompound);
 
-        TagCompound.setBoolean("DriveIsAnchored", DriveIsAnchored);
-
+        // Don't need to send this whole thing over network all the time
         TagCompound.setTag("PendingBlockUpdates", PendingBlockUpdates);
 
-        {
-            NBTTagList BodyRecord = new NBTTagList();
+        NBTTagList BodyRecord = new NBTTagList();
 
-            for (BlockRecord Record : body) {
-                NBTTagCompound BodyBlockRecord = new NBTTagCompound();
+        for (BlockRecord Record : body) {
+            NBTTagCompound BodyBlockRecord = new NBTTagCompound();
 
-                BodyBlockRecord.setInteger("X", Record.X);
-                BodyBlockRecord.setInteger("Y", Record.Y);
-                BodyBlockRecord.setInteger("Z", Record.Z);
+            BodyBlockRecord.setInteger("X", Record.X);
+            BodyBlockRecord.setInteger("Y", Record.Y);
+            BodyBlockRecord.setInteger("Z", Record.Z);
 
-                BodyBlockRecord.setInteger("Id",
-                        Block.getIdFromBlock(Record.block));
+            BodyBlockRecord.setInteger("Id",
+                    Block.getIdFromBlock(Record.block));
 
-                BodyBlockRecord.setInteger("Meta", Record.Meta);
+            BodyBlockRecord.setInteger("Meta", Record.Meta);
 
-                if (Record.entityRecord != null) {
-                    BodyBlockRecord.setTag("EntityRecord", Record.entityRecord);
-                }
-
-                BodyRecord.appendTag(BodyBlockRecord);
-
+            if (Record.entityRecord != null) {
+                BodyBlockRecord.setTag("EntityRecord", Record.entityRecord);
             }
 
-            TagCompound.setTag("Body", BodyRecord);
+            BodyRecord.appendTag(BodyBlockRecord);
 
         }
+
+        TagCompound.setTag("Body", BodyRecord);
+
     }
 
     @Override
-    public void ReadServerRecord(NBTTagCompound TagCompound) {
-        DriveRecord = new BlockRecord(TagCompound.getInteger("DriveX"),
-                TagCompound.getInteger("DriveY"),
-                TagCompound.getInteger("DriveZ"));
+    public void readFromNBT(NBTTagCompound TagCompound) {
+        super.readFromNBT(TagCompound);
 
-        DriveIsAnchored = TagCompound.getBoolean("DriveIsAnchored");
-
+        // Don't need to send this whole thing over network all the time
         PendingBlockUpdates = TagCompound.getTagList("PendingBlockUpdates", 10);
 
         body = new BlockRecordSet();
 
-        {
-            NBTTagList BodyRecord = TagCompound.getTagList("Body", 10);
+        NBTTagList BodyRecord = TagCompound.getTagList("Body", 10);
 
-            int BodyBlockCount = BodyRecord.tagCount();
+        int BodyBlockCount = BodyRecord.tagCount();
 
-            for (int Index = 0; Index < BodyBlockCount; Index++) {
-                NBTTagCompound BodyBlockRecord = BodyRecord
-                        .getCompoundTagAt(Index);
+        for (int Index = 0; Index < BodyBlockCount; Index++) {
+            NBTTagCompound BodyBlockRecord = BodyRecord
+                    .getCompoundTagAt(Index);
 
-                BlockRecord Record = new BlockRecord(
-                        BodyBlockRecord.getInteger("X"),
-                        BodyBlockRecord.getInteger("Y"),
-                        BodyBlockRecord.getInteger("Z"));
+            BlockRecord Record = new BlockRecord(
+                    BodyBlockRecord.getInteger("X"),
+                    BodyBlockRecord.getInteger("Y"),
+                    BodyBlockRecord.getInteger("Z"));
 
-                Record.block = Block.getBlockById(BodyBlockRecord
-                        .getInteger("Id"));
+            Record.block = Block.getBlockById(BodyBlockRecord
+                    .getInteger("Id"));
 
-                Record.Meta = BodyBlockRecord.getInteger("Meta");
+            Record.Meta = BodyBlockRecord.getInteger("Meta");
 
-                if (BodyBlockRecord.hasKey("EntityRecord")) {
-                    Record.entityRecord = BodyBlockRecord
-                            .getCompoundTag("EntityRecord");
-                }
-
-                body.add(Record);
+            if (BodyBlockRecord.hasKey("EntityRecord")) {
+                Record.entityRecord = BodyBlockRecord
+                        .getCompoundTag("EntityRecord");
             }
+
+            body.add(Record);
         }
+
+    }
+
+    @Override
+    public void WriteServerRecord(NBTTagCompound TagCompound) {
+        if(DriveRecord != null) {
+            TagCompound.setInteger("DriveX", DriveRecord.X);
+            TagCompound.setInteger("DriveY", DriveRecord.Y);
+            TagCompound.setInteger("DriveZ", DriveRecord.Z);
+        }
+
+        TagCompound.setBoolean("DriveIsAnchored", DriveIsAnchored);
+    }
+
+    @Override
+    public void ReadServerRecord(NBTTagCompound TagCompound) {
+        if(TagCompound.hasKey("DriveX")) {
+            DriveRecord = new BlockRecord(TagCompound.getInteger("DriveX"),
+                    TagCompound.getInteger("DriveY"),
+                    TagCompound.getInteger("DriveZ"));
+        }
+
+        DriveIsAnchored = TagCompound.getBoolean("DriveIsAnchored");
+
+
     }
 
     @Override

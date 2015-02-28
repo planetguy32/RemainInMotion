@@ -231,8 +231,8 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 			for (int Index = 0; Index < PatternSize; Index++) {
 				NBTTagCompound PatternBlockRecord = PatternRecord.getCompoundTagAt(Index);
 
-				Pattern.add(new BlockRecord(PatternBlockRecord.getInteger("X"), PatternBlockRecord.getInteger("Y"),
-						PatternBlockRecord.getInteger("Z")));
+				Pattern.add(new BlockRecord(PatternBlockRecord.getShort("X"), PatternBlockRecord.getShort("Y"),
+						PatternBlockRecord.getShort("Z")));
 			}
 		} else {
 			Pattern = null;
@@ -246,21 +246,32 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
 
-		if (Pattern != null) {
-			NBTTagList PatternRecord = new NBTTagList();
+        // Why send it at all if it's not rendered?
+        if(RenderPattern) {
+            if (Pattern != null) {
+                NBTTagList PatternRecord = new NBTTagList();
 
-			for (BlockRecord PatternBlock : Pattern) {
-				NBTTagCompound PatternBlockRecord = new NBTTagCompound();
+                for (BlockRecord PatternBlock : Pattern) {
+                    NBTTagCompound PatternBlockRecord = new NBTTagCompound();
 
-				PatternBlockRecord.setInteger("X", PatternBlock.X);
-				PatternBlockRecord.setInteger("Y", PatternBlock.Y);
-				PatternBlockRecord.setInteger("Z", PatternBlock.Z);
+                    // Byte = 8bit
+                    // Short = 16bit
+                    // Integer = 32bit
+                    // Java default Byte is signed, -128 to 127 inclusive
+                    // Short is -32,768 to 32,767 inclusive
+                    // Integer is -2^31 to 2^31-1, Minecraft will kick me before it lets me make a castle that big move....
+                    // We save 6 bytes of data for every block in a pattern this way
+                    // Note changing this is only OK since these use relative location
+                    PatternBlockRecord.setShort("X", (short) PatternBlock.X);
+                    PatternBlockRecord.setShort("Y", (short) PatternBlock.Y);
+                    PatternBlockRecord.setShort("Z", (short) PatternBlock.Z);
 
-				PatternRecord.appendTag(PatternBlockRecord);
-			}
+                    PatternRecord.appendTag(PatternBlockRecord);
+                }
 
-			TagCompound.setTag("Pattern", PatternRecord);
-		}
+                TagCompound.setTag("Pattern", PatternRecord);
+            }
+        }
 
 		TagCompound.setBoolean("RenderPattern", RenderPattern);
 	}
