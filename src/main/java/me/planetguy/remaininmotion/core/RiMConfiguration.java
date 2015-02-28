@@ -6,7 +6,9 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 
 public class RiMConfiguration extends Config {
-	public abstract static class Carriage {
+
+
+    public abstract static class Carriage {
 		public static int		MaxPlatformBurden	= 5000;
 
 		public static int		MaxSupportBurden	= 5000;
@@ -71,11 +73,20 @@ public class RiMConfiguration extends Config {
 		public static boolean	verbose					= false;
 	}
 
-	public static boolean	HardmodeActive			= false;
+    public abstract static class HardMode {
 
-	public static double	PowerConsumptionFactor	= 1.0;
+        public static boolean HardmodeActive = false;
 
-	public static int		powerCapacity			= 10000;
+        public static double PowerConsumptionFactor = 10.0;
+
+        public static int powerCapacity = 10000;
+
+        public static boolean distanceAffectsEnergy = true;
+
+        public static double otherDimensionMultiplier = 4;
+        public static int peakDistance = 4000;
+        public static double maxDistanceMultiplier = 15;
+    }
 
 	public enum TextureSets {
 		JAKJ("256x textures", 256, 102, 99, 159, 155),
@@ -281,12 +292,21 @@ public class RiMConfiguration extends Config {
 		{
 			Category = "Hardmode";
 
-			HardmodeActive = Boolean("EnableHardmode", "Use RF to power carriages in addition to redstone",
-					HardmodeActive);
+			HardMode.HardmodeActive = Boolean("EnableHardmode", "Use RF to power carriages in addition to redstone",
+                    HardMode.HardmodeActive);
 
-			PowerConsumptionFactor = Double("EnergyUseScalar", "Power consumption factor", PowerConsumptionFactor);
+            HardMode.PowerConsumptionFactor = Double("EnergyUseScalar", "Power consumption factor", HardMode.PowerConsumptionFactor);
 
-			powerCapacity = Integer("MaxEnergyStored", "Power capacity of carriages", powerCapacity);
+            HardMode.powerCapacity = Integer("MaxEnergyStored", "Power capacity of carriages", HardMode.powerCapacity);
+
+            HardMode.distanceAffectsEnergy = Boolean("distanceAffectsEnergy", "The distance a translocator moves affects the amount of energy required (very expensive)",
+                    HardMode.distanceAffectsEnergy);
+
+            HardMode.peakDistance = Integer("peakDistance", "Distance in blocks where peak multiplier is met", HardMode.peakDistance);
+
+            HardMode.maxDistanceMultiplier = Double("maxDistanceMultiplier", "Peak distance energy multiplier", HardMode.maxDistanceMultiplier);
+
+            HardMode.otherDimensionMultiplier = Double("otherDimensionMultiplier", "Additional multiplier for teleporting to another dimension (it stacks with distance)", HardMode.otherDimensionMultiplier);
 		}
 
 		Configuration.save();

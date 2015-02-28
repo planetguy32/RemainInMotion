@@ -1,15 +1,18 @@
 package me.planetguy.remaininmotion.drive;
 
+import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
+import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
+import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
@@ -31,7 +34,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
 
-//@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
+@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable implements IEnergyHandler {
     public boolean Continuous;
 
@@ -52,6 +55,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public Directions CarriageDirection;
 
 	protected Directions	SignalDirection;
+    protected double extraEnergy = 1;
 
     @Override
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
@@ -319,33 +323,12 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException {
 
-        if (RiMConfiguration.HardmodeActive) {
+        if (RiMConfiguration.HardMode.HardmodeActive) {
             int Type = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
-            {
-                /*
-				 * non-configurable carriage package size - commented out double
-				 * MaxBurden = BlockCarriageDrive.Types.values()[Type].MaxBurden
-				 * BlockCarriageDrive.Tiers.values()[Tier].MaxBurdenFactor;
-				 * 
-				 * //
-				 * System.out.println("Package mass: "+Package.Mass+", max burden "
-				 * + // CarriageDrive . Types . values ( ) [ Type ] . //
-				 * MaxBurden+" * "+CarriageDrive.Tiers. values ( ) [ Tier ] . //
-				 * MaxBurdenFactor +" = "+MaxBurden);
-				 * 
-				 * if (_package.getMass() > MaxBurden) { throw (new
-				 * CarriageMotionException(
-				 * "(HARDMODE) carriage too massive (by roughly " + ((int)
-				 * (_package.getMass() - MaxBurden)) +
-				 * " units) for drive to handle")); }
-				 */
-            }
+            double EnergyRequired = _package.getMass() * BlockCarriageDrive.Types.values()[Type].EnergyConsumption * extraEnergy;
 
-            double EnergyRequired = _package.getMass() * BlockCarriageDrive.Types.values()[Type].EnergyConsumption
-                    * BlockCarriageDrive.Tiers.values()[Tier].EnergyConsumptionFactor;
-
-            int powerConsumed = (int) Math.ceil(EnergyRequired * RiMConfiguration.PowerConsumptionFactor);
+            int powerConsumed = (int) Math.ceil(EnergyRequired * RiMConfiguration.HardMode.PowerConsumptionFactor);
 
             // System.out.println("Moving carriage from "+Package.AnchorRecord.toString()+" containing "+Package.Mass+" blocks, using "+powerConsumed+" energy");
 
@@ -421,7 +404,6 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
 	public void RefreshWorld(CarriagePackage Package) {
 		for (BlockRecord Record : Package.Body) {
-            // TODO First Step to making light work better
 			SneakyWorldUtil.RefreshBlock(worldObj, Record.X, Record.Y, Record.Z, Record.block, Blocks.air);
 		}
 	}
@@ -446,7 +428,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        int toRecieve = Math.min(RiMConfiguration.powerCapacity - energyStored, maxReceive);
+        int toRecieve = Math.min(RiMConfiguration.HardMode.powerCapacity - energyStored, maxReceive);
         if (!simulate) {
             energyStored += toRecieve;
         }
@@ -460,7 +442,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
-        return RiMConfiguration.HardmodeActive;
+        return RiMConfiguration.HardMode.HardmodeActive;
     }
 
     @Override
@@ -470,7 +452,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public int getMaxEnergyStored(ForgeDirection from) {
-        return RiMConfiguration.powerCapacity;
+        return RiMConfiguration.HardMode.powerCapacity;
     }
 
     public IIcon getIcon(int Side, int meta) {

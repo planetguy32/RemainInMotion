@@ -14,7 +14,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 
-@Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib")
+@Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib;after:CoFHCore;after:BuildCraft|Transport")
 public class ModRiM {
 	public static final String	Namespace	= "me.planetguy.remaininmotion.";
 
@@ -39,15 +39,14 @@ public class ModRiM {
 
 		Core.HandlePreInit();
 		
-		Core.HandleInit();
-		
-		RemIMPluginsCommon.instance.preInit(Event);
+		RemIMPluginsCommon.instance.preInit();
 	}
 
 	@EventHandler
 	public void Init(FMLInitializationEvent Event) {
-		
-		RemIMPluginsCommon.instance.init(Event);
+
+        Core.HandleInit();
+		RemIMPluginsCommon.instance.init();
 	}
 
 	@EventHandler
@@ -55,7 +54,7 @@ public class ModRiM {
 		ClientSetupProxy.Instance.Execute();
 
 		Core.HandlePostInit();
-		RemIMPluginsCommon.instance.postInit(Event);
+		RemIMPluginsCommon.instance.postInit();
 	}
 
 	@EventHandler

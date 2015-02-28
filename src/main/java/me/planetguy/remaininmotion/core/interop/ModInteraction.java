@@ -33,10 +33,12 @@ public abstract class ModInteraction {
 
 	public static boolean BCInstalled;
 	public static boolean MPInstalled;
+    public static boolean COFHInstalled;
 
 	public static void Establish() {
 		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
 		MPInstalled = Loader.isModLoaded("ForgeMultipart");
+        COFHInstalled = Loader.isModLoaded("CoFHCore");
 		
 		Wrenches.init();
 

@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.CarriagePackage;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
@@ -173,6 +174,17 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 				"no other matching translocators available with space to receive carriage assembly")); }
 
 		Package.Translocator = target;
+        if(RiMConfiguration.HardMode.distanceAffectsEnergy) {
+            double distance = Math.sqrt((target.xCoord - xCoord) * (target.xCoord - xCoord) + (target.yCoord - yCoord) * (target.yCoord - yCoord) + (target.zCoord - zCoord) * (target.zCoord - zCoord));
+            distance = Math.min(distance, RiMConfiguration.HardMode.peakDistance) / RiMConfiguration.HardMode.peakDistance * RiMConfiguration.HardMode.maxDistanceMultiplier;
+            if (target.worldObj.getWorldInfo().getVanillaDimension() != worldObj.getWorldInfo().getVanillaDimension()) {
+                distance *= RiMConfiguration.HardMode.otherDimensionMultiplier;
+            }
+
+            extraEnergy = Math.max(distance, 1.0D);
+        }
+
+        Package.Finalize();
 
 		return (Package);
 	}
@@ -186,8 +198,6 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 
 		if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
 				"carriage is attempting to grab translocator")); }
-
-		Package.Finalize();
 
 		return (Package);
 	}

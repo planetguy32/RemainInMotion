@@ -77,7 +77,8 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		Package.Finalize();
 
-		removeUsedEnergy(Package);
+        // Called twice, once in Finalize()
+		//removeUsedEnergy(Package);
 
 		return (Package);
 	}

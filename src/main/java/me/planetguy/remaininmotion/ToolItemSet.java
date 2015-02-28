@@ -30,7 +30,7 @@ public class ToolItemSet extends ItemRiM {
 	}
 
 	@Override
-	public boolean hasContainerItem() {
+	public boolean hasContainerItem(ItemStack itemStack) {
 		return (true);
 	}
 

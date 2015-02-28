@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.core;
 
+import cpw.mods.fml.common.Loader;
 import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.NativeCarriageMatcher;
@@ -16,18 +17,20 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class Core {
 	
-	public static void HandlePreInit() {}
+	public static void HandlePreInit() {
+        ModInteraction.Establish();
+
+        CreativeTab.Prepare();
+
+        RIMBlocks.Initialize();
+
+        RiMItems.Initialize();
+
+        CreativeTab.Initialize(Item.getItemFromBlock(RIMBlocks.Carriage));
+    }
 
 	public static void HandleInit() {
-		ModInteraction.Establish();
 
-		CreativeTab.Prepare();
-
-		RIMBlocks.Initialize();
-
-		RiMItems.Initialize();
-
-		CreativeTab.Initialize(Item.getItemFromBlock(RIMBlocks.Carriage));
 
 		RiMRegistry.registerFrameCarriageMatcher(new FrameCarriageMatcher() {
 			@Override
@@ -40,7 +43,8 @@ public abstract class Core {
 
 		PacketManager.init();
 
-	}
+
+    }
 
 	public static void HandlePostInit() {
 		Recipes.Register();

@@ -163,7 +163,7 @@ public class CarriagePackage {
 			}
 		}
 
-		if (RiMConfiguration.HardmodeActive) {
+		if (RiMConfiguration.HardMode.HardmodeActive) {
 			if (record.block == RIMBlocks.Carriage) {
 				Carriages.add(record);
 
@@ -325,7 +325,7 @@ public class CarriagePackage {
 	}
 
 	public void updateHardModeData() throws CarriageMotionException {
-		if (RiMConfiguration.HardmodeActive) {
+		if (RiMConfiguration.HardMode.HardmodeActive) {
 			// Comment out hard mode burden calculation
 			/*
 			 * for (BlockRecord CarriageRecord : Carriages) {
