@@ -81,7 +81,7 @@ public abstract class Recipes {
 				DyeType.Handle);
 
 		// allow dyeing carriages one at a time - more convenient that way
-		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 8),
+		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 1),
 
 		Types.CarriageFramework.Stack(),
 
