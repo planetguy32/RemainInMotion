@@ -39,15 +39,19 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 
 	@Override
 	public boolean onRightClicked(int side, EntityPlayer player) {
-		if (player.getHeldItem() != null
-				&& player.getHeldItem().getItem() == Items.stick
-				) {
-			pointedDir = Directions.values()[side].Opposite();
-			Debug.dbg(pointedDir.ordinal());
+		if (player.getHeldItem() == null) {
+			if(player.isSneaking()) {
+				//rotate the pointed direction
+				pointedDir=Directions.values()[(pointedDir.ordinal() + 1) % 6];
+			}else {
+				pointedDir = Directions.values()[side].Opposite();
+				Debug.dbg(pointedDir.ordinal());
+			}
 			Propagate();
 			return true;
+		}else {
+			return super.onRightClicked(side, player);
 		}
-		return false;
 	}
 
 	public void HandleNeighbourBlockChange() {
@@ -109,7 +113,10 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 	
 	public IIcon getIcon(int side, int meta) {
 		try {
-			return helper.getIcon(ForgeDirection.values()[pointedDir.ordinal()], side);
+			if(SideClosed[side])
+				return super.getIcon(side, meta);
+			else
+				return helper.getIcon(ForgeDirection.values()[pointedDir.ordinal()], side);
 		} catch (Throwable Throwable) {
 			 Throwable . printStackTrace ( ) ;
 

@@ -10,6 +10,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import me.planetguy.lib.prefab.BlockBase;
 import me.planetguy.lib.prefab.BlockContainerBase;
+import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
@@ -21,6 +22,7 @@ public class BlockSimpleFrame extends BlockContainerBase implements ICamouflagea
 
 	public BlockSimpleFrame() {
 		super(Material.wood, "simpleFrame", TileEntity.class);
+		this.setCreativeTab(CreativeTab.Instance);
 		RiMRegistry.registerFrameCarriageMatcher(new FrameCarriageMatcher() {
 
 			@Override
