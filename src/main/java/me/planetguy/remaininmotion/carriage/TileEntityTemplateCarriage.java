@@ -241,51 +241,59 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 		RenderPattern = TagCompound.getBoolean("RenderPattern");
 
 	}
+	
+	private void writePattern(NBTTagCompound TagCompound) {
+		if (Pattern != null) {
+            NBTTagList PatternRecord = new NBTTagList();
+
+            for (BlockRecord PatternBlock : Pattern) {
+                NBTTagCompound PatternBlockRecord = new NBTTagCompound();
+
+                // Byte = 8bit
+                // Short = 16bit
+                // Integer = 32bit
+                // Java default Byte is signed, -128 to 127 inclusive
+                // Short is -32,768 to 32,767 inclusive
+                // Integer is -2^31 to 2^31-1, Minecraft will kick me before it lets me make a castle that big move....
+                // We save 6 bytes of data for every block in a pattern this way
+                // Note changing this is only OK since these use relative location
+                PatternBlockRecord.setShort("X", (short) PatternBlock.X);
+                PatternBlockRecord.setShort("Y", (short) PatternBlock.Y);
+                PatternBlockRecord.setShort("Z", (short) PatternBlock.Z);
+
+                PatternRecord.appendTag(PatternBlockRecord);
+            }
+
+            TagCompound.setTag("Pattern", PatternRecord);
+        }
+    }
 
 	@Override
-	public void WriteCommonRecord(NBTTagCompound TagCompound) {
+	public void WriteServerRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
 
-        // Why send it at all if it's not rendered?
+		writePattern(TagCompound);
+	}
+	
+	@Override
+	public void WriteClientRecord(NBTTagCompound TagCompound) {
+		super.WriteClientRecord(TagCompound);
         if(RenderPattern) {
-            if (Pattern != null) {
-                NBTTagList PatternRecord = new NBTTagList();
-
-                for (BlockRecord PatternBlock : Pattern) {
-                    NBTTagCompound PatternBlockRecord = new NBTTagCompound();
-
-                    // Byte = 8bit
-                    // Short = 16bit
-                    // Integer = 32bit
-                    // Java default Byte is signed, -128 to 127 inclusive
-                    // Short is -32,768 to 32,767 inclusive
-                    // Integer is -2^31 to 2^31-1, Minecraft will kick me before it lets me make a castle that big move....
-                    // We save 6 bytes of data for every block in a pattern this way
-                    // Note changing this is only OK since these use relative location
-                    PatternBlockRecord.setShort("X", (short) PatternBlock.X);
-                    PatternBlockRecord.setShort("Y", (short) PatternBlock.Y);
-                    PatternBlockRecord.setShort("Z", (short) PatternBlock.Z);
-
-                    PatternRecord.appendTag(PatternBlockRecord);
-                }
-
-                TagCompound.setTag("Pattern", PatternRecord);
-            }
+        	TagCompound.setBoolean("RenderPattern", RenderPattern);
+            writePattern(TagCompound);
         }
-
-		TagCompound.setBoolean("RenderPattern", RenderPattern);
 	}
 
 	@Override
-	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
+	public void fillPackage(CarriagePackage cPackage) throws CarriageMotionException {
 		if (Pattern == null) {
 			updatePattern();
 		}
 
-		Package.AddBlock(Package.AnchorRecord);
+		cPackage.AddBlock(cPackage.AnchorRecord);
 
-		if (Package.MotionDirection != null) {
-			Package.AddPotentialObstruction(Package.AnchorRecord.NextInDirection(Package.MotionDirection));
+		if (cPackage.MotionDirection != null) {
+			cPackage.AddPotentialObstruction(cPackage.AnchorRecord.NextInDirection(cPackage.MotionDirection));
 		}
 
 		for (BlockRecord PatternBlock : Pattern) {
@@ -298,10 +306,10 @@ public class TileEntityTemplateCarriage extends TileEntityCarriage {
 
 			Record.Identify(worldObj);
 
-			Package.AddBlock(Record);
+			cPackage.AddBlock(Record);
 
-			if (Package.MotionDirection != null) {
-				Package.AddPotentialObstruction(Record.NextInDirection(Package.MotionDirection));
+			if (cPackage.MotionDirection != null) {
+				cPackage.AddPotentialObstruction(Record.NextInDirection(cPackage.MotionDirection));
 			}
 		}
 	}
