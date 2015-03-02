@@ -38,7 +38,7 @@ JAKJ_RedstoneInMotiondyeWhite=White
 
 
 #Items and blocks
-#    (tooltips replace ##/## -> newline)
+#    (JAKJ-style tooltips replace ##/## -> newline)
 
 #Hollow carriage
 item.Hollow Carriage.name=Hollow Carriage
@@ -51,6 +51,9 @@ tile.JAKJ_RedstoneInMotion_Carriage.2.name=Structure Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.3.name=Support Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.4.name=Template Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.5.name=Memory Carriage
+
+tile.simpleFrame.name=Frame Carriage
+tile.simpleFrame.tooltip.1=Carries blocks directly touching it
 
 
 #Other carriages' tooltips

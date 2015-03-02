@@ -64,7 +64,7 @@ public class BlockSimpleFrame extends BlockContainerBase implements ICamouflagea
 	}
 	
 	public int countTooltipLines() {
-		return 0;
+		return 1;
 	}
 
 }

@@ -11,6 +11,7 @@ import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class CarriageDecorationRecipe extends Recipe {
 	public ItemStack Process(InventoryCrafting Inventory) {
 		ItemStack Carriage = null;
 
-		ItemStack Decoration = null;
+		ItemStack decorationStack = null;
 
 		int InventorySize = Inventory.getSizeInventory();
 
@@ -40,45 +41,37 @@ public class CarriageDecorationRecipe extends Recipe {
 				continue;
 			}
 
-			if (Decoration != null) { return (null); }
+			if (decorationStack != null) { return (null); }
 
-			Decoration = Item;
+			decorationStack = Item;
 		}
 
 		if (Carriage == null) { return (null); }
 
-		int Tier = ItemCarriage.GetTier(Carriage);
+		Block decoration = ItemCarriage.GetDecorationBlock(Carriage);
 
-		int DecorationId = Block.getIdFromBlock(ItemCarriage.GetDecorationBlock(Carriage));
+		if (decorationStack == null) { return (null); }
 
-		if (DecorationId == 0) {
-			if (Decoration == null) { return (null); }
+		if (!(decorationStack.getItem() instanceof net.minecraft.item.ItemBlock)) { return (null); }
 
-			if (!(Decoration.getItem() instanceof net.minecraft.item.ItemBlock)) { return (null); }
+		decoration = ((ItemBlock) decorationStack.getItem()).field_150939_a;
 
-			DecorationId = Block.getIdFromBlock(((ItemBlock) Decoration.getItem()).field_150939_a);
+		int DecorationMeta = decorationStack.getItem().getMetadata(decorationStack.getItemDamage());
 
-			int DecorationMeta = Decoration.getItem().getMetadata(Decoration.getItemDamage());
+		ItemStack stk;
 
-			ItemStack stk;
-			
-			if(Carriage.getItem() instanceof ItemBlock 
-					&& ((ItemBlock)Carriage.getItem()).field_150939_a == RIMBlocks.plainFrame)
-				stk=new ItemStack(RIMBlocks.Carriage, 1, BlockCarriage.Types.Frame.ordinal());
-			else
-				stk	= new ItemStack(Carriage.getItem(), 1, Carriage.getItemDamage());
+		if(Carriage.getItem() instanceof ItemBlock 
+				&& ((ItemBlock)Carriage.getItem()).field_150939_a == RIMBlocks.plainFrame)
+			stk=new ItemStack(RIMBlocks.Carriage, 1, BlockCarriage.Types.Frame.ordinal());
+		else
+			stk	= new ItemStack(Carriage.getItem(), 1, Carriage.getItemDamage());
 
-			Stack.Tag(stk);
+		Stack.Tag(stk);
 
-			stk.stackTagCompound.setInteger("DecorationId", DecorationId);
+		stk.stackTagCompound.setInteger("DecorationId", Block.getIdFromBlock(decoration));
 
-			stk.stackTagCompound.setInteger("DecorationMeta", DecorationMeta);
+		stk.stackTagCompound.setInteger("DecorationMeta", DecorationMeta);
 
-			return stk;
-		}
-
-		if (Decoration != null) { return (null); }
-
-		return (new ItemStack(Carriage.getItem(), 1, ItemBlockRiM.GetBlockType(Carriage)));
+		return stk;
 	}
 }
