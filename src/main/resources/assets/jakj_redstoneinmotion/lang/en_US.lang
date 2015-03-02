@@ -72,6 +72,8 @@ tile.JAKJ_RedstoneInMotion_CarriageDrive.3.name=Carriage Translocator
 tile.JAKJ_RedstoneInMotion_CarriageDrive.4.name=Carriage Transduplicator
 tile.JAKJ_RedstoneInMotion_CarriageDrive.5.name=Carriage Adapter
 tile.JAKJ_RedstoneInMotion_CarriageDrive.6.name=Carriage Rotator
+tile.JAKJ_RedstoneInMotion_CarriageDrive.7.name=Directional Carriage Engine
+
 
 #Carriage drives' tooltips
 JAKJ_RedstoneInMotion.drive.tooltip.0=Moves with the carriage.
