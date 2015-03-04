@@ -7,7 +7,6 @@ import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
-import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
@@ -22,7 +21,6 @@ import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -354,12 +352,33 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         RenderPacket.Dispatch(Package);
 
+        doPreMovementModInteraction(Package);
+
         EstablishPlaceholders(Package);
 
         RefreshWorld(Package);
 
         EstablishSpectre(Package);
 
+    }
+
+    public void doPreMovementModInteraction(CarriagePackage carriagePackage)
+    {
+        for(BlockRecord record : carriagePackage.Body)
+        {
+            handleChickenChunks(record);
+
+        }
+
+    }
+
+    public void handleChickenChunks(BlockRecord record)
+    {
+        if(!ModInteraction.ChickenChunksInstalled) return;
+        TileEntity te = worldObj.getTileEntity(record.X, record.Y, record.Z);
+        if(te != null){
+            //if(te instanceof )
+        }
     }
 
     public void EstablishPlaceholders(CarriagePackage Package) {
