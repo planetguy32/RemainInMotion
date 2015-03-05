@@ -1,12 +1,12 @@
 package me.planetguy.remaininmotion.spectre;
 
 import buildcraft.core.TileBuildCraft;
-import buildcraft.factory.TileMiningWell;
 import buildcraft.factory.TileQuarry;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.TravelingItem;
+import codechicken.chunkloader.TileChunkLoaderBase;
 import codechicken.multipart.MultipartHelper;
 import codechicken.multipart.TileMultipart;
 import codechicken.multipart.handler.MultipartSaveLoad;
@@ -180,6 +180,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     }
                     if (ModInteraction.BCInstalled)
                         performBuildcraftPostInit(record);
+
+                    if (ModInteraction.ChickenChunksInstalled)
+                        performChickenChunksPostInit(record);
                 }
             }
 
@@ -322,8 +325,18 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
             }
         } catch (Throwable Throwable) {
-            Throwable.printStackTrace();
+            //Throwable.printStackTrace();
         }
+    }
+
+    private void performChickenChunksPostInit(BlockRecord record){
+        try{
+            if(record.entity instanceof TileChunkLoaderBase){
+                if(record.entityRecord.hasKey("ChickenChunkReinit")){
+                    ((TileChunkLoaderBase) record.entity).activate();
+                }
+            }
+        }catch(Throwable t) {}
     }
 
     public void onMotionFinalized(BlockRecord Record) {

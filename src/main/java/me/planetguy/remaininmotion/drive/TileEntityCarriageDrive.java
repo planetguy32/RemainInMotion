@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.drive;
 
+import codechicken.chunkloader.TileChunkLoaderBase;
 import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
@@ -366,18 +367,27 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     {
         for(BlockRecord record : carriagePackage.Body)
         {
-            handleChickenChunks(record);
+            handleChickenChunks(record, record.NextInDirection(carriagePackage.MotionDirection));
 
         }
 
     }
 
-    public void handleChickenChunks(BlockRecord record)
+    public void handleChickenChunks(BlockRecord record, BlockRecord newPosition)
     {
         if(!ModInteraction.ChickenChunksInstalled) return;
         TileEntity te = worldObj.getTileEntity(record.X, record.Y, record.Z);
         if(te != null){
-            //if(te instanceof )
+            if(te instanceof TileChunkLoaderBase){
+                // are we still in the same chunk? If so, don't destroy the ticket and cause unnecessary lag.
+                if(record.X >> 4 != newPosition.X >> 4 && record.Z >> 4 != newPosition.Z >> 4){
+                    // previously activated and needs reinit
+                    if(((TileChunkLoaderBase)te).active){
+                        record.entityRecord.setBoolean("ChickenChunkReinit", ((TileChunkLoaderBase) te).active);
+                        ((TileChunkLoaderBase)te).deactivate();
+                    }
+                }
+            }
         }
     }
 

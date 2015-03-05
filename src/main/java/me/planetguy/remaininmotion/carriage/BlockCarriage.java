@@ -48,7 +48,7 @@ public class BlockCarriage extends BlockCamouflageable {
 	@Override
 	public void AddShowcaseStacks(List Showcase) {
 		//Exclude frame carriage - use the plain carriage where possible
-		for (int i=1; i<Types.values().length; i++) {
+		for (int i=0; i<Types.values().length; i++) {
 			Showcase.add(ItemCarriage.Stack(i));
 		}
 	}
