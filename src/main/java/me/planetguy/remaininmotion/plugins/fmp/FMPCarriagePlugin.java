@@ -40,7 +40,7 @@ public class FMPCarriagePlugin {
 		MultiPartRegistry.registerParts(new IPartFactory() {
 			@Override
 			public TMultiPart createPart(String arg0, boolean arg1) {
-				if (arg0.equals("FMPCarriage")) { return new BlockCarriageFMP(); }
+				if (arg0.equals("FMPCarriage")) { return new PartCarriageFMP(); }
 				return null;
 			}
 

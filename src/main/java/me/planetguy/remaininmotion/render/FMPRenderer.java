@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.render;
 
-import me.planetguy.remaininmotion.plugins.fmp.BlockCarriageFMP;
+import me.planetguy.remaininmotion.plugins.fmp.PartCarriageFMP;
 import net.minecraft.world.World;
 import codechicken.lib.render.BlockRenderer.BlockFace;
 import codechicken.lib.render.CCModel;
@@ -66,7 +66,7 @@ public class FMPRenderer implements IMicroMaterialRender {
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
-	public void renderCovers(World world, Vector3 t, int pass, BlockCarriageFMP part) {
+	public void renderCovers(World world, Vector3 t, int pass, PartCarriageFMP part) {
 
 		// render early, only once
 		if (pass != 0) { return; }

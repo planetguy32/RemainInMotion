@@ -28,16 +28,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.Interface(iface = "JNormalOcclusion", modid = "ForgeMultipart")
-public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, ICloseable {
+public class PartCarriageFMP extends McBlockPart implements JNormalOcclusion, ICloseable {
 
 	private boolean[]				sidesClosed	= new boolean[6];
 
-	public static BlockCarriageFMP	instance;
+	public static PartCarriageFMP	instance;
 
 	@SideOnly(Side.CLIENT)
 	FMPRenderer						renderer;
 
-	public BlockCarriageFMP() {
+	public PartCarriageFMP() {
 		if (FMLCommonHandler.instance().getSide().isClient()) {
 			renderer = new FMPRenderer();
 		}
@@ -134,7 +134,7 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, I
 	@Override
 	@Optional.Method(modid = "ForgeMultipart")
 	public Cuboid6 getBounds() {
-		return Cuboid6.full.expand(-0.1);
+		return Cuboid6.full;
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
@@ -192,7 +192,7 @@ public class BlockCarriageFMP extends McBlockPart implements JNormalOcclusion, I
 					int size = mb.getSize();
 					return size == 1;
 				}
-			} else if (!(part instanceof BlockCarriageFMP)) {
+			} else if (!(part instanceof PartCarriageFMP)) {
 
 			}
 		}
