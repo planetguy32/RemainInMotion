@@ -33,6 +33,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -53,6 +54,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public int TicksExisted;
     public java.util.ArrayList<CapturedEntity> CapturedEntities = new ArrayList<CapturedEntity>();
     TeleportativeSpectreTeleporter Teleporter;
+    private boolean initialized;
 
     public void ShiftBlockPosition(BlockRecord Record) {
         Record.Shift(MotionDirection);
@@ -394,18 +396,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         for (BlockRecord Record : body) {
             NBTTagCompound BodyBlockRecord = new NBTTagCompound();
 
-            BodyBlockRecord.setInteger("X", Record.X);
-            BodyBlockRecord.setInteger("Y", Record.Y);
-            BodyBlockRecord.setInteger("Z", Record.Z);
-
-            BodyBlockRecord.setInteger("Id",
-                    Block.getIdFromBlock(Record.block));
-
-            BodyBlockRecord.setInteger("Meta", Record.Meta);
-
-            if (Record.entityRecord != null) {
-                BodyBlockRecord.setTag("EntityRecord", Record.entityRecord);
-            }
+            Record.writeToNBT(BodyBlockRecord);
 
             BodyRecord.appendTag(BodyBlockRecord);
 
@@ -429,24 +420,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         int BodyBlockCount = BodyRecord.tagCount();
 
         for (int Index = 0; Index < BodyBlockCount; Index++) {
-            NBTTagCompound BodyBlockRecord = BodyRecord
-                    .getCompoundTagAt(Index);
+            NBTTagCompound BodyBlockRecord = BodyRecord.getCompoundTagAt(Index);
 
-            BlockRecord Record = new BlockRecord(
-                    BodyBlockRecord.getInteger("X"),
-                    BodyBlockRecord.getInteger("Y"),
-                    BodyBlockRecord.getInteger("Z"));
-
-            Record.block = Block.getBlockById(BodyBlockRecord
-                    .getInteger("Id"));
-
-            Record.Meta = BodyBlockRecord.getInteger("Meta");
-
-            if (BodyBlockRecord.hasKey("EntityRecord")) {
-                Record.entityRecord = BodyBlockRecord
-                        .getCompoundTag("EntityRecord");
-            }
-
+            BlockRecord Record = BlockRecord.createFromNBT(BodyBlockRecord);
             body.add(Record);
         }
 
@@ -455,12 +431,14 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     @Override
     public void WriteServerRecord(NBTTagCompound TagCompound) {
         if(DriveRecord != null) {
-            TagCompound.setInteger("DriveX", DriveRecord.X);
-            TagCompound.setInteger("DriveY", DriveRecord.Y);
-            TagCompound.setInteger("DriveZ", DriveRecord.Z);
+            NBTTagCompound tag = new NBTTagCompound();
+            DriveRecord.writeToNBT(tag);
+            TagCompound.setTag("DriveRecord", tag);
         }
 
         TagCompound.setBoolean("DriveIsAnchored", DriveIsAnchored);
+
+        TagCompound.setInteger("TicksExisted",TicksExisted);
     }
 
     @Override
@@ -471,9 +449,13 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     TagCompound.getInteger("DriveZ"));
         }
 
+        if(TagCompound.hasKey("DriveRecord")) {
+            DriveRecord = BlockRecord.createFromNBT(TagCompound.getCompoundTag("DriveRecord"));
+        }
+
         DriveIsAnchored = TagCompound.getBoolean("DriveIsAnchored");
 
-
+        TicksExisted = TagCompound.getInteger("TicksExisted");
     }
 
     @Override

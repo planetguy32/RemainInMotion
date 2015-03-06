@@ -33,7 +33,9 @@ public class Message implements IMessage, IMessageHandler<Message, IMessage> {
 			RenderPacket.Handle(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
 		} else if (message.type.equals(PacketTypes.MultipartPropagation)) {
 			MultipartPropagationPacket.Handle(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
-		}
+		} else if (message.type.equals(PacketTypes.SpecterVelocity)) {
+            PacketSpecterVelocity.Handle(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
+        }
 		return null;
 	}
 

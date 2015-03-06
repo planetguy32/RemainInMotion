@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion;
 
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockRecord implements Comparable<BlockRecord> {
@@ -89,5 +90,34 @@ public class BlockRecord implements Comparable<BlockRecord> {
 
 		return (Record);
 	}
+
+    public void writeToNBT(NBTTagCompound tag) {
+        tag.setInteger("X", X);
+        tag.setInteger("Y", Y);
+        tag.setInteger("Z", Z);
+
+        tag.setInteger("Id",
+                Block.getIdFromBlock(block));
+
+        tag.setInteger("Meta", Meta);
+
+        if (entityRecord != null) {
+            tag.setTag("EntityRecord", entityRecord);
+        }
+    }
+
+    public static BlockRecord createFromNBT(NBTTagCompound tag) {
+        BlockRecord record = new BlockRecord(tag.getInteger("X"), tag.getInteger("Y"), tag.getInteger("Z"));
+
+        record.block = Block.getBlockById(tag.getInteger("Id"));
+
+        record.Meta = tag.getInteger("Meta");
+
+        if (tag.hasKey("EntityRecord")) {
+            record.entityRecord = tag.getCompoundTag("EntityRecord");
+        }
+
+        return record;
+    }
 
 }

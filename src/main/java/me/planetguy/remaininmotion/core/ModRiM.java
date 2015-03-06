@@ -2,6 +2,10 @@ package me.planetguy.remaininmotion.core;
 
 import java.io.File;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import me.planetguy.remaininmotion.network.PacketSpecterVelocity;
 import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
 import me.planetguy.remaininmotion.BlacklistManager;
@@ -13,6 +17,8 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.event.world.WorldEvent;
 
 @Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib;after:CoFHCore;after:BuildCraft|Transport")
 public class ModRiM {
@@ -36,6 +42,8 @@ public class ModRiM {
 			oldFile.renameTo(newFile);
 		}
 		(new RiMConfiguration(newFile)).Process();
+
+        FMLCommonHandler.instance().bus().register(this);
 
 		Core.HandlePreInit();
 		
@@ -92,4 +100,9 @@ public class ModRiM {
 			}
 		}
 	}
+
+    @SubscribeEvent
+    public void onJoin(PlayerEvent.PlayerLoggedInEvent event){
+        PacketSpecterVelocity.Dispatch((EntityPlayerMP) event.player);
+    }
 }
