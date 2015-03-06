@@ -2,7 +2,7 @@
 buildscript {
     repositories {
         flatDir {
-       dirs 'lib'
+       dirs 'libs'
    }
         mavenCentral()
         maven {
@@ -38,8 +38,8 @@ compileScala {
     dependencies {
         compile 'codechicken:CodeChickenLib:1.7.10-1.1.1.106:dev'
         compile 'codechicken:ForgeMultipart:1.7.10-1.1.0.314:dev'
-		compile 'com.mod-buildcraft:buildcraft:6.3.3:dev'
-        //compile files('lib')
+        compile 'com.mod-buildcraft:buildcraft:6.3.3:dev'
+        compile files('libs')
         compile group: 'com.googlecode.efficient-java-matrix-library', name: 'core', version: '0.26'
         compile group: 'com.googlecode.efficient-java-matrix-library', name: 'equation', version: '0.26'
     }

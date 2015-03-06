@@ -65,9 +65,9 @@ public abstract class Recipes {
 		
 		
 		ItemStack output;
-		if(CarriageType == BlockCarriage.Types.Frame)
-			output=new ItemStack(RIMBlocks.plainFrame, 8);
-		else
+		//if(CarriageType == BlockCarriage.Types.Frame)
+		//	output=new ItemStack(RIMBlocks.plainFrame, 8);
+		//else
 			output=Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 8);
 		
 		

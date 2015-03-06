@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.drive;
 
+import codechicken.chunkloader.TileChunkLoaderBase;
 import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
@@ -7,7 +8,6 @@ import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
-import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
@@ -22,7 +22,6 @@ import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -354,12 +353,42 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         RenderPacket.Dispatch(Package);
 
+        doPreMovementModInteraction(Package);
+
         EstablishPlaceholders(Package);
 
         RefreshWorld(Package);
 
         EstablishSpectre(Package);
 
+    }
+
+    public void doPreMovementModInteraction(CarriagePackage carriagePackage)
+    {
+        for(BlockRecord record : carriagePackage.Body)
+        {
+            handleChickenChunks(record, record.NextInDirection(carriagePackage.MotionDirection));
+
+        }
+
+    }
+
+    public void handleChickenChunks(BlockRecord record, BlockRecord newPosition)
+    {
+        if(!ModInteraction.ChickenChunksInstalled) return;
+        TileEntity te = worldObj.getTileEntity(record.X, record.Y, record.Z);
+        if(te != null){
+            if(te instanceof TileChunkLoaderBase){
+                // are we still in the same chunk? If so, don't destroy the ticket and cause unnecessary lag.
+                if(record.X >> 4 != newPosition.X >> 4 && record.Z >> 4 != newPosition.Z >> 4){
+                    // previously activated and needs reinit
+                    if(((TileChunkLoaderBase)te).active){
+                        record.entityRecord.setBoolean("ChickenChunkReinit", ((TileChunkLoaderBase) te).active);
+                        ((TileChunkLoaderBase)te).deactivate();
+                    }
+                }
+            }
+        }
     }
 
     public void EstablishPlaceholders(CarriagePackage Package) {
