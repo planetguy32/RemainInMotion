@@ -18,8 +18,19 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
     public IIcon getIconCamouflaged(IBlockAccess world, int x, int y, int z, int side) {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te != null && te instanceof TileEntityCamouflageable) {
-            return ((TileEntityCamouflageable) te).Decoration.getIcon(side,
-                    ((TileEntityCamouflageable) te).DecorationMeta);
+        	try {
+        		// Try/catch this - it's not unlikely that mods will do an unsafe cast to
+        		// their mod's tile entity here.
+        		//
+        		// included for compatibility with blocks that use position-sensitive but
+        		// not TE-sensitive icon logic, like applying biome colour
+                return ((TileEntityCamouflageable) te).Decoration.getIcon
+                		(world, x, y, z, side);
+        	} catch(Exception e) {
+                return ((TileEntityCamouflageable) te).Decoration.getIcon(side,
+                        ((TileEntityCamouflageable) te).DecorationMeta);
+        	}
+
         } else {
             return null;
         }

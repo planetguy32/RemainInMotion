@@ -27,12 +27,12 @@ public abstract class RIMBlocks {
 	public static void Initialize() {
 		BlockRiM.initLegacyClassMap();
 
+		plainFrame=(Block) ModRiM.plHelper.loadContainer(BlockSimpleFrame.class, new HashMap());
+		
 		Carriage = new BlockCarriage();
 
 		CarriageDrive = new BlockCarriageDrive();
 
 		Spectre = new BlockSpectre();
-		
-		plainFrame=(Block) ModRiM.plHelper.loadContainer(BlockSimpleFrame.class, new HashMap());
 	}
 }

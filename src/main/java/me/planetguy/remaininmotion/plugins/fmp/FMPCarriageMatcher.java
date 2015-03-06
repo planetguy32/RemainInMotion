@@ -17,17 +17,17 @@ public class FMPCarriageMatcher implements FrameCarriageMatcher {
 		if (te instanceof TileMultipart) {
 			TileMultipart tm = (TileMultipart) te;
 			for (TMultiPart part : tm.jPartList()) {
-				if (part instanceof BlockCarriageFMP) { return true; }
+				if (part instanceof PartCarriageFMP) { return true; }
 			}
 		}
 		return false;
 	}
 
-	public static BlockCarriageFMP getFMPCarriage(TileMultipart tmp) {
-		BlockCarriageFMP result = null;
+	public static PartCarriageFMP getFMPCarriage(TileMultipart tmp) {
+		PartCarriageFMP result = null;
 		for (TMultiPart part : tmp.jPartList()) {
-			if (part instanceof BlockCarriageFMP) {
-				result = (BlockCarriageFMP) part;
+			if (part instanceof PartCarriageFMP) {
+				result = (PartCarriageFMP) part;
 			}
 		}
 		return result;
