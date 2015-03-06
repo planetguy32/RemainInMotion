@@ -6,6 +6,7 @@ import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.TravelingItem;
+import codechicken.chunkloader.ChunkLoaderManager;
 import codechicken.chunkloader.TileChunkLoaderBase;
 import codechicken.multipart.MultipartHelper;
 import codechicken.multipart.TileMultipart;
@@ -19,6 +20,7 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
+import me.planetguy.remaininmotion.core.interop.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
@@ -332,8 +334,16 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     private void performChickenChunksPostInit(BlockRecord record){
         try{
             if(record.entity instanceof TileChunkLoaderBase){
-                if(record.entityRecord.hasKey("ChickenChunkReinit")){
-                    ((TileChunkLoaderBase) record.entity).activate();
+                if(record.entityRecord.hasKey("ChickenChunkLoader")){
+                    if(!worldObj.isRemote) {
+                        ((TileChunkLoaderBase) record.entity).activate();
+                        // remove chunk loader afterwards
+                        NBTTagCompound tag = record.entityRecord.getCompoundTag("ChickenChunkLoader");
+                        DummyChickenChunkLoader loader = new DummyChickenChunkLoader(tag);
+                        ChunkLoaderManager.remChunkLoader(loader);
+                        // make sure those chunks are loaded
+                        ((TileChunkLoaderBase) record.entity).activate();
+                    }
                 }
             }
         }catch(Throwable t) {}
