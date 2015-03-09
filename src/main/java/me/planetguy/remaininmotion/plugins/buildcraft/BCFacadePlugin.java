@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.plugins.buildcraft;
 
+import net.minecraft.item.ItemStack;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
@@ -14,8 +15,8 @@ public class BCFacadePlugin {
 			try {
 				//reflection check if IFacadePluggable exists - if this throws, our
 				//hook is missing so don't even bother loading
-                //Loader.isModLoaded does this already
-				//Class.forName("buildcraft.api.transport.pluggable.IFacadePluggable");
+                //Loader.isModLoaded checks that BC is installed, but we still need this in case people have an old version
+				Class.forName("buildcraft.api.transport.pluggable.IFacadePluggable");
 
 				Debug.dbg("Buildcraft special facade: loading");
 
@@ -23,8 +24,8 @@ public class BCFacadePlugin {
 
 				RiMRegistry.registerCloseableFactory(new SpecialFacadeCloseableFactory());
 
-				FMLInterModComms.sendMessage("BuildCraft|Transport", "add-facade", RemIMPluginsCommon.getFrameBlock()
-						+ "@1");
+				FMLInterModComms.sendMessage("BuildCraft|Transport", "add-facade", 
+						new ItemStack(RemIMPluginsCommon.getFrameBlock()));
 
 			} catch (Exception e) {
 

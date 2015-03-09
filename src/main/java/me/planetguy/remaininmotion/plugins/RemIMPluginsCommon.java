@@ -28,40 +28,7 @@ public class RemIMPluginsCommon {
 
     public static Block getFrameBlock() {
         if (frameBlock == null) {
-			/*
-			frameBlock = new Block(Material.wood) {
-
-				IIcon[]	icons;
-
-				@Override
-				public void registerBlockIcons(IIconRegister ir) {
-					icons = new IIcon[] {
-							ir.registerIcon(me.planetguy.remaininmotion.core.ModRiM.Handle + ":"
-									+ Registry.TexturePrefix + "FMPCarriage_Open"),
-							ir.registerIcon(me.planetguy.remaininmotion.core.ModRiM.Handle + ":"
-									+ Registry.TexturePrefix + "FMPCarriage_Closed"),
-							ir.registerIcon(me.planetguy.remaininmotion.core.ModRiM.Handle + ":"
-									+ Registry.TexturePrefix + "FMPCarriage_Corners"), };
-				}
-
-				@Override
-				public IIcon getIcon(int side, int meta) {
-					return icons[meta];
-				}
-
-			};
-
-			GameRegistry.registerBlock(frameBlock, ItemBlock.class, "tile.hollowCarriage");
-
-			frameBlock.setBlockName("hollowCarriage");
-
-			GameRegistry.addSmelting(new ItemStack(RIMBlocks.Carriage, 0), new ItemStack(frameBlock, 0), 0);
-			// GameRegistry.addSmelting(new ItemStack(frameBlock, 0), new
-			// ItemStack(frameBlock, 1), 0);
-			GameRegistry.addSmelting(new ItemStack(frameBlock, 0), new ItemStack(RIMBlocks.Carriage), 0);
-			/* */
             frameBlock=RIMBlocks.plainFrame;
-            // */
         }
         return frameBlock;
     }
@@ -72,7 +39,9 @@ public class RemIMPluginsCommon {
         }catch(NoClassDefFoundError noClassDefFoundError) {}
         try {
             if(ModInteraction.BCInstalled) BCFacadePlugin.tryLoad();
-        }catch(NoClassDefFoundError noClassDefFoundError) {}
+        }catch(NoClassDefFoundError noClassDefFoundError) {
+        	
+        }
     }
 
     public void init() {

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import cpw.mods.fml.common.Loader;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.core.Core;
+import me.planetguy.remaininmotion.core.interop.chickenchunks.CCHandler;
+import me.planetguy.remaininmotion.core.interop.chickenchunks.DummyCCHandler;
+import me.planetguy.remaininmotion.core.interop.chickenchunks.IChickenChunksHandler;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.ItemStack;
@@ -14,6 +17,8 @@ import net.minecraft.item.ItemStack;
 public abstract class ModInteraction {
 	
 	public static FMPHandler fmpProxy;
+	
+	public static IChickenChunksHandler cchunksProxy;
 	
 	public abstract static class ForgeMultipart {
 		
@@ -34,13 +39,16 @@ public abstract class ModInteraction {
 	public static boolean BCInstalled;
 	public static boolean MPInstalled;
     public static boolean COFHInstalled;
-    public static boolean ChickenChunksInstalled;
 
 	public static void Establish() {
 		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
 		MPInstalled = Loader.isModLoaded("ForgeMultipart");
         COFHInstalled = Loader.isModLoaded("CoFHCore");
-        ChickenChunksInstalled = Loader.isModLoaded("ChickenChunks");
+        if(Loader.isModLoaded("ChickenChunks")) {
+        	cchunksProxy=new CCHandler();
+        }else {
+        	cchunksProxy=new DummyCCHandler();
+        }
 		
 		Wrenches.init();
 
@@ -58,6 +66,7 @@ public abstract class ModInteraction {
 			RemovePendingBlockUpdate = getMethod(net.minecraft.world.WorldServer.class, "removeNextTickIfNeeded",
 					net.minecraft.world.NextTickListEntry.class);
 		}
+		
 	}
 
 	static Class getClass(String string) {

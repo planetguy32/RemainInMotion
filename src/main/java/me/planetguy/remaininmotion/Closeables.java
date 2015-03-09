@@ -29,7 +29,11 @@ public class Closeables {
 	public static ICloseable getCloseable(TileEntity entity) {
 		if (entity != null) {
 			for (ClassEntry e : classesRegistered) {
-				if (e.matches(entity)) { return e.icf.retrieve(entity); }
+				if (e.matches(entity)) { 
+					ICloseable closeable=e.icf.retrieve(entity); 
+					if(closeable != null)
+						return closeable;
+				}
 			}
 		}
 		return null;

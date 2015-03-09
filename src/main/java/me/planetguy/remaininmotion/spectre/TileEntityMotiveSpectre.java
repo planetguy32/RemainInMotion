@@ -6,8 +6,6 @@ import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.TravelingItem;
-import codechicken.chunkloader.ChunkLoaderManager;
-import codechicken.chunkloader.TileChunkLoaderBase;
 import codechicken.multipart.MultipartHelper;
 import codechicken.multipart.TileMultipart;
 import codechicken.multipart.handler.MultipartSaveLoad;
@@ -20,8 +18,8 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
-import me.planetguy.remaininmotion.core.interop.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
+import me.planetguy.remaininmotion.core.interop.chickenchunks.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
@@ -53,18 +51,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public BlockRecordSet body;
     public int TicksExisted;
     public java.util.ArrayList<CapturedEntity> CapturedEntities = new ArrayList<CapturedEntity>();
-    TeleportativeSpectreTeleporter Teleporter;
     private boolean initialized;
 
     public void ShiftBlockPosition(BlockRecord Record) {
         Record.Shift(MotionDirection);
-    }
-
-    @Override
-    public void validate() {
-        if (worldObj instanceof WorldServer) {
-            Teleporter = new TeleportativeSpectreTeleporter(worldObj);
-        }
     }
 
     public void ScheduleShiftedBlockUpdate(
@@ -185,8 +175,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     if (ModInteraction.BCInstalled)
                         performBuildcraftPostInit(record);
 
-                    if (ModInteraction.ChickenChunksInstalled)
-                        performChickenChunksPostInit(record);
+                    ModInteraction.cchunksProxy.performChickenChunksPostInit(worldObj, record);
                 }
             }
 
@@ -331,24 +320,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         } catch (Throwable Throwable) {
             //Throwable.printStackTrace();
         }
-    }
-
-    private void performChickenChunksPostInit(BlockRecord record){
-        try{
-            if(record.entity instanceof TileChunkLoaderBase){
-                if(record.entityRecord.hasKey("ChickenChunkLoader")){
-                    if(!worldObj.isRemote) {
-                        ((TileChunkLoaderBase) record.entity).activate();
-                        // remove chunk loader afterwards
-                        NBTTagCompound tag = record.entityRecord.getCompoundTag("ChickenChunkLoader");
-                        DummyChickenChunkLoader loader = new DummyChickenChunkLoader(tag);
-                        ChunkLoaderManager.remChunkLoader(loader);
-                        // make sure those chunks are loaded
-                        ((TileChunkLoaderBase) record.entity).activate();
-                    }
-                }
-            }
-        }catch(Throwable t) {}
     }
 
     public void onMotionFinalized(BlockRecord Record) {

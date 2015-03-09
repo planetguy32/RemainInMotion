@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.drive;
 
-import codechicken.chunkloader.TileChunkLoaderBase;
+//import codechicken.chunkloader.TileChunkLoaderBase;
 import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
@@ -12,8 +12,8 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
-import me.planetguy.remaininmotion.core.interop.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
+import me.planetguy.remaininmotion.core.interop.chickenchunks.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
@@ -368,31 +368,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     {
         for(BlockRecord record : carriagePackage.Body)
         {
-            handleChickenChunks(record, carriagePackage.MotionDirection != null ? record.NextInDirection(carriagePackage.MotionDirection) : record);
-
+        	ModInteraction.cchunksProxy.handleChickenChunks(worldObj, record, carriagePackage.MotionDirection != null ? record.NextInDirection(carriagePackage.MotionDirection) : record);
         }
 
-    }
-
-    public void handleChickenChunks(BlockRecord record, BlockRecord newPosition)
-    {
-        if(!ModInteraction.ChickenChunksInstalled) return;
-        if(record.entityRecord == null) return;
-        TileEntity te = worldObj.getTileEntity(record.X, record.Y, record.Z);
-        if(te != null){
-            if(te instanceof TileChunkLoaderBase){
-                // are we still in the same chunk? If so, don't destroy the ticket and cause unnecessary lag.
-                if(record.X >> 4 != newPosition.X >> 4 && record.Z >> 4 != newPosition.Z >> 4){
-                    // store the chunk loader so chunks are not unloaded prematurely
-                    if(((TileChunkLoaderBase)te).active){
-                        NBTTagCompound tag = new NBTTagCompound();
-                        DummyChickenChunkLoader loader = new DummyChickenChunkLoader((TileChunkLoaderBase) te);
-                        loader.writeToNBT(tag);
-                        record.entityRecord.setTag("ChickenChunkLoader",tag);
-                    }
-                }
-            }
-        }
     }
 
     public void EstablishPlaceholders(CarriagePackage Package) {

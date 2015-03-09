@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.plugins.buildcraft;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
@@ -24,16 +25,23 @@ public class SpecialFacadeCloseableFactory implements ICloseableFactory {
 					PipePluggable plug = pipe.getPipePluggable(ForgeDirection.values()[side]);
 					if (plug instanceof IFacadePluggable) {
 						IFacadePluggable facade = (IFacadePluggable) plug;
-						if (facade.getCurrentBlock() == RIMBlocks.Carriage && facade.getCurrentMetadata() == 0) { // frame
-																													// carriage
-																													// facade
-							return ConnectabilityState.OPEN; // if facade then
-																// not closed
+						if (facade.getCurrentBlock() == RIMBlocks.plainFrame && facade.getCurrentMetadata() == 0) { // frame
+							return ConnectabilityState.OPEN;
 						}
 					} else {
 						for (int i = 0; i < 6; i++) {
 							// exclude opposite and this side.
-							if (i != side && i != Directions.values()[side].Opposite) { return ConnectabilityState.FRAMES_ONLY; }
+							if (i != side && i != Directions.values()[side].Opposite) { 
+								PipePluggable plug2 = pipe.getPipePluggable(ForgeDirection.values()[i]);
+								if (plug2 instanceof IFacadePluggable) {
+									IFacadePluggable facade = (IFacadePluggable) plug2;
+									if (facade.getCurrentBlock() == RIMBlocks.plainFrame && facade.getCurrentMetadata() == 0) {
+										return ConnectabilityState.FRAMES_ONLY; 
+									}
+								}
+								
+								
+							}
 						}
 					}
 					return ConnectabilityState.CLOSED;
