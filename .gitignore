@@ -26,4 +26,5 @@ gradlew.bat
 run
 .gradle/gradle.log
 src/api/java/buildcraft/*
+src/api/java/codechicken/chunkloader
 
