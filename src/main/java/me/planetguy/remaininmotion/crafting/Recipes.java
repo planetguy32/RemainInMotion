@@ -142,5 +142,13 @@ public abstract class Recipes {
 		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Adapter, "MF", 'M',
 				ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Motor.ordinal(), 0), 'F',
 				Stack.New(RiMItems.SimpleItemSet, 2));
+		
+		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Predirected,
+				"ttt",
+				"tdl",
+				"ttt",
+				'd', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Motor.ordinal(), 0),
+				't', Stack.New(Blocks.redstone_torch),
+				'l', Stack.New(Blocks.lever));
 	}
 }
