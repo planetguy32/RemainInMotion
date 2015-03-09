@@ -15,11 +15,15 @@ import me.planetguy.remaininmotion.ToolItemSet;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.base.ICamouflageable;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.interop.ModInteraction.Wrenches;
 
 public class BlockSimpleFrame extends BlockContainerBase implements ICamouflageable {
 
+	public IIcon corners, sides;
+	
+	
 	public BlockSimpleFrame() {
 		super(Material.wood, "simpleFrame", TileEntity.class);
 		this.setCreativeTab(CreativeTab.Instance);
@@ -36,6 +40,7 @@ public class BlockSimpleFrame extends BlockContainerBase implements ICamouflagea
 	
 	@Override
 	public void registerBlockIcons(IIconRegister ir) {
+		corners=ir.registerIcon(ModRiM.Handle + ":FMPCarriage_Corners");
 	}
 
 	@Override
@@ -45,7 +50,12 @@ public class BlockSimpleFrame extends BlockContainerBase implements ICamouflagea
 	}
 	
 	public IIcon getIcon(int side, int meta) {
-		return RIMBlocks.Carriage.getIcon(0, 0);
+		if(meta==0)
+			return BlockCarriage.Types.Frame.OpenIcon;
+		else if(meta==1)
+			return BlockCarriage.Types.Frame.ClosedIcon;
+		else
+			return corners;
 	}
 	
 	@Override

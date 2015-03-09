@@ -27,4 +27,12 @@ public enum Directions {
 	public Directions Opposite() {
 		return (values()[Opposite]);
 	}
+
+	static final Directions[] valid=new Directions[] {
+		NegY, PosY, NegZ, PosZ, NegX, PosX
+	};
+	
+	public static Directions[] validDirections() {
+		return valid;
+	}
 }

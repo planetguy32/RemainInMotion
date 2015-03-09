@@ -113,6 +113,7 @@ public class PartCarriageFMP extends McBlockPart implements JNormalOcclusion, IC
 
 					@Override
 					public Object next() {
+						done=true;
 						return Cuboid6.full;
 					}
 

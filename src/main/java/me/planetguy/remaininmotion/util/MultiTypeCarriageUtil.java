@@ -40,7 +40,7 @@ public abstract class MultiTypeCarriageUtil {
 			seen++;
 			BlockRecord CarriageRecord = CarriagesToCheck.pollFirst();
 
-			for (Directions TargetDirection : Directions.values()) {
+			for (Directions TargetDirection : Directions.validDirections()) {
 				BlockRecord TargetRecord = CarriageRecord.NextInDirection(TargetDirection);
 
 				ICloseable closeable = Closeables.getCloseable(CarriageRecord.entity);
