@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.core.interop;
+package me.planetguy.remaininmotion.core.interop.fmp;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
