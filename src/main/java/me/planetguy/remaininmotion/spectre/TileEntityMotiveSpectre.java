@@ -99,7 +99,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 && TicksExisted % 20 == 0) {
             if (bodyHasCarriageDrive()) {
                 ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord,
-                        CarriageMotion.SoundFile, 0.8f, 1f);
+                        CarriageMotion.SoundFile, CarriageMotion.volume, 1f);
             }
         }
 

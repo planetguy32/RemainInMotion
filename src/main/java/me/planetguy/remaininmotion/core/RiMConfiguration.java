@@ -47,7 +47,7 @@ public class RiMConfiguration extends Config {
 		public static int		SoundIndex						= 0;
 		public static String	SoundFile						= "hum";
 		
-		public static float volume=0.4f;
+		public static float volume=1.2f;
 
 	}
 
@@ -214,7 +214,7 @@ public class RiMConfiguration extends Config {
 					"Duration of translocation in ticks", 1, CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
 
 			CarriageMotion.SoundIndex = BoundedInteger("Sound File Index",
-					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made, 4 is silence", 0, CarriageMotion.SoundIndex,
+					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made, Greater than 3 is silence", 0, CarriageMotion.SoundIndex,
 					10);
 			switch (CarriageMotion.SoundIndex) {
 				case 0:

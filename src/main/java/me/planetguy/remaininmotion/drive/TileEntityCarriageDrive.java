@@ -244,7 +244,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         try {
             InitiateMotion(PreparePackage(getSignalDirection().Opposite()));
 
-            ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, 1.2f, 1f);
+            ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, CarriageMotion.volume, 1f);
         } catch (CarriageMotionException Exception) {
 
             String Message = "Drive at (" + xCoord + "," + yCoord + "," + zCoord + ") in dimension "
