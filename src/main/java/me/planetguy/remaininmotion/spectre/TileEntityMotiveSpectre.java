@@ -567,7 +567,15 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 netMotionZ = -1;
             }
         }
-        capture.SetPosition(motionX, motionY, motionZ);
+        if(MotionDirection.DeltaY != 0){
+            entity.onGround = capture.WasOnGround;
+            entity.isAirBorne = capture.WasAirBorne;
+            capture.SetPosition(motionX, 0, motionZ);
+            capture.SetYPosition(netMotionY + 0.0625);
+        } else {
+            capture.SetPosition(motionX, motionY, motionZ);
+        }
+
     }
 
     public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
@@ -617,7 +625,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             entity.onGround = capture.WasOnGround;
             entity.isAirBorne = capture.WasAirBorne;
             capture.SetPosition(motionX, 0, motionZ);
-            capture.SetYPosition(netMotionY);
+            capture.SetYPosition(netMotionY + 0.0625);
         } else {
             capture.SetPosition(motionX, motionY, motionZ);
         }

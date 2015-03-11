@@ -24,6 +24,7 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
         		//
         		// included for compatibility with blocks that use position-sensitive but
         		// not TE-sensitive icon logic, like applying biome colour
+                if(((TileEntityCamouflageable) te).DecorationMeta != 0) throw new Exception("This method will almost always attempt to get metadata from world, resulting in the wrong texture.");
                 return ((TileEntityCamouflageable) te).Decoration.getIcon
                 		(world, x, y, z, side);
         	} catch(Exception e) {
@@ -78,7 +79,11 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
             Block deco = ((TileEntityCamouflageable) te).Decoration;
             if(deco != null)
             {
-                return ((Block) deco).colorMultiplier(world, x, y, z);
+                try {
+                    return ((Block) deco).colorMultiplier(world, x, y, z);
+                }catch(Exception e){
+                    return 0xffffffff;
+                }
             }
         }
         return super.colorMultiplier(world, x, y, z);
