@@ -213,14 +213,15 @@ public class RiMConfiguration extends Config {
 			CarriageMotion.TeleportationDuration = BoundedInteger("TeleportDurationInTicks",
 					"Duration of translocation in ticks", 1, CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
 
+            // Allow for adding more sounds without bother people's configs.
 			CarriageMotion.SoundIndex = BoundedInteger("Sound File Index",
-					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made, Greater than 3 is silence", 0, CarriageMotion.SoundIndex,
+					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made, 10 is silence", 0, CarriageMotion.SoundIndex,
 					10);
 			switch (CarriageMotion.SoundIndex) {
 				case 0:
 					CarriageMotion.SoundFile = "hum";
 					break;
-				case 4:
+				case 10:
 					CarriageMotion.SoundFile = "mute";
 					break;
 				default:
