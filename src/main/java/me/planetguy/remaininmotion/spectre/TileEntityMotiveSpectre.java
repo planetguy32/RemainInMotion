@@ -499,18 +499,73 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
     }
 
+    public void fixLagError(CapturedEntity capture, Entity entity) {
+        double motionX = 0;
+        double motionY = 0;
+        double motionZ = 0;
+
+        if(netMotionX != 0){
+            if(netMotionX < 0 && netMotionX > -1) {
+                motionX = -1 + netMotionX;
+                netMotionX = -1;
+            } else if(netMotionX > 0 & netMotionX < 1) {
+                motionX = 1 - netMotionX;
+                netMotionX = 1;
+            }
+            if(netMotionX > 1) {
+                motionX -= netMotionX - 1;
+                netMotionX = 1;
+            } else if(netMotionX < -1) {
+                motionX += netMotionX + 1;
+                netMotionX = -1;
+            }
+        }
+        if(netMotionY != 0){
+            if(netMotionY < 0 && netMotionY > -1) {
+                motionY = -1 + netMotionY;
+                netMotionY = -1;
+            } else if(netMotionY > 0 & netMotionY < 1) {
+                motionY = 1 - netMotionY;
+                netMotionY = 1;
+            }
+            if(netMotionY > 1) {
+                motionY -= netMotionY - 1;
+                netMotionY = 1;
+            } else if(netMotionY < -1) {
+                motionY += netMotionY + 1;
+                netMotionY = -1;
+            }
+        }
+        if(netMotionZ != 0){
+            if(netMotionZ < 0 && netMotionZ > -1) {
+                motionZ = -1 + netMotionZ;
+                netMotionZ = -1;
+            } else if(netMotionZ > 0 & netMotionZ < 1) {
+                motionZ = 1 - netMotionZ;
+                netMotionZ = 1;
+            }
+            if(netMotionZ > 1) {
+                motionZ -= netMotionZ - 1;
+                netMotionZ = 1;
+            } else if(netMotionZ < -1) {
+                motionZ += netMotionZ + 1;
+                netMotionZ = -1;
+            }
+        }
+        capture.SetPosition(motionX, motionY, motionZ);
+    }
+
     public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
         entity.fallDistance = 0;
         if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
             //capture.SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY,
             //        MotionDirection.DeltaZ);
             //capture.stop(entity);
-            entity.onGround = capture.WasOnGround;
-            entity.isAirBorne = capture.WasAirBorne;
+            //entity.onGround = capture.WasOnGround;
+            //entity.isAirBorne = capture.WasAirBorne;
+            fixLagError(capture, entity);
             return;
         }
-        entity.onGround = false;
-        entity.isAirBorne = true;
         double motionX = Velocity * MotionDirection.DeltaX;
         double motionY = Velocity * MotionDirection.DeltaY;
         double motionZ = Velocity * MotionDirection.DeltaZ;
@@ -518,22 +573,37 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         netMotionX += motionX;
         netMotionY += motionY;
         netMotionZ += motionZ;
+
         if(netMotionX > 1) {
-            motionX = netMotionX - 1;
+            motionX -= netMotionX - 1;
             netMotionX = 1;
+        } else if(netMotionX < -1) {
+            motionX += netMotionX + 1;
+            netMotionX = -1;
         }
 
         if(netMotionY > 1) {
-            motionY = netMotionY - 1;
+            motionY -= netMotionY - 1;
             netMotionY = 1;
+        } else if(netMotionY < -1) {
+            motionY += netMotionY + 1;
+            netMotionY = -1;
         }
 
         if(netMotionZ > 1) {
-            motionZ = netMotionZ - 1;
+            motionZ -= netMotionZ - 1;
             netMotionZ = 1;
+        } else if(netMotionZ < -1) {
+            motionZ += netMotionZ + 1;
+            netMotionZ = -1;
         }
 
-        capture.SetPosition(motionX, motionY, motionZ);
+        if(MotionDirection.DeltaY != 0){
+            capture.SetPosition(motionX, 0, motionZ);
+            capture.SetYPosition(netMotionY);
+        } else {
+            capture.SetPosition(motionX, motionY, motionZ);
+        }
         entity.prevPosX = entity.posX - netMotionX;
         entity.prevPosY = entity.posY - netMotionY;
         entity.prevPosZ = entity.posZ - netMotionZ;
@@ -670,6 +740,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         public void SetPosition(double OffsetX, double OffsetY, double OffsetZ) {
             entity.setPosition(entity.posX + OffsetX, entity.posY + OffsetY, entity.posZ + OffsetZ);
+        }
+
+        public void SetYPosition(double OffsetY) {
+            entity.setPosition(entity.posX, InitialY + entity.yOffset + OffsetY, entity.posZ);
         }
 
         public void Update() {
