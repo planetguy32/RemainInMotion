@@ -1,11 +1,12 @@
 package me.planetguy.remaininmotion;
 
+import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockRecord implements Comparable<BlockRecord> {
+public class BlockRecord implements Comparable<BlockRecord>, IBlockPos {
 	public int	X;
 	public int	Y;
 	public int	Z;
@@ -119,5 +120,25 @@ public class BlockRecord implements Comparable<BlockRecord> {
 
         return record;
     }
+
+	@Override
+	public net.minecraft.world.World world() {
+		return World;
+	}
+
+	@Override
+	public int x() {
+		return X;
+	}
+
+	@Override
+	public int y() {
+		return Y;
+	}
+
+	@Override
+	public int z() {
+		return Z;
+	}
 
 }

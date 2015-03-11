@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.eventhandler.ASMEventHandler;
+import cpw.mods.fml.common.eventhandler.EventBus;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.interop.chickenchunks.CCHandler;
@@ -18,6 +20,8 @@ import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.ItemStack;
 
 public abstract class ModInteraction {
+	
+	public static EventBus blockMoveBus;
 	
 	public static FMPHandler fmpProxy;
 	

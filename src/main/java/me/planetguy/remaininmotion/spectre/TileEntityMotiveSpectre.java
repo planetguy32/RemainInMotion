@@ -12,6 +12,8 @@ import codechicken.multipart.handler.MultipartSaveLoad;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.IMotionCallback;
+import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
+import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
@@ -167,7 +169,13 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                         continue;
                     }
                 } else {
-                    if (ModInteraction.BCInstalled)
+                	BlockRecord r2=new BlockRecord(record);
+                	r2.World=worldObj;
+                	
+                	ModInteraction.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                	
+                	//TODO migrate to new hooks
+                	if (ModInteraction.BCInstalled)
                         performBuildcraftPreInit(record, offset);
 
                     record.entity = TileEntity
@@ -177,6 +185,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                         SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
                                 record.Z, record.entity);
                     }
+                    
+                    ModInteraction.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                    
+                    //TODO new hooks
                     if (ModInteraction.BCInstalled)
                         performBuildcraftPostInit(record);
 
@@ -221,6 +233,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
             onMotionFinalized(record);
             record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
+            ModInteraction.blockMoveBus.post(new MotionFinalizeEvent(record));
         }
 
         for(BlockRecord record:body) {
