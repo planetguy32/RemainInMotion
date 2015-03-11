@@ -8,6 +8,7 @@ import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
+import me.planetguy.remaininmotion.api.event.TileEntitySaveToMoveEvent;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -84,8 +85,6 @@ public class CarriagePackage {
 
 	private double			Mass			= 0;
 
-	public BlockRecord		lastRecord;
-
 	public void AddBlock(BlockRecord record) throws CarriageMotionException {
 
 		if ((MotionDirection == Directions.PosY) && (record.Y >= 254)) { throw (new CarriageObstructionException(
@@ -151,12 +150,13 @@ public class CarriagePackage {
 			
 			record.entityRecord = new NBTTagCompound();
 
-			if (record.entity instanceof ISpecialMoveBehavior && !(lastRecord != null && lastRecord.equals(record))) {
+			if (record.entity instanceof ISpecialMoveBehavior)
 				((ISpecialMoveBehavior) record.entity).onAdded(this, record.entityRecord);
-				record.entity.writeToNBT(record.entityRecord);
-			} else {
-				record.entity.writeToNBT(record.entityRecord);
-			}
+			
+			record.entity.writeToNBT(record.entityRecord);
+			
+			ModInteraction.blockMoveBus.post(
+					new TileEntitySaveToMoveEvent(record, record.entityRecord));
 			
 			if(ModInteraction.fmpProxy.isMultipart(record.entity)) {
 				ModInteraction.fmpProxy.saveMultipartTick(record.entity, record.entityRecord);
@@ -184,7 +184,6 @@ public class CarriagePackage {
 
 			}
 		}
-		lastRecord = record;
 	}
 
 	public void FailBecauseObstructed(BlockRecord Record, String Type) throws CarriageMotionException {

@@ -2,7 +2,9 @@ package me.planetguy.remaininmotion.spectre;
 
 import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.util.transformations.Matrix;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -34,6 +36,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		Block b = worldObj.getBlock(record.X, record.Y, record.Z);
 		if (!worldObj.isRemote) {
 			b.rotateBlock(worldObj, record.X, record.Y, record.Z, ForgeDirection.values()[axisOfRotation]);
+			ModInteraction.blockMoveBus.post(new BlockRotateEvent(record, ForgeDirection.values()[axisOfRotation]));
 		}
 	}
 

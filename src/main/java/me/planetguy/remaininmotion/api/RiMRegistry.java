@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.api;
 import me.planetguy.remaininmotion.CarriageMatchers;
 import me.planetguy.remaininmotion.Closeables;
 import me.planetguy.remaininmotion.FrameCarriageMatchers;
+import me.planetguy.remaininmotion.core.interop.ModInteraction;
 
 public class RiMRegistry {
 
@@ -36,6 +37,13 @@ public class RiMRegistry {
 	 */
 	public static void registerFrameCarriageMatcher(FrameCarriageMatcher m) {
 		FrameCarriageMatchers.register(m);
+	}
+	
+	/**
+	 * Registers a BlockMoveEvent handler with RemIM's event bus
+	 */
+	public static void registerEventHandler(Object o) {
+		ModInteraction.blockMoveBus.register(o);
 	}
 
 }
