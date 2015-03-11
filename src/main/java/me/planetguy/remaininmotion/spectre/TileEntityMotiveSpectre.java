@@ -174,7 +174,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 	BlockRecord r2=new BlockRecord(record);
                 	r2.Identify(worldObj);
                 	
-                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2));
+                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, r2, record));
                 	
                 	//TODO migrate to new hooks
                 	if (ModInteraction.BCInstalled)
@@ -188,7 +188,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                                 record.Z, record.entity);
                     }
                     
-                    RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(r2));
+                    RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, r2, record));
                     
                     //TODO new hooks
                     if (ModInteraction.BCInstalled)
