@@ -1,11 +1,13 @@
 package me.planetguy.remaininmotion.api;
 
+import cpw.mods.fml.common.eventhandler.EventBus;
 import me.planetguy.remaininmotion.CarriageMatchers;
 import me.planetguy.remaininmotion.Closeables;
 import me.planetguy.remaininmotion.FrameCarriageMatchers;
-import me.planetguy.remaininmotion.core.interop.ModInteraction;
 
 public class RiMRegistry {
+	
+	public static final EventBus blockMoveBus=new EventBus();
 
 	/**
 	 * Register carriage matchers with RiM. To register something as a frame
@@ -43,7 +45,7 @@ public class RiMRegistry {
 	 * Registers a BlockMoveEvent handler with RemIM's event bus
 	 */
 	public static void registerEventHandler(Object o) {
-		ModInteraction.blockMoveBus.register(o);
+		RiMRegistry.blockMoveBus.register(o);
 	}
 
 }

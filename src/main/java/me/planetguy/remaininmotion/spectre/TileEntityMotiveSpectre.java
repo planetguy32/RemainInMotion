@@ -12,6 +12,7 @@ import codechicken.multipart.handler.MultipartSaveLoad;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.IMotionCallback;
+import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
@@ -172,7 +173,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 	BlockRecord r2=new BlockRecord(record);
                 	r2.World=worldObj;
                 	
-                	ModInteraction.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
                 	
                 	//TODO migrate to new hooks
                 	if (ModInteraction.BCInstalled)
@@ -186,7 +187,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                                 record.Z, record.entity);
                     }
                     
-                    ModInteraction.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                    RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
                     
                     //TODO new hooks
                     if (ModInteraction.BCInstalled)
@@ -233,7 +234,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
             onMotionFinalized(record);
             record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
-            ModInteraction.blockMoveBus.post(new MotionFinalizeEvent(record));
+            RiMRegistry.blockMoveBus.post(new MotionFinalizeEvent(record));
         }
 
         for(BlockRecord record:body) {

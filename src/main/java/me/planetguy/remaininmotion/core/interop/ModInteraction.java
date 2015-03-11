@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.ASMEventHandler;
-import cpw.mods.fml.common.eventhandler.EventBus;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.interop.chickenchunks.CCHandler;
@@ -21,36 +20,20 @@ import net.minecraft.item.ItemStack;
 
 public abstract class ModInteraction {
 	
-	public static EventBus blockMoveBus;
-	
 	public static FMPHandler fmpProxy;
 	
 	public static IChickenChunksHandler cchunksProxy;
 	
-	public abstract static class ForgeMultipart {
-		
-		public static void Establish() {
-			
-			if(MPInstalled)
-			{
-				fmpProxy = new FMPHandlerImpl();
-			} else {
-				fmpProxy = new FMPHandlerDummy();
-			}
-		}
-	}
-
 	public static Field		PendingBlockUpdateSetField;
 	public static Method	RemovePendingBlockUpdate;
 
 	public static boolean BCInstalled;
 	public static boolean MPInstalled;
-    public static boolean COFHInstalled;
 
 	public static void Establish() {
 		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
 		MPInstalled = Loader.isModLoaded("ForgeMultipart");
-        COFHInstalled = Loader.isModLoaded("CoFHCore");
+        
         if(Loader.isModLoaded("ChickenChunks")) {
         	cchunksProxy=new CCHandler();
         }else {
@@ -65,14 +48,17 @@ public abstract class ModInteraction {
 			Core.CarriageControllerEntity = TileEntityCarriageController.class;
 		}
 
-		ForgeMultipart.Establish();
-
+		if(MPInstalled)
 		{
-			PendingBlockUpdateSetField = getField(net.minecraft.world.WorldServer.class, "tickEntryQueue");
-
-			RemovePendingBlockUpdate = getMethod(net.minecraft.world.WorldServer.class, "removeNextTickIfNeeded",
-					net.minecraft.world.NextTickListEntry.class);
+			fmpProxy = new FMPHandlerImpl();
+		} else {
+			fmpProxy = new FMPHandlerDummy();
 		}
+
+		PendingBlockUpdateSetField = getField(net.minecraft.world.WorldServer.class, "tickEntryQueue");
+
+		RemovePendingBlockUpdate = getMethod(net.minecraft.world.WorldServer.class, "removeNextTickIfNeeded",
+				net.minecraft.world.NextTickListEntry.class);
 		
 	}
 

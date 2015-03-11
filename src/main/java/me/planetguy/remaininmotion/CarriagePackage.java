@@ -8,6 +8,7 @@ import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
+import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.TileEntitySaveToMoveEvent;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
@@ -155,7 +156,7 @@ public class CarriagePackage {
 			
 			record.entity.writeToNBT(record.entityRecord);
 			
-			ModInteraction.blockMoveBus.post(
+			RiMRegistry.blockMoveBus.post(
 					new TileEntitySaveToMoveEvent(record, record.entityRecord));
 			
 			if(ModInteraction.fmpProxy.isMultipart(record.entity)) {
