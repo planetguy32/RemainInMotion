@@ -4,6 +4,7 @@ import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockRecord implements Comparable<BlockRecord>, IBlockPos {
@@ -139,6 +140,16 @@ public class BlockRecord implements Comparable<BlockRecord>, IBlockPos {
 	@Override
 	public int z() {
 		return Z;
+	}
+
+	@Override
+	public TileEntity entity() {
+		return entity;
+	}
+
+	@Override
+	public NBTTagCompound entityTag() {
+		return entityRecord;
 	}
 
 }

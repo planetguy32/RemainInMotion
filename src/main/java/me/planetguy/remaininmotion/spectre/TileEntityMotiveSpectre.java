@@ -14,6 +14,7 @@ import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
+import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
@@ -135,7 +136,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             // Gizmos temporal dislocator
         }
     }
-
+    
     public void doRelease() {
 
         for (BlockRecord record : body) {
@@ -171,9 +172,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     }
                 } else {
                 	BlockRecord r2=new BlockRecord(record);
-                	r2.World=worldObj;
+                	r2.Identify(worldObj);
                 	
-                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2));
                 	
                 	//TODO migrate to new hooks
                 	if (ModInteraction.BCInstalled)
@@ -187,7 +188,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                                 record.Z, record.entity);
                     }
                     
-                    RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                    RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(r2));
                     
                     //TODO new hooks
                     if (ModInteraction.BCInstalled)
@@ -235,12 +236,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             onMotionFinalized(record);
             record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
             RiMRegistry.blockMoveBus.post(new MotionFinalizeEvent(record));
-        }
-
-        for(BlockRecord record:body) {
-            if(record.entity instanceof IMotionCallback) {
-                ((IMotionCallback) record.entity).onPlacedFromMotion();
-            }
         }
 
         cleanupSpecter();

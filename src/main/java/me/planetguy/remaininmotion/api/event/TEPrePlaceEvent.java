@@ -2,10 +2,10 @@ package me.planetguy.remaininmotion.api.event;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TEPrePlaceEvent extends TileEntityMoveEvent {
+public class TEPrePlaceEvent extends TEMoveEvent {
 
-	public TEPrePlaceEvent(IBlockPos location, NBTTagCompound savedData) {
-		super(location, savedData);
+	public TEPrePlaceEvent(IBlockPos location) {
+		super(location);
 	}
 
 }
