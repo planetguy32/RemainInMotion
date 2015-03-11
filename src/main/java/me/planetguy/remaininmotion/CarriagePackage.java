@@ -9,7 +9,7 @@ import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.api.RiMRegistry;
-import me.planetguy.remaininmotion.api.event.TileEntitySaveToMoveEvent;
+import me.planetguy.remaininmotion.api.event.TEStartMoveEvent;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -157,7 +157,7 @@ public class CarriagePackage {
 			record.entity.writeToNBT(record.entityRecord);
 			
 			RiMRegistry.blockMoveBus.post(
-					new TileEntitySaveToMoveEvent(record, record.entityRecord));
+					new TEStartMoveEvent(record));
 			
 			if(ModInteraction.fmpProxy.isMultipart(record.entity)) {
 				ModInteraction.fmpProxy.saveMultipartTick(record.entity, record.entityRecord);

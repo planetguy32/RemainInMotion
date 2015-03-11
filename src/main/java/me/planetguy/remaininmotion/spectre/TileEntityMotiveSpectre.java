@@ -136,7 +136,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             // Gizmos temporal dislocator
         }
     }
-
+    
     public void doRelease() {
 
         for (BlockRecord record : body) {
@@ -172,7 +172,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     }
                 } else {
                 	BlockRecord r2=new BlockRecord(record);
-                	r2.World=worldObj;
+                	r2.Identify(worldObj);
                 	
                 	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, r2, record));
                 	
@@ -236,12 +236,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             onMotionFinalized(record);
             record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
             RiMRegistry.blockMoveBus.post(new MotionFinalizeEvent(record));
-        }
-
-        for(BlockRecord record:body) {
-            if(record.entity instanceof IMotionCallback) {
-                ((IMotionCallback) record.entity).onPlacedFromMotion();
-            }
         }
 
         cleanupSpecter();
