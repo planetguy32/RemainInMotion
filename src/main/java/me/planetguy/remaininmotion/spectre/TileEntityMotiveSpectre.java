@@ -612,6 +612,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         if(MotionDirection.DeltaY != 0){
+            entity.onGround = capture.WasOnGround;
+            entity.isAirBorne = capture.WasAirBorne;
             capture.SetPosition(motionX, 0, motionZ);
             capture.SetYPosition(netMotionY);
         } else {
