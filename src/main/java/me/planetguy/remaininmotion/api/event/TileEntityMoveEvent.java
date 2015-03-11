@@ -1,15 +1,20 @@
 package me.planetguy.remaininmotion.api.event;
 
+import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.eventhandler.Event;
 
 public class TileEntityMoveEvent extends BlockMoveEvent{
 	
-	public final NBTTagCompound savedData;
+	public final BlockRecord record;
+
+    public final TileEntityMotiveSpectre spectre;
 	
-	public TileEntityMoveEvent(IBlockPos location, NBTTagCompound savedData) {
+	public TileEntityMoveEvent(TileEntityMotiveSpectre spectre, IBlockPos location, BlockRecord record) {
 		super(location);
-		this.savedData=savedData;
+		this.record = record;
+        this.spectre = spectre;
 	}
 
 }

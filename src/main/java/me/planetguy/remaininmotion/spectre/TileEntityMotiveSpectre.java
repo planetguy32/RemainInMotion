@@ -14,6 +14,7 @@ import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
+import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
@@ -173,7 +174,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 	BlockRecord r2=new BlockRecord(record);
                 	r2.World=worldObj;
                 	
-                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, r2, record));
                 	
                 	//TODO migrate to new hooks
                 	if (ModInteraction.BCInstalled)
@@ -187,7 +188,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                                 record.Z, record.entity);
                     }
                     
-                    RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(r2, record.entityRecord));
+                    RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, r2, record));
                     
                     //TODO new hooks
                     if (ModInteraction.BCInstalled)
