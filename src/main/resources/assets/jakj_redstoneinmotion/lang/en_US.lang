@@ -91,3 +91,6 @@ item.JAKJ_RedstoneInMotion_SimpleItemSet.0.name=Carriage Crosspiece
 item.JAKJ_RedstoneInMotion_SimpleItemSet.1.name=Carriage Panel
 item.JAKJ_RedstoneInMotion_SimpleItemSet.2.name=Carriage Framework
 item.hollowCarriage.name=Hollow Carriage
+
+#Specter
+tile.JAKJ_RedstoneInMotion_Spectre.0.name=Moving Block

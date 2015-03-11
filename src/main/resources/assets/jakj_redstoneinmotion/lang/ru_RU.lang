@@ -86,3 +86,6 @@ item.JAKJ_RedstoneInMotion_SimpleItemSet.0.name=Крест фрейма
 item.JAKJ_RedstoneInMotion_SimpleItemSet.1.name=Панель фрейма
 item.JAKJ_RedstoneInMotion_SimpleItemSet.2.name=Каркас фрейма
 item.hollowCarriage.name=Пустой фрейм
+
+#Specter
+tile.JAKJ_RedstoneInMotion_Spectre.0.name=подвижный блок
