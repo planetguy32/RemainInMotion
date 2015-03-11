@@ -102,7 +102,7 @@ public abstract class Recipes {
 
 		// allow un-dyeing carriages
 		GameRegistry.addShapelessRecipe(Types.CarriageFramework.Stack(),
-				me.planetguy.remaininmotion.core.RIMBlocks.Carriage);
+				new ItemStack(RIMBlocks.Carriage));
 
 	}
 
