@@ -46,6 +46,8 @@ public class RiMConfiguration extends Config {
 
 		public static int		SoundIndex						= 0;
 		public static String	SoundFile						= "hum";
+		
+		public static float volume=0.4f;
 
 	}
 
@@ -203,25 +205,30 @@ public class RiMConfiguration extends Config {
 			CarriageMotion.RenderInFinalPositionDuringLag = Boolean("StopAnimationDuringLag",
 					"Animation of motion should stop during severe lag", CarriageMotion.RenderInFinalPositionDuringLag);
 
-			CarriageMotion.MotionDuration = BoundedInteger("MotionDurationInTicks", "Duration of motion in ticks", 10,
+			CarriageMotion.MotionDuration = BoundedInteger("MotionDurationInTicks", "Duration of motion in ticks", 1,
 					CarriageMotion.MotionDuration, Integer.MAX_VALUE);
 
 			TileEntityMotiveSpectre.Velocity = 1 / ((double) CarriageMotion.MotionDuration);
 
 			CarriageMotion.TeleportationDuration = BoundedInteger("TeleportDurationInTicks",
-					"Duration of translocation in ticks", 10, CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
+					"Duration of translocation in ticks", 1, CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
 
 			CarriageMotion.SoundIndex = BoundedInteger("Sound File Index",
-					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made.", 0, CarriageMotion.SoundIndex,
+					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made, 4 is silence", 0, CarriageMotion.SoundIndex,
 					10);
 			switch (CarriageMotion.SoundIndex) {
 				case 0:
 					CarriageMotion.SoundFile = "hum";
 					break;
+				case 4:
+					CarriageMotion.SoundFile = "mute";
+					break;
 				default:
-					CarriageMotion.SoundFile = "engine" + CarriageMotion.SoundIndex;
+					CarriageMotion.SoundFile = "engine_" + CarriageMotion.SoundIndex;
 					break;
 			}
+			
+			CarriageMotion.volume=Configuration.getFloat("Sound Volume", Category, CarriageMotion.volume, 0, 9001,"");
 		}
 
 		/*
