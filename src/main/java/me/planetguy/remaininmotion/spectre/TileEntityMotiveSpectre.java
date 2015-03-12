@@ -1,21 +1,10 @@
 package me.planetguy.remaininmotion.spectre;
 
-import buildcraft.core.TileBuildCraft;
-import buildcraft.factory.TileQuarry;
-import buildcraft.transport.Pipe;
-import buildcraft.transport.PipeTransportItems;
-import buildcraft.transport.TileGenericPipe;
-import buildcraft.transport.TravelingItem;
-import codechicken.multipart.MultipartHelper;
-import codechicken.multipart.TileMultipart;
-import codechicken.multipart.handler.MultipartSaveLoad;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.RiMRegistry;
-import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
-import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
-import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
+import me.planetguy.remaininmotion.api.event.*;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
@@ -141,8 +130,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
                     record.block, record.Meta);
         }
-
-        if (ModInteraction.MPInstalled) MultipartSaveLoad.loadingWorld_$eq(worldObj);
+        
+        RiMRegistry.blockMoveBus.post(new UnpackStartEvent(this));
 
         for (BlockRecord record : body) {
 
@@ -153,47 +142,20 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 record.entityRecord.setInteger("y", record.Y);
                 record.entityRecord.setInteger("z", record.Z);
 
-                if (ModInteraction.MPInstalled
-                        && record.entityRecord.getString("id").equals(
-                        "savedMultipart")) {
-                    try {
-                        record.entity = MultipartHelper.createTileFromNBT(worldObj, record.entityRecord);
-                        if (record.entity != null) {
-                            SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
-                                    record.Z, record.entity);
-                        }
-                        ((TileMultipart) record.entity).onChunkLoad();
-                        MultipartHelper.sendDescPacket(worldObj, record.entity);
-                    } catch (Throwable Throwable) {
-                        Throwable.printStackTrace();
-                        continue;
-                    }
-                } else {
-                	BlockRecord r2=new BlockRecord(record);
-                	r2.Identify(worldObj);
-                	
-                	RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, r2, record));
-                	
-                	//TODO migrate to new hooks
-                	if (ModInteraction.BCInstalled)
-                        performBuildcraftPreInit(record, offset);
+                RiMRegistry.blockMoveBus.post(new TEPreUnpackEvent(this, record));
 
-                    record.entity = TileEntity
-                            .createAndLoadEntity(record.entityRecord);
+                record.entity = TileEntity
+                		.createAndLoadEntity(record.entityRecord);
 
-                    if (record.entity != null) {
-                        SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
-                                record.Z, record.entity);
-                    }
-                    
-                    RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, r2, record));
-                    
-                    //TODO new hooks
-                    if (ModInteraction.BCInstalled)
-                        performBuildcraftPostInit(record);
+                RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
 
-                    ModInteraction.cchunksProxy.performChickenChunksPostInit(worldObj, record);
+                if (record.entity != null) {
+                	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
+                			record.Z, record.entity);
                 }
+
+                RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, record));
+
             }
 
         }
@@ -229,8 +191,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
-            if (ModInteraction.fmpProxy.isMultipart(record.entity))
-                ModInteraction.fmpProxy.loadMultipartTick(record.entity, record.entityRecord);
             onMotionFinalized(record);
             record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
             RiMRegistry.blockMoveBus.post(new MotionFinalizeEvent(record));
@@ -254,84 +214,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     public int[] getOffset(BlockRecord record) {
         return getOffset();
-    }
-
-    private void performBuildcraftPreInit(BlockRecord record, int[] offset) {
-        // Screw PostInit access, I'll just modify the blocks at save level.
-        // This will work for anything with a box (filler, quarry, architect table)
-        if (record.entityRecord.hasKey("box")) {
-            NBTTagCompound boxNBT = record.entityRecord.getCompoundTag("box");
-            if (!boxNBT.hasNoTags()) {
-                int xMax = boxNBT.getInteger("xMax");
-                int xMin = boxNBT.getInteger("xMin");
-                int yMax = boxNBT.getInteger("yMax");
-                int yMin = boxNBT.getInteger("yMin");
-                int zMax = boxNBT.getInteger("zMax");
-                int zMin = boxNBT.getInteger("zMin");
-
-                boxNBT.setInteger("xMax", xMax += offset[0]);
-                boxNBT.setInteger("xMin", xMin += offset[0]);
-                boxNBT.setInteger("yMax", yMax += offset[1]);
-                boxNBT.setInteger("yMin", yMin += offset[1]);
-                boxNBT.setInteger("zMax", zMax += offset[2]);
-                boxNBT.setInteger("zMin", zMin += offset[2]);
-
-            }
-        }
-
-        // reset states on filler and mining well (and anything based off it)
-        if(record.entityRecord.hasKey("done")) {
-            record.entityRecord.setBoolean("done", false);
-        }
-        if(record.entityRecord.hasKey("digging")) {
-            record.entityRecord.setBoolean("digging", true);
-        }
-        // reset quarry
-        if (record.entityRecord.getString("id").equals("Machine")) {
-            record.entityRecord.setInteger("targetX", 0);
-            record.entityRecord.setInteger("targetY", 0);
-            record.entityRecord.setInteger("targetZ", 0);
-
-            record.entityRecord.setDouble("headPosX", 0.0D);
-            record.entityRecord.setDouble("headPosY", 0.0D);
-            record.entityRecord.setDouble("headPosZ", 0.0D);
-        }
-    }
-
-    private void performBuildcraftPostInit(BlockRecord record) {
-        try {
-
-            if (record.entity instanceof TileGenericPipe) {
-                TileGenericPipe tile = (TileGenericPipe) record.entity;
-                Pipe pipe = tile.pipe;
-                if (!tile.initialized) {
-                    tile.initialize(pipe);
-                }
-
-                if (pipe.transport instanceof PipeTransportItems) {
-                    if (!((PipeTransportItems) pipe.transport).items.iterating) {
-                        for (TravelingItem item : ((PipeTransportItems) pipe.transport).items) {
-                            // to set up for correct displacement when
-                            // teleporting
-                            int[] offset = getOffset(record);
-                            item.xCoord += offset[0];
-                            item.yCoord += offset[1];
-                            item.zCoord += offset[2];
-                        }
-                    }
-                }
-            } else if (record.entity instanceof TileBuildCraft) {
-
-                record.entity.invalidate();
-                ((TileBuildCraft)record.entity).initialize();
-                if(record.entity instanceof TileQuarry) {
-                    ((TileQuarry) record.entity).createUtilsIfNeeded();
-                }
-
-            }
-        } catch (Throwable Throwable) {
-            //Throwable.printStackTrace();
-        }
     }
 
     public void onMotionFinalized(BlockRecord Record) {

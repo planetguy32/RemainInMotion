@@ -5,17 +5,22 @@ import cpw.mods.fml.common.eventhandler.Event;
 
 public class TEStartMoveEvent extends TEMoveEvent {
 	
-	private boolean cancelled, excluded;
+	private boolean excluded=false;
+	
+	private String cancelled=null;
 	
 	public TEStartMoveEvent(IBlockPos location) {
 		super(location);
 	}
 	
-	public void cancel() {
-		cancelled=true;
+	public void cancel(String message) {
+		if(message==null)
+			cancelled="unspecified";
+		else
+			cancelled=message;
 	}
 	
-	public boolean isCancelled() {
+	public String getCancelMessag() {
 		return cancelled;
 	}
 	

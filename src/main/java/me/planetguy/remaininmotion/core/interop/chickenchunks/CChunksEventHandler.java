@@ -1,17 +1,29 @@
 package me.planetguy.remaininmotion.core.interop.chickenchunks;
 
-import codechicken.chunkloader.ChunkLoaderManager;
-import codechicken.chunkloader.TileChunkLoaderBase;
 import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.core.interop.ModInteraction;
+import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
+import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import codechicken.chunkloader.ChunkLoaderManager;
+import codechicken.chunkloader.TileChunkLoaderBase;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class CCHandler implements IChickenChunksHandler {
+public class CChunksEventHandler {
 	
-    @Override
-	public void performChickenChunksPostInit(World worldObj, BlockRecord record){
+	@SubscribeEvent
+	public void onPostPlace(TEPostPlaceEvent e) {
+		performChickenChunksPostInit((BlockRecord) e.location);
+	}
+	
+	@SubscribeEvent
+	public void onPreMove(BlockPreMoveEvent e) {
+		handleChickenChunks(e.location.world(), (BlockRecord) e.location, (BlockRecord) e.newLoc);
+	}
+	
+	public void performChickenChunksPostInit(BlockRecord record){
+		World worldObj=record.world();
         try{
             if(record.entity instanceof TileChunkLoaderBase){
                 if(record.entityRecord.hasKey("ChickenChunkLoader")){
@@ -28,8 +40,7 @@ public class CCHandler implements IChickenChunksHandler {
             }
         }catch(Throwable t) {}
     }
-    
-    @Override
+	
 	public void handleChickenChunks(World worldObj, BlockRecord record, BlockRecord newPosition)
     {
         if(record.entityRecord == null) return;

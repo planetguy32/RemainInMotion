@@ -4,15 +4,11 @@ import me.planetguy.remaininmotion.BlockRecord;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.common.eventhandler.Event;
 
-public class TEPlaceEvent extends BlockMoveEvent{
-	
-    public final TileEntity spectre;
-	
-	public TEPlaceEvent(TileEntity spectre, IBlockPos location) {
-		super(location);
-        this.spectre = spectre;
+public class TEPreUnpackEvent extends TEPlaceEvent {
+
+	public TEPreUnpackEvent(TileEntity spectre, IBlockPos location) {
+		super(spectre, location);
 	}
 
 }

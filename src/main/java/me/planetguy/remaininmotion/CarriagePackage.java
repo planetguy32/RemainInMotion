@@ -43,6 +43,8 @@ public class CarriagePackage {
 	public Directions						MotionDirection;
 
 	public int								axis;
+	
+	public static CarriagePackage activePackage;
 
 	public CarriagePackage(TileEntityCarriageDrive Drive, TileEntity Anchor, Directions MotionDirection) {
 		world = (WorldServer) Drive.getWorldObj();
@@ -106,6 +108,25 @@ public class CarriagePackage {
         {
             if(record.entity instanceof TileEntityCarriageTranslocator) return;
         }
+        
+		if (record.entity != null) {
+			
+			record.entityRecord = new NBTTagCompound();
+
+			record.entity.writeToNBT(record.entityRecord);
+			
+			synchronized(CarriagePackage.class) {
+				activePackage=this;
+				TEStartMoveEvent event=new TEStartMoveEvent(record);
+				RiMRegistry.blockMoveBus.post(event);
+				if(event.isExcluded()) {
+					return;
+				}else if(event.getCancelMessag() != null) {
+					throw new CarriageMotionException("Motion killed by block at "+record+": "+event.getCancelMessag());
+				}
+				activePackage=null;
+			}
+		}
 
 		Body.add(record);
 
@@ -129,41 +150,6 @@ public class CarriagePackage {
 		MaxY = Math.max(MaxY, record.Y);
 		MaxZ = Math.max(MaxZ, record.Z);
 
-		if (record.entity != null) {
-			
-			if(record.entity instanceof IMotionCallback) {
-				try {
-					switch(((IMotionCallback) record.entity).onSelectedForMotion()) {
-					case 0:
-						break;
-					case 1:
-						Body.remove(record);
-						return;
-					case 2:
-						throw new CarriageMotionException("TileEntity at "+record+" has excluded itself");
-					default:
-						break;
-					}
-				}catch(Exception e) {
-					throw new CarriageMotionException(e.getLocalizedMessage());
-				}
-			}
-			
-			record.entityRecord = new NBTTagCompound();
-
-			if (record.entity instanceof ISpecialMoveBehavior)
-				((ISpecialMoveBehavior) record.entity).onAdded(this, record.entityRecord);
-			
-			record.entity.writeToNBT(record.entityRecord);
-			
-			RiMRegistry.blockMoveBus.post(
-					new TEStartMoveEvent(record));
-			
-			if(ModInteraction.fmpProxy.isMultipart(record.entity)) {
-				ModInteraction.fmpProxy.saveMultipartTick(record.entity, record.entityRecord);
-			}
-		}
-
 		if (RiMConfiguration.HardMode.HardmodeActive) {
 			if (record.block == RIMBlocks.Carriage) {
 				Carriages.add(record);
@@ -175,12 +161,11 @@ public class CarriagePackage {
 
 				net.minecraft.block.Block b = record.block;
 
-				// take least of block's hardness and TNT resistance
-				double massFactor = Math.min(b.getBlockHardness(record.World, record.X, record.Y, record.Z),
-						b.getExplosionResistance(null));
-				// Debug.dbg("For "+b.getLocalizedName()+", factor="+massFactor+", lf="+Math.log(massFactor));
-				// always add 0.1 to weight, sometimes more if hard block to
-				// move
+				double massFactor = Math.min(
+						b.getBlockHardness(record.World, record.X, record.Y, record.Z),
+						b.getExplosionResistance(null)
+						);
+				
 				setMass(getMass() + Math.max(1, Math.log(massFactor)));
 
 			}

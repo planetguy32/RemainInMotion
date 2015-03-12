@@ -5,6 +5,8 @@ import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
 import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
@@ -368,7 +370,11 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     {
         for(BlockRecord record : carriagePackage.Body)
         {
-        	ModInteraction.cchunksProxy.handleChickenChunks(worldObj, record, carriagePackage.MotionDirection != null ? record.NextInDirection(carriagePackage.MotionDirection) : record);
+        	RiMRegistry.blockMoveBus.post(new BlockPreMoveEvent(
+        			record,
+        			carriagePackage.MotionDirection != null 
+        				? record.NextInDirection(carriagePackage.MotionDirection) 
+        				: record));
         }
 
     }
