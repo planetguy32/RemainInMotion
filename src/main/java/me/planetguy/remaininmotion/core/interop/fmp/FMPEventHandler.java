@@ -21,8 +21,8 @@ import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
-import me.planetguy.remaininmotion.api.event.TEStartMoveEvent;
-import me.planetguy.remaininmotion.api.event.UnpackStartEvent;
+import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
+import me.planetguy.remaininmotion.api.event.BlocksReplacedEvent;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 
@@ -31,7 +31,7 @@ public class FMPEventHandler {
 	private HashMap<World, WorldTickScheduler> knownSchedulers=new HashMap<World, WorldTickScheduler>();
 	
 	@SubscribeEvent
-	public void onFMPMoved(TEStartMoveEvent e) {
+	public void onFMPMoved(BlockSelectForMoveEvent e) {
 		if(isMultipart(e.location.entity())) {
 			saveMultipartTick(e.location.entity(), e.location.entityTag());
 		}
@@ -74,7 +74,7 @@ public class FMPEventHandler {
 	}
 	
 	@SubscribeEvent
-	public void onUnpackStart(UnpackStartEvent e) {
+	public void onUnpackStart(BlocksReplacedEvent e) {
 		MultipartSaveLoad.loadingWorld_$eq(e.unpackingEntity.getWorldObj());
 	}
 	

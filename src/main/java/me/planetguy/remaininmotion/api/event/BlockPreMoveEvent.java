@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.api.event;
 
-public class BlockPreMoveEvent extends BlockMoveEvent {
+public class BlockPreMoveEvent extends AbstractBlockMoveEvent {
 
 	public final IBlockPos newLoc;
 	

@@ -9,7 +9,7 @@ import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.api.RiMRegistry;
-import me.planetguy.remaininmotion.api.event.TEStartMoveEvent;
+import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -115,17 +115,18 @@ public class CarriagePackage {
 
 			record.entity.writeToNBT(record.entityRecord);
 			
-			synchronized(CarriagePackage.class) {
-				activePackage=this;
-				TEStartMoveEvent event=new TEStartMoveEvent(record);
-				RiMRegistry.blockMoveBus.post(event);
-				if(event.isExcluded()) {
-					return;
-				}else if(event.getCancelMessag() != null) {
-					throw new CarriageMotionException("Motion killed by block at "+record+": "+event.getCancelMessag());
-				}
-				activePackage=null;
+		}
+
+		synchronized(CarriagePackage.class) {
+			activePackage=this;
+			BlockSelectForMoveEvent event=new BlockSelectForMoveEvent(record);
+			RiMRegistry.blockMoveBus.post(event);
+			if(event.isExcluded()) {
+				return;
+			}else if(event.getCancelMessag() != null) {
+				throw new CarriageMotionException("Motion killed by block at "+record+": "+event.getCancelMessag());
 			}
+			activePackage=null;
 		}
 
 		Body.add(record);

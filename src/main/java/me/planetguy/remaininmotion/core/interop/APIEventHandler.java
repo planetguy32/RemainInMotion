@@ -7,7 +7,7 @@ import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
-import me.planetguy.remaininmotion.api.event.TEStartMoveEvent;
+import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class APIEventHandler {
@@ -21,7 +21,7 @@ public class APIEventHandler {
 	}
 	
 	@SubscribeEvent
-	public void handle(TEStartMoveEvent e) {
+	public void handle(BlockSelectForMoveEvent e) {
 		TileEntity te=e.location.entity();
 		if(te instanceof IMotionCallback) {
 			int result=(((IMotionCallback) te).onSelectedForMotion());

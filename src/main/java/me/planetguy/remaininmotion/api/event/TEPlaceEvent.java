@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.eventhandler.Event;
 
-public class TEPlaceEvent extends BlockMoveEvent{
+public class TEPlaceEvent extends AbstractBlockMoveEvent{
 	
     public final TileEntity spectre;
 	

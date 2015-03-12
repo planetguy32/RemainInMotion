@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion.api.event;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockRotateEvent extends BlockMoveEvent{
+public class BlockRotateEvent extends AbstractBlockMoveEvent{
 
 	public final ForgeDirection axis;
 	

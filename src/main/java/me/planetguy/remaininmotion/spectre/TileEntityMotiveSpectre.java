@@ -131,7 +131,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     record.block, record.Meta);
         }
         
-        RiMRegistry.blockMoveBus.post(new UnpackStartEvent(this));
+        RiMRegistry.blockMoveBus.post(new BlocksReplacedEvent(this));
 
         for (BlockRecord record : body) {
 
