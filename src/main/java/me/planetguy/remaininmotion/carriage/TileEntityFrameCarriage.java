@@ -12,19 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityFrameCarriage extends TileEntityCarriage {
-	public TileEntityFrameCarriage() {
-		RiMRegistry.registerCloseableFactory(new ICloseableFactory() {
-			@Override
-			public ICloseable retrieve(TileEntity te) {
-				return (ICloseable) te;
-			}
-
-			@Override
-			public Class validClass() {
-				return TileEntityFrameCarriage.class;
-			}
-		});
-	}
+	public TileEntityFrameCarriage() {}
 
 	@Override
 	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {

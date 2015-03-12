@@ -5,6 +5,8 @@ import me.planetguy.remaininmotion.BlacklistManager;
 import me.planetguy.remaininmotion.CreativeTab;
 import me.planetguy.remaininmotion.NativeCarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
+import me.planetguy.remaininmotion.api.ICloseable;
+import me.planetguy.remaininmotion.api.ICloseableFactory;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
@@ -50,6 +52,19 @@ public abstract class Core {
 		Recipes.Register();
 
 		BlacklistManager.Initialize();
+
+        // TODO Move this somewhere it makes sense. I'm just sick of it crashing.
+        RiMRegistry.registerCloseableFactory(new ICloseableFactory() {
+            @Override
+            public ICloseable retrieve(TileEntity te) {
+                return (ICloseable) te;
+            }
+
+            @Override
+            public Class validClass() {
+                return TileEntityFrameCarriage.class;
+            }
+        });
 	}
 
 	public static void HandleServerStopping() {
