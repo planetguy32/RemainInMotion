@@ -55,9 +55,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public BlockRecordSet body;
     public int TicksExisted;
 
-    private double netMotionX = 0;
-    private double netMotionY = 0;
-    private double netMotionZ = 0;
+
 
     public java.util.ArrayList<CapturedEntity> CapturedEntities = new ArrayList<CapturedEntity>();
     private boolean initialized;
@@ -389,9 +387,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         TagCompound.setTag("Body", BodyRecord);
 
-        TagCompound.setDouble("netMotionX", netMotionX);
-        TagCompound.setDouble("netMotionY", netMotionY);
-        TagCompound.setDouble("netMotionZ", netMotionZ);
+
     }
 
     @Override
@@ -414,9 +410,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             body.add(Record);
         }
 
-        netMotionX = TagCompound.getDouble("netMotionX");
-        netMotionY = TagCompound.getDouble("netMotionY");
-        netMotionZ = TagCompound.getDouble("netMotionZ");
+
 
     }
 
@@ -472,6 +466,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             CapturedEntityRecord.setDouble("InitialY", Entity.InitialY);
             CapturedEntityRecord.setDouble("InitialZ", Entity.InitialZ);
 
+            CapturedEntityRecord.setDouble("netMotionX", Entity.netMotionX);
+            CapturedEntityRecord.setDouble("netMotionY", Entity.netMotionY);
+            CapturedEntityRecord.setDouble("netMotionZ", Entity.netMotionZ);
+
             CapturedEntityRecords.appendTag(CapturedEntityRecord);
         }
 
@@ -504,7 +502,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
             CapturedEntities.add(new CapturedEntity(Entity, EntityRecord
                     .getDouble("InitialX"), EntityRecord.getDouble("InitialY"),
-                    EntityRecord.getDouble("InitialZ")));
+                    EntityRecord.getDouble("InitialZ"), EntityRecord.getDouble("netMotionX"), EntityRecord.getDouble("netMotionY"), EntityRecord.getDouble("netMotionZ")));
         }
     }
 
@@ -513,59 +511,62 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         double motionY = 0;
         double motionZ = 0;
 
-        if(netMotionX != 0){
-            if(netMotionX < 0 && netMotionX > -1) {
-                motionX = -1 + netMotionX;
-                netMotionX = -1;
-            } else if(netMotionX > 0 & netMotionX < 1) {
-                motionX = 1 - netMotionX;
-                netMotionX = 1;
+        if(capture.netMotionX != 0){
+            if(capture.netMotionX < 0 && capture.netMotionX > -1) {
+                motionX = -1 + capture.netMotionX;
+                capture.netMotionX = -1;
+            } else if(capture.netMotionX > 0 & capture.netMotionX < 1) {
+                motionX = 1 - capture.netMotionX;
+                capture.netMotionX = 1;
             }
-            if(netMotionX > 1) {
-                motionX -= netMotionX - 1;
-                netMotionX = 1;
-            } else if(netMotionX < -1) {
-                motionX += netMotionX + 1;
-                netMotionX = -1;
-            }
-        }
-        if(netMotionY != 0){
-            if(netMotionY < 0 && netMotionY > -1) {
-                motionY = -1 + netMotionY;
-                netMotionY = -1;
-            } else if(netMotionY > 0 & netMotionY < 1) {
-                motionY = 1 - netMotionY;
-                netMotionY = 1;
-            }
-            if(netMotionY > 1) {
-                motionY -= netMotionY - 1;
-                netMotionY = 1;
-            } else if(netMotionY < -1) {
-                motionY += netMotionY + 1;
-                netMotionY = -1;
+            if(capture.netMotionX > 1) {
+                motionX -= capture.netMotionX - 1;
+                capture.netMotionX = 1;
+            } else if(capture.netMotionX < -1) {
+                motionX += capture.netMotionX + 1;
+                capture.netMotionX = -1;
             }
         }
-        if(netMotionZ != 0){
-            if(netMotionZ < 0 && netMotionZ > -1) {
-                motionZ = -1 + netMotionZ;
-                netMotionZ = -1;
-            } else if(netMotionZ > 0 & netMotionZ < 1) {
-                motionZ = 1 - netMotionZ;
-                netMotionZ = 1;
+        if(capture.netMotionY != 0){
+            if(capture.netMotionY < 0 && capture.netMotionY > -1) {
+                motionY = -1 + capture.netMotionY;
+                capture.netMotionY = -1;
+            } else if(capture.netMotionY > 0 & capture.netMotionY < 1) {
+                motionY = 1 - capture.netMotionY;
+                capture.netMotionY = 1;
             }
-            if(netMotionZ > 1) {
-                motionZ -= netMotionZ - 1;
-                netMotionZ = 1;
-            } else if(netMotionZ < -1) {
-                motionZ += netMotionZ + 1;
-                netMotionZ = -1;
+            if(capture.netMotionY > 1) {
+                motionY -= capture.netMotionY - 1;
+                capture.netMotionY = 1;
+            } else if(capture.netMotionY < -1) {
+                motionY += capture.netMotionY + 1;
+                capture.netMotionY = -1;
+            }
+        }
+        if(capture.netMotionZ != 0){
+            if(capture.netMotionZ < 0 && capture.netMotionZ > -1) {
+                motionZ = -1 + capture.netMotionZ;
+                capture.netMotionZ = -1;
+            } else if(capture.netMotionZ > 0 & capture.netMotionZ < 1) {
+                motionZ = 1 - capture.netMotionZ;
+                capture.netMotionZ = 1;
+            }
+            if(capture.netMotionZ > 1) {
+                motionZ -= capture.netMotionZ - 1;
+                capture.netMotionZ = 1;
+            } else if(capture.netMotionZ < -1) {
+                motionZ += capture.netMotionZ + 1;
+                capture.netMotionZ = -1;
             }
         }
         if(MotionDirection.DeltaY != 0){
             entity.onGround = capture.WasOnGround;
             entity.isAirBorne = capture.WasAirBorne;
             capture.SetPosition(motionX, 0, motionZ);
-            capture.SetYPosition(netMotionY + 0.0625);
+            // try to fix double precision errors
+            capture.SetYPosition(capture.netMotionY + 0.025);
+            //entity.motionY = 0;
+            capture.stop();
         } else {
             capture.SetPosition(motionX, motionY, motionZ);
         }
@@ -575,57 +576,53 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
         entity.fallDistance = 0;
         if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
-            //capture.SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY,
-            //        MotionDirection.DeltaZ);
-            //capture.stop(entity);
-            //entity.onGround = capture.WasOnGround;
-            //entity.isAirBorne = capture.WasAirBorne;
             fixLagError(capture, entity);
             return;
         }
-        double motionX = Velocity * MotionDirection.DeltaX;
-        double motionY = Velocity * MotionDirection.DeltaY;
-        double motionZ = Velocity * MotionDirection.DeltaZ;
+        double motionX = Velocity * (double)MotionDirection.DeltaX;
+        double motionY = Velocity * (double)MotionDirection.DeltaY;
+        double motionZ = Velocity * (double)MotionDirection.DeltaZ;
 
-        netMotionX += motionX;
-        netMotionY += motionY;
-        netMotionZ += motionZ;
+        capture.netMotionX += motionX;
+        capture.netMotionY += motionY;
+        capture.netMotionZ += motionZ;
 
-        if(netMotionX > 1) {
-            motionX -= netMotionX - 1;
-            netMotionX = 1;
-        } else if(netMotionX < -1) {
-            motionX += netMotionX + 1;
-            netMotionX = -1;
+        if(capture.netMotionX > 1) {
+            motionX -= capture.netMotionX - 1;
+            capture.netMotionX = 1;
+        } else if(capture.netMotionX < -1) {
+            motionX += capture.netMotionX + 1;
+            capture.netMotionX = -1;
         }
 
-        if(netMotionY > 1) {
-            motionY -= netMotionY - 1;
-            netMotionY = 1;
-        } else if(netMotionY < -1) {
-            motionY += netMotionY + 1;
-            netMotionY = -1;
+        if(capture.netMotionY > 1) {
+            motionY -= capture.netMotionY - 1;
+            capture.netMotionY = 1;
+        } else if(capture.netMotionY < -1) {
+            motionY += capture.netMotionY + 1;
+            capture.netMotionY = -1;
         }
 
-        if(netMotionZ > 1) {
-            motionZ -= netMotionZ - 1;
-            netMotionZ = 1;
-        } else if(netMotionZ < -1) {
-            motionZ += netMotionZ + 1;
-            netMotionZ = -1;
+        if(capture.netMotionZ > 1) {
+            motionZ -= capture.netMotionZ - 1;
+            capture.netMotionZ = 1;
+        } else if(capture.netMotionZ < -1) {
+            motionZ += capture.netMotionZ + 1;
+            capture.netMotionZ = -1;
         }
 
         if(MotionDirection.DeltaY != 0){
             entity.onGround = capture.WasOnGround;
             entity.isAirBorne = capture.WasAirBorne;
             capture.SetPosition(motionX, 0, motionZ);
-            capture.SetYPosition(netMotionY + 0.0625);
+            capture.SetYPosition(capture.netMotionY);
+            //entity.motionY = 0;
         } else {
             capture.SetPosition(motionX, motionY, motionZ);
         }
-        entity.prevPosX = entity.posX - netMotionX;
-        entity.prevPosY = entity.posY - netMotionY;
-        entity.prevPosZ = entity.posZ - netMotionZ;
+        entity.prevPosX = entity.posX - capture.netMotionX;
+        entity.prevPosY = entity.posY - capture.netMotionY;
+        entity.prevPosZ = entity.posZ - capture.netMotionZ;
     }
 
     public boolean ShouldCaptureEntity(Entity Entity) {
@@ -727,58 +724,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         return true;
     }
 
-    public class CapturedEntity {
-        public Entity entity;
-
-        public double InitialX;
-        public double InitialY;
-        public double InitialZ;
-
-        boolean WasOnGround;
-
-        boolean WasAirBorne;
-
-        public CapturedEntity(Entity entity) {
-            this(entity, entity.posX, entity.posY, entity.posZ);
-        }
-
-        public CapturedEntity(Entity entity, double InitialX, double InitialY,
-                              double InitialZ) {
-            this.entity = entity;
-
-            this.InitialX = InitialX;
-            this.InitialY = InitialY;
-            this.InitialZ = InitialZ;
-
-            WasOnGround = entity.onGround;
-
-            WasAirBorne = entity.isAirBorne;
-
-            Update();
-        }
-
-        public void SetPosition(double OffsetX, double OffsetY, double OffsetZ) {
-            entity.setPosition(entity.posX + OffsetX, entity.posY + OffsetY, entity.posZ + OffsetZ);
-        }
-
-        public void SetYPosition(double OffsetY) {
-            entity.setPosition(entity.posX, InitialY + entity.yOffset + OffsetY, entity.posZ);
-        }
-
-        public void Update() {
-            doPerSpectreUpdate(this, entity);
-        }
-
-        public void stop(Entity e) {
-            entity.motionX = 0;
-            entity.motionY = 0;
-            entity.motionZ = 0;
-            entity.prevPosX = entity.posX;
-            entity.prevPosY = entity.posY;
-            entity.prevPosZ = entity.posZ;
-        }
-    }
-
     public int getLightValue()
     {
         Block b = null;
@@ -827,4 +772,63 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         if(b != null) return b.getLightOpacity();
         return RIMBlocks.Spectre.getLightOpacity();
     }
+
+    public class CapturedEntity {
+        public Entity entity;
+
+        public double InitialX;
+        public double InitialY;
+        public double InitialZ;
+
+        public double netMotionX = 0;
+        public double netMotionY = 0;
+        public double netMotionZ = 0;
+
+        boolean WasOnGround;
+
+        boolean WasAirBorne;
+
+        public CapturedEntity(Entity entity) {
+            this(entity, entity.posX, entity.posY, entity.posZ, 0, 0, 0);
+        }
+
+        public CapturedEntity(Entity entity, double InitialX, double InitialY,
+                              double InitialZ, double netMotionX, double netMotionY, double netMotionZ) {
+            this.entity = entity;
+
+            this.InitialX = InitialX;
+            this.InitialY = InitialY;
+            this.InitialZ = InitialZ;
+
+            this.netMotionX = netMotionX;
+            this.netMotionY = netMotionY;
+            this.netMotionZ = netMotionZ;
+
+            WasOnGround = entity.onGround;
+
+            WasAirBorne = entity.isAirBorne;
+
+            Update();
+        }
+
+        public void SetPosition(double OffsetX, double OffsetY, double OffsetZ) {
+            entity.setPosition(entity.posX + OffsetX, entity.posY + OffsetY, entity.posZ + OffsetZ);
+        }
+
+        public void SetYPosition(double OffsetY) {
+            entity.setPosition(entity.posX, InitialY + entity.yOffset + OffsetY, entity.posZ);
+        }
+
+        public void Update() {
+            doPerSpectreUpdate(this, entity);
+        }
+
+        public void stop() {
+            entity.lastTickPosX = entity.prevPosX = entity.posX;
+            entity.lastTickPosY = entity.prevPosY = entity.posY;
+            entity.lastTickPosZ = entity.prevPosZ = entity.posZ;
+        }
+    }
+
+
 }

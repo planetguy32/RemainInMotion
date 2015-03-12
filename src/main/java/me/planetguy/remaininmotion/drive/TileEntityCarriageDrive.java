@@ -387,10 +387,14 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
 
         for (BlockRecord Record : temp) {
-            SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                    BlockSpectre.Types.Supportive.ordinal());
+            SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, Blocks.air, 0);
+        }
+        for (BlockRecord Record : temp) {
+
+            worldObj.setBlock(Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                    BlockSpectre.Types.Supportive.ordinal(), 3);
             // only set Light if we're moving
-            if (Package.MotionDirection != null) {
+            if (Package.MotionDirection != null && Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
                 worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                 // handle camo blocks
                 if (Record.block instanceof BlockCamouflageable) {
