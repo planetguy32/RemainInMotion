@@ -26,7 +26,7 @@ import me.planetguy.remaininmotion.api.event.BlocksReplacedEvent;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 
-public class FMPEventHandler {
+public class EventHandlerFMP {
 	
 	private HashMap<World, WorldTickScheduler> knownSchedulers=new HashMap<World, WorldTickScheduler>();
 	

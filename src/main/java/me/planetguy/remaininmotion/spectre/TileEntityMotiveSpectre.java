@@ -2,7 +2,6 @@ package me.planetguy.remaininmotion.spectre;
 
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.*;
-import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.*;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
@@ -11,8 +10,6 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
-import me.planetguy.remaininmotion.core.interop.ModInteraction;
-import me.planetguy.remaininmotion.core.interop.chickenchunks.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
@@ -24,11 +21,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.WorldServer;
 
 import java.util.ArrayList;
 import java.util.List;

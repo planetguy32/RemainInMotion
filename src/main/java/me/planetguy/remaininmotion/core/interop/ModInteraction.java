@@ -5,15 +5,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.eventhandler.ASMEventHandler;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.Core;
-import me.planetguy.remaininmotion.core.interop.chickenchunks.CCHandler;
-import me.planetguy.remaininmotion.core.interop.chickenchunks.CChunksEventHandler;
-import me.planetguy.remaininmotion.core.interop.chickenchunks.DummyCCHandler;
-import me.planetguy.remaininmotion.core.interop.chickenchunks.IChickenChunksHandler;
-import me.planetguy.remaininmotion.core.interop.fmp.FMPEventHandler;
+import me.planetguy.remaininmotion.core.interop.chickenchunks.EventHandlerChickenChunks;
+import me.planetguy.remaininmotion.core.interop.fmp.EventHandlerFMP;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.ItemStack;
@@ -30,10 +26,10 @@ public abstract class ModInteraction {
 		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
 		MPInstalled = Loader.isModLoaded("ForgeMultipart");
         
-		RiMRegistry.blockMoveBus.register(new APIEventHandler());
+		RiMRegistry.blockMoveBus.register(new EventHandlerAPI());
 		
         if(Loader.isModLoaded("ChickenChunks")) {
-        	RiMRegistry.blockMoveBus.register(new CChunksEventHandler());
+        	RiMRegistry.blockMoveBus.register(new EventHandlerChickenChunks());
         }
 		
 		Wrenches.init();
@@ -46,7 +42,7 @@ public abstract class ModInteraction {
 
 		if(MPInstalled)
 		{
-			RiMRegistry.blockMoveBus.register(new FMPEventHandler());
+			RiMRegistry.blockMoveBus.register(new EventHandlerFMP());
 		}
 
 		PendingBlockUpdateSetField = getField(net.minecraft.world.WorldServer.class, "tickEntryQueue");

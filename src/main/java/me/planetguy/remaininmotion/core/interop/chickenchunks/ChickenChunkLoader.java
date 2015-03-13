@@ -15,7 +15,7 @@ import net.minecraftforge.common.DimensionManager;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class DummyChickenChunkLoader implements IChickenChunkLoader {
+public class ChickenChunkLoader implements IChickenChunkLoader {
 
     private String owner;
     private BlockCoord coords;
@@ -23,7 +23,7 @@ public class DummyChickenChunkLoader implements IChickenChunkLoader {
     private World world;
 
 
-    public DummyChickenChunkLoader(TileChunkLoaderBase tile)
+    public ChickenChunkLoader(TileChunkLoaderBase tile)
     {
         owner = tile.getOwner();
         coords = tile.getPosition();
@@ -31,7 +31,7 @@ public class DummyChickenChunkLoader implements IChickenChunkLoader {
         world = tile.getWorldObj();
     }
 
-    public DummyChickenChunkLoader(NBTTagCompound tag){
+    public ChickenChunkLoader(NBTTagCompound tag){
         this.readFromNBT(tag);
     }
 

@@ -10,7 +10,7 @@ import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
 import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class APIEventHandler {
+public class EventHandlerAPI {
 	
 	@SubscribeEvent
 	public void handle(MotionFinalizeEvent e) {

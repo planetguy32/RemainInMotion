@@ -14,7 +14,7 @@ import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.TravelingItem;
 
-public class EventHandler {
+public class EventHandlerBuildcraft {
 	
 	@SubscribeEvent
 	public void onBCMoved(TEPreUnpackEvent e) {
