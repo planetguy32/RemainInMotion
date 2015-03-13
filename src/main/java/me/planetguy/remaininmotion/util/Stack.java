@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

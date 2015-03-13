@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.carriage;
 
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.Moveable;

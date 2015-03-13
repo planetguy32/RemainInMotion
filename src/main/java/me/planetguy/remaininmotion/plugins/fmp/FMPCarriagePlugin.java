@@ -8,7 +8,7 @@ import codechicken.multipart.TMultiPart;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.core.CreativeTab;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import net.minecraft.item.Item;

@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.carriage;
 
-import me.planetguy.remaininmotion.BlacklistManager;
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.BlacklistManager;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.base.BlockRiM;
 
 public class TileEntityMemoryCarriage extends TileEntityTemplateCarriage {

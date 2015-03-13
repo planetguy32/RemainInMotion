@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.core.interop.chickenchunks;
 
-import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import net.minecraft.nbt.NBTTagCompound;

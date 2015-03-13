@@ -1,5 +1,6 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.util;
 
+import me.planetguy.remaininmotion.util.Stack;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 

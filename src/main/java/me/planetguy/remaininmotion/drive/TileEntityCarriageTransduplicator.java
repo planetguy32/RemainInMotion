@@ -3,11 +3,11 @@ package me.planetguy.remaininmotion.drive;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import me.planetguy.remaininmotion.BlockPosition;
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.Position.BlockPosition;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;

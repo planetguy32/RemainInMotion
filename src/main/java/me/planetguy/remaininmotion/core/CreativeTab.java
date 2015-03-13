@@ -1,6 +1,5 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.core;
 
-import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;

@@ -1,11 +1,9 @@
 package me.planetguy.remaininmotion.spectre;
 
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
-import me.planetguy.remaininmotion.util.transformations.Matrix;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;

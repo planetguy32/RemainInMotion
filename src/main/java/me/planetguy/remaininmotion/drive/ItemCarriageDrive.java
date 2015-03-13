@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.Stack;
-import me.planetguy.remaininmotion.Vanilla;
+import me.planetguy.remaininmotion.util.Stack;
+import me.planetguy.remaininmotion.util.Vanilla;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;

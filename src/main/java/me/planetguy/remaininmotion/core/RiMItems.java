@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion.core;
 
-import me.planetguy.remaininmotion.SimpleItemSet;
-import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.base.SimpleItemSet;
+import me.planetguy.remaininmotion.base.ToolItemSet;
 
 public abstract class RiMItems {
 	public static ToolItemSet	ToolItemSet;

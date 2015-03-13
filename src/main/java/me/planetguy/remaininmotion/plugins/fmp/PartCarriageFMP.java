@@ -3,7 +3,7 @@ package me.planetguy.remaininmotion.plugins.fmp;
 import java.util.Iterator;
 
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.core.RIMBlocks;

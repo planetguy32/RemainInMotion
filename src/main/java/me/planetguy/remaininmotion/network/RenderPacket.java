@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion.network;
 
-import me.planetguy.remaininmotion.BlockPosition;
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.BlockRecordSet;
-import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.util.Position.BlockPosition;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageRotator;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;

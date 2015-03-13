@@ -1,11 +1,12 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.base;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.base.ItemRiM;
+import me.planetguy.remaininmotion.util.Stack;
 import me.planetguy.remaininmotion.core.interop.ModInteraction.Wrenches;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
+import me.planetguy.remaininmotion.util.Registry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;

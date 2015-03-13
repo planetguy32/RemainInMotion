@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion.api;
 
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**

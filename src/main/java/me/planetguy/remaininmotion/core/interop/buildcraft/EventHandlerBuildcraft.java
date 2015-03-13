@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion.core.interop.buildcraft;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;

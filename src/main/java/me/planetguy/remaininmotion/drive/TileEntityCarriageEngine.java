@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.drive;
 
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.tileentity.TileEntity;
 

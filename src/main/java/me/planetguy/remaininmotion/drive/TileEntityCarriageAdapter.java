@@ -1,10 +1,9 @@
 package me.planetguy.remaininmotion.drive;
 
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.nbt.NBTTagCompound;

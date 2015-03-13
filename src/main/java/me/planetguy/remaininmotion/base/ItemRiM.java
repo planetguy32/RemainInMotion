@@ -2,7 +2,7 @@ package me.planetguy.remaininmotion.base;
 
 import java.util.List;
 
-import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.core.CreativeTab;
 import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

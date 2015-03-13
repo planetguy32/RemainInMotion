@@ -1,9 +1,7 @@
 package me.planetguy.remaininmotion.core;
 
-import cpw.mods.fml.common.Loader;
-import me.planetguy.remaininmotion.BlacklistManager;
-import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.NativeCarriageMatcher;
+import me.planetguy.remaininmotion.motion.BlacklistManager;
+import me.planetguy.remaininmotion.motion.NativeCarriageMatcher;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.ICloseableFactory;

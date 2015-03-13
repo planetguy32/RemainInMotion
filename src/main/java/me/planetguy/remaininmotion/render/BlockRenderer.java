@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.render;
 
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.Item;

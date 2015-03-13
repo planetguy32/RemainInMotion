@@ -1,15 +1,11 @@
 package me.planetguy.remaininmotion.carriage;
 
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.api.ICloseable;
-import me.planetguy.remaininmotion.api.ICloseableFactory;
-import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityFrameCarriage extends TileEntityCarriage {
 	public TileEntityFrameCarriage() {}

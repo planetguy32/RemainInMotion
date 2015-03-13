@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion.crafting;
 
-import me.planetguy.remaininmotion.Registry;
-import me.planetguy.remaininmotion.Stack;
-import me.planetguy.remaininmotion.ToolItemSet;
-import me.planetguy.remaininmotion.Types;
-import me.planetguy.remaininmotion.Vanilla;
+import me.planetguy.remaininmotion.util.Registry;
+import me.planetguy.remaininmotion.util.Stack;
+import me.planetguy.remaininmotion.base.ToolItemSet;
+import me.planetguy.remaininmotion.core.ItemTypes;
+import me.planetguy.remaininmotion.util.Vanilla;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.Core;
@@ -35,22 +35,22 @@ public abstract class Recipes {
 	}
 
 	public static void RegisterSimpleItemRecipes() {
-		Registry.RegisterShapedDictionaryRecipe(Types.CarriageCrosspiece.Stack(),
+		Registry.RegisterShapedDictionaryRecipe(ItemTypes.CarriageCrosspiece.Stack(),
 
 		"S S", " S ", "S S",
 
 		'S', "stickWood");
 
-		Registry.RegisterShapedDictionaryRecipe(Types.CarriagePanel.Stack(),
+		Registry.RegisterShapedDictionaryRecipe(ItemTypes.CarriagePanel.Stack(),
 
 		"SSS", "SCS", "SSS",
 
-		'S', "stickWood", 'C', Types.CarriageCrosspiece.Stack());
+		'S', "stickWood", 'C', ItemTypes.CarriageCrosspiece.Stack());
 
-		Registry.RegisterShapelessRecipe(Types.CarriageFramework.Stack(),
+		Registry.RegisterShapelessRecipe(ItemTypes.CarriageFramework.Stack(),
 
-		Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(),
-				Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack(), Types.CarriagePanel.Stack());
+		ItemTypes.CarriagePanel.Stack(), ItemTypes.CarriagePanel.Stack(), ItemTypes.CarriagePanel.Stack(),
+				ItemTypes.CarriagePanel.Stack(), ItemTypes.CarriagePanel.Stack(), ItemTypes.CarriagePanel.Stack());
 	}
 
 	public static void RegisterToolItemRecipes() {
@@ -74,16 +74,16 @@ public abstract class Recipes {
 		Registry.RegisterShapelessDictionaryRecipe(
 				output,
 
-		Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
-				Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
-				Types.CarriageFramework.Stack(), Types.CarriageFramework.Stack(),
+		ItemTypes.CarriageFramework.Stack(), ItemTypes.CarriageFramework.Stack(), ItemTypes.CarriageFramework.Stack(),
+				ItemTypes.CarriageFramework.Stack(), ItemTypes.CarriageFramework.Stack(), ItemTypes.CarriageFramework.Stack(),
+				ItemTypes.CarriageFramework.Stack(), ItemTypes.CarriageFramework.Stack(),
 
 				DyeType.Handle);
 
 		// allow dyeing carriages one at a time - more convenient that way
 		Registry.RegisterShapelessDictionaryRecipe(Stack.Resize(ItemCarriage.Stack(CarriageType.ordinal()), 1),
 
-		Types.CarriageFramework.Stack(),
+		ItemTypes.CarriageFramework.Stack(),
 
 		DyeType.Handle);
 
@@ -101,7 +101,7 @@ public abstract class Recipes {
 		RegisterCarriageRecipe(BlockCarriage.Types.Template, Vanilla.DyeTypes.Purple);
 
 		// allow un-dyeing carriages
-		GameRegistry.addShapelessRecipe(Types.CarriageFramework.Stack(),
+		GameRegistry.addShapelessRecipe(ItemTypes.CarriageFramework.Stack(),
 				new ItemStack(RIMBlocks.Carriage));
 
 	}

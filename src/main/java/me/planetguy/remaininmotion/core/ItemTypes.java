@@ -1,10 +1,10 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.core;
 
-import me.planetguy.remaininmotion.core.RiMItems;
+import me.planetguy.remaininmotion.util.Stack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public enum Types {
+public enum ItemTypes {
 	CarriageCrosspiece, CarriagePanel, CarriageFramework;
 
 	public IIcon	Icon;

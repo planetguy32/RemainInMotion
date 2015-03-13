@@ -16,15 +16,13 @@ import codechicken.multipart.TickScheduler.PartTickEntry;
 import codechicken.multipart.TickScheduler.WorldTickScheduler;
 import codechicken.multipart.handler.MultipartSaveLoad;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
 import me.planetguy.remaininmotion.api.event.BlocksReplacedEvent;
-import me.planetguy.remaininmotion.core.interop.ModInteraction;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 
 public class EventHandlerFMP {
 	

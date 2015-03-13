@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion.carriage;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.BlacklistManager;
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.BlockRecordSet;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.motion.BlacklistManager;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraftforge.common.util.ForgeDirection;

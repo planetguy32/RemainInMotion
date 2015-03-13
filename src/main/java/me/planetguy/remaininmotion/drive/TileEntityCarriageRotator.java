@@ -1,12 +1,12 @@
 package me.planetguy.remaininmotion.drive;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.BlockRecordSet;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Directions;
-import me.planetguy.remaininmotion.Registry;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.transformations.Directions;
+import me.planetguy.remaininmotion.util.Registry;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
@@ -72,7 +72,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 			}
 
 			if (targetBlockReplaceableNoTranslate(this, dest) != 0) { throw new CarriageMotionException(
-					"Motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z); }
+					"motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z); }
 		}
 
 		Package.Finalize();
