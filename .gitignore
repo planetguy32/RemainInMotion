@@ -22,6 +22,8 @@ gradle
 gradlew
 gradlew.bat
 
+libs/*
+
 #runtime
 run
 .gradle/gradle.log
