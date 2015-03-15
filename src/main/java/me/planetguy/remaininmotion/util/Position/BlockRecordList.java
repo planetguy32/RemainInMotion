@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.util.Position;
 
 public class BlockRecordList extends java.util.ArrayList<BlockRecord> {
 

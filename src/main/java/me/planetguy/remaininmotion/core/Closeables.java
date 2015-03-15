@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.core;
 
 import java.util.ArrayList;
 

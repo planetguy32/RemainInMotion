@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.core.interop;
 
 import net.minecraft.tileentity.TileEntity;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.IMotionCallback;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
@@ -10,7 +10,7 @@ import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
 import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class APIEventHandler {
+public class EventHandlerAPI {
 	
 	@SubscribeEvent
 	public void handle(MotionFinalizeEvent e) {

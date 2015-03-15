@@ -1,9 +1,9 @@
 package me.planetguy.remaininmotion.api;
 
 import cpw.mods.fml.common.eventhandler.EventBus;
-import me.planetguy.remaininmotion.CarriageMatchers;
-import me.planetguy.remaininmotion.Closeables;
-import me.planetguy.remaininmotion.FrameCarriageMatchers;
+import me.planetguy.remaininmotion.motion.CarriageMatchers;
+import me.planetguy.remaininmotion.core.Closeables;
+import me.planetguy.remaininmotion.motion.FrameCarriageMatchers;
 
 public class RiMRegistry {
 	

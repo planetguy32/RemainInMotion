@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.crafting;
 
-import me.planetguy.remaininmotion.Vanilla;
+import me.planetguy.remaininmotion.util.Vanilla;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.core.RIMBlocks;

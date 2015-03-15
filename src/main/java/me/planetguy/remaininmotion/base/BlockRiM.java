@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.CreativeTab;
+import me.planetguy.remaininmotion.core.CreativeTab;
 import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityMemoryCarriage;
 import me.planetguy.remaininmotion.carriage.TileEntityPlatformCarriage;

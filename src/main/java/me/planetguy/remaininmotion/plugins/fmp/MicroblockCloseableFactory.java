@@ -2,12 +2,9 @@ package me.planetguy.remaininmotion.plugins.fmp;
 
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
-import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.Directions;
 import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.api.ICloseableFactory;
-import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 

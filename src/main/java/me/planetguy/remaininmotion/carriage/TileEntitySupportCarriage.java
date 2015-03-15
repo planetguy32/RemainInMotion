@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion.carriage;
 
-import me.planetguy.remaininmotion.BlockRecord;
-import me.planetguy.remaininmotion.BlockRecordSet;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 
 public class TileEntitySupportCarriage extends TileEntityCarriage {

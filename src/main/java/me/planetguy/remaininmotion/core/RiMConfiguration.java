@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.core;
 
 import me.planetguy.lib.util.BlacklistDynamic;
-import me.planetguy.remaininmotion.BlacklistManager;
-import me.planetguy.remaininmotion.CarriagePackage;
+import me.planetguy.remaininmotion.motion.BlacklistManager;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 
 public class RiMConfiguration extends Config {
@@ -178,7 +178,7 @@ public class RiMConfiguration extends Config {
 		}
 
 		{
-			Category = "Carriage Motion";
+			Category = "Carriage motion";
 
 			CarriageMotion.CapturePlayerEntities = Boolean("MovePlayers", "Should grab players during motion",
 					CarriageMotion.CapturePlayerEntities);

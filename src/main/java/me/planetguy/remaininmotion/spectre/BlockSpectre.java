@@ -1,10 +1,9 @@
 package me.planetguy.remaininmotion.spectre;
 
-import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.WorldUtil;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;

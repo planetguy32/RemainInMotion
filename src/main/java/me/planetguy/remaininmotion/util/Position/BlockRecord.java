@@ -1,5 +1,6 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.util.Position;
 
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import net.minecraft.block.Block;

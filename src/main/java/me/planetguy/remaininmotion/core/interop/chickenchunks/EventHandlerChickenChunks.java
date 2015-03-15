@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.core.interop.chickenchunks;
 
-import me.planetguy.remaininmotion.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,7 +10,7 @@ import codechicken.chunkloader.ChunkLoaderManager;
 import codechicken.chunkloader.TileChunkLoaderBase;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class CChunksEventHandler {
+public class EventHandlerChickenChunks {
 	
 	@SubscribeEvent
 	public void onPostPlace(TEPostPlaceEvent e) {
@@ -31,7 +31,7 @@ public class CChunksEventHandler {
                         ((TileChunkLoaderBase) record.entity).activate();
                         // remove chunk loader afterwards
                         NBTTagCompound tag = record.entityRecord.getCompoundTag("ChickenChunkLoader");
-                        DummyChickenChunkLoader loader = new DummyChickenChunkLoader(tag);
+                        ChickenChunkLoader loader = new ChickenChunkLoader(tag);
                         ChunkLoaderManager.remChunkLoader(loader);
                         // make sure those chunks are loaded
                         ((TileChunkLoaderBase) record.entity).activate();
@@ -52,7 +52,7 @@ public class CChunksEventHandler {
                     // store the chunk loader so chunks are not unloaded prematurely
                     if(((TileChunkLoaderBase)te).active){
                         NBTTagCompound tag = new NBTTagCompound();
-                        DummyChickenChunkLoader loader = new DummyChickenChunkLoader((TileChunkLoaderBase) te);
+                        ChickenChunkLoader loader = new ChickenChunkLoader((TileChunkLoaderBase) te);
                         loader.writeToNBT(tag);
                         record.entityRecord.setTag("ChickenChunkLoader",tag);
                     }

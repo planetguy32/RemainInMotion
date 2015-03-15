@@ -1,17 +1,12 @@
 package me.planetguy.remaininmotion.crafting;
 
-import me.planetguy.lib.prefab.ItemBlockBase;
-import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.Stack;
-import me.planetguy.remaininmotion.base.BlockCamouflageable;
+import me.planetguy.remaininmotion.util.Stack;
 import me.planetguy.remaininmotion.base.ICamouflageable;
-import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;

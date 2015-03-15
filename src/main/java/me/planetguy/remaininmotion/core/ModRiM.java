@@ -9,7 +9,7 @@ import me.planetguy.remaininmotion.network.PacketSpecterVelocity;
 import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.BlacklistManager;
+import me.planetguy.remaininmotion.motion.BlacklistManager;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -19,7 +19,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.event.world.WorldEvent;
 
 @Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib;after:CoFHCore;after:BuildCraft|Transport")
 public class ModRiM {
@@ -27,7 +26,7 @@ public class ModRiM {
 
 	public static final String	Handle		= "JAKJ_RedstoneInMotion";
 
-	public static final String	Title		= "Remain In Motion";
+	public static final String	Title		= "Remain In motion";
 
 	public static final String	Version		= "2.5.3";
 

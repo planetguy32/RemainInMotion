@@ -3,7 +3,10 @@ package me.planetguy.remaininmotion.drive;
 //import codechicken.chunkloader.TileChunkLoaderBase;
 import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.*;
+import me.planetguy.remaininmotion.motion.CarriageMatchers;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriageObstructionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
@@ -14,16 +17,18 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
-import me.planetguy.remaininmotion.core.interop.ModInteraction;
-import me.planetguy.remaininmotion.core.interop.chickenchunks.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.network.RenderPacket;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
+import me.planetguy.remaininmotion.util.Position.BlockPosition;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -56,7 +61,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public Directions CarriageDirection;
 
-	protected Directions	SignalDirection;
+	protected Directions SignalDirection;
     protected double extraEnergy = 1;
 
     @Override
@@ -371,10 +376,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         for(BlockRecord record : carriagePackage.Body)
         {
         	RiMRegistry.blockMoveBus.post(new BlockPreMoveEvent(
-        			record,
-        			carriagePackage.MotionDirection != null 
-        				? record.NextInDirection(carriagePackage.MotionDirection) 
-        				: record));
+                    record,
+                    carriagePackage.MotionDirection != null
+                            ? record.NextInDirection(carriagePackage.MotionDirection)
+                            : record));
         }
 
     }

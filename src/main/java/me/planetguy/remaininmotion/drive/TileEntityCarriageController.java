@@ -1,8 +1,8 @@
 /*
-import me.planetguy.remaininmotion.CarriageMotionException
-import me.planetguy.remaininmotion.CarriageObstructionException
-import me.planetguy.remaininmotion.CarriagePackage
-import me.planetguy.remaininmotion.Directions
+import me.planetguy.remaininmotion.Motion.CarriageMotionException
+import me.planetguy.remaininmotion.Motion.CarriageObstructionException
+import me.planetguy.remaininmotion.Motion.CarriagePackage
+import me.planetguy.remaininmotion.util.transformations.Directions
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil
 import net.minecraft.tileentity.TileEntity
 import me.planetguy.remaininmotion.util.general.TComputerInterface._
@@ -216,10 +216,10 @@ import li.cil.oc.api.network.ManagedPeripheral;
 import li.cil.oc.api.network.SimpleComponent;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriageObstructionException;
-import me.planetguy.remaininmotion.CarriagePackage;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.motion.CarriageMotionException;
+import me.planetguy.remaininmotion.motion.CarriageObstructionException;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;

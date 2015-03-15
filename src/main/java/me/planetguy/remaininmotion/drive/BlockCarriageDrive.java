@@ -2,10 +2,9 @@ package me.planetguy.remaininmotion.drive;
 
 import java.util.List;
 
-import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.SidedIcons;
-import me.planetguy.remaininmotion.Registry;
-import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.util.Registry;
+import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.Core;

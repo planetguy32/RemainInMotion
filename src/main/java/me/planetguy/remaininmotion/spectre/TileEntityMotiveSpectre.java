@@ -1,8 +1,7 @@
 package me.planetguy.remaininmotion.spectre;
 
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.*;
-import me.planetguy.remaininmotion.api.IMotionCallback;
+import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.*;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
@@ -11,12 +10,14 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
-import me.planetguy.remaininmotion.core.interop.ModInteraction;
-import me.planetguy.remaininmotion.core.interop.chickenchunks.DummyChickenChunkLoader;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
+import me.planetguy.remaininmotion.util.Position.BlockPosition;
+import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -24,11 +25,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.WorldServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,7 +228,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     @Override
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
-        TagCompound.setInteger("Motion", MotionDirection.ordinal());
+        TagCompound.setInteger("motion", MotionDirection.ordinal());
 
         TagCompound.setInteger("RenderCacheKeyX", RenderCacheKey.X);
         TagCompound.setInteger("RenderCacheKeyY", RenderCacheKey.Y);
@@ -240,7 +239,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     @Override
     public void ReadCommonRecord(NBTTagCompound TagCompound) {
-        MotionDirection = Directions.values()[TagCompound.getInteger("Motion")];
+        MotionDirection = Directions.values()[TagCompound.getInteger("motion")];
 
         RenderCacheKey = new BlockPosition(
                 TagCompound.getInteger("RenderCacheKeyX"),

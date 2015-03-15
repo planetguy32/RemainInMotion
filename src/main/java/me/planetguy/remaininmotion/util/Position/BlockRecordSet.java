@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion;
+package me.planetguy.remaininmotion.util.Position;
 
 public class BlockRecordSet extends java.util.TreeSet<BlockRecord> {
 

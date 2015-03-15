@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.render;
 
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;

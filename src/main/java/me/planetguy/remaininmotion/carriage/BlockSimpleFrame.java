@@ -8,16 +8,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import me.planetguy.lib.prefab.BlockBase;
 import me.planetguy.lib.prefab.BlockContainerBase;
-import me.planetguy.remaininmotion.CreativeTab;
-import me.planetguy.remaininmotion.ToolItemSet;
+import me.planetguy.remaininmotion.core.CreativeTab;
+import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.base.ICamouflageable;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.core.interop.ModInteraction.Wrenches;
 
 public class BlockSimpleFrame extends BlockContainerBase implements ICamouflageable {
 

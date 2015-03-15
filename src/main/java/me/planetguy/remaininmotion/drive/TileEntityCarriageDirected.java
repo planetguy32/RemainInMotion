@@ -1,25 +1,13 @@
 package me.planetguy.remaininmotion.drive;
 
-import javax.swing.text.html.HTML.Tag;
-
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.SidedIcons;
-import me.planetguy.remaininmotion.CarriageMatchers;
-import me.planetguy.remaininmotion.CarriageMotionException;
-import me.planetguy.remaininmotion.CarriageObstructionException;
-import me.planetguy.remaininmotion.Directions;
+import me.planetguy.remaininmotion.motion.CarriageMatchers;
+import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
-import me.planetguy.remaininmotion.core.ModRiM;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
-import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
-import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
-import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
