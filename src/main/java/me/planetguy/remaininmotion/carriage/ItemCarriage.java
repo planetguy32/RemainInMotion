@@ -138,7 +138,7 @@ public class ItemCarriage extends ItemBlockRiM {
 		if (DecorationId == Blocks.air) { return; }
 
 		if (Item.stackTagCompound == null) {
-			TooltipLines.add(Arrays.asList(Lang.translate(ModRiM.Handle + ".pleaseUpdateCarriage").split("##/##")));
+			TooltipLines.addAll(Arrays.asList(Lang.translate(ModRiM.Handle + ".pleaseUpdateCarriage").split("##/##")));
 		}
 
 		ItemStack Decoration = Stack.New(DecorationId, GetDecorationMeta(Item));
