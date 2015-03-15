@@ -103,7 +103,7 @@ public class ItemCarriageDrive extends ItemBlockRiM {
 
 		if (Type == BlockCarriageDrive.Types.Translocator.ordinal()) {
 			if (Item.stackTagCompound == null) {
-				TooltipLines.add(Arrays.asList(Lang.translate(ModRiM.Handle + ".pleaseUpdateCarriage").split("##/##")));
+				TooltipLines.addAll(Arrays.asList(Lang.translate(ModRiM.Handle + ".pleaseUpdateCarriage").split("##/##")));
 			}
 
 			boolean Private = GetPrivateFlag(Item);
