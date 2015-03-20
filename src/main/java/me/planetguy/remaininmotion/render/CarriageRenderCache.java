@@ -3,9 +3,9 @@ package me.planetguy.remaininmotion.render;
 import java.util.TreeMap;
 
 import me.planetguy.lib.util.Reflection;
-import me.planetguy.remaininmotion.util.Position.BlockPosition;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
-import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
+import me.planetguy.remaininmotion.util.position.BlockPosition;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;

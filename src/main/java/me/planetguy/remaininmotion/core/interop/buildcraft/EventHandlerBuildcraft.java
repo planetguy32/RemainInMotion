@@ -1,8 +1,11 @@
 package me.planetguy.remaininmotion.core.interop.buildcraft;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.lib.util.Debug;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
+import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
+import me.planetguy.remaininmotion.api.event.RotatingTEPreUnpackEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
@@ -24,6 +27,12 @@ public class EventHandlerBuildcraft {
 	@SubscribeEvent
 	public void onBCMoved(TEPostPlaceEvent e) {
 		performBuildcraftPostInit((BlockRecord) e.location, ((TileEntityMotiveSpectre) e.spectre).getOffset((BlockRecord) e.location));
+	}
+	
+	@SubscribeEvent
+	public void onRotated(RotatingTEPreUnpackEvent e) {
+		IBlockPos pos=e.location;
+		
 	}
 	
 	

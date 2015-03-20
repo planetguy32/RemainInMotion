@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Loader;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.Core;
+import me.planetguy.remaininmotion.core.interop.buildcraft.EventHandlerBuildcraft;
 import me.planetguy.remaininmotion.core.interop.chickenchunks.EventHandlerChickenChunks;
 import me.planetguy.remaininmotion.core.interop.fmp.EventHandlerFMP;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
@@ -19,30 +20,31 @@ public abstract class ModInteraction {
 	public static Field		PendingBlockUpdateSetField;
 	public static Method	RemovePendingBlockUpdate;
 
-	public static boolean BCInstalled;
-	public static boolean MPInstalled;
 
 	public static void Establish() {
-		BCInstalled = Loader.isModLoaded("BuildCraft|Transport");
-		MPInstalled = Loader.isModLoaded("ForgeMultipart");
-        
+		
 		RiMRegistry.blockMoveBus.register(new EventHandlerAPI());
 		
         if(Loader.isModLoaded("ChickenChunks")) {
         	RiMRegistry.blockMoveBus.register(new EventHandlerChickenChunks());
         }
-		
+        
+    	if(Loader.isModLoaded("ForgeMultipart"))
+		{
+			RiMRegistry.blockMoveBus.register(new EventHandlerFMP());
+		}
+    	
+    	if(Loader.isModLoaded("BuildCraft|Transport"))
+    	{
+    		RiMRegistry.blockMoveBus.register(new EventHandlerBuildcraft());
+    	}
+    	
 		Wrenches.init();
 
 		Computers.setup();
 
 		if (Computers.load) {
 			Core.CarriageControllerEntity = TileEntityCarriageController.class;
-		}
-
-		if(MPInstalled)
-		{
-			RiMRegistry.blockMoveBus.register(new EventHandlerFMP());
 		}
 
 		PendingBlockUpdateSetField = getField(net.minecraft.world.WorldServer.class, "tickEntryQueue");

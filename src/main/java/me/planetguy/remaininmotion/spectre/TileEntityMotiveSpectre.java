@@ -13,10 +13,10 @@ import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
-import me.planetguy.remaininmotion.util.Position.BlockPosition;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
-import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
+import me.planetguy.remaininmotion.util.position.BlockPosition;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -135,25 +135,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         for (BlockRecord record : body) {
 
             int[] offset = getOffset();
-
+            
             if (record.entityRecord != null) {
-                record.entityRecord.setInteger("x", record.X);
-                record.entityRecord.setInteger("y", record.Y);
-                record.entityRecord.setInteger("z", record.Z);
-
-                RiMRegistry.blockMoveBus.post(new TEPreUnpackEvent(this, record));
-
-                record.entity = TileEntity
-                		.createAndLoadEntity(record.entityRecord);
-
-                RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
-
-                if (record.entity != null) {
-                	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
-                			record.Z, record.entity);
-                }
-
-                RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, record));
+                constructTE(record);
 
             }
 
@@ -214,18 +198,38 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public int[] getOffset(BlockRecord record) {
         return getOffset();
     }
+    
+    public void constructTE(BlockRecord record) {
+    	record.entityRecord.setInteger("x", record.X);
+        record.entityRecord.setInteger("y", record.Y);
+        record.entityRecord.setInteger("z", record.Z);
+
+        RiMRegistry.blockMoveBus.post(new TEPreUnpackEvent(this, record));
+
+        record.entity = TileEntity
+        		.createAndLoadEntity(record.entityRecord);
+
+        RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
+
+        if (record.entity != null) {
+        	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
+        			record.Z, record.entity);
+        }
+
+        RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, record));
+    }
 
     public void onMotionFinalized(BlockRecord Record) {
 
     }
-
+    
     @Override
     public void Finalize() {
         if (worldObj.isRemote) {
             CarriageRenderCache.Release(RenderCacheKey);
         }
     }
-
+    
     @Override
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
         TagCompound.setInteger("motion", MotionDirection.ordinal());

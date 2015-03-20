@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion.carriage;
 
 import me.planetguy.lib.util.Debug;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
-import me.planetguy.remaininmotion.util.Position.BlockRecordList;
-import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecordList;
+import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;

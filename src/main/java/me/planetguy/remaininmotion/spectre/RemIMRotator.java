@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.spectre;
 
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.util.transformations.Matrices;
 import me.planetguy.remaininmotion.util.transformations.Matrix;

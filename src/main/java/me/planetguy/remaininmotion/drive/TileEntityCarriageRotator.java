@@ -1,10 +1,10 @@
 package me.planetguy.remaininmotion.drive;
 
 import me.planetguy.lib.util.Lang;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
-import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.util.Registry;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;

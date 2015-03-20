@@ -1,12 +1,18 @@
 package me.planetguy.remaininmotion.spectre;
 
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.SneakyWorldUtil;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
+import me.planetguy.remaininmotion.api.event.RotatingTEPreUnpackEvent;
+import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
+import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
+import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
@@ -37,6 +43,27 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 			RiMRegistry.blockMoveBus.post(new BlockRotateEvent(record, ForgeDirection.values()[axisOfRotation]));
 		}
 	}
+    
+    @Override
+    public void constructTE(BlockRecord record) {
+    	record.entityRecord.setInteger("x", record.X);
+        record.entityRecord.setInteger("y", record.Y);
+        record.entityRecord.setInteger("z", record.Z);
+
+        RiMRegistry.blockMoveBus.post(new RotatingTEPreUnpackEvent(this, record));
+
+        record.entity = TileEntity
+        		.createAndLoadEntity(record.entityRecord);
+
+        RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
+
+        if (record.entity != null) {
+        	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
+        			record.Z, record.entity);
+        }
+
+        RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, record));
+    }
 
 	@Override
 	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {

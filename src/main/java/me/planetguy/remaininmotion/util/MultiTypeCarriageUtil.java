@@ -1,11 +1,11 @@
 package me.planetguy.remaininmotion.util;
 
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
-import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
 import me.planetguy.remaininmotion.motion.CarriageMatchers;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.core.Closeables;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;

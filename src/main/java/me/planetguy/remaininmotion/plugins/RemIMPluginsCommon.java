@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.plugins;
 
+import cpw.mods.fml.common.Loader;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.plugins.buildcraft.BCFacadePlugin;
@@ -22,21 +23,21 @@ public class RemIMPluginsCommon {
 
     public void preInit() {
         try {
-            if(ModInteraction.MPInstalled) FMPCarriagePlugin.tryLoad();
+            if(Loader.isModLoaded("ForgeMultipart")) FMPCarriagePlugin.tryLoad();
         }catch(NoClassDefFoundError noClassDefFoundError) {}
         try {
-            if(ModInteraction.BCInstalled) BCFacadePlugin.tryLoad();
+            if(Loader.isModLoaded("BuildCraft|Transport")) BCFacadePlugin.tryLoad();
         }catch(NoClassDefFoundError noClassDefFoundError) {
         	
         }
     }
 
     public void init() {
-        if(ModInteraction.MPInstalled) FMPCarriagePlugin.init();
+        if(Loader.isModLoaded("ForgeMultipart")) FMPCarriagePlugin.init();
     }
 
     public void postInit() {
-        if(ModInteraction.MPInstalled) FMPCarriagePlugin.postInit();
+        if(Loader.isModLoaded("BuildCraft|Transport")) FMPCarriagePlugin.postInit();
     }
 
 }

@@ -1,6 +1,6 @@
 package me.planetguy.remaininmotion.spectre;
 
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
 
 public class TileEntityTransduplicativeSpectre extends TileEntityTeleportativeSpectre {
 

@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion.carriage;
 
 import me.planetguy.remaininmotion.motion.BlacklistManager;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.base.BlockRiM;
 

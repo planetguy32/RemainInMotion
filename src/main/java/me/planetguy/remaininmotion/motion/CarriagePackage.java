@@ -6,9 +6,9 @@ import java.util.TreeSet;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.Reflection;
-import me.planetguy.remaininmotion.util.Position.BlockPosition;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
-import me.planetguy.remaininmotion.util.Position.BlockRecordSet;
+import me.planetguy.remaininmotion.util.position.BlockPosition;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;

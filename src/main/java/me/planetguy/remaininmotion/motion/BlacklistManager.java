@@ -1,7 +1,7 @@
 package me.planetguy.remaininmotion.motion;
 
 import me.planetguy.lib.util.Blacklist;
-import me.planetguy.remaininmotion.util.Position.BlockRecord;
+import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraft.block.Block;

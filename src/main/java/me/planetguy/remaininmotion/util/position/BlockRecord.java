@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.util.Position;
+package me.planetguy.remaininmotion.util.position;
 
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
