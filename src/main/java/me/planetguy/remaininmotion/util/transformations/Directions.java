@@ -8,24 +8,24 @@ public enum Directions {
 
 	Null(null);
 
-	public int	DeltaX;
-	public int	DeltaY;
-	public int	DeltaZ;
+	public int deltaX;
+	public int deltaY;
+	public int deltaZ;
 
-	public int	Opposite;
+	public int oppositeOrdinal;
 
 	private Directions(ForgeDirection Direction) {
 		if (Direction != null) {
-			DeltaX = Direction.offsetX;
-			DeltaY = Direction.offsetY;
-			DeltaZ = Direction.offsetZ;
+			deltaX = Direction.offsetX;
+			deltaY = Direction.offsetY;
+			deltaZ = Direction.offsetZ;
 
-			Opposite = Direction.getOpposite().ordinal();
+			oppositeOrdinal = Direction.getOpposite().ordinal();
 		}
 	}
 
-	public Directions Opposite() {
-		return (values()[Opposite]);
+	public Directions opposite() {
+		return (values()[oppositeOrdinal]);
 	}
 
 	static final Directions[] valid=new Directions[] {

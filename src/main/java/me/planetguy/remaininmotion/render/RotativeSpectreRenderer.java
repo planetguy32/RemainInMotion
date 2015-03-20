@@ -18,16 +18,16 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
 
 			TileEntityRotativeSpectre Spectre = (TileEntityRotativeSpectre) TileEntity;
 
-			if (Spectre.RenderCacheKey != null) {
+			if (Spectre.renderCacheKey != null) {
 				double Offset;
 
 				if (RiMConfiguration.CarriageMotion.RenderInFinalPositionDuringLag
-						&& (Spectre.TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration)) {
+						&& (Spectre.ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration)) {
 					Offset = 1;
 				} else {
-					Offset = Math.min(TileEntityMotiveSpectre.Velocity * (Spectre.TicksExisted + PartialTick), 1.0D);
+					Offset = Math.min(TileEntityMotiveSpectre.velocity * (Spectre.ticksExisted + PartialTick), 1.0D);
 				}
-				if (Spectre.RenderCacheKey != null) {
+				if (Spectre.renderCacheKey != null) {
 
 					Render.Translate(X, Y, Z); // negative player pos
 
@@ -41,7 +41,7 @@ public class RotativeSpectreRenderer extends RIMTileEntityRenderer {
                     // negative block pos
 					Render.Translate(-Spectre.xCoord - .5, -Spectre.yCoord - .5, -Spectre.zCoord - .5);
 
-					Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.RenderCacheKey);
+					Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.renderCacheKey);
 
 					if (DisplayList != null) {
 						Render.ResetBoundTexture();

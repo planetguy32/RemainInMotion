@@ -208,7 +208,7 @@ public class RiMConfiguration extends Config {
 			CarriageMotion.MotionDuration = BoundedInteger("MotionDurationInTicks", "Duration of motion in ticks", 1,
 					CarriageMotion.MotionDuration, Integer.MAX_VALUE);
 
-			TileEntityMotiveSpectre.Velocity = 1 / ((double) CarriageMotion.MotionDuration);
+			TileEntityMotiveSpectre.velocity = 1 / ((double) CarriageMotion.MotionDuration);
 
 			CarriageMotion.TeleportationDuration = BoundedInteger("TeleportDurationInTicks",
 					"Duration of translocation in ticks", 1, CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);

@@ -9,19 +9,19 @@ public class TeleportativeSpectreRenderer extends RIMTileEntityRenderer {
 	public void Render(TileEntity TileEntity, float PartialTick) {
 		TileEntityTeleportativeSpectre Spectre = (TileEntityTeleportativeSpectre) TileEntity;
 
-		if (Spectre.RenderCacheKey == null) { return; }
+		if (Spectre.renderCacheKey == null) { return; }
 
-		Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.RenderCacheKey);
+		Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.renderCacheKey);
 
 		if (DisplayList == null) { return; }
 
-		double Timestamp = Math.min(Spectre.TicksExisted + PartialTick,
+		double Timestamp = Math.min(Spectre.ticksExisted + PartialTick,
 				RiMConfiguration.CarriageMotion.TeleportationDuration);
 
 		double Threshold;
 
 		if (RiMConfiguration.CarriageMotion.RenderInFinalPositionDuringLag
-				&& (Spectre.TicksExisted >= RiMConfiguration.CarriageMotion.TeleportationDuration)) {
+				&& (Spectre.ticksExisted >= RiMConfiguration.CarriageMotion.TeleportationDuration)) {
 			Threshold = 2;
 		} else {
 			Threshold = (Timestamp / RiMConfiguration.CarriageMotion.TeleportationDuration) * 0.95 + 0.025;

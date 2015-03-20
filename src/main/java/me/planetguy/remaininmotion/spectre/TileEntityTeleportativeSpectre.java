@@ -89,7 +89,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 		TargetDimension = Package.Translocator.getWorldObj().provider.dimensionId;
 
-		MotionDirection = Directions.values()[0];
+		motionDirection = Directions.values()[0];
 	}
 
 	public void AbsorbSource(CarriagePackage Package) {
@@ -97,9 +97,9 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 		Source = true;
 
-		RenderCacheKey = Package.RenderCacheKey;
+		renderCacheKey = Package.RenderCacheKey;
 
-		DriveRecord = new BlockRecord(Package.driveRecord);
+		driveRecord = new BlockRecord(Package.driveRecord);
 
 		{
 			body = new BlockRecordSet();
@@ -109,7 +109,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 			}
 		}
 
-		PendingBlockUpdates = new NBTTagList();
+		pendingBlockUpdates = new NBTTagList();
 	}
 
 	public void AbsorbSink(CarriagePackage Package) {
@@ -117,7 +117,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 		AbsorbCommon(Package);
 
-		DriveRecord = new BlockRecord(Package.Translocator.xCoord, Package.Translocator.yCoord,
+		driveRecord = new BlockRecord(Package.Translocator.xCoord, Package.Translocator.yCoord,
 				Package.Translocator.zCoord);
 	}
 
@@ -142,15 +142,15 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 	@Override
 	public void updateEntity() {
-		TicksExisted++;
+		ticksExisted++;
 
 		if (worldObj.isRemote) { return; }
 
-		if (TicksExisted < RiMConfiguration.CarriageMotion.TeleportationDuration) { return; }
+		if (ticksExisted < RiMConfiguration.CarriageMotion.TeleportationDuration) { return; }
 
 		if (Source) {
 			try {
-				((TileEntityCarriageTranslocator) worldObj.getTileEntity(DriveRecord.X, DriveRecord.Y, DriveRecord.Z))
+				((TileEntityCarriageTranslocator) worldObj.getTileEntity(driveRecord.X, driveRecord.Y, driveRecord.Z))
 						.ToggleActivity();
 			} catch (Throwable Throwable) {
 				Throwable.printStackTrace();

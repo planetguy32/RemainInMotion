@@ -10,24 +10,24 @@ public class MotiveSpectreRenderer extends RIMTileEntityRenderer {
 
 		TileEntityMotiveSpectre Spectre = (TileEntityMotiveSpectre) TileEntity;
 
-		if (Spectre.RenderCacheKey == null) { return; }
+		if (Spectre.renderCacheKey == null) { return; }
 
 		{
 			double Offset;
 
 			if (RiMConfiguration.CarriageMotion.RenderInFinalPositionDuringLag
-					&& (Spectre.TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration)) {
+					&& (Spectre.ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration)) {
 				Offset = 1;
 			} else {
-				Offset = Math.min(TileEntityMotiveSpectre.Velocity * (Spectre.TicksExisted + PartialTick), 1.0D);
+				Offset = Math.min(TileEntityMotiveSpectre.velocity * (Spectre.ticksExisted + PartialTick), 1.0D);
 			}
 
-			Render.Translate(Offset * Spectre.MotionDirection.DeltaX - Spectre.xCoord, Offset
-					* Spectre.MotionDirection.DeltaY - Spectre.yCoord, Offset * Spectre.MotionDirection.DeltaZ
+			Render.Translate(Offset * Spectre.motionDirection.deltaX - Spectre.xCoord, Offset
+					* Spectre.motionDirection.deltaY - Spectre.yCoord, Offset * Spectre.motionDirection.deltaZ
 					- Spectre.zCoord);
 		}
 
-		Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.RenderCacheKey);
+		Integer DisplayList = CarriageRenderCache.lookupDisplayList(Spectre.renderCacheKey);
 
 		if (DisplayList != null) {
 			Render.ResetBoundTexture();

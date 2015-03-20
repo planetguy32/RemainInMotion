@@ -19,7 +19,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 	@Override
 	public void ToggleSide(int Side, boolean Sneaking) {
 		if (Sneaking) {
-			Side = Directions.values()[Side].Opposite().ordinal();
+			Side = Directions.values()[Side].opposite().ordinal();
 		}
 
 		for (Directions Direction : Directions.values()) {
@@ -50,9 +50,9 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 
 		BlockRecordSet ValidColumns = new BlockRecordSet();
 
-		int ValidColumnCheckFactorX = (SupportDirection.DeltaX == 0) ? (1) : (0);
-		int ValidColumnCheckFactorY = (SupportDirection.DeltaY == 0) ? (1) : (0);
-		int ValidColumnCheckFactorZ = (SupportDirection.DeltaZ == 0) ? (1) : (0);
+		int ValidColumnCheckFactorX = (SupportDirection.deltaX == 0) ? (1) : (0);
+		int ValidColumnCheckFactorY = (SupportDirection.deltaY == 0) ? (1) : (0);
+		int ValidColumnCheckFactorZ = (SupportDirection.deltaZ == 0) ? (1) : (0);
 
 		BlockRecordSet BlocksChecked = new BlockRecordSet();
 
@@ -77,12 +77,12 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 			ValidColumns.add(new BlockRecord(CarriageRecord.X * ValidColumnCheckFactorX, CarriageRecord.Y
 					* ValidColumnCheckFactorY, CarriageRecord.Z * ValidColumnCheckFactorZ));
 
-			if (Package.MotionDirection == SupportDirection.Opposite()) {
+			if (Package.MotionDirection == SupportDirection.opposite()) {
 				Package.AddPotentialObstruction(CarriageRecord.NextInDirection(Package.MotionDirection));
 			}
 
 			for (Directions TargetDirection : Directions.values()) {
-				if (TargetDirection == SupportDirection.Opposite()) {
+				if (TargetDirection == SupportDirection.opposite()) {
 					continue;
 				}
 

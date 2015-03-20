@@ -70,6 +70,7 @@ public class CarriagePackage {
 	}
 
 	public BlockRecordSet Body			= new BlockRecordSet();
+    public BlockRecordSet spectersToDestroy = new BlockRecordSet();
 
 	public static int		MaxBlockCount;
 

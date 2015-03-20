@@ -432,7 +432,7 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 			if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(Lang.translate(ModRiM.Handle
 					+ ".noPushWhenAnchored"))); }
 
-			if (MotionDirection == CarriageDirection.Opposite()) { throw (new CarriageMotionException(
+			if (MotionDirection == CarriageDirection.opposite()) { throw (new CarriageMotionException(
 					Lang.translate(ModRiM.Handle + ".noPullWhenAnchored"))); }
 
 			Package = new CarriagePackage(this, carriage, MotionDirection);
@@ -442,7 +442,7 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 			if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
 					"carriage is attempting to move controller while in anchored mode")); }
 
-			if (Package.Body.contains(Package.driveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageMotionException(
+			if (Package.Body.contains(Package.driveRecord.NextInDirection(MotionDirection.opposite()))) { throw (new CarriageMotionException(
 					"carriage is obstructed by controller while in anchored mode")); }
 		} else {
 			Package = new CarriagePackage(this, carriage, MotionDirection);

@@ -30,7 +30,7 @@ public class SpecialFacadeCloseableFactory implements ICloseableFactory {
 					} else {
 						for (int i = 0; i < 6; i++) {
 							// exclude opposite and this side.
-							if (i != side && i != Directions.values()[side].Opposite) { 
+							if (i != side && i != Directions.values()[side].oppositeOrdinal) {
 								PipePluggable plug2 = pipe.getPipePluggable(ForgeDirection.values()[i]);
 								if (plug2 instanceof IFacadePluggable) {
 									IFacadePluggable facade = (IFacadePluggable) plug2;

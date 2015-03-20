@@ -20,18 +20,18 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	private int	axisOfRotation;
 
 	public TileEntityRotativeSpectre() {
-		MotionDirection = Directions.Null;
+		motionDirection = Directions.Null;
 		axisOfRotation = Directions.PosY.ordinal();
 	}
 
 	@Override
 	public void ShiftBlockPosition(BlockRecord record) {
-		RemIMRotator.rotateOrthogonal(DriveRecord, Directions.values()[axisOfRotation], record);
+		RemIMRotator.rotateOrthogonal(driveRecord, Directions.values()[axisOfRotation], record);
 	}
 
     @Override
     public int[] getOffset(BlockRecord record) {
-        BlockRecord out = RemIMRotator.simulateRotateOrthogonal(this.DriveRecord, Directions.values()[axisOfRotation], record);
+        BlockRecord out = RemIMRotator.simulateRotateOrthogonal(this.driveRecord, Directions.values()[axisOfRotation], record);
         return new int[] { out.X, out.Y, out.Z};
     }
 
@@ -69,7 +69,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
 		if (worldObj.isRemote) { return; }/*
 		Matrix entityPos = new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
-		double partialAngle = Math.min(((double) TicksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
+		double partialAngle = Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
 		RemIMRotator.rotatePartial(driveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
 		// Start 'This might be Wrong'
 		entity.posX = entityPos.matrix[0][0];
@@ -78,9 +78,9 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		// End 'This might be Wrong
 		
 		entity.fallDistance = 0;
-		if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+		if (ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
 			// Start 'This is Wrong'
-			capture.SetPosition(MotionDirection.DeltaX, MotionDirection.DeltaY, MotionDirection.DeltaZ);
+			capture.SetPosition(motionDirection.deltaX, motionDirection.deltaY, motionDirection.deltaZ);
 			// End 'This is Wrong'
 			capture.stop(entity);
 			entity.onGround = capture.WasOnGround;
@@ -90,9 +90,9 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		entity.onGround = false;
 		entity.isAirBorne = true;
 		// Start 'This is Wrong'
-		entity.motionX = Velocity * MotionDirection.DeltaX;
-		entity.motionY = Velocity * MotionDirection.DeltaY;
-		entity.motionZ = Velocity * MotionDirection.DeltaZ;
+		entity.motionX = velocity * motionDirection.deltaX;
+		entity.motionY = velocity * motionDirection.deltaY;
+		entity.motionZ = velocity * motionDirection.deltaZ;
 		capture.SetPosition(entity.posX, entity.posY, entity.posZ);
 		// End 'This is Wrong'
 		entity.prevPosX = entity.posX - entity.motionX;
@@ -108,7 +108,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	 * RemIMRotator.rotatePartial(this.driveRecord,
 	 * Directions.values()[axisOfRotation], entityMatrix, time / 4.0);
 	 * 
-	 * entityMatrix.scalarMultiply(Velocity); Debug.dbg(entityMatrix);
+	 * entityMatrix.scalarMultiply(velocity); Debug.dbg(entityMatrix);
 	 * entity.motionX=0;//entityMatrix.matrix[0][0];
 	 * entity.motionY=0;//entityMatrix.matrix[1][0];
 	 * entity.motionZ=0;//entityMatrix.matrix[2][0]; }

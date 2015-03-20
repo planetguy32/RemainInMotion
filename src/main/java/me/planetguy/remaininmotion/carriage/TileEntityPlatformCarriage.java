@@ -85,7 +85,7 @@ public class TileEntityPlatformCarriage extends TileEntityCarriage {
 	 * 
 	 * if ( ( ( PlatformCarriageEntity ) CarriageRecord . Entity ) . SideClosed
 	 * [ TargetDirection . ordinal ( ) ] ) { if ( TargetDirection == Package .
-	 * MotionDirection ) { Package . AddPotentialObstruction ( TargetRecord ) ;
+	 * motionDirection ) { Package . AddPotentialObstruction ( TargetRecord ) ;
 	 * }
 	 * 
 	 * continue ; }

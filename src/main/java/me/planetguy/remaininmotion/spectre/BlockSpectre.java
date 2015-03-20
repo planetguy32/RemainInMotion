@@ -4,31 +4,50 @@ import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class BlockSpectre extends BlockRiM {
 	public BlockSpectre() {
 		super(Blocks.bedrock, ItemSpectre.class, TileEntityMotiveSpectre.class, TileEntitySupportiveSpectre.class,
 				TileEntityTeleportativeSpectre.class, TileEntityTransduplicativeSpectre.class,
-				TileEntityRotativeSpectre.class);
+				TileEntityRotativeSpectre.class, TileEntitySupportiveSpectre.class);
 		RenderId = -1;
 	}
 
 	public enum Types {
-		Motive, Supportive, Teleportative, Transduplicative, Rotative;
+		Motive, Supportive, Teleportative, Transduplicative, Rotative, SupportiveNoCollide;
 	}
+    @Override
+    public void addCollisionBoxesToList(World world, int i, int j, int k, AxisAlignedBB bb, List list, Entity entity) {
+        if(world.getBlockMetadata(i,j,k) == Types.SupportiveNoCollide.ordinal()){
+            return;
+        }
+        super.addCollisionBoxesToList(world, i, j, k, bb, list, entity);
+    }
 
-	@Override
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k) {
+        if(world.getBlockMetadata(i,j,k) == Types.SupportiveNoCollide.ordinal()){
+            return null;
+        }
+        return super.getCollisionBoundingBoxFromPool(world, i, j, k);
+    }
+
+    @Override
 	public boolean onBlockActivated(World World, int X, int Y, int Z, EntityPlayer Player, int Side, float HitX,
 			float HitY, float HitZ) {
 		if (World.isRemote) { return (false); }
 
-		if (World.getBlockMetadata(X, Y, Z) != Types.Supportive.ordinal()) { return (false); }
+		if (World.getBlockMetadata(X, Y, Z) != Types.Supportive.ordinal() && World.getBlockMetadata(X, Y, Z) != Types.SupportiveNoCollide.ordinal()) { return (false); }
 
 		if (!ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem())) { return (false); }
 
