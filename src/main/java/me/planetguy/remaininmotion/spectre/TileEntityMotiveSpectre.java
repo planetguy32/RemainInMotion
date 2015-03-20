@@ -33,15 +33,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileEntityMotiveSpectre extends TileEntityRiM {
-    public static double Velocity;
+    public static double velocity;
     public static Block MultipartContainerBlockId;
-    public Directions MotionDirection = Directions.Null;
-    public BlockPosition RenderCacheKey;
-    public NBTTagList PendingBlockUpdates;
-    public BlockRecord DriveRecord;
-    public boolean DriveIsAnchored;
+    public Directions motionDirection = Directions.Null;
+    public BlockPosition renderCacheKey;
+    public NBTTagList pendingBlockUpdates;
+    public BlockRecord driveRecord;
+    public boolean driveIsAnchored;
     public BlockRecordSet body;
-    public int TicksExisted;
+    public BlockRecordSet spectersToDestroy;
+    public int ticksExisted = 0;
 
 
 
@@ -49,17 +50,17 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     private boolean initialized;
 
     public void ShiftBlockPosition(BlockRecord Record) {
-        Record.Shift(MotionDirection);
+        Record.Shift(motionDirection);
     }
 
     public void ScheduleShiftedBlockUpdate(
             NBTTagCompound PendingBlockUpdateRecord) {
         worldObj.func_147446_b // scheduleBlockUpdateFromLoad
-                (PendingBlockUpdateRecord.getInteger("X") + MotionDirection.DeltaX,
+                (PendingBlockUpdateRecord.getInteger("X") + motionDirection.deltaX,
                         PendingBlockUpdateRecord.getInteger("Y")
-                                + MotionDirection.DeltaY,
+                                + motionDirection.deltaY,
                         PendingBlockUpdateRecord.getInteger("Z")
-                                + MotionDirection.DeltaZ,
+                                + motionDirection.deltaZ,
 
                         Block.getBlockById(PendingBlockUpdateRecord.getInteger("Id")),
 
@@ -70,7 +71,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     @Override
     public void updateEntity() {
-        TicksExisted++;
+        ticksExisted++;
 
         for (CapturedEntity Entity : CapturedEntities) {
             Entity.Update();
@@ -80,16 +81,16 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             return;
         }
 
-        if (TicksExisted > 0
-                && TicksExisted < RiMConfiguration.CarriageMotion.MotionDuration
-                && TicksExisted % 20 == 0) {
+        if (ticksExisted > 0
+                && ticksExisted < RiMConfiguration.CarriageMotion.MotionDuration
+                && ticksExisted % 20 == 0) {
             if (bodyHasCarriageDrive()) {
                 ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord,
                         CarriageMotion.SoundFile, CarriageMotion.volume, 1f);
             }
         }
 
-        if (TicksExisted < RiMConfiguration.CarriageMotion.MotionDuration) {
+        if (ticksExisted < RiMConfiguration.CarriageMotion.MotionDuration) {
             return;
         }
 
@@ -113,17 +114,27 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     }
 
     public void Release() {
-        for (BlockRecord record : body) {
-            ShiftBlockPosition(record);
-        }
-        if (!body.isEmpty()) {
+
+        if (body != null && !body.isEmpty()) {
+            for (BlockRecord record : body) {
+                ShiftBlockPosition(record);
+            }
             doRelease();
             body = new BlockRecordSet(); // clear list - prevents giga-dupe with
             // Gizmos temporal dislocator
+            if(!spectersToDestroy.isEmpty())
+                spectersToDestroy = new BlockRecordSet();
         }
     }
     
     public void doRelease() {
+
+        if(!spectersToDestroy.isEmpty()){
+            for (BlockRecord Record : spectersToDestroy) {
+                SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y,
+                        Record.Z, Blocks.air, 0);
+            }
+        }
 
         for (BlockRecord record : body) {
             SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
@@ -162,9 +173,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         try {
             TileEntityCarriageDrive Drive = (TileEntityCarriageDrive) worldObj
-                    .getTileEntity(DriveRecord.X, DriveRecord.Y, DriveRecord.Z);
+                    .getTileEntity(driveRecord.X, driveRecord.Y, driveRecord.Z);
 
-            if (!DriveIsAnchored) {
+            if (!driveIsAnchored) {
                 Drive.Active = true;
             }
 
@@ -181,10 +192,17 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     Record.Z, Blocks.air, Record.block);
         }
 
-        int PendingBlockUpdateCount = PendingBlockUpdates.tagCount();
+        if(!spectersToDestroy.isEmpty()){
+            for (BlockRecord Record : spectersToDestroy) {
+                SneakyWorldUtil.RefreshBlock(worldObj, Record.X, Record.Y,
+                        Record.Z, Blocks.air, Blocks.air);
+            }
+        }
+
+        int PendingBlockUpdateCount = pendingBlockUpdates.tagCount();
 
         for (int Index = 0; Index < PendingBlockUpdateCount; Index++) {
-            ScheduleShiftedBlockUpdate(PendingBlockUpdates
+            ScheduleShiftedBlockUpdate(pendingBlockUpdates
                     .getCompoundTagAt(Index));
 
         }
@@ -207,8 +225,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     }
 
     public int[] getOffset() {
-        return new int[]{MotionDirection.DeltaX, MotionDirection.DeltaY,
-                MotionDirection.DeltaZ};
+        return new int[]{motionDirection.deltaX, motionDirection.deltaY,
+                motionDirection.deltaZ};
     }
 
     public int[] getOffset(BlockRecord record) {
@@ -222,26 +240,26 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     @Override
     public void Finalize() {
         if (worldObj.isRemote) {
-            CarriageRenderCache.Release(RenderCacheKey);
+            CarriageRenderCache.Release(renderCacheKey);
         }
     }
 
     @Override
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
-        TagCompound.setInteger("motion", MotionDirection.ordinal());
+        TagCompound.setInteger("motion", motionDirection.ordinal());
 
-        TagCompound.setInteger("RenderCacheKeyX", RenderCacheKey.X);
-        TagCompound.setInteger("RenderCacheKeyY", RenderCacheKey.Y);
-        TagCompound.setInteger("RenderCacheKeyZ", RenderCacheKey.Z);
+        TagCompound.setInteger("RenderCacheKeyX", renderCacheKey.X);
+        TagCompound.setInteger("RenderCacheKeyY", renderCacheKey.Y);
+        TagCompound.setInteger("RenderCacheKeyZ", renderCacheKey.Z);
 
-        TagCompound.setInteger("RenderCacheKeyD", RenderCacheKey.Dimension);
+        TagCompound.setInteger("RenderCacheKeyD", renderCacheKey.Dimension);
     }
 
     @Override
     public void ReadCommonRecord(NBTTagCompound TagCompound) {
-        MotionDirection = Directions.values()[TagCompound.getInteger("motion")];
+        motionDirection = Directions.values()[TagCompound.getInteger("motion")];
 
-        RenderCacheKey = new BlockPosition(
+        renderCacheKey = new BlockPosition(
                 TagCompound.getInteger("RenderCacheKeyX"),
                 TagCompound.getInteger("RenderCacheKeyY"),
                 TagCompound.getInteger("RenderCacheKeyZ"),
@@ -249,34 +267,68 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound TagCompound) {
-        super.writeToNBT(TagCompound);
+    public void WriteServerRecord(NBTTagCompound TagCompound) {
+        if(driveRecord != null) {
+            NBTTagCompound tag = new NBTTagCompound();
+            driveRecord.writeToNBT(tag);
+            TagCompound.setTag("driveRecord", tag);
+        }
+
+        TagCompound.setBoolean("driveIsAnchored", driveIsAnchored);
+
+        TagCompound.setInteger("ticksExisted", ticksExisted);
 
         // Don't need to send this whole thing over network all the time
-        TagCompound.setTag("PendingBlockUpdates", PendingBlockUpdates);
+        TagCompound.setTag("pendingBlockUpdates", pendingBlockUpdates);
 
         NBTTagList BodyRecord = new NBTTagList();
 
-        for (BlockRecord Record : body) {
-            NBTTagCompound BodyBlockRecord = new NBTTagCompound();
+        if(body != null && !body.isEmpty()) {
+            for (BlockRecord Record : body) {
+                NBTTagCompound BodyBlockRecord = new NBTTagCompound();
 
-            Record.writeToNBT(BodyBlockRecord);
+                Record.writeToNBT(BodyBlockRecord);
 
-            BodyRecord.appendTag(BodyBlockRecord);
+                BodyRecord.appendTag(BodyBlockRecord);
 
+            }
         }
-
         TagCompound.setTag("Body", BodyRecord);
 
+        BodyRecord = new NBTTagList();
 
+        if(spectersToDestroy != null && !spectersToDestroy.isEmpty()) {
+            for (BlockRecord Record : spectersToDestroy) {
+                NBTTagCompound BodyBlockRecord = new NBTTagCompound();
+
+                Record.writeToNBT(BodyBlockRecord);
+
+                BodyRecord.appendTag(BodyBlockRecord);
+
+            }
+
+            TagCompound.setTag("spectersToDestroy", BodyRecord);
+        }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound TagCompound) {
-        super.readFromNBT(TagCompound);
+    public void ReadServerRecord(NBTTagCompound TagCompound) {
+        if(TagCompound.hasKey("DriveX")) {
+            driveRecord = new BlockRecord(TagCompound.getInteger("DriveX"),
+                    TagCompound.getInteger("DriveY"),
+                    TagCompound.getInteger("DriveZ"));
+        }
+
+        if(TagCompound.hasKey("driveRecord")) {
+            driveRecord = BlockRecord.createFromNBT(TagCompound.getCompoundTag("driveRecord"));
+        }
+
+        driveIsAnchored = TagCompound.getBoolean("driveIsAnchored");
+
+        ticksExisted = TagCompound.getInteger("ticksExisted");
 
         // Don't need to send this whole thing over network all the time
-        PendingBlockUpdates = TagCompound.getTagList("PendingBlockUpdates", 10);
+        pendingBlockUpdates = TagCompound.getTagList("pendingBlockUpdates", 10);
 
         body = new BlockRecordSet();
 
@@ -291,38 +343,20 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             body.add(Record);
         }
 
+        spectersToDestroy = new BlockRecordSet();
 
+        if(TagCompound.hasKey("spectersToDestroy")) {
+            BodyRecord = TagCompound.getTagList("spectersToDestroy", 10);
 
-    }
+            BodyBlockCount = BodyRecord.tagCount();
 
-    @Override
-    public void WriteServerRecord(NBTTagCompound TagCompound) {
-        if(DriveRecord != null) {
-            NBTTagCompound tag = new NBTTagCompound();
-            DriveRecord.writeToNBT(tag);
-            TagCompound.setTag("DriveRecord", tag);
+            for (int Index = 0; Index < BodyBlockCount; Index++) {
+                NBTTagCompound BodyBlockRecord = BodyRecord.getCompoundTagAt(Index);
+
+                BlockRecord Record = BlockRecord.createFromNBT(BodyBlockRecord);
+                spectersToDestroy.add(Record);
+            }
         }
-
-        TagCompound.setBoolean("DriveIsAnchored", DriveIsAnchored);
-
-        TagCompound.setInteger("TicksExisted",TicksExisted);
-    }
-
-    @Override
-    public void ReadServerRecord(NBTTagCompound TagCompound) {
-        if(TagCompound.hasKey("DriveX")) {
-            DriveRecord = new BlockRecord(TagCompound.getInteger("DriveX"),
-                    TagCompound.getInteger("DriveY"),
-                    TagCompound.getInteger("DriveZ"));
-        }
-
-        if(TagCompound.hasKey("DriveRecord")) {
-            DriveRecord = BlockRecord.createFromNBT(TagCompound.getCompoundTag("DriveRecord"));
-        }
-
-        DriveIsAnchored = TagCompound.getBoolean("DriveIsAnchored");
-
-        TicksExisted = TagCompound.getInteger("TicksExisted");
     }
 
     @Override
@@ -392,62 +426,22 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         double motionY = 0;
         double motionZ = 0;
 
-        if(capture.netMotionX != 0){
-            if(capture.netMotionX < 0 && capture.netMotionX > -1) {
-                motionX = -1 + capture.netMotionX;
-                capture.netMotionX = -1;
-            } else if(capture.netMotionX > 0 & capture.netMotionX < 1) {
-                motionX = 1 - capture.netMotionX;
-                capture.netMotionX = 1;
-            }
-            if(capture.netMotionX > 1) {
-                motionX -= capture.netMotionX - 1;
-                capture.netMotionX = 1;
-            } else if(capture.netMotionX < -1) {
-                motionX += capture.netMotionX + 1;
-                capture.netMotionX = -1;
-            }
+        if(motionDirection.deltaX != 0 && !isTolerable(capture.netMotionX, (double) motionDirection.deltaX, 0.02D)){
+            motionX = (double) motionDirection.deltaX - (capture.netMotionX);
         }
-        if(capture.netMotionY != 0){
-            if(capture.netMotionY < 0 && capture.netMotionY > -1) {
-                motionY = -1 + capture.netMotionY;
-                capture.netMotionY = -1;
-            } else if(capture.netMotionY > 0 & capture.netMotionY < 1) {
-                motionY = 1 - capture.netMotionY;
-                capture.netMotionY = 1;
-            }
-            if(capture.netMotionY > 1) {
-                motionY -= capture.netMotionY - 1;
-                capture.netMotionY = 1;
-            } else if(capture.netMotionY < -1) {
-                motionY += capture.netMotionY + 1;
-                capture.netMotionY = -1;
-            }
+        if(motionDirection.deltaY != 0 && !isTolerable(capture.netMotionY, (double) motionDirection.deltaY, 0.02D)){
+            motionY = (double) motionDirection.deltaY - capture.netMotionY;
         }
-        if(capture.netMotionZ != 0){
-            if(capture.netMotionZ < 0 && capture.netMotionZ > -1) {
-                motionZ = -1 + capture.netMotionZ;
-                capture.netMotionZ = -1;
-            } else if(capture.netMotionZ > 0 & capture.netMotionZ < 1) {
-                motionZ = 1 - capture.netMotionZ;
-                capture.netMotionZ = 1;
-            }
-            if(capture.netMotionZ > 1) {
-                motionZ -= capture.netMotionZ - 1;
-                capture.netMotionZ = 1;
-            } else if(capture.netMotionZ < -1) {
-                motionZ += capture.netMotionZ + 1;
-                capture.netMotionZ = -1;
-            }
+        if(motionDirection.deltaZ != 0 && !isTolerable(capture.netMotionZ, (double) motionDirection.deltaZ, 0.02D)){
+            motionZ = (double) motionDirection.deltaZ - (capture.netMotionZ);
         }
-        if(MotionDirection.DeltaY != 0){
+        if(motionDirection.deltaY != 0){
             entity.onGround = capture.WasOnGround;
             entity.isAirBorne = capture.WasAirBorne;
             capture.SetPosition(motionX, 0, motionZ);
             // try to fix double precision errors
+            // we only do positive as it's okay to be 0.025 up and fall
             capture.SetYPosition(capture.netMotionY + 0.025);
-            //entity.motionY = 0;
-            capture.stop();
         } else {
             capture.SetPosition(motionX, motionY, motionZ);
         }
@@ -456,43 +450,21 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
         entity.fallDistance = 0;
-        if (TicksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
-            fixLagError(capture, entity);
+
+        if(capture.netMotionX == motionDirection.deltaX && capture.netMotionY == motionDirection.deltaY
+                && capture.netMotionZ == motionDirection.deltaZ) {
             return;
         }
-        double motionX = Velocity * (double)MotionDirection.DeltaX;
-        double motionY = Velocity * (double)MotionDirection.DeltaY;
-        double motionZ = Velocity * (double)MotionDirection.DeltaZ;
+
+        double motionX = velocity * (double) motionDirection.deltaX;
+        double motionY = velocity * (double) motionDirection.deltaY;
+        double motionZ = velocity * (double) motionDirection.deltaZ;
 
         capture.netMotionX += motionX;
         capture.netMotionY += motionY;
         capture.netMotionZ += motionZ;
 
-        if(capture.netMotionX > 1) {
-            motionX -= capture.netMotionX - 1;
-            capture.netMotionX = 1;
-        } else if(capture.netMotionX < -1) {
-            motionX += capture.netMotionX + 1;
-            capture.netMotionX = -1;
-        }
-
-        if(capture.netMotionY > 1) {
-            motionY -= capture.netMotionY - 1;
-            capture.netMotionY = 1;
-        } else if(capture.netMotionY < -1) {
-            motionY += capture.netMotionY + 1;
-            capture.netMotionY = -1;
-        }
-
-        if(capture.netMotionZ > 1) {
-            motionZ -= capture.netMotionZ - 1;
-            capture.netMotionZ = 1;
-        } else if(capture.netMotionZ < -1) {
-            motionZ += capture.netMotionZ + 1;
-            capture.netMotionZ = -1;
-        }
-
-        if(MotionDirection.DeltaY != 0){
+        if(motionDirection.deltaY != 0){
             entity.onGround = capture.WasOnGround;
             entity.isAirBorne = capture.WasAirBorne;
             capture.SetPosition(motionX, 0, motionZ);
@@ -501,9 +473,16 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         } else {
             capture.SetPosition(motionX, motionY, motionZ);
         }
-        entity.prevPosX = entity.posX - capture.netMotionX;
-        entity.prevPosY = entity.posY - capture.netMotionY;
-        entity.prevPosZ = entity.posZ - capture.netMotionZ;
+
+        if (ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+            fixLagError(capture, entity);
+            //capture.stop();
+            return;
+        }
+    }
+
+    private boolean isTolerable(double value1, double value2, double tolerance) {
+        return Math.abs(value1 - value2) <= tolerance;
     }
 
     public boolean ShouldCaptureEntity(Entity Entity) {
@@ -570,18 +549,20 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     }
 
     public void Absorb(CarriagePackage Package) {
-        MotionDirection = Package.MotionDirection;
+        motionDirection = Package.MotionDirection;
 
         body = Package.Body;
 
-        RenderCacheKey = Package.RenderCacheKey;
+        spectersToDestroy = Package.spectersToDestroy;
 
-        PendingBlockUpdates = Package.PendingBlockUpdates;
+        renderCacheKey = Package.RenderCacheKey;
 
-        DriveRecord = new BlockRecord(Package.driveRecord);
+        pendingBlockUpdates = Package.PendingBlockUpdates;
+
+        driveRecord = new BlockRecord(Package.driveRecord);
 
         if (!Package.DriveIsAnchored) {
-            DriveRecord.Shift(Package.MotionDirection);
+            driveRecord.Shift(Package.MotionDirection);
         }
 
         if (Package.MotionDirection != null) {
@@ -694,6 +675,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         public void SetPosition(double OffsetX, double OffsetY, double OffsetZ) {
             entity.setPosition(entity.posX + OffsetX, entity.posY + OffsetY, entity.posZ + OffsetZ);
+            //entity.moveEntity(OffsetX, OffsetY, OffsetZ);
         }
 
         public void SetYPosition(double OffsetY) {

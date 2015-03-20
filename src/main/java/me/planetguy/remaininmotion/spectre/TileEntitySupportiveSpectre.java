@@ -6,6 +6,7 @@ import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.EnumSkyBlock;
 
 public class TileEntitySupportiveSpectre extends TileEntityRiM {
 
@@ -16,7 +17,8 @@ public class TileEntitySupportiveSpectre extends TileEntityRiM {
     {
         lightValue = block.getLightValue();
         lightOpacity = block.getLightOpacity();
-
+        worldObj.updateLightByType(EnumSkyBlock.Block, xCoord,yCoord,zCoord);
+        worldObj.updateLightByType(EnumSkyBlock.Sky, xCoord,yCoord,zCoord);
     }
 
     @Override
@@ -31,6 +33,10 @@ public class TileEntitySupportiveSpectre extends TileEntityRiM {
         super.ReadCommonRecord(TagCompound);
         lightValue = TagCompound.getInteger("lightValue");
         lightOpacity = TagCompound.getInteger("lightOpacity");
+        if(worldObj != null) {
+            worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
+            worldObj.updateLightByType(EnumSkyBlock.Sky, xCoord, yCoord, zCoord);
+        }
     }
 
     public int getLightValue()

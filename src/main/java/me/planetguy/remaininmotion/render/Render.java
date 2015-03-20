@@ -33,7 +33,7 @@ public abstract class Render {
 	}
 
 	public static void SetNormal(Directions Direction) {
-		SetNormal(Direction.DeltaX, Direction.DeltaY, Direction.DeltaZ);
+		SetNormal(Direction.deltaX, Direction.deltaY, Direction.deltaZ);
 	}
 
 	public static void AddVertex(double X, double Y, double Z, double U, double V) {

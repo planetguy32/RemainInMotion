@@ -179,7 +179,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 	@Override
 	public void updateEntity() {
-		if (!(CarriageDirection != null && (CarriageDirection.ordinal() == axisOfRotationIndex || CarriageDirection.Opposite == axisOfRotationIndex))) {
+		if (!(CarriageDirection != null && (CarriageDirection.ordinal() == axisOfRotationIndex || CarriageDirection.oppositeOrdinal == axisOfRotationIndex))) {
 			CarriageDirection = null;
 		}
 		super.updateEntity();
@@ -202,11 +202,11 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 			if (CarriageDirection != null && CarriageDirection != Directions.Null) {
 				BlockRecord oldAnchor = pkg.AnchorRecord;
 				
-				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.DeltaX,
-						yCoord + CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ);
+				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.deltaX,
+						yCoord + CarriageDirection.deltaY, zCoord + CarriageDirection.deltaZ);
 				pkg.AnchorRecord.Identify(worldObj);
-				MultiTypeCarriageUtil.fillPackage(pkg, worldObj.getTileEntity(xCoord + CarriageDirection.DeltaX, yCoord
-						+ CarriageDirection.DeltaY, zCoord + CarriageDirection.DeltaZ));
+				MultiTypeCarriageUtil.fillPackage(pkg, worldObj.getTileEntity(xCoord + CarriageDirection.deltaX, yCoord
+						+ CarriageDirection.deltaY, zCoord + CarriageDirection.deltaZ));
 				
 				pkg.AnchorRecord = oldAnchor;
 

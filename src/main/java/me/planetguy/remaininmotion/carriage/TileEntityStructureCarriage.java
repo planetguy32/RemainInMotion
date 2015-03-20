@@ -150,7 +150,7 @@ public class TileEntityStructureCarriage extends TileEntityCarriage {
 	public void ToggleSide(int Side, boolean Sneaking) {
 		Directions ActionDirection = Directions.values()[Side];
 
-		Directions PropagationDirection = ActionDirection.Opposite();
+		Directions PropagationDirection = ActionDirection.opposite();
 
 		BlockRecord NextRecord = new BlockRecord(xCoord, yCoord, zCoord);
 

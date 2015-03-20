@@ -23,7 +23,7 @@ public abstract class TileEntityCarriage extends TileEntityCamouflageable implem
 
 	public void ToggleSide(int Side, boolean Sneaking) {
 		if (Sneaking) {
-			Side = Directions.values()[Side].Opposite().ordinal();
+			Side = Directions.values()[Side].opposite().ordinal();
 		}
 
 		SideClosed[Side] = !SideClosed[Side];

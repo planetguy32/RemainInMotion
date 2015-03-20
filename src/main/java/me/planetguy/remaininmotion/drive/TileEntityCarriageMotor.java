@@ -14,7 +14,7 @@ public class TileEntityCarriageMotor extends TileEntityCarriageDrive {
 		if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(
 				"motor cannot push carriage away from itself")); }
 
-		if (MotionDirection == CarriageDirection.Opposite()) { throw (new CarriageMotionException(
+		if (MotionDirection == CarriageDirection.opposite()) { throw (new CarriageMotionException(
 				"motor cannot pull carriage into itself")); }
 
 		CarriagePackage Package = new CarriagePackage(this, carriage, MotionDirection);
@@ -24,7 +24,7 @@ public class TileEntityCarriageMotor extends TileEntityCarriageDrive {
 		if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
 				"carriage is attempting to move motor")); }
 
-		if (Package.Body.contains(Package.driveRecord.NextInDirection(MotionDirection.Opposite()))) { throw (new CarriageObstructionException(
+		if (Package.Body.contains(Package.driveRecord.NextInDirection(MotionDirection.opposite()))) { throw (new CarriageObstructionException(
 				"carriage motion is obstructed by motor", xCoord, yCoord, zCoord)); }
 
 		Package.Finalize();

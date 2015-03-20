@@ -36,9 +36,9 @@ public class BlockRecord implements Comparable<BlockRecord>, IBlockPos {
 	}
 
 	public void Shift(Directions Direction) {
-		X += Direction.DeltaX;
-		Y += Direction.DeltaY;
-		Z += Direction.DeltaZ;
+		X += Direction.deltaX;
+		Y += Direction.deltaY;
+		Z += Direction.deltaZ;
 	}
 
 	public BlockRecord shift(ForgeDirection dir) {
@@ -49,7 +49,7 @@ public class BlockRecord implements Comparable<BlockRecord>, IBlockPos {
 	}
 
 	public BlockRecord NextInDirection(Directions Direction) {
-		return (new BlockRecord(X + Direction.DeltaX, Y + Direction.DeltaY, Z + Direction.DeltaZ));
+		return (new BlockRecord(X + Direction.deltaX, Y + Direction.deltaY, Z + Direction.deltaZ));
 	}
 
 	@Override

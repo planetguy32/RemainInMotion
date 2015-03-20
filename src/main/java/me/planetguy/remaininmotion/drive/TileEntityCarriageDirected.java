@@ -32,7 +32,7 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 				//rotate the pointed direction
 				pointedDir=Directions.values()[(pointedDir.ordinal() + 1) % 6];
 			}else {
-				pointedDir = Directions.values()[side].Opposite();
+				pointedDir = Directions.values()[side].opposite();
 				Debug.dbg(pointedDir.ordinal());
 			}
 			Propagate();
@@ -52,9 +52,9 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 		setSignalDirection(null);
 
 		for (Directions Direction : Directions.values()) {
-			int X = xCoord + Direction.DeltaX;
-			int Y = yCoord + Direction.DeltaY;
-			int Z = zCoord + Direction.DeltaZ;
+			int X = xCoord + Direction.deltaX;
+			int Y = yCoord + Direction.deltaY;
+			int Z = zCoord + Direction.deltaZ;
 
 			if (worldObj.isAirBlock(X, Y, Z)) {
 				continue;
