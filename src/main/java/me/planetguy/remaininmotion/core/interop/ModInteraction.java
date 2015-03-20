@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.interop.buildcraft.EventHandlerBuildcraft;
 import me.planetguy.remaininmotion.core.interop.chickenchunks.EventHandlerChickenChunks;
+import me.planetguy.remaininmotion.core.interop.enderio.EventHandlerEnderIO;
 import me.planetguy.remaininmotion.core.interop.fmp.EventHandlerFMP;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
@@ -37,6 +38,11 @@ public abstract class ModInteraction {
     	if(Loader.isModLoaded("BuildCraft|Transport"))
     	{
     		RiMRegistry.blockMoveBus.register(new EventHandlerBuildcraft());
+    	}
+    	
+    	if(Loader.isModLoaded("EnderIO"))
+    	{
+    		RiMRegistry.blockMoveBus.register(new EventHandlerEnderIO());
     	}
     	
 		Wrenches.init();
