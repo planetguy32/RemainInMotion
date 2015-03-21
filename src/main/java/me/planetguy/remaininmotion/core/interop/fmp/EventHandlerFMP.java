@@ -2,12 +2,14 @@ package me.planetguy.remaininmotion.core.interop.fmp;
 
 import java.util.HashMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import scala.collection.JavaConversions;
 import codechicken.lib.world.WorldExtension;
 import codechicken.lib.world.WorldExtensionManager;
+import codechicken.multipart.BlockMultipart;
 import codechicken.multipart.MultipartHelper;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
@@ -16,9 +18,11 @@ import codechicken.multipart.TickScheduler.PartTickEntry;
 import codechicken.multipart.TickScheduler.WorldTickScheduler;
 import codechicken.multipart.handler.MultipartSaveLoad;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
+import me.planetguy.remaininmotion.api.event.RotatingTEPreUnpackEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
@@ -74,6 +78,16 @@ public class EventHandlerFMP {
 	@SubscribeEvent
 	public void onUnpackStart(BlocksReplacedEvent e) {
 		MultipartSaveLoad.loadingWorld_$eq(e.unpackingEntity.getWorldObj());
+	}
+	
+	@SubscribeEvent
+	public void onFMPBlockRotated(RotatingTEPreUnpackEvent e) {
+		IBlockPos pos=e.location;
+		NBTTagCompound tag=e.location.entityTag();
+		if(tag != null && tag.getString("id").equals("savedMultipart")) {
+			Debug.dbg(e.location.entityTag());
+			//TODO
+		}
 	}
 	
 	public void saveMultipartTick(TileEntity te, NBTTagCompound record) {

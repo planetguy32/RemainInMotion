@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.core.interop.enderio;
 
 import java.util.List;
 
+/*
 import crazypants.enderio.block.BlockDarkSteelLadder;
 import crazypants.enderio.conduit.BlockConduitBundle;
 import crazypants.enderio.conduit.IConduit;
@@ -14,6 +15,7 @@ import crazypants.enderio.machine.enchanter.BlockEnchanter;
 import crazypants.enderio.machine.enchanter.TileEnchanter;
 import crazypants.enderio.machine.light.BlockElectricLight;
 import crazypants.enderio.machine.light.TileElectricLight;
+*/
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -24,6 +26,7 @@ import me.planetguy.remaininmotion.api.event.IBlockPos;
 
 public class EventHandlerEnderIO {
 
+	/*
 	public void handleRotation(BlockRotateEvent e) {
 		try {
 			IBlockPos pos=e.location;
@@ -62,6 +65,6 @@ public class EventHandlerEnderIO {
 			}
 		}catch(Exception ignored) {
 		}
-	}
+	}*/
 
 }

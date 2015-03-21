@@ -50,7 +50,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
         record.entityRecord.setInteger("y", record.Y);
         record.entityRecord.setInteger("z", record.Z);
 
-        RiMRegistry.blockMoveBus.post(new RotatingTEPreUnpackEvent(this, record));
+        RiMRegistry.blockMoveBus.post(new RotatingTEPreUnpackEvent(this, record, ForgeDirection.getOrientation(axisOfRotation)));
 
         record.entity = TileEntity
         		.createAndLoadEntity(record.entityRecord);

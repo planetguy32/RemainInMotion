@@ -1,7 +1,11 @@
 package me.planetguy.remaininmotion.core.interop.buildcraft;
 
+import java.util.ArrayList;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.transformations.Rotator;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
@@ -9,9 +13,11 @@ import me.planetguy.remaininmotion.api.event.RotatingTEPreUnpackEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.core.TileBuildCraft;
 import buildcraft.factory.TileQuarry;
+import buildcraft.transport.BlockGenericPipe;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
@@ -32,7 +38,26 @@ public class EventHandlerBuildcraft {
 	@SubscribeEvent
 	public void onRotated(RotatingTEPreUnpackEvent e) {
 		IBlockPos pos=e.location;
+		Block b=pos.world().getBlock(pos.x(), pos.y(), pos.z());
+		if(pos.world().isRemote)
+			return;
 		
+		if(b instanceof BlockGenericPipe) {
+			NBTTagCompound tag=e.location.entityTag();
+			NBTTagCompound[] foundTags=new NBTTagCompound[6];
+			for(int i=0; i<6; i++) {
+				String tagName="pluggable["+i+"]";
+				if(tag.hasKey(tagName)) {
+					NBTTagCompound pluggableForSide=tag.getCompoundTag(tagName);
+					tag.removeTag(tagName);
+					foundTags[Rotator.newSide(i, e.axis)]=pluggableForSide;
+				}
+			}
+			for(int i=0; i<6; i++) {
+				if(foundTags[i] != null)
+					tag.setTag("pluggable["+i+"]", foundTags[i]);
+			}
+		}
 	}
 	
 	
