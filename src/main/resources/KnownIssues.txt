@@ -5,8 +5,6 @@ For more up-to-date known issues, check https://github.com/planetguy32/RemainInM
 
 *-*-* THINGS THAT ARE BUGS THAT WILL DEFINITELY BE FIXED *-*-*
 
-Multipart blocks that need scheduled world ticks (such as buttons that need a tick to pop back out) aren't receiving their ticks properly.
-
 *-*-* THINGS THAT ARE FLAWS THAT WILL HOPEFULLY BE FIXED AT SOME POINT *-*-*
 
 Anything that already uses a display list to render will not properly render in-transit.

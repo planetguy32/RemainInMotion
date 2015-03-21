@@ -29,6 +29,12 @@ public class BlockSpectre extends BlockRiM {
     @Override
     public void addCollisionBoxesToList(World world, int i, int j, int k, AxisAlignedBB bb, List list, Entity entity) {
         if(world.getBlockMetadata(i,j,k) == Types.SupportiveNoCollide.ordinal()){
+            //TileEntitySupportiveSpectre tile = (TileEntitySupportiveSpectre) world.getTileEntity(i,j,k);
+            //if(tile.BB.isEmpty()) return;
+            //for(AxisAlignedBB aabb : tile.BB) {
+            //    AxisAlignedBB aabb1 = aabb.getOffsetBoundingBox(i,j,k);
+            //    if(bb.intersectsWith(aabb1)) list.add(aabb1);
+            //}
             return;
         }
         super.addCollisionBoxesToList(world, i, j, k, bb, list, entity);
@@ -37,7 +43,14 @@ public class BlockSpectre extends BlockRiM {
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k) {
         if(world.getBlockMetadata(i,j,k) == Types.SupportiveNoCollide.ordinal()){
-            return null;
+            //TileEntitySupportiveSpectre tile = (TileEntitySupportiveSpectre) world.getTileEntity(i,j,k);
+            //if(tile.BB.size() > 1) {
+            //    return super.getCollisionBoundingBoxFromPool(world, i, j, k);
+            //} else if(tile.BB.size() == 1) {
+            //    return tile.BB.get(0);
+            //} else {
+                return null;
+            //}
         }
         return super.getCollisionBoundingBoxFromPool(world, i, j, k);
     }

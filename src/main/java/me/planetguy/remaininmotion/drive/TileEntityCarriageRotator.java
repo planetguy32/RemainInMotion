@@ -47,13 +47,12 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		Package.AddBlock(Package.driveRecord);
 
-		MultiTypeCarriageUtil.fillPackage(Package, carriage);
+        MultiTypeCarriageUtil.fillPackage(Package, carriage);
 
 		Directions axis = Directions.values()[axisOfRotationIndex];
 
-		BlockRecordSet temp = Package.Body;
+		BlockRecordSet dests = new BlockRecordSet();
 
-		label0:
 		for (BlockRecord record : Package.Body) {
 			if (record.block instanceof BlockCarriage
 					&& (record.X == xCoord || record.Y == yCoord || record.Z == zCoord)) {
@@ -63,19 +62,10 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), axis,
 					record);
 
-			for(BlockRecord record2 : temp)
-			{
-				if(record2.X == dest.X && record2.Y == dest.Y && record2.X == dest.X)
-				{
-					continue label0;
-				}
-			}
-
-			if (targetBlockReplaceableNoTranslate(this, dest) != 0) { throw new CarriageMotionException(
-					"motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z); }
+            Package.AddPotentialObstruction(dest);
 		}
 
-		Package.Finalize();
+        Package.Finalize();
 
         // Called twice, once in Finalize()
 		//removeUsedEnergy(Package);

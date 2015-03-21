@@ -427,27 +427,24 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     public void fixLagError(CapturedEntity capture, Entity entity) {
         double motionX = 0;
-        double motionY = 0;
         double motionZ = 0;
 
-        if(motionDirection.deltaX != 0 && !isTolerable(capture.netMotionX, (double) motionDirection.deltaX, 0.02D)){
-            motionX = (double) motionDirection.deltaX - (capture.netMotionX);
-        }
-        if(motionDirection.deltaY != 0 && !isTolerable(capture.netMotionY, (double) motionDirection.deltaY, 0.02D)){
-            motionY = (double) motionDirection.deltaY - capture.netMotionY;
-        }
-        if(motionDirection.deltaZ != 0 && !isTolerable(capture.netMotionZ, (double) motionDirection.deltaZ, 0.02D)){
-            motionZ = (double) motionDirection.deltaZ - (capture.netMotionZ);
-        }
+        motionX = fixDouble(motionX, motionDirection.deltaX, capture.netMotionX, true);
+        motionZ = fixDouble(motionZ, motionDirection.deltaZ, capture.netMotionZ, true);
+
         if(motionDirection.deltaY != 0){
             entity.onGround = capture.WasOnGround;
             entity.isAirBorne = capture.WasAirBorne;
             capture.SetPosition(motionX, 0, motionZ);
             // try to fix double precision errors
             // we only do positive as it's okay to be 0.025 up and fall
-            capture.SetYPosition(capture.netMotionY + 0.025);
+            capture.SetYPosition(motionDirection.deltaY + 0.025);
         } else {
-            capture.SetPosition(motionX, motionY, motionZ);
+            if(motionX != 0 || motionZ != 0) {
+                double[] motion = handleCollision(entity, motionX, motionZ);
+                capture.netMotionX += motion[0];
+                capture.netMotionZ += motion[1];
+            }
         }
 
     }
@@ -455,38 +452,82 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
         entity.fallDistance = 0;
 
-        if(capture.netMotionX == motionDirection.deltaX && capture.netMotionY == motionDirection.deltaY
-                && capture.netMotionZ == motionDirection.deltaZ) {
-            return;
-        }
+        if(motionDirection.deltaX != capture.netMotionX || motionDirection.deltaZ != capture.netMotionZ || motionDirection.deltaY != capture.netMotionY) {
+            double motionX = velocity * (double) motionDirection.deltaX;
+            double motionY = velocity * (double) motionDirection.deltaY;
+            double motionZ = velocity * (double) motionDirection.deltaZ;
 
-        double motionX = velocity * (double) motionDirection.deltaX;
-        double motionY = velocity * (double) motionDirection.deltaY;
-        double motionZ = velocity * (double) motionDirection.deltaZ;
+            motionX = fixDouble(motionX, (double) motionDirection.deltaX, capture.netMotionX + motionX, false);
+            motionZ = fixDouble(motionZ, (double) motionDirection.deltaZ, capture.netMotionZ + motionZ, false);
 
-        capture.netMotionX += motionX;
-        capture.netMotionY += motionY;
-        capture.netMotionZ += motionZ;
+            if (motionDirection.deltaY != 0) {
+                entity.onGround = capture.WasOnGround;
+                entity.isAirBorne = capture.WasAirBorne;
+                capture.netMotionY += motionY;
+                capture.SetPosition(motionX, 0, motionZ);
+                capture.SetYPosition(capture.netMotionY);
+            } else {
+                double[] motion = handleCollision(entity, motionX, motionZ);
 
-        if(motionDirection.deltaY != 0){
-            entity.onGround = capture.WasOnGround;
-            entity.isAirBorne = capture.WasAirBorne;
-            capture.SetPosition(motionX, 0, motionZ);
-            capture.SetYPosition(capture.netMotionY);
-            //entity.motionY = 0;
-        } else {
-            capture.SetPosition(motionX, motionY, motionZ);
+                motionX = motion[0];
+                motionZ = motion[1];
+
+                capture.netMotionX += motionX;
+                capture.netMotionZ += motionZ;
+            }
         }
 
         if (ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
             fixLagError(capture, entity);
-            //capture.stop();
+            capture.stop();
             return;
         }
     }
 
-    private boolean isTolerable(double value1, double value2, double tolerance) {
-        return Math.abs(value1 - value2) <= tolerance;
+    private double[] handleCollision(Entity entity, double motionX, double motionZ) {
+        double X = motionX;
+        double Z = motionZ;
+        List list = this.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox.addCoord(X, 0, Z));
+        int j;
+
+        for (j = 0; j < list.size(); ++j)
+        {
+            X = ((AxisAlignedBB)list.get(j)).calculateXOffset(entity.boundingBox, X);
+        }
+
+        entity.boundingBox.offset(X, 0.0D, 0.0D);
+
+        for (j = 0; j < list.size(); ++j)
+        {
+            Z = ((AxisAlignedBB)list.get(j)).calculateZOffset(entity.boundingBox, motionZ);
+        }
+
+        entity.boundingBox.offset(0.0D, 0.0D, motionZ);
+
+        entity.posX = (entity.boundingBox.minX + entity.boundingBox.maxX) / 2.0D;
+        entity.posZ = (entity.boundingBox.minZ + entity.boundingBox.maxZ) / 2.0D;
+        entity.isCollidedHorizontally = motionX != X || motionZ != Z;
+        entity.isCollided = entity.isCollidedHorizontally || entity.isCollidedVertically;
+
+        motionX = X;
+        motionZ = Z;
+
+        return new double[] {motionX,motionZ};
+    }
+
+    private double fixDouble(double progress, double goal, double net, boolean forceBothWays) {
+        double out = progress;
+        if(net == goal) return 0;
+        if(forceBothWays){
+            if(net < goal){
+                out = goal - net;
+            }
+        }else {
+            if (Math.abs(net) > Math.abs(goal)) {
+                out = goal - net;
+            }
+        }
+        return out;
     }
 
     public boolean ShouldCaptureEntity(Entity Entity) {

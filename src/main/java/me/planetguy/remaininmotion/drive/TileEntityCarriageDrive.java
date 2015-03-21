@@ -24,17 +24,20 @@ import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import me.planetguy.remaininmotion.util.position.AABBUtil;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -414,34 +417,57 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         for (BlockRecord Record : temp) {
             if(Package.MotionDirection != null) {
+                //NBTTagCompound nbt = new NBTTagCompound();
                 // Specters get in our way on elevators
                 if(Package.MotionDirection.deltaY == 0) {
-                    SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                            BlockSpectre.Types.Supportive.ordinal());
-                } else {
-                    // we do want things like walls to get in our way, though
-                    if(!Package.Body.contains(Record)) {
+                    Block block = Record.block;
+                    //Block block1 = worldObj.getBlock(Record.X, Record.Y, Record.Z);
+                    //Block block2 = worldObj.getBlock(Record.X + Package.MotionDirection.deltaX, Record.Y, Record.Z + Package.MotionDirection.deltaZ);
+                    if(block.isOpaqueCube()) {
+                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.Supportive.ordinal());
+                    } else if(block.getCollisionBoundingBoxFromPool(worldObj, Record.X - Package.MotionDirection.deltaX, Record.Y, Record.Z - Package.MotionDirection.deltaZ) == null) {
                         SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.SupportiveNoCollide.ordinal());
                     } else {
+                        //AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
+                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.Supportive.ordinal());
+                    }
+                } else {
+                    // we do want things like walls to get in our way, though
+                    if(!Package.Body.contains(Record)) {
+                        //if(worldObj.getBlock(Record.X, Record.Y, Record.Z).isBlockNormalCube() || worldObj.getBlock(Record.X, Record.Y, Record.Z).getCollisionBoundingBoxFromPool(worldObj, Record.X, Record.Y, Record.Z) == null) {
+                            SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                    BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                        //} else {
+                        //    AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
+                        //    SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                        //            BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                        //}
+                    } else {
+                        //AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
                         SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.Supportive.ordinal());
                     }
                 }
+
                 // only set Light if we're moving
                 if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
                     worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                     // handle camo blocks
+                    TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z));
                     if (Record.block instanceof BlockCamouflageable) {
                         if (Record.entityRecord != null) {
                             Block b2 = Block.getBlockById(Record.entityRecord.getInteger("DecorationId"));
                             if (b2 != null) {
-                                ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight(b2);
+                                tile.setLight(b2);
                             }
                         }
                     } else {
-                        ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight(Record.block);
+                        tile.setLight(Record.block);
                     }
+                    //tile.setBoundingBox(nbt);
                 }
             }
         }
@@ -451,8 +477,13 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
             if(Package.MotionDirection != null) {
                 // Specters get in our way on elevators
                 if(Package.MotionDirection.deltaY == 0) {
-                    SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                            BlockSpectre.Types.Supportive.ordinal());
+                    if(Record.block.getCollisionBoundingBoxFromPool(worldObj, Record.X,Record.Y,Record.Z) == null) {
+                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                    } else {
+                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.Supportive.ordinal());
+                    }
                 } else {
                     SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                             BlockSpectre.Types.SupportiveNoCollide.ordinal());
