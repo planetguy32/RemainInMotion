@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.core.interop.fmp;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -19,6 +20,7 @@ import codechicken.multipart.TickScheduler.WorldTickScheduler;
 import codechicken.multipart.handler.MultipartSaveLoad;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.transformations.Rotator;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
@@ -85,8 +87,14 @@ public class EventHandlerFMP {
 		IBlockPos pos=e.location;
 		NBTTagCompound tag=e.location.entityTag();
 		if(tag != null && tag.getString("id").equals("savedMultipart")) {
-			Debug.dbg(e.location.entityTag());
-			//TODO
+			for(int i=0; i<tag.getTagList("parts", 10).tagCount(); i++) {
+				NBTTagCompound part=tag.getTagList("parts", 10).getCompoundTagAt(i);
+				if(part.hasKey("shape")) {
+					byte shape=part.getByte("shape");
+					shape=(byte) ((shape & 0xF0) | Rotator.newSide(shape & 0x0F, e.axis));
+					part.setByte("shape", shape);
+				}
+			}
 		}
 	}
 	
