@@ -48,7 +48,11 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
             Block deco = ((TileEntityCamouflageable) te).Decoration;
             if(deco != null)
             {
-                return ((Block) deco).getLightValue();
+                try {
+                    if (deco instanceof BlockCamouflageable)
+                        throw new Exception("Making a frame look like another? Interesting....");
+                    return ((Block) deco).getLightValue();
+                }catch(Exception e) {}
             }
         }
         return super.getLightValue();
@@ -62,7 +66,10 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
             Block deco = ((TileEntityCamouflageable) te).Decoration;
             if(deco != null)
             {
-                return ((Block) deco).getLightOpacity();
+                try {
+                    if(deco instanceof BlockCamouflageable) throw new Exception("Making a frame look like another? Interesting....");
+                    return ((Block) deco).getLightOpacity();
+                }catch(Exception e) {}
             }
         }
         return super.getLightOpacity();
@@ -81,6 +88,7 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
             if(deco != null)
             {
                 try {
+                    if(deco instanceof BlockCamouflageable) throw new Exception("Making a frame look like another? Interesting....");
                     return ((Block) deco).colorMultiplier(world, x, y, z);
                 }catch(Exception e){
                     return 0xffffffff;
