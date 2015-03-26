@@ -1,7 +1,6 @@
 package me.planetguy.remaininmotion.api.event;
 
 import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.eventhandler.Event;
 
 public class BlockSelectForMoveEvent extends AbstractTEMoveEvent {
 	
@@ -13,15 +12,27 @@ public class BlockSelectForMoveEvent extends AbstractTEMoveEvent {
 		super(location);
 	}
 	
+	public boolean isCancelable() {
+		return true;
+	}
+	
 	/**
 	 * Cancels the entire motion operation.
 	 * @param message
 	 */
 	public void cancel(String message) {
 		if(message==null)
-			cancelled="unspecified";
+			addCancel("unspecified");
 		else
-			cancelled=message;
+			addCancel(message);
+		setCanceled(true);
+	}
+	
+	private void addCancel(String m) {
+		if(cancelled==null)
+			cancelled=m;
+		else
+			cancelled+=", "+m;
 	}
 	
 	public String getCancelMessag() {

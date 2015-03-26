@@ -21,102 +21,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslocator {
-	public String																Player;
 
-	public int																	Label;
+	public static HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTransduplicatorSets	= new HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>();
 
-	public static HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets	= new HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>();
-
-	@Override
-	public void RegisterLabel() {
-		HashMap<Integer, LinkedList<BlockPosition>> ActiveTranslocatorSet = ActiveTranslocatorSets.get(Player);
-
-		if (ActiveTranslocatorSet == null) {
-			ActiveTranslocatorSet = new HashMap<Integer, LinkedList<BlockPosition>>();
-
-			ActiveTranslocatorSets.put(Player, ActiveTranslocatorSet);
-		}
-
-		LinkedList<BlockPosition> ActiveTranslocators = ActiveTranslocatorSet.get(Label);
-
-		if (ActiveTranslocators == null) {
-			ActiveTranslocators = new LinkedList<BlockPosition>();
-
-			ActiveTranslocatorSet.put(Label, ActiveTranslocators);
-		}
-
-		ActiveTranslocators.add(GeneratePositionObject());
+	public HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>> getRegistry(){
+		return ActiveTranslocatorSets;
 	}
-
-	@Override
-	public void ClearLabel() {
-		try {
-			ActiveTranslocatorSets.get(Player).get(Label).remove(GeneratePositionObject());
-		} catch (Throwable Throwable) {
-			Throwable.printStackTrace();
-		}
-	}
-
-	@Override
-	public void Setup(EntityPlayer Player, ItemStack Item) {
-		super.Setup(Player, Item);
-
-		this.Player = ItemCarriageDrive.GetPrivateFlag(Item) ? Player.getDisplayName() : "";
-
-		Label = ItemCarriageDrive.GetLabel(Item);
-
-		if (!worldObj.isRemote) {
-
-			RegisterLabel();
-
-			/* dirty hack needed for unknown reason */
-			{
-				ClearLabel();
-
-				RegisterLabel();
-			}
-		}
-	}
-
+	
 	@Override
 	public void EmitDrops(BlockRiM Block, int Meta) {
-		EmitDrop(Block, ItemCarriageDrive.Stack(Meta, Tier, !Player.equals(""), Label));
-	}
-
-	@Override
-	public void Initialize() {
-		super.Initialize();
-
-		if (!worldObj.isRemote) {
-			if (Player != null) {
-				RegisterLabel();
-			}
-		}
-	}
-
-	@Override
-	public void Finalize() {
-		if (!worldObj.isRemote) {
-			ClearLabel();
-		}
-	}
-
-	@Override
-	public void ReadCommonRecord(NBTTagCompound TagCompound) {
-		super.ReadCommonRecord(TagCompound);
-
-		Player = TagCompound.getString("Player");
-
-		Label = TagCompound.getInteger("Label");
-	}
-
-	@Override
-	public void WriteCommonRecord(NBTTagCompound TagCompound) {
-		super.WriteCommonRecord(TagCompound);
-
-		TagCompound.setString("Player", Player);
-
-		TagCompound.setInteger("Label", Label);
+		
 	}
 
 	@Override
@@ -133,7 +47,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 		LinkedList<BlockPosition> ActiveTranslocators;
 
 		try {
-			ActiveTranslocators = ActiveTranslocatorSets.get(Player).get(Label);
+			ActiveTranslocators = getRegistry().get(Player).get(Label);
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 
@@ -178,28 +92,6 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 		Package.Translocator = Target;
 
 		return (Package);
-	}
-
-	@Override
-	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
-			throws CarriageMotionException {
-		CarriagePackage Package = new CarriagePackage(this, carriage, null);
-
-		MultiTypeCarriageUtil.fillPackage(Package, carriage);
-
-		if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
-				"carriage is attempting to grab translocator")); }
-
-		Package.Finalize();
-
-		return (Package);
-	}
-
-	@Override
-	public void InitiateMotion(CarriagePackage Package) {
-		Package.Translocator.ToggleActivity();
-
-		super.InitiateMotion(Package);
 	}
 
 	@Override

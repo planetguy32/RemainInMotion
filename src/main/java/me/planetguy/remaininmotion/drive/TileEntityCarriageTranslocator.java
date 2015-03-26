@@ -8,6 +8,7 @@ import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.transformations.Directions;
+import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
@@ -22,15 +23,30 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
+	
+	static {
+		RiMRegistry.registerEventHandler(new TranslocatorMoveListener());
+	}
+	
 	public String																Player;
 
 	public int																	Label;
+	
+	static {
+		
+	}
 
 	public static HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets	= new HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>();
 
-	public void RegisterLabel() {
-		HashMap<Integer, LinkedList<BlockPosition>> ActiveTranslocatorSet = ActiveTranslocatorSets.get(Player);
+	public HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>> getRegistry(){
+		return ActiveTranslocatorSets;
+	}
+	
+	protected void registerLabel() {
+		HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets=getRegistry();
 
+		HashMap<Integer, LinkedList<BlockPosition>> ActiveTranslocatorSet = ActiveTranslocatorSets.get(Player);
+		
 		if (ActiveTranslocatorSet == null) {
 			ActiveTranslocatorSet = new HashMap<Integer, LinkedList<BlockPosition>>();
 
@@ -48,7 +64,8 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		ActiveTranslocators.add(GeneratePositionObject());
 	}
 
-	public void ClearLabel() {
+	public void unregisterLabel() {
+		HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets=getRegistry();
 		try {
 			ActiveTranslocatorSets.get(Player).get(Label).remove(GeneratePositionObject());
 		} catch (Throwable Throwable) {
@@ -66,13 +83,13 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 
 		if (!worldObj.isRemote) {
 
-			RegisterLabel();
+			registerLabel();
 
 			/* dirty hack needed for unknown reason */
 			{
-				ClearLabel();
+				unregisterLabel();
 
-				RegisterLabel();
+				registerLabel();
 			}
 		}
 	}
@@ -88,7 +105,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 
 		if (!worldObj.isRemote) {
 			if (Player != null) {
-				RegisterLabel();
+				registerLabel();
 			}
 		}
 	}
@@ -96,7 +113,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	@Override
 	public void Finalize() {
 		if (!worldObj.isRemote) {
-			ClearLabel();
+			unregisterLabel();
 		}
 	}
 
@@ -132,7 +149,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		java.util.LinkedList<BlockPosition> activeTranslocators;
 
 		try {
-			activeTranslocators = ActiveTranslocatorSets.get(Player).get(Label);
+			activeTranslocators = getRegistry().get(Player).get(Label);
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
 

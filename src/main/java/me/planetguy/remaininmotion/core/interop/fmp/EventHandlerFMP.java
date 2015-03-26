@@ -84,20 +84,22 @@ public class EventHandlerFMP {
 	
 	@SubscribeEvent
 	public void onFMPBlockRotated(RotatingTEPreUnpackEvent e) {
-		IBlockPos pos=e.location;
-		NBTTagCompound tag=e.location.entityTag();
-		if(tag != null && tag.getString("id").equals("savedMultipart")) {
-			for(int i=0; i<tag.getTagList("parts", 10).tagCount(); i++) {
-				NBTTagCompound part=tag.getTagList("parts", 10).getCompoundTagAt(i);
-				if(part.hasKey("shape")) {
-					byte shape=part.getByte("shape");
-					shape=(byte) ((shape & 0xF0) | Rotator.newSide(shape & 0x0F, e.axis));
-					part.setByte("shape", shape);
+		try {
+			IBlockPos pos=e.location;
+			NBTTagCompound tag=e.location.entityTag();
+			if(tag != null && tag.getString("id").equals("savedMultipart")) {
+				for(int i=0; i<tag.getTagList("parts", 10).tagCount(); i++) {
+					NBTTagCompound part=tag.getTagList("parts", 10).getCompoundTagAt(i);
+					if(part.hasKey("shape")) {
+						byte shape=part.getByte("shape");
+						shape=(byte) ((shape & 0xF0) | Rotator.newSide(shape & 0x0F, e.axis));
+						part.setByte("shape", shape);
+					}
 				}
 			}
-		}
+		}catch(Exception ignored) {}
 	}
-	
+
 	public void saveMultipartTick(TileEntity te, NBTTagCompound record) {
 		WorldTickScheduler sched=getTickScheduler(te.getWorldObj());
 		for(ChunkTickScheduler cts:JavaConversions.asJavaCollection(sched.tickChunks())) {

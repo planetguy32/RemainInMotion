@@ -44,7 +44,7 @@ public class CarriagePackage {
 
 	public int								axis;
 	
-	public static CarriagePackage activePackage;
+	public static volatile CarriagePackage activePackage;
 
 	public CarriagePackage(TileEntityCarriageDrive Drive, TileEntity Anchor, Directions MotionDirection) {
 		world = (WorldServer) Drive.getWorldObj();
@@ -118,13 +118,15 @@ public class CarriagePackage {
 			
 		}
 
+		//This is a hack to publish the active carriage package without introducing a
+		//  dependency on CarriagePackage in the event API. Passed to ISpecialMoveBehaviors. 
 		synchronized(CarriagePackage.class) {
 			activePackage=this;
 			BlockSelectForMoveEvent event=new BlockSelectForMoveEvent(record);
 			RiMRegistry.blockMoveBus.post(event);
 			if(event.isExcluded()) {
 				return;
-			}else if(event.getCancelMessag() != null) {
+			}else if(event.isCanceled()) {
 				throw new CarriageMotionException("motion killed by block at "+record+": "+event.getCancelMessag());
 			}
 			activePackage=null;
