@@ -19,9 +19,12 @@ public abstract class SneakyWorldUtil {
         int ChunkX = X & 0xF;
         int ChunkY = Y & 0xF;
         int ChunkZ = Z & 0xF;
+        
+        TileEntity entity = chunk.getTileEntityUnsafe(ChunkX, Y, ChunkZ);
+        if(entity != null) world.func_147457_a(entity);
 
-        // here
         chunk.removeTileEntity(ChunkX, Y, ChunkZ);
+
 
         int LayerY = Y >> 4;
         // Tested, this does work.
@@ -40,9 +43,6 @@ public abstract class SneakyWorldUtil {
         storageArrays[LayerY].func_150818_a(ChunkX, ChunkY, ChunkZ, spectre);
 
         storageArrays[LayerY].setExtBlockMetadata(ChunkX, ChunkY, ChunkZ, Meta);
-
-        // and here?
-        chunk.removeTileEntity(X, Y, Z);
         
         chunk.isModified = true;
 
