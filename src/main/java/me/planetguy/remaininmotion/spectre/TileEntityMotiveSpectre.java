@@ -129,10 +129,12 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     
     public void doRelease() {
 
-    	for (BlockRecord Record : spectersToDestroy) {
-    		SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y,
-    				Record.Z, Blocks.air, 0);
-    	}
+        if(!spectersToDestroy.isEmpty()) {
+            for (BlockRecord Record : spectersToDestroy) {
+                SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y,
+                        Record.Z, Blocks.air, 0);
+            }
+        }
 
         for (BlockRecord record : body) {
             SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,

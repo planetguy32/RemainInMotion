@@ -20,11 +20,12 @@ public abstract class SneakyWorldUtil {
         int ChunkY = Y & 0xF;
         int ChunkZ = Z & 0xF;
 
+        // here
         chunk.removeTileEntity(ChunkX, Y, ChunkZ);
 
         int LayerY = Y >> 4;
-        ExtendedBlockStorage[] storageArrays = (ExtendedBlockStorage[]) Reflection.get(Chunk.class, chunk,
-                "storageArrays");
+        // Tested, this does work.
+        ExtendedBlockStorage[] storageArrays = chunk.getBlockStorageArray();
 
         if (storageArrays[LayerY] == null) {
             storageArrays[LayerY] = new ExtendedBlockStorage((LayerY) << 4, !world.provider.hasNoSky);
@@ -40,6 +41,7 @@ public abstract class SneakyWorldUtil {
 
         storageArrays[LayerY].setExtBlockMetadata(ChunkX, ChunkY, ChunkZ, Meta);
 
+        // and here?
         chunk.removeTileEntity(X, Y, Z);
         
         chunk.isModified = true;
@@ -49,15 +51,8 @@ public abstract class SneakyWorldUtil {
 
     public static void SetTileEntity(World world, int X, int Y, int Z, TileEntity entity) {
         if (entity == null) { throw new NullPointerException(); }
-        try {
-            if ((Boolean) Reflection.get(World.class, world, "field_147481_N")) {
-                ((List) Reflection.get(World.class, world, "addedTileEntityList")).add(entity);
-            } else {
-                world.loadedTileEntityList.add(entity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // This does exactly the same thing, except without reflection
+        world.addTileEntity(entity);
         
         world.getChunkFromBlockCoords(X, Z).func_150812_a(X & 0xF, Y, Z & 0xF, entity);
     }
