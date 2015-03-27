@@ -35,15 +35,16 @@ public abstract class SneakyWorldUtil {
         if (spectre == null) {
             spectre = Blocks.air;
         }
-
+        
         storageArrays[LayerY].func_150818_a(ChunkX, ChunkY, ChunkZ, spectre);
 
         storageArrays[LayerY].setExtBlockMetadata(ChunkX, ChunkY, ChunkZ, Meta);
 
+        chunk.removeTileEntity(X, Y, Z);
+        
         chunk.isModified = true;
 
         world.markBlockForUpdate(X, Y, Z);
-
     }
 
     public static void SetTileEntity(World world, int X, int Y, int Z, TileEntity entity) {
@@ -57,7 +58,7 @@ public abstract class SneakyWorldUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         world.getChunkFromBlockCoords(X, Z).func_150812_a(X & 0xF, Y, Z & 0xF, entity);
     }
 
