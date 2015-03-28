@@ -193,7 +193,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         for (BlockRecord record : body) {
             onMotionFinalized(record);
-            record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
+            CancelableOnBlockAddedEvent event = new CancelableOnBlockAddedEvent(worldObj,record.X,record.Y,record.Z);
+            RiMRegistry.blockMoveBus.post(event);
+            if(!event.isCanceled()) record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
             RiMRegistry.blockMoveBus.post(new MotionFinalizeEvent(record));
         }
 

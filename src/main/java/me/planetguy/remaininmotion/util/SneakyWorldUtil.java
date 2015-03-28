@@ -13,7 +13,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public abstract class SneakyWorldUtil {
-	
+
     public static void SetBlock(World world, int X, int Y, int Z, Block spectre, int Meta) {
         Chunk chunk = world.getChunkFromBlockCoords(X, Z);
 
@@ -22,12 +22,12 @@ public abstract class SneakyWorldUtil {
         int ChunkZ = Z & 0xF;
 
         TileEntity oldTE=world.getTileEntity(X, Y, Z);
-        
+
         if(oldTE != null) //no null checks inside here
         	world.func_147457_a(oldTE);
 
         chunk.removeTileEntity(ChunkX, Y, ChunkZ); //needed?
-        
+
         int LayerY = Y >> 4;
         // Tested, this does work.
         ExtendedBlockStorage[] storageArrays = chunk.getBlockStorageArray();
@@ -41,7 +41,7 @@ public abstract class SneakyWorldUtil {
         if (spectre == null) {
             spectre = Blocks.air;
         }
-        
+
         storageArrays[LayerY].func_150818_a(ChunkX, ChunkY, ChunkZ, spectre);
 
         storageArrays[LayerY].setExtBlockMetadata(ChunkX, ChunkY, ChunkZ, Meta);
