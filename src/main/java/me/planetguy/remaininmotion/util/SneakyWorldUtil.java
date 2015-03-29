@@ -23,7 +23,7 @@ public abstract class SneakyWorldUtil {
 
         TileEntity oldTE=world.getTileEntity(X, Y, Z);
         
-        if(oldTE != null) //no null checks inside here
+        if(oldTE != null) //no null checks inside the function there
         	world.func_147457_a(oldTE);
 
         chunk.removeTileEntity(ChunkX, Y, ChunkZ); //needed?
