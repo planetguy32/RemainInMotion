@@ -9,6 +9,7 @@ import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.interop.buildcraft.EventHandlerBuildcraft;
+import me.planetguy.remaininmotion.core.interop.carpentersblocks.EventHandlerCarpentersBlocks;
 import me.planetguy.remaininmotion.core.interop.chickenchunks.EventHandlerChickenChunks;
 import me.planetguy.remaininmotion.core.interop.enderio.EventHandlerEnderIO;
 import me.planetguy.remaininmotion.core.interop.fmp.EventHandlerFMP;
@@ -44,6 +45,11 @@ public abstract class ModInteraction {
     	{
     		RiMRegistry.blockMoveBus.register(new EventHandlerEnderIO());
     	}
+
+        if(Loader.isModLoaded("CarpentersBlocks"))
+        {
+            RiMRegistry.blockMoveBus.register(new EventHandlerCarpentersBlocks());
+        }
     	
 		Wrenches.init();
 
