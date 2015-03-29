@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.core.interop.chickenchunks;
+package me.planetguy.remaininmotion.core.interop.mod;
 
 import codechicken.chunkloader.ChickenChunks;
 import codechicken.chunkloader.IChickenChunkLoader;

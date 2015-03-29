@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.core.interop.chickenchunks;
+package me.planetguy.remaininmotion.core.interop.mod;
 
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;

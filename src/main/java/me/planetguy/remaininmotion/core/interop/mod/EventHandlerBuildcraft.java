@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.core.interop.buildcraft;
+package me.planetguy.remaininmotion.core.interop.mod;
 
 import java.util.ArrayList;
 

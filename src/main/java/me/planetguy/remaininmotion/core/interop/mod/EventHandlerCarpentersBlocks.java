@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.core.interop.carpentersblocks;
+package me.planetguy.remaininmotion.core.interop.mod;
 
 import com.carpentersblocks.block.BlockCoverable;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

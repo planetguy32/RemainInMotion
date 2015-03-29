@@ -1,4 +1,4 @@
-package me.planetguy.remaininmotion.core.interop.enderio;
+package me.planetguy.remaininmotion.core.interop.mod;
 
 import java.util.List;
 
