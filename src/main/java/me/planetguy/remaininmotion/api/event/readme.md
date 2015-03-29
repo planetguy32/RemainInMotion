@@ -19,5 +19,5 @@ All events are posted to RiMRegistry.blockMoveBus, which can be subscribed to by
 7. For each block that was moved:
    - If the block is being rotated, its rotateBlock method is called
    - If the block is being rotated, a BlockRotateEvent will be posted for it
-   - The block's onBlockAdded method is called 
+   - A CancelableOnBlockAddedEvent will be posted for it. If the event is never canceled, the block's onBlockAdded method will be called.
    - A MotionFinalizeEvent is posted for the block

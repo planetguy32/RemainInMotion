@@ -4,6 +4,9 @@ import cpw.mods.fml.common.eventhandler.Cancelable;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.world.World;
 
+/**
+ * Can be used to stop calls to onBlockAdded (eg. to make Carpenter's Blocks not reset their states)
+ */
 @Cancelable
 public class CancelableOnBlockAddedEvent extends Event {
 

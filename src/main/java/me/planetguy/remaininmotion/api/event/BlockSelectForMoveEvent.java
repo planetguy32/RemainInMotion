@@ -1,7 +1,9 @@
 package me.planetguy.remaininmotion.api.event;
 
+import cpw.mods.fml.common.eventhandler.Cancelable;
 import net.minecraft.nbt.NBTTagCompound;
 
+@Cancelable
 public class BlockSelectForMoveEvent extends AbstractTEMoveEvent {
 	
 	private boolean excluded=false;
