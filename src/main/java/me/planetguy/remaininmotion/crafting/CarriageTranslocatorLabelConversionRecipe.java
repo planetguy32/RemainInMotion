@@ -3,11 +3,13 @@ package me.planetguy.remaininmotion.crafting;
 import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
+import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.ItemCarriageDrive;
 import me.planetguy.remaininmotion.util.ItemUtil;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 
@@ -54,7 +56,22 @@ public class CarriageTranslocatorLabelConversionRecipe extends Recipe {
 
 		if (!ScrewdriverPresent) { return (null); }
 
-		return (ItemCarriageDrive.Stack(ItemBlockRiM.GetBlockType(Drive), 0, ItemCarriageDrive.GetPrivateFlag(Drive),
-				ItemCarriageDrive.GetLabel(Drive)));
+        ItemStack stk = (ItemCarriageDrive.Stack(ItemBlockRiM.GetBlockType(Drive), 0, ItemCarriageDrive.GetPrivateFlag(Drive),
+                ItemCarriageDrive.GetLabel(Drive)));
+
+        Block decoration = ItemCarriage.GetDecorationBlock(Drive);
+
+        int decorationMeta = -1;
+
+        if(decoration != null) {
+            decorationMeta = ItemCarriage.GetDecorationMeta(Drive);
+        }
+
+        if(decoration != null) {
+            stk.stackTagCompound.setInteger("DecorationId", Block.getIdFromBlock(decoration));
+            stk.stackTagCompound.setInteger("DecorationMeta", decorationMeta);
+        }
+
+		return stk;
 	}
 }

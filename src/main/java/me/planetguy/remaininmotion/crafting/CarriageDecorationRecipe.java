@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.crafting;
 
+import me.planetguy.remaininmotion.base.ItemBlockRiM;
+import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.util.Stack;
 import me.planetguy.remaininmotion.base.ICamouflageable;
 import me.planetguy.remaininmotion.base.Recipe;
@@ -8,6 +10,7 @@ import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -62,6 +65,18 @@ public class CarriageDecorationRecipe extends Recipe {
 			stk	= new ItemStack(Carriage.getItem(), 1, Carriage.getItemDamage());
 
 		Stack.Tag(stk);
+
+        if (stk.getItem().equals(Item.getItemFromBlock(RIMBlocks.CarriageDrive))) {
+            if (ItemBlockRiM.GetBlockType(stk) == BlockCarriageDrive.Types.Translocator.ordinal()) {
+                int Label = -1;
+                if(Carriage.hasTagCompound()) {
+                    if(Carriage.stackTagCompound.hasKey("Label")) {
+                        Label = Carriage.stackTagCompound.getInteger("Label");
+                    }
+                }
+                if(Label != -1) stk.stackTagCompound.setInteger("Label", Label);
+            }
+        }
 
 		stk.stackTagCompound.setInteger("DecorationId", Block.getIdFromBlock(decoration));
 

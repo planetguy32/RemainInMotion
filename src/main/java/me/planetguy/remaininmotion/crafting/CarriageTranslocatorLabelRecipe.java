@@ -1,11 +1,13 @@
 package me.planetguy.remaininmotion.crafting;
 
+import me.planetguy.remaininmotion.carriage.ItemCarriage;
 import me.planetguy.remaininmotion.util.Vanilla;
 import me.planetguy.remaininmotion.base.ItemBlockRiM;
 import me.planetguy.remaininmotion.base.Recipe;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.ItemCarriageDrive;
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -69,6 +71,14 @@ public class CarriageTranslocatorLabelRecipe extends Recipe {
 
 		int Label = ItemCarriageDrive.GetLabel(Drive);
 
+        Block decoration = ItemCarriage.GetDecorationBlock(Drive);
+
+        int decorationMeta = -1;
+
+        if(decoration != null) {
+            decorationMeta = ItemCarriage.GetDecorationMeta(Drive);
+        }
+
 		if (ComparatorPresent) {
 			if (Private) { return (null); }
 
@@ -83,6 +93,13 @@ public class CarriageTranslocatorLabelRecipe extends Recipe {
 			}
 		}
 
-		return (ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Translocator.ordinal(), Tier, Private, Label));
+        ItemStack stk = ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Translocator.ordinal(), Tier, Private, Label);
+
+        if(decoration != null) {
+            stk.stackTagCompound.setInteger("DecorationId", Block.getIdFromBlock(decoration));
+            stk.stackTagCompound.setInteger("DecorationMeta", decorationMeta);
+        }
+
+		return stk;
 	}
 }
