@@ -29,7 +29,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCarriageRotator extends TileEntityCarriageDrive implements ISpecialMoveBehavior {
 
-	public boolean	alreadyMoving;
+	public boolean  	alreadyMoving;
 
 	private int		axisOfRotationIndex;
 
@@ -54,8 +54,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		BlockRecordSet dests = new BlockRecordSet();
 
 		for (BlockRecord record : Package.Body) {
-			if (record.block instanceof BlockCarriage
-					&& (record.X == xCoord || record.Y == yCoord || record.Z == zCoord)) {
+			if ((record.X == xCoord || record.Y == yCoord || record.Z == zCoord)) {
 				continue;
 			}
 
@@ -66,9 +65,6 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		}
 
         Package.Finalize();
-
-        // Called twice, once in Finalize()
-		//removeUsedEnergy(Package);
 
 		return (Package);
 	}
@@ -151,8 +147,8 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 		IIcon pivotCW = new IconFlipped(pivotCCW, true, false);
 		IIcon arrow = Registry.RegisterIcon(iconRegister, "RotatorArrowUp");
 		icons = new IIcon[][] { 
-				{ pivotCW, pivotCCW, arrow, arrow, arrow, arrow },
-				{ pivotCCW, pivotCW, arrow, arrow, arrow, arrow }, 
+				{ pivotCCW, pivotCCW, arrow, arrow, arrow, arrow },
+				{ pivotCW, pivotCW, arrow, arrow, arrow, arrow },
 				{ arrow, arrow, pivotCW, pivotCCW, arrow, arrow },
 				{ arrow, arrow, pivotCCW, pivotCW, arrow, arrow }, 
 				{ arrow, arrow, arrow, arrow, pivotCW, pivotCCW },
