@@ -1,29 +1,25 @@
 package me.planetguy.remaininmotion.core.interop.mod;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
+import buildcraft.transport.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import me.planetguy.lib.util.Debug;
+import cpw.mods.fml.relauncher.Side;
 import me.planetguy.lib.util.transformations.Rotator;
+import me.planetguy.remaininmotion.api.event.*;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
-import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
-import me.planetguy.remaininmotion.api.event.IBlockPos;
-import me.planetguy.remaininmotion.api.event.RotatingTEPreUnpackEvent;
-import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
-import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.core.TileBuildCraft;
 import buildcraft.factory.TileQuarry;
-import buildcraft.transport.BlockGenericPipe;
-import buildcraft.transport.Pipe;
-import buildcraft.transport.PipeTransportItems;
-import buildcraft.transport.TileGenericPipe;
-import buildcraft.transport.TravelingItem;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ChunkCoordinates;
 
 public class EventHandlerBuildcraft {
+
+    private HashMap<ChunkCoordinates, TravelerSet> cachedItems = new HashMap<ChunkCoordinates, TravelerSet>();
 	
 	@SubscribeEvent
 	public void onBCMoved(TEPreUnpackEvent e) {
@@ -59,7 +55,36 @@ public class EventHandlerBuildcraft {
 			}
 		}
 	}
-	
+
+    @SubscribeEvent
+    public void onPreRender(PreRenderDuringMovementEvent event) {
+        if(FMLCommonHandler.instance().getSide() == Side.SERVER) return;
+        if(event.pass != 0) return;
+        if(event.tile != null && event.tile instanceof TileGenericPipe) {
+            if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportItems) {
+                cachedItems.put(new ChunkCoordinates(event.x, event.y, event.z), ((PipeTransportItems) ((TileGenericPipe) event.tile).pipe.transport).items);
+                ((PipeTransportItems) ((TileGenericPipe) event.tile).pipe.transport).items.clear();
+            }// else if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportFluids) {
+
+            //}
+        }
+    }
+
+    @SubscribeEvent
+    public void onPostRender(PostRenderDuringMovementEvent event) {
+        if(FMLCommonHandler.instance().getSide() == Side.SERVER) return;
+        if(event.pass != 0) return;
+        if(event.tile != null && event.tile instanceof TileGenericPipe) {
+            if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportItems) {
+                if(cachedItems != null && !cachedItems.isEmpty()) {
+                    ((PipeTransportItems) ((TileGenericPipe) event.tile).pipe.transport).items.addAll(cachedItems.get(new ChunkCoordinates(event.x,event.y,event.z)));
+                    cachedItems.remove(new ChunkCoordinates(event.x,event.y,event.z));
+                }
+            }// else if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportFluids) {
+
+            //}
+        }
+    }
 	
     private void performBuildcraftPreInit(IBlockPos record, int[] offset) {
         if (record.entityTag().hasKey("box")) {
@@ -99,6 +124,22 @@ public class EventHandlerBuildcraft {
             record.entityTag().setDouble("headPosY", 0.0D);
             record.entityTag().setDouble("headPosZ", 0.0D);
         }
+
+        // traveling items
+        // now we don't need to worry about ConcurrentModificationExceptions or the offset not being applied
+        if(record.entityTag().hasKey("travelingEntities")) {
+            NBTTagList list = record.entityTag().getTagList("travelingEntities", 10);
+            for(int i = 0; i < list.tagCount(); i++) {
+                NBTTagCompound tag = list.getCompoundTagAt(i);
+                if(tag != null) {
+                    if(tag.hasKey("x")) {
+                        tag.setDouble("x", tag.getDouble("x") + offset[0]);
+                        tag.setDouble("y", tag.getDouble("y") + offset[1]);
+                        tag.setDouble("z", tag.getDouble("z") + offset[2]);
+                    }
+                }
+            }
+        }
     }
 
     private void performBuildcraftPostInit(IBlockPos record, int[] offset) {
@@ -111,7 +152,7 @@ public class EventHandlerBuildcraft {
                     tile.initialize(pipe);
                 }
 
-                if (pipe.transport instanceof PipeTransportItems) {
+                /*if (pipe.transport instanceof PipeTransportItems) {
                     if (!((PipeTransportItems) pipe.transport).items.iterating) {
                         for (TravelingItem item : ((PipeTransportItems) pipe.transport).items) {
                             // to set up for correct displacement when
@@ -121,7 +162,7 @@ public class EventHandlerBuildcraft {
                             item.zCoord += offset[2];
                         }
                     }
-                }
+                }*/
             } else if (record.entity() instanceof TileBuildCraft) {
 
                 record.entity().invalidate();

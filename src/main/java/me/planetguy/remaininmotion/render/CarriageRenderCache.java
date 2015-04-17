@@ -2,7 +2,11 @@ package me.planetguy.remaininmotion.render;
 
 import java.util.TreeMap;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import me.planetguy.lib.util.Reflection;
+import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.api.event.PostRenderDuringMovementEvent;
+import me.planetguy.remaininmotion.api.event.PreRenderDuringMovementEvent;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
@@ -12,6 +16,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import org.lwjgl.opengl.GL11;
 
 public abstract class CarriageRenderCache {
 	public static TreeMap<BlockPosition, RenderRecord>	Cache	= new TreeMap<BlockPosition, RenderRecord>();
@@ -20,6 +25,19 @@ public abstract class CarriageRenderCache {
 
 		blockRenderer.renderAllFaces = true;
 		RenderHelper.disableStandardItemLighting();
+
+		if (Pass != 0) {
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		}
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
+
+		if (FMLClientHandler.instance().getClient().isAmbientOcclusionEnabled()) {
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+		} else {
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}
 
 		{
 			Render.ResetBoundTexture();
@@ -42,7 +60,11 @@ public abstract class CarriageRenderCache {
 				}
 
 				try {
-					blockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
+					PreRenderDuringMovementEvent evt1 = new PreRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass);
+					RiMRegistry.blockMoveBus.post(evt1);
+					if(!evt1.isCanceled()) blockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
+					PostRenderDuringMovementEvent evt2 = new PostRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass);
+					RiMRegistry.blockMoveBus.post(evt2);
 				} catch (Throwable Throwable) {
 					Throwable.printStackTrace();
 				}
@@ -80,8 +102,7 @@ public abstract class CarriageRenderCache {
 					Throwable.printStackTrace();
 				}
 
-				if ((Boolean) Reflection.get(net.minecraft.client.renderer.Tessellator.class, Tessellator.instance,
-						"isDrawing")) {
+				if (Tessellator.instance.isDrawing) {
 					try {
 						Tessellator.instance.draw();
 					} catch (Throwable Throwable) {

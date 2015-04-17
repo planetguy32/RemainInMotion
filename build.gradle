@@ -54,6 +54,12 @@ minecraft {
     version = "1.7.10-10.13.2.1230"
 }
 
+jar {
+    manifest {
+        attributes 'FMLAT': 'RemIM_at.cfg'
+    }
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
