@@ -151,18 +151,6 @@ public class EventHandlerBuildcraft {
                 if (!tile.initialized) {
                     tile.initialize(pipe);
                 }
-
-                /*if (pipe.transport instanceof PipeTransportItems) {
-                    if (!((PipeTransportItems) pipe.transport).items.iterating) {
-                        for (TravelingItem item : ((PipeTransportItems) pipe.transport).items) {
-                            // to set up for correct displacement when
-                            // teleporting
-                            item.xCoord += offset[0];
-                            item.yCoord += offset[1];
-                            item.zCoord += offset[2];
-                        }
-                    }
-                }*/
             } else if (record.entity() instanceof TileBuildCraft) {
 
                 record.entity().invalidate();
