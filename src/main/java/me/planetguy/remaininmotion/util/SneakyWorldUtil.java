@@ -45,6 +45,63 @@ public abstract class SneakyWorldUtil {
 
         storageArrays[LayerY].setExtBlockMetadata(ChunkX, ChunkY, ChunkZ, Meta);
 
+        // Heightmap and Skylight
+        int oldHeight = chunk.getHeightValue(ChunkX,ChunkZ);
+        // Don't do this if we aren't changing the top block
+        if(Y >= oldHeight) {
+            chunk.precipitationHeightMap[ChunkZ << 4 | ChunkX] = -999;
+            int i = chunk.getTopFilledSegment();
+            int l = i + 16 - 1;
+
+            while (true) {
+                if (l > 0) {
+                    if (chunk.func_150808_b(ChunkX, l - 1, ChunkZ) == 0) {
+                        --l;
+                        continue;
+                    }
+
+                    chunk.heightMap[ChunkZ << 4 | ChunkX] = l;
+
+                    if (l < chunk.heightMapMinimum) {
+                        chunk.heightMapMinimum = l;
+                    }
+                }
+
+                if (!world.provider.hasNoSky)
+                {
+                    l = 15;
+                    int i1 = i + 16 - 1;
+
+                    do
+                    {
+                        int j1 = chunk.func_150808_b(ChunkX, i1, ChunkZ);
+
+                        if (j1 == 0 && l != 15)
+                        {
+                            j1 = 1;
+                        }
+
+                        l -= j1;
+
+                        if (l > 0)
+                        {
+                            ExtendedBlockStorage extendedblockstorage = storageArrays[i1 >> 4];
+
+                            if (extendedblockstorage != null)
+                            {
+                                extendedblockstorage.setExtSkylightValue(ChunkX, i1 & 15, ChunkZ, l);
+                            }
+                        }
+
+                        --i1;
+                    }
+                    while (i1 > 0 && l > 0);
+                }
+
+                break;
+            }
+        }
+
         chunk.isModified = true;
 
         world.markBlockForUpdate(X, Y, Z);

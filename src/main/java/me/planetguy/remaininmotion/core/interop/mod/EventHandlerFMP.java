@@ -70,6 +70,7 @@ public class EventHandlerFMP {
 				"savedMultipart")) {
 			try {
 				((TileMultipart) record.entity).onChunkLoad();
+				// Either world or entity is null? Entity Record can't be or it wouldn't get this far.
 				MultipartHelper.sendDescPacket(worldObj, record.entity);
 			} catch (Throwable Throwable) {
 				Throwable.printStackTrace();
