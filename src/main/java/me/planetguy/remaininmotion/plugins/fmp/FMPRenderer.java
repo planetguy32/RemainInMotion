@@ -1,6 +1,5 @@
-package me.planetguy.remaininmotion.render;
+package me.planetguy.remaininmotion.plugins.fmp;
 
-import me.planetguy.remaininmotion.plugins.fmp.PartCarriageFMP;
 import net.minecraft.world.World;
 import codechicken.lib.render.BlockRenderer.BlockFace;
 import codechicken.lib.render.CCModel;

@@ -8,7 +8,6 @@ import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
-import me.planetguy.remaininmotion.render.FMPRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
