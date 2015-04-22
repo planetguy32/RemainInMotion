@@ -137,6 +137,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
+        	record.World=worldObj;
             SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
                     record.block, record.Meta);
         }
@@ -242,7 +243,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
         			record.Z, record.entity);
         }
-
+        
         RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, record));
     }
 
