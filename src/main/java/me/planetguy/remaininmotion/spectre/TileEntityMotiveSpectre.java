@@ -219,16 +219,23 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         return getOffset();
     }
     
+    public void announceTEConstruction(BlockRecord record) {
+    	RiMRegistry.blockMoveBus.post(new TEPreUnpackEvent(this, record));
+    }
+    
     public void constructTE(BlockRecord record) {
     	record.entityRecord.setInteger("x", record.X);
         record.entityRecord.setInteger("y", record.Y);
         record.entityRecord.setInteger("z", record.Z);
 
-        RiMRegistry.blockMoveBus.post(new TEPreUnpackEvent(this, record));
+        announceTEConstruction(record);
 
-        record.entity = TileEntity
-        		.createAndLoadEntity(record.entityRecord);
-
+        //Sometimes (eg. FMP) normal TileEntity loading crashes. This lets TEPrePlaceEvent pick up the pieces.
+        try{
+        	record.entity = TileEntity
+        			.createAndLoadEntity(record.entityRecord);
+        }catch(Exception ignored){}
+        
         RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
 
         if (record.entity != null) {

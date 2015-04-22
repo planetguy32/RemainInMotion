@@ -44,27 +44,10 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		}
 	}
     
-    @Override
-    public void constructTE(BlockRecord record) {
-    	record.entityRecord.setInteger("x", record.X);
-        record.entityRecord.setInteger("y", record.Y);
-        record.entityRecord.setInteger("z", record.Z);
-
-        RiMRegistry.blockMoveBus.post(new RotatingTEPreUnpackEvent(this, record, ForgeDirection.getOrientation(axisOfRotation)));
-
-        record.entity = TileEntity
-        		.createAndLoadEntity(record.entityRecord);
-
-        RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
-
-        if (record.entity != null) {
-        	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
-        			record.Z, record.entity);
-        }
-
-        RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, record));
+    public void announceTEConstruction(BlockRecord record) {
+    	RiMRegistry.blockMoveBus.post(new RotatingTEPreUnpackEvent(this, record, ForgeDirection.getOrientation(axisOfRotation)));
     }
-
+    
 	@Override
 	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
 		if (worldObj.isRemote) { return; }/*

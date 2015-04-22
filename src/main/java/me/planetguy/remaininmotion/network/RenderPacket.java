@@ -93,16 +93,14 @@ public abstract class RenderPacket {
 				if (Record.X == DriveX) {
 					if (Record.Y == DriveY) {
 						if (Record.Z == DriveZ) {
-							try {
+							if(Record.entity instanceof TileEntityCarriageDrive){
 								((TileEntityCarriageDrive) Record.entity).Active = true;
 
 								if (Record.entity instanceof TileEntityCarriageRotator) {
 									((TileEntityCarriageRotator) Record.entity).setAxis(Packet.getInteger("axis"));
 								}
-
-							} catch (Throwable Throwable) {
-								Throwable.printStackTrace();
 							}
+
 						}
 					}
 				}
