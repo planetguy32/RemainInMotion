@@ -29,7 +29,7 @@ public abstract class SneakyWorldUtil {
         if(oldTE != null) //no null checks inside the function there
         	world.func_147457_a(oldTE);
 
-        chunk.removeTileEntity(ChunkX, Y, ChunkZ); //needed?
+        chunk.removeTileEntity(ChunkX, Y, ChunkZ);
 
         int LayerY = Y >> 4;
         // Tested, this does work.
