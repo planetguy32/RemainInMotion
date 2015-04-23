@@ -44,8 +44,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public BlockRecordSet spectersToDestroy;
     public int ticksExisted = 0;
 
-
-
     public java.util.ArrayList<CapturedEntity> CapturedEntities = new ArrayList<CapturedEntity>();
     private boolean initialized;
 
@@ -137,7 +135,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
-        	record.World=worldObj;
             SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
                     record.block, record.Meta);
         }

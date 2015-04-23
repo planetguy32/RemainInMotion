@@ -8,6 +8,7 @@ import me.planetguy.lib.util.Reflection;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -20,6 +21,9 @@ public abstract class SneakyWorldUtil {
         int ChunkX = X & 0xF;
         int ChunkY = Y & 0xF;
         int ChunkZ = Z & 0xF;
+
+        Block block1 = chunk.getBlock(X, Y, Z);
+        int k2 = block1.getLightOpacity(world, X, Y, Z);
 
         TileEntity oldTE=world.getTileEntity(X, Y, Z);
         if(oldTE != null) //no null checks inside the function there
@@ -44,6 +48,7 @@ public abstract class SneakyWorldUtil {
         storageArrays[LayerY].func_150818_a(ChunkX, ChunkY, ChunkZ, spectre);
 
         storageArrays[LayerY].setExtBlockMetadata(ChunkX, ChunkY, ChunkZ, Meta);
+
 
         // Heightmap and Skylight
         int oldHeight = chunk.getHeightValue(ChunkX,ChunkZ);
@@ -100,7 +105,14 @@ public abstract class SneakyWorldUtil {
 
                 break;
             }
+        } else {
+            int j2 = block1.getLightOpacity(world, X, Y, Z);
+            if (j2 != k2 && (j2 < k2 || chunk.getSavedLightValue(EnumSkyBlock.Sky, ChunkX, Y, ChunkZ) > 0 || chunk.getSavedLightValue(EnumSkyBlock.Block, ChunkX, Y, ChunkZ) > 0))
+            {
+                chunk.propagateSkylightOcclusion(ChunkX, ChunkZ);
+            }
         }
+
 
         chunk.isModified = true;
 
