@@ -222,6 +222,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void updateEntity() {
+        worldObj.theProfiler.startSection("RiMCarriageDrive");
         if (worldObj.isRemote) {
             return;
         }
@@ -280,7 +281,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
             MarkServerRecordDirty();
         }
-
+        worldObj.theProfiler.startSection("InitiateMotion");
         try {
             InitiateMotion(PreparePackage(getSignalDirection().opposite()));
 
@@ -305,6 +306,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                 lastUsingPlayer.addChatComponentMessage(new ChatComponentText(Message));
             }
         }
+        worldObj.theProfiler.endSection();
+        worldObj.theProfiler.endSection();
     }
 
     public CarriagePackage PreparePackage(Directions dir) throws CarriageMotionException {
@@ -392,15 +395,21 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         Package.RenderCacheKey = GeneratePositionObject();
 
+        worldObj.theProfiler.startSection("SendRenderPacket");
         RenderPacket.Dispatch(Package);
 
+        worldObj.theProfiler.endStartSection("PreMovementModInteraction");
         doPreMovementModInteraction(Package);
 
+        worldObj.theProfiler.endStartSection("Placeholders");
         EstablishPlaceholders(Package);
 
+        worldObj.theProfiler.endStartSection("UpdateBlocks");
         RefreshWorld(Package);
 
+        worldObj.theProfiler.endStartSection("MotiveSpecter");
         EstablishSpectre(Package);
+        worldObj.theProfiler.endSection();
 
     }
 

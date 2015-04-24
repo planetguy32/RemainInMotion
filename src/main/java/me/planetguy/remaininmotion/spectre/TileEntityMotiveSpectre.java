@@ -69,10 +69,13 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     @Override
     public void updateEntity() {
+        worldObj.theProfiler.startSection("RiMMotiveSpecter");
         ticksExisted++;
 
         for (CapturedEntity Entity : CapturedEntities) {
+            worldObj.theProfiler.startSection("EntityMovement");
             Entity.Update();
+            worldObj.theProfiler.endSection();
         }
 
         if (worldObj.isRemote) {
@@ -92,7 +95,11 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             return;
         }
 
+        worldObj.theProfiler.startSection("Release");
         Release();
+        worldObj.theProfiler.endSection();
+
+        worldObj.theProfiler.endSection();
     }
 
     private boolean bodyHasCarriageDrive() {
