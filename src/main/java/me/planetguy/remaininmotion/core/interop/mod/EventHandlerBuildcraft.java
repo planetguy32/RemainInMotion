@@ -6,6 +6,7 @@ import buildcraft.transport.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
+import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.transformations.Rotator;
 import me.planetguy.remaininmotion.api.event.*;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
@@ -13,6 +14,7 @@ import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.core.TileBuildCraft;
+import buildcraft.factory.BlockTank;
 import buildcraft.factory.TileQuarry;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
@@ -162,6 +164,13 @@ public class EventHandlerBuildcraft {
             }
         } catch (Throwable Throwable) {
             //Throwable.printStackTrace();
+        }
+    }
+    
+    @SubscribeEvent
+    public void onBlockAdded(CancelableOnBlockAddedEvent e) {
+        if(e.worldObj.getBlock(e.xCoord,e.yCoord,e.zCoord) instanceof BlockTank) {
+        	e.setCanceled(true);
         }
     }
 

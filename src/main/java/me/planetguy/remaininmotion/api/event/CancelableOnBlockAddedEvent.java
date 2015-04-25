@@ -20,4 +20,8 @@ public class CancelableOnBlockAddedEvent extends Event {
         yCoord = y;
         zCoord = z;
     }
+    
+    public boolean isCancelable(){
+    	return true;
+    }
 }

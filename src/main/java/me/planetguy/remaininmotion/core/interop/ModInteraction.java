@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import cpw.mods.fml.common.Loader;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.api.event.EventManager;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.interop.mod.EventHandlerBuildcraft;
 import me.planetguy.remaininmotion.core.interop.mod.EventHandlerCarpentersBlocks;
@@ -25,30 +26,32 @@ public abstract class ModInteraction {
 
 	public static void Establish() {
 		
-		RiMRegistry.blockMoveBus.register(new EventHandlerAPI());
+		EventManager.registerEventHandler(new EventHandlerDebugInspector());
+		
+		EventManager.registerEventHandler(new EventHandlerAPI());
 		
         if(Loader.isModLoaded("ChickenChunks")) {
-        	RiMRegistry.blockMoveBus.register(new EventHandlerChickenChunks());
+        	EventManager.registerEventHandler(new EventHandlerChickenChunks());
         }
         
     	if(Loader.isModLoaded("ForgeMultipart"))
 		{
-			RiMRegistry.blockMoveBus.register(new EventHandlerFMP());
+    		EventManager.registerEventHandler(new EventHandlerFMP());
 		}
     	
     	if(Loader.isModLoaded("BuildCraft|Transport"))
     	{
-    		RiMRegistry.blockMoveBus.register(new EventHandlerBuildcraft());
+    		EventManager.registerEventHandler(new EventHandlerBuildcraft());
     	}
     	
     	if(Loader.isModLoaded("EnderIO"))
     	{
-    		RiMRegistry.blockMoveBus.register(new EventHandlerEnderIO());
+    		EventManager.registerEventHandler(new EventHandlerEnderIO());
     	}
 
         if(Loader.isModLoaded("CarpentersBlocks"))
         {
-            RiMRegistry.blockMoveBus.register(new EventHandlerCarpentersBlocks());
+        	EventManager.registerEventHandler(new EventHandlerCarpentersBlocks());
         }
     	
 		Wrenches.init();
