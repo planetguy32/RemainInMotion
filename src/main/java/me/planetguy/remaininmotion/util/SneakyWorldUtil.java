@@ -1,12 +1,6 @@
 package me.planetguy.remaininmotion.util;
 
-import java.util.List;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import me.planetguy.lib.util.Reflection;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
@@ -17,7 +11,6 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 public abstract class SneakyWorldUtil {
 
     public static boolean SetBlock(World world, int x, int y, int z, Block block, int meta) {
-        world.theProfiler.startSection("SneakySetBlock");
         int chunkX = x & 0xF;
         int chunkZ = z & 0xF;
 
@@ -36,7 +29,6 @@ public abstract class SneakyWorldUtil {
 
         if (block1 == block && k1 == meta)
         {
-            world.theProfiler.endSection();
             return false;
         }
         else
@@ -48,7 +40,6 @@ public abstract class SneakyWorldUtil {
             {
                 if (block == Blocks.air)
                 {
-                    world.theProfiler.endSection();
                     return false;
                 }
 
@@ -84,7 +75,6 @@ public abstract class SneakyWorldUtil {
 
             if (extendedblockstorage.getBlockByExtId(chunkX, y & 15, chunkZ) != block)
             {
-                world.theProfiler.endSection();
                 return false;
             }
             else
@@ -132,13 +122,10 @@ public abstract class SneakyWorldUtil {
 
                 chunk.isModified = true;
 
-                world.theProfiler.startSection("checkLight");
                 world.func_147451_t(x, y, z);
-                world.theProfiler.endSection();
 
                 if(chunk.func_150802_k()) world.markBlockForUpdate(x, y, z);
 
-                world.theProfiler.endSection();
                 return true;
             }
         }
