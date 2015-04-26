@@ -11,7 +11,8 @@ public class EventHandlerCarpentersBlocks {
 
     @SubscribeEvent
     public void onBlockAdded(CancelableOnBlockAddedEvent e) {
-        if(e.worldObj.getBlock(e.xCoord,e.yCoord,e.zCoord) instanceof BlockCoverable) e.setCanceled(true);
+        if(e.worldObj.getBlock(e.xCoord,e.yCoord,e.zCoord) instanceof BlockCoverable) 
+        	e.setCanceled(true);
     }
 
 }
