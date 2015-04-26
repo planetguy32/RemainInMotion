@@ -44,8 +44,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public BlockRecordSet spectersToDestroy;
     public int ticksExisted = 0;
 
-
-
     public java.util.ArrayList<CapturedEntity> CapturedEntities = new ArrayList<CapturedEntity>();
     private boolean initialized;
 
@@ -71,10 +69,13 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     @Override
     public void updateEntity() {
+        worldObj.theProfiler.startSection("RiMMotiveSpecter");
         ticksExisted++;
 
         for (CapturedEntity Entity : CapturedEntities) {
+            worldObj.theProfiler.startSection("EntityMovement");
             Entity.Update();
+            worldObj.theProfiler.endSection();
         }
 
         if (worldObj.isRemote) {
@@ -94,7 +95,11 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             return;
         }
 
+        worldObj.theProfiler.startSection("Release");
         Release();
+        worldObj.theProfiler.endSection();
+
+        worldObj.theProfiler.endSection();
     }
 
     private boolean bodyHasCarriageDrive() {
@@ -137,7 +142,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
-        	record.World=worldObj;
             SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
                     record.block, record.Meta);
         }

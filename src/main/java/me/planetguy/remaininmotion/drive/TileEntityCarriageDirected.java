@@ -5,8 +5,10 @@ import me.planetguy.lib.util.SidedIcons;
 import me.planetguy.remaininmotion.motion.CarriageMatchers;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -23,6 +25,13 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 			return pointedDir;
 		else
 			return null;
+	}
+
+	@Override
+	public void Setup(EntityPlayer Player, ItemStack Item) {
+		super.Setup(Player, Item);
+		int l = BlockPistonBase.determineOrientation(Player.worldObj, xCoord, yCoord, zCoord, Player);
+		pointedDir = Directions.values()[l];
 	}
 
 	@Override

@@ -44,6 +44,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
 
+import java.util.UUID;
+
 @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable implements IEnergyHandler {
     public boolean Continuous;
@@ -68,6 +70,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     protected double extraEnergy = 1;
     private int ticksExisted = 0;
 
+    public boolean isCreative = false;
+
     @Override
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
         TagCompound.setBoolean("Continuous", Continuous);
@@ -80,7 +84,6 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         TagCompound.setInteger("Tier", Tier);
         TagCompound.setInteger("energyStored", energyStored);
-
     }
 
     @Override
@@ -88,6 +91,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         TagCompound.setBoolean("Signalled", Signalled);
 
         TagCompound.setInteger("CooldownRemaining", CooldownRemaining);
+
+        if(lastUsingPlayer != null) TagCompound.setString("player", lastUsingPlayer.getCommandSenderName());
+
+        TagCompound.setBoolean("creative", isCreative);
     }
 
     @Override
@@ -103,7 +110,6 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         Tier = TagCompound.getInteger("Tier");
 
         energyStored = TagCompound.getInteger("energyStored");
-
     }
 
     @Override
@@ -111,6 +117,13 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         Signalled = TagCompound.getBoolean("Signalled");
 
         CooldownRemaining = TagCompound.getInteger("CooldownRemaining");
+
+        try {
+            if (TagCompound.hasKey("player"))
+                lastUsingPlayer = worldObj.getPlayerEntityByName(TagCompound.getString("player"));
+        } catch(Exception e) {}
+
+        isCreative = TagCompound.getBoolean("creative");
     }
 
     @Override
@@ -123,6 +136,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         super.Setup(Player, Item);
         lastUsingPlayer = Player;
         Tier = ItemCarriageDrive.GetTier(Item);
+        isCreative = Player != null ? Player.capabilities.isCreativeMode : false;
     }
 
     public void HandleToolUsage(int Side, boolean Sneaking) {
@@ -208,6 +222,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void updateEntity() {
+        worldObj.theProfiler.startSection("RiMCarriageDrive");
         if (worldObj.isRemote) {
             return;
         }
@@ -266,7 +281,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
             MarkServerRecordDirty();
         }
-
+        worldObj.theProfiler.startSection("InitiateMotion");
         try {
             InitiateMotion(PreparePackage(getSignalDirection().opposite()));
 
@@ -291,6 +306,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                 lastUsingPlayer.addChatComponentMessage(new ChatComponentText(Message));
             }
         }
+        worldObj.theProfiler.endSection();
+        worldObj.theProfiler.endSection();
     }
 
     public CarriagePackage PreparePackage(Directions dir) throws CarriageMotionException {
@@ -349,7 +366,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public void removeUsedEnergy(CarriagePackage _package) throws CarriageMotionException {
 
-        if (RiMConfiguration.HardMode.HardmodeActive) {
+        if (RiMConfiguration.HardMode.HardmodeActive && ! isCreative) {
             int Type = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
             double EnergyRequired = _package.getMass() * BlockCarriageDrive.Types.values()[Type].EnergyConsumption * extraEnergy;
@@ -378,15 +395,21 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         Package.RenderCacheKey = GeneratePositionObject();
 
+        worldObj.theProfiler.startSection("SendRenderPacket");
         RenderPacket.Dispatch(Package);
 
+        worldObj.theProfiler.endStartSection("PreMovementModInteraction");
         doPreMovementModInteraction(Package);
 
+        worldObj.theProfiler.endStartSection("Placeholders");
         EstablishPlaceholders(Package);
 
+        worldObj.theProfiler.endStartSection("UpdateBlocks");
         RefreshWorld(Package);
 
+        worldObj.theProfiler.endStartSection("MotiveSpecter");
         EstablishSpectre(Package);
+        worldObj.theProfiler.endSection();
 
     }
 
@@ -540,6 +563,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
+        if(isCreative) return false;
         return RiMConfiguration.HardMode.HardmodeActive;
     }
 

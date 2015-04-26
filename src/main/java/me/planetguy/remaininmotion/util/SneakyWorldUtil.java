@@ -6,105 +6,143 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import me.planetguy.lib.util.Reflection;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public abstract class SneakyWorldUtil {
 
-    public static void SetBlock(World world, int X, int Y, int Z, Block spectre, int Meta) {
-        Chunk chunk = world.getChunkFromBlockCoords(X, Z);
+    public static boolean SetBlock(World world, int x, int y, int z, Block block, int meta) {
+        world.theProfiler.startSection("SneakySetBlock");
+        int chunkX = x & 0xF;
+        int chunkZ = z & 0xF;
 
-        int ChunkX = X & 0xF;
-        int ChunkY = Y & 0xF;
-        int ChunkZ = Z & 0xF;
+        Chunk chunk = world.getChunkFromBlockCoords(x, z);
 
-        TileEntity oldTE=world.getTileEntity(X, Y, Z);
-        if(oldTE != null) //no null checks inside the function there
-        	world.func_147457_a(oldTE);
+        int i1 = chunkZ << 4 | chunkX;
 
-        chunk.removeTileEntity(ChunkX, Y, ChunkZ); //needed?
-
-        int LayerY = Y >> 4;
-        // Tested, this does work.
-        ExtendedBlockStorage[] storageArrays = chunk.getBlockStorageArray();
-
-        if (storageArrays[LayerY] == null) {
-            storageArrays[LayerY] = new ExtendedBlockStorage((LayerY) << 4, !world.provider.hasNoSky);
+        if (y >= chunk.precipitationHeightMap[i1] - 1)
+        {
+            chunk.precipitationHeightMap[i1] = -999;
         }
 
-        // RIMLog.dump(spectre);
+        int j1 = chunk.heightMap[i1];
+        Block block1 = chunk.getBlock(chunkX, y, chunkZ);
+        int k1 = chunk.getBlockMetadata(chunkX, y, chunkZ);
 
-        if (spectre == null) {
-            spectre = Blocks.air;
+        if (block1 == block && k1 == meta)
+        {
+            world.theProfiler.endSection();
+            return false;
         }
+        else
+        {
+            ExtendedBlockStorage extendedblockstorage = chunk.storageArrays[y >> 4];
+            boolean flag = false;
 
-        storageArrays[LayerY].func_150818_a(ChunkX, ChunkY, ChunkZ, spectre);
-
-        storageArrays[LayerY].setExtBlockMetadata(ChunkX, ChunkY, ChunkZ, Meta);
-
-        // Heightmap and Skylight
-        int oldHeight = chunk.getHeightValue(ChunkX,ChunkZ);
-        // Don't do this if we aren't changing the top block
-        if(Y >= oldHeight) {
-            chunk.precipitationHeightMap[ChunkZ << 4 | ChunkX] = -999;
-            int i = chunk.getTopFilledSegment();
-            int l = i + 16 - 1;
-
-            while (true) {
-                if (l > 0) {
-                    if (chunk.func_150808_b(ChunkX, l - 1, ChunkZ) == 0) {
-                        --l;
-                        continue;
-                    }
-
-                    chunk.heightMap[ChunkZ << 4 | ChunkX] = l;
-
-                    if (l < chunk.heightMapMinimum) {
-                        chunk.heightMapMinimum = l;
-                    }
-                }
-
-                if (!world.provider.hasNoSky)
+            if (extendedblockstorage == null)
+            {
+                if (block == Blocks.air)
                 {
-                    l = 15;
-                    int i1 = i + 16 - 1;
-
-                    do
-                    {
-                        int j1 = chunk.func_150808_b(ChunkX, i1, ChunkZ);
-
-                        if (j1 == 0 && l != 15)
-                        {
-                            j1 = 1;
-                        }
-
-                        l -= j1;
-
-                        if (l > 0)
-                        {
-                            ExtendedBlockStorage extendedblockstorage = storageArrays[i1 >> 4];
-
-                            if (extendedblockstorage != null)
-                            {
-                                extendedblockstorage.setExtSkylightValue(ChunkX, i1 & 15, ChunkZ, l);
-                            }
-                        }
-
-                        --i1;
-                    }
-                    while (i1 > 0 && l > 0);
+                    world.theProfiler.endSection();
+                    return false;
                 }
 
-                break;
+                extendedblockstorage = chunk.storageArrays[y >> 4] = new ExtendedBlockStorage(y >> 4 << 4, !world.provider.hasNoSky);
+                flag = y >= j1;
+            }
+
+            int l1 = x;
+            int i2 = z;
+
+            int k2 = block1.getLightOpacity(world, l1, y, i2);
+
+            extendedblockstorage.func_150818_a(chunkX, y & 15, chunkZ, block);
+            extendedblockstorage.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta); // This line duplicates the one below, so breakBlock fires with valid worldstate
+
+            if (!world.isRemote)
+            {
+                // After breakBlock a phantom TE might have been created with incorrect meta. This attempts to kill that phantom TE so the normal one can be create properly later
+                TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
+                if (te != null && te.shouldRefresh(block1, chunk.getBlock(chunkX & 0x0F, y, chunkZ & 0x0F), k1, chunk.getBlockMetadata(chunkX & 0x0F, y, chunkZ & 0x0F), world, l1, y, i2))
+                {
+                    chunk.removeTileEntity(chunkX & 0x0F, y, chunkZ & 0x0F);
+                }
+            }
+            else if (block1.hasTileEntity(k1))
+            {
+                TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
+                if (te != null && te.shouldRefresh(block1, block, k1, meta, world, l1, y, i2))
+                {
+                    world.removeTileEntity(l1, y, i2);
+                }
+            }
+
+            if (extendedblockstorage.getBlockByExtId(chunkX, y & 15, chunkZ) != block)
+            {
+                world.theProfiler.endSection();
+                return false;
+            }
+            else
+            {
+                extendedblockstorage.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta);
+
+                if (flag)
+                {
+                    chunk.generateSkylightMap();
+                }
+                else
+                {
+                    int j2 = block.getLightOpacity(world, l1, y, i2);
+
+                    if (j2 > 0)
+                    {
+                        if (y >= j1)
+                        {
+                            chunk.relightBlock(chunkX, y + 1, chunkZ);
+                        }
+                    }
+                    else if (y == j1 - 1)
+                    {
+                        chunk.relightBlock(chunkX, y, chunkZ);
+                    }
+
+                    if (j2 != k2 && (j2 < k2 || chunk.getSavedLightValue(EnumSkyBlock.Sky, chunkX, y, chunkZ) > 0 || chunk.getSavedLightValue(EnumSkyBlock.Block, chunkX, y, chunkZ) > 0))
+                    {
+                        chunk.propagateSkylightOcclusion(chunkX, chunkZ);
+                    }
+                }
+
+                TileEntity tileentity;
+
+                if (block.hasTileEntity(meta))
+                {
+                    tileentity = chunk.func_150806_e(chunkX, y, chunkZ);
+
+                    if (tileentity != null)
+                    {
+                        tileentity.updateContainingBlockInfo();
+                        tileentity.blockMetadata = meta;
+                    }
+                }
+
+                chunk.isModified = true;
+
+                world.theProfiler.startSection("checkLight");
+                world.func_147451_t(x, y, z);
+                world.theProfiler.endSection();
+
+                if(chunk.func_150802_k()) world.markBlockForUpdate(x, y, z);
+
+                world.theProfiler.endSection();
+                return true;
             }
         }
 
-        chunk.isModified = true;
-
-        world.markBlockForUpdate(X, Y, Z);
     }
 
     public static void SetTileEntity(World world, int X, int Y, int Z, TileEntity entity) {
@@ -113,18 +151,6 @@ public abstract class SneakyWorldUtil {
         world.addTileEntity(entity);
         
         world.getChunkFromBlockCoords(X, Z).func_150812_a(X & 0xF, Y, Z & 0xF, entity);
-    }
-
-    /*
-     * out of context, this is woefully redundant and inefficient, and really
-     * needs to be fixed
-     *
-     * Minecraft does this now by default anyway, we can just remove it.
-     */
-    public static void UpdateLighting(World world, int X, int Y, int Z, Block block) {
-        // found the update light method!
-        world.func_147451_t(X, Y, Z);
-        world.markBlockForUpdate(X,Y,Z);
     }
 
     public static void NotifyBlocks(World world, int X, int Y, int Z, Block OldId, Block NewId) {
@@ -138,44 +164,7 @@ public abstract class SneakyWorldUtil {
     }
 
     public static void RefreshBlock(World world, int X, int Y, int Z, Block OldId, Block NewId) {
-        UpdateLighting(world, X, Y, Z, OldId);
-
         NotifyBlocks(world, X, Y, Z, OldId, NewId);
     }
-    public static void notifyBlock(World world, int x, int y, int z, Block source)
-    {
-        Block block = world.getBlock(x, y, z);
-        if (block != null) {
-            block.onNeighborBlockChange(world, x, y, z, source);
-        }
-    }
 
-    public static void updateIndirectNeighbors(World world, int x, int y, int z, Block block)
-    {
-        if ((world.isRemote) ||
-                (FMLCommonHandler.instance().getSide() == Side.CLIENT)) {
-            return;
-        }
-        for (int inDirX = -3; inDirX <= 3; inDirX++) {
-            for (int inDirY = -3; inDirY <= 3; inDirY++) {
-                for (int inDirZ = -3; inDirZ <= 3; inDirZ++)
-                {
-                    int updateDirection = inDirX >= 0 ? inDirX : -inDirX;
-                    updateDirection += (inDirY >= 0 ? inDirY : -inDirY);
-                    updateDirection += (inDirZ >= 0 ? inDirZ : -inDirZ);
-                    if (updateDirection <= 3) {
-
-                        notifyBlock(world, x + inDirX, y + inDirY, z + inDirZ, block);
-                    }
-                }
-            }
-        }
-    }
-
-
-    public static void markBlockDirty(World world, int x, int y, int z) {
-        if (world.blockExists(x, y, z)) {
-            world.getChunkFromBlockCoords(x, z).setChunkModified();
-        }
-    }
 }
