@@ -9,11 +9,12 @@ import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.EventManager;
 import me.planetguy.remaininmotion.core.Core;
-import me.planetguy.remaininmotion.core.interop.mod.EventHandlerBuildcraft;
-import me.planetguy.remaininmotion.core.interop.mod.EventHandlerCarpentersBlocks;
-import me.planetguy.remaininmotion.core.interop.mod.EventHandlerChickenChunks;
-import me.planetguy.remaininmotion.core.interop.mod.EventHandlerEnderIO;
-import me.planetguy.remaininmotion.core.interop.mod.EventHandlerFMP;
+import me.planetguy.remaininmotion.core.interop.mod.Buildcraft;
+import me.planetguy.remaininmotion.core.interop.mod.CarpentersBlocks;
+import me.planetguy.remaininmotion.core.interop.mod.ChickenChunks;
+import me.planetguy.remaininmotion.core.interop.mod.EnderIO;
+import me.planetguy.remaininmotion.core.interop.mod.ForgeMultipart;
+import me.planetguy.remaininmotion.core.interop.mod.QmunityMultipart;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.ItemStack;
@@ -31,27 +32,30 @@ public abstract class ModInteraction {
 		EventManager.registerEventHandler(new EventHandlerAPI());
 		
         if(Loader.isModLoaded("ChickenChunks")) {
-        	EventManager.registerEventHandler(new EventHandlerChickenChunks());
+        	EventManager.registerEventHandler(new ChickenChunks());
         }
         
     	if(Loader.isModLoaded("ForgeMultipart"))
 		{
-    		EventManager.registerEventHandler(new EventHandlerFMP());
+    		if(Loader.isModLoaded("qmunitylib")){
+    			EventManager.registerEventHandler(new QmunityMultipart());
+    		}
+    		EventManager.registerEventHandler(new ForgeMultipart());
 		}
     	
     	if(Loader.isModLoaded("BuildCraft|Transport"))
     	{
-    		EventManager.registerEventHandler(new EventHandlerBuildcraft());
+    		EventManager.registerEventHandler(new Buildcraft());
     	}
     	
     	if(Loader.isModLoaded("EnderIO"))
     	{
-    		EventManager.registerEventHandler(new EventHandlerEnderIO());
+    		EventManager.registerEventHandler(new EnderIO());
     	}
 
         if(Loader.isModLoaded("CarpentersBlocks"))
         {
-        	EventManager.registerEventHandler(new EventHandlerCarpentersBlocks());
+        	EventManager.registerEventHandler(new CarpentersBlocks());
         }
     	
 		Wrenches.init();

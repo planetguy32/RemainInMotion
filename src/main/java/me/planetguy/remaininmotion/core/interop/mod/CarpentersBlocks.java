@@ -7,7 +7,7 @@ import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 
-public class EventHandlerCarpentersBlocks {
+public class CarpentersBlocks {
 
     @SubscribeEvent
     public void onBlockAdded(CancelableOnBlockAddedEvent e) {

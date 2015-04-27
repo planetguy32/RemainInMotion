@@ -17,7 +17,9 @@ import me.planetguy.remaininmotion.util.position.BlockRecord;
 public class EventHandlerDebugInspector {
 	
 	public void filter(IBlockPos pos){
-		if(pos.world().getBlock(pos.x(), pos.y(), pos.z()) instanceof BlockTank) {
+		if(pos.world()==null){
+			nop();
+		}else if(pos.world().getBlock(pos.x(), pos.y(), pos.z()) instanceof BlockTank) {
 			nop();
 		}
 		

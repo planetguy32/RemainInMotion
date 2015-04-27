@@ -19,7 +19,7 @@ import buildcraft.factory.TileQuarry;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
 
-public class EventHandlerBuildcraft {
+public class Buildcraft {
 
     private HashMap<ChunkCoordinates, TravelerSet> cachedItems = new HashMap<ChunkCoordinates, TravelerSet>();
 	

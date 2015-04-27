@@ -30,9 +30,9 @@ import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
 import me.planetguy.remaininmotion.api.event.BlocksReplacedEvent;
 
-public class EventHandlerFMP {
+public class ForgeMultipart {
 	
-	private HashMap<World, WorldTickScheduler> knownSchedulers=new HashMap<World, WorldTickScheduler>();
+	private static HashMap<World, WorldTickScheduler> knownSchedulers=new HashMap<World, WorldTickScheduler>();
 	
 	@SubscribeEvent
 	public void onFMPMoved(BlockSelectForMoveEvent e) {
@@ -101,7 +101,7 @@ public class EventHandlerFMP {
 		}catch(Exception ignored) {}
 	}
 
-	public void saveMultipartTick(TileEntity te, NBTTagCompound record) {
+	public static void saveMultipartTick(TileEntity te, NBTTagCompound record) {
 		WorldTickScheduler sched=getTickScheduler(te.getWorldObj());
 		for(ChunkTickScheduler cts:JavaConversions.asJavaCollection(sched.tickChunks())) {
 			for(PartTickEntry entry:JavaConversions.asJavaCollection(cts.tickList())) {
@@ -116,7 +116,7 @@ public class EventHandlerFMP {
 		
 	}
 	
-	private WorldTickScheduler getTickScheduler(World w) {
+	private static WorldTickScheduler getTickScheduler(World w) {
 		if(knownSchedulers.containsKey(w)) {
 			return knownSchedulers.get(w);
 		}else {

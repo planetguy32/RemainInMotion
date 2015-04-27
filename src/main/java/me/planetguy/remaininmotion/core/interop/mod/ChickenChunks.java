@@ -10,7 +10,7 @@ import codechicken.chunkloader.ChunkLoaderManager;
 import codechicken.chunkloader.TileChunkLoaderBase;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class EventHandlerChickenChunks {
+public class ChickenChunks {
 	
 	@SubscribeEvent
 	public void onPostPlace(TEPostPlaceEvent e) {

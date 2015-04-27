@@ -24,7 +24,7 @@ import me.planetguy.lib.util.transformations.Rotator;
 import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 
-public class EventHandlerEnderIO {
+public class EnderIO {
 
 	/*
 	public void handleRotation(BlockRotateEvent e) {
