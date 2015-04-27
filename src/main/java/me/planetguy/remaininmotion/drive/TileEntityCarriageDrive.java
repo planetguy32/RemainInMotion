@@ -224,6 +224,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public void updateEntity() {
         worldObj.theProfiler.startSection("RiMCarriageDrive");
         if (worldObj.isRemote) {
+            worldObj.theProfiler.endSection();
             return;
         }
 
@@ -251,10 +252,13 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
             MarkServerRecordDirty();
 
+            worldObj.theProfiler.endSection();
             return;
         }
 
         if (Active) {
+
+            worldObj.theProfiler.endSection();
             return;
         }
 
@@ -265,15 +269,18 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                 MarkServerRecordDirty();
             }
 
+            worldObj.theProfiler.endSection();
             return;
         }
 
         if (CarriageDirection == null) {
+            worldObj.theProfiler.endSection();
             return;
         }
 
         if (Signalled) {
             if (!Continuous) {
+                worldObj.theProfiler.endSection();
                 return;
             }
         } else {

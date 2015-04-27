@@ -31,7 +31,7 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 	public void Setup(EntityPlayer Player, ItemStack Item) {
 		super.Setup(Player, Item);
 		int l = BlockPistonBase.determineOrientation(Player.worldObj, xCoord, yCoord, zCoord, Player);
-		pointedDir = Directions.values()[l];
+		pointedDir = Directions.values()[l].opposite();
 	}
 
 	@Override

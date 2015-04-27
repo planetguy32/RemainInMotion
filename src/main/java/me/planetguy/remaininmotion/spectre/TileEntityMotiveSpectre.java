@@ -79,6 +79,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         if (worldObj.isRemote) {
+            worldObj.theProfiler.endSection();
             return;
         }
 
@@ -92,6 +93,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         if (ticksExisted < RiMConfiguration.CarriageMotion.MotionDuration) {
+            worldObj.theProfiler.endSection();
             return;
         }
 
