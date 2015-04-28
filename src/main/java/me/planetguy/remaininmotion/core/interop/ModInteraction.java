@@ -31,8 +31,6 @@ public abstract class ModInteraction {
 	
 	public static void Establish() {
 		
-		EventManager.registerEventHandler(new EventHandlerDebugInspector());
-		
 		EventManager.registerEventHandler(new EventHandlerAPI());
 		
         if(Loader.isModLoaded("ChickenChunks")) {
