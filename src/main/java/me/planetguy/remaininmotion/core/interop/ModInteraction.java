@@ -153,6 +153,6 @@ public abstract class ModInteraction {
 	}
 
 	public static void init() {
-		qlInteraction.run();
+		if(qlInteraction != null) qlInteraction.run();
 	}
 }
