@@ -6,6 +6,7 @@ import buildcraft.transport.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.transformations.Rotator;
 import me.planetguy.remaininmotion.api.event.*;
@@ -21,8 +22,6 @@ import net.minecraft.util.ChunkCoordinates;
 
 public class Buildcraft {
 
-    private HashMap<ChunkCoordinates, TravelerSet> cachedItems = new HashMap<ChunkCoordinates, TravelerSet>();
-	
 	@SubscribeEvent
 	public void onBCMoved(TEPreUnpackEvent e) {
 		performBuildcraftPreInit((BlockRecord) e.location, ((TileEntityMotiveSpectre) e.spectre).getOffset((BlockRecord) e.location));
@@ -57,36 +56,6 @@ public class Buildcraft {
 			}
 		}
 	}
-
-    @SubscribeEvent
-    public void onPreRender(PreRenderDuringMovementEvent event) {
-        if(FMLCommonHandler.instance().getSide() == Side.SERVER) return;
-        if(event.pass != 0) return;
-        if(event.tile != null && event.tile instanceof TileGenericPipe) {
-            if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportItems) {
-                cachedItems.put(new ChunkCoordinates(event.x, event.y, event.z), ((PipeTransportItems) ((TileGenericPipe) event.tile).pipe.transport).items);
-                ((PipeTransportItems) ((TileGenericPipe) event.tile).pipe.transport).items.clear();
-            }// else if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportFluids) {
-
-            //}
-        }
-    }
-
-    @SubscribeEvent
-    public void onPostRender(PostRenderDuringMovementEvent event) {
-        if(FMLCommonHandler.instance().getSide() == Side.SERVER) return;
-        if(event.pass != 0) return;
-        if(event.tile != null && event.tile instanceof TileGenericPipe) {
-            if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportItems) {
-                if(cachedItems != null && !cachedItems.isEmpty()) {
-                    ((PipeTransportItems) ((TileGenericPipe) event.tile).pipe.transport).items.addAll(cachedItems.get(new ChunkCoordinates(event.x,event.y,event.z)));
-                    cachedItems.remove(new ChunkCoordinates(event.x,event.y,event.z));
-                }
-            }// else if(((TileGenericPipe) event.tile).pipe.transport instanceof PipeTransportFluids) {
-
-            //}
-        }
-    }
 	
     private void performBuildcraftPreInit(IBlockPos record, int[] offset) {
         if (record.entityTag().hasKey("box")) {

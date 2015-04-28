@@ -4,12 +4,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.relauncher.Side;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.EventManager;
 import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.interop.mod.Buildcraft;
+import me.planetguy.remaininmotion.core.interop.mod.BuildcraftClient;
 import me.planetguy.remaininmotion.core.interop.mod.CarpentersBlocks;
 import me.planetguy.remaininmotion.core.interop.mod.ChickenChunks;
 import me.planetguy.remaininmotion.core.interop.mod.EnderIO;
@@ -39,12 +42,16 @@ public abstract class ModInteraction {
 		{
     		if(Loader.isModLoaded("qmunitylib")){
     			EventManager.registerEventHandler(new QmunityMultipart());
+    			
     		}
     		EventManager.registerEventHandler(new ForgeMultipart());
 		}
     	
     	if(Loader.isModLoaded("BuildCraft|Transport"))
     	{
+    		if(FMLCommonHandler.instance().getEffectiveSide()==Side.CLIENT){
+    			EventManager.registerEventHandler(new BuildcraftClient());
+    		}
     		EventManager.registerEventHandler(new Buildcraft());
     	}
     	
