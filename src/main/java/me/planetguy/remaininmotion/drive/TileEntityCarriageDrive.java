@@ -152,8 +152,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public void ToggleActivity() {
         if (Active && Continuous) {
             CooldownRemaining = RiMConfiguration.CarriageDrive.ContinuousCooldown;
+        }else if(Active){
+        	Signalled=true;
         }
-
         Active = !Active;
 
         Propagate();
@@ -315,6 +316,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         }
         worldObj.theProfiler.endSection();
         worldObj.theProfiler.endSection();
+        
     }
 
     public CarriagePackage PreparePackage(Directions dir) throws CarriageMotionException {
