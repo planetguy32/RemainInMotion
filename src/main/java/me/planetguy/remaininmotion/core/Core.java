@@ -42,7 +42,8 @@ public abstract class Core {
 		RiMRegistry.registerMatcher(new NativeCarriageMatcher());
 
 		PacketManager.init();
-
+		
+		ModInteraction.init();
 
     }
 

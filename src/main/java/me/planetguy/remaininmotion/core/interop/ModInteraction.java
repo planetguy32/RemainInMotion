@@ -26,8 +26,9 @@ public abstract class ModInteraction {
 	
 	public static Field		PendingBlockUpdateSetField;
 	public static Method	RemovePendingBlockUpdate;
-
-
+	
+	public static Runnable qlInteraction;
+	
 	public static void Establish() {
 		
 		EventManager.registerEventHandler(new EventHandlerDebugInspector());
@@ -41,7 +42,8 @@ public abstract class ModInteraction {
     	if(Loader.isModLoaded("ForgeMultipart"))
 		{
     		if(Loader.isModLoaded("qmunitylib")){
-    			EventManager.registerEventHandler(new QmunityMultipart());
+    			qlInteraction=new QmunityMultipart();
+    			EventManager.registerEventHandler(qlInteraction);
     			
     		}
     		EventManager.registerEventHandler(new ForgeMultipart());
@@ -148,5 +150,9 @@ public abstract class ModInteraction {
 			return false;
 		}
 
+	}
+
+	public static void init() {
+		qlInteraction.run();
 	}
 }
