@@ -32,10 +32,11 @@ public class ModRiM {
 
 	public static final String	Channel		= "JAKJ_RIM";
 
-	public static PLHelper		plHelper	= new PLHelper(Handle);
+	public static PLHelper		plHelper;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent Event) {
+		plHelper	= new PLHelper(Handle);
 		File oldFile = Event.getSuggestedConfigurationFile();
 		File newFile = new File(oldFile.getParentFile().getAbsoluteFile() + File.separator + "remainInMotion.cfg");
 		if (oldFile.exists()) {
