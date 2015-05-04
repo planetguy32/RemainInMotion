@@ -144,6 +144,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
+            record.World = worldObj;
             SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
                     record.block, record.Meta);
         }
