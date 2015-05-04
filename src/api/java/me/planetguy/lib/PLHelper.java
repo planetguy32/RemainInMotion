@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import me.planetguy.lib.prefab.BlockBase;
 import me.planetguy.lib.prefab.BlockContainerBase;
+import me.planetguy.lib.prefab.FluidPrefab;
 import me.planetguy.lib.prefab.IPrefabItem;
 import me.planetguy.lib.prefab.ItemBase;
 import me.planetguy.lib.prefab.ItemBlockBase;
@@ -14,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -109,15 +111,34 @@ public class PLHelper {
 		}
 		return null;
 	}
+	
+	public IPrefabItem loadFluid(Class<? extends FluidPrefab> clazz, HashMap<String, IPrefabItem> map) {
+		FluidPrefab fluid;
+		try {
+			fluid = clazz.newInstance();
+			fluid.namespace = modID;
+			FluidRegistry.registerFluid(fluid);
+			map.put(fluid.getName(), fluid);
+			fluid.setupOtherTypes();
+			return fluid;
+		} catch (InstantiationException e) { // Debug: Throw these exceptions
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-	public void load(Class c, HashMap<String, IPrefabItem> content) {
-		if (!shouldLoad(c)) { return; }
+	public Object load(Class c, HashMap<String, IPrefabItem> content) {
+		if (!shouldLoad(c)) { return null; }
 		if (ItemBase.class.isAssignableFrom(c)) {
-			loadItem(c, content);
+			return loadItem(c, content);
 		} else if (BlockBase.class.isAssignableFrom(c)) {
-			loadBlock(c, content);
+			return loadBlock(c, content);
 		} else if (BlockContainerBase.class.isAssignableFrom(c)) {
-			loadContainer(c, content);
+			return loadContainer(c, content);
+		} else if (FluidPrefab.class.isAssignableFrom(c)) {
+			return loadFluid(c, content);
 		} else {
 			throw new RuntimeException("Failed to load " + c + ": Not a legal class type!");
 		}

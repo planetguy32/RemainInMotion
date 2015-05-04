@@ -80,5 +80,17 @@ public class BlockRecord implements Comparable<BlockRecord> {
 
 		return (Record);
 	}
+	
+	public int hashCode(){
+		return x<<20^y<<10^z;
+	}
+
+	public int distanceSquared(BlockRecord r) {
+		return sq(x-r.x)+sq(y-r.y)+sq(z-r.z);
+	}
+	
+	private int sq(int i){
+		return i*i;
+	}
 
 }

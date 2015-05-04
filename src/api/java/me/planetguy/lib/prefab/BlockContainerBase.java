@@ -1,11 +1,18 @@
 package me.planetguy.lib.prefab;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -75,5 +82,24 @@ public class BlockContainerBase extends BlockContainer implements IPrefabBlock {
 		}
 		return null;
 	}
+	
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
+    	return new ItemStack(this, 1, world.getBlockMetadata(x, y, z));
+    }
+    
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){
+    	ArrayList<ItemStack> stacks= new ArrayList<ItemStack>();
+    	stacks.add(new ItemStack(this, 1, metadata));
+    	return stacks;
+    }
+    
+	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
+	{	
+		for (int var4 = 0; var4 < teClasses.length; ++var4)
+		{
+			par3List.add(new ItemStack(this, 1, var4));
+		}
+	}
 
+	
 }

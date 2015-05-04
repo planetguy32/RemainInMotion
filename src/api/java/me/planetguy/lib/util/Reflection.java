@@ -65,7 +65,7 @@ public class Reflection {
 				return f.get(o);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Could not access field " + field + ": " + e.getClass().getSimpleName());
+			throw new RuntimeException(e);
 		}
 	}
 

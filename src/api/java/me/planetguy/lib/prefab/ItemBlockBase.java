@@ -38,7 +38,7 @@ public class ItemBlockBase extends ItemBlockWithMetadata {
 			}
 		} else {
 			for (int i = 1; i <= countTooltipLines(); i++) {
-				lines.add(Lang.translate(block.getName() + "." + stack.getItemDamage() + ".tooltip." + i));
+				lines.add(Lang.translate("tile."+block.getName() + "." + stack.getItemDamage() + ".tooltip." + i));
 			}
 		}
 	}

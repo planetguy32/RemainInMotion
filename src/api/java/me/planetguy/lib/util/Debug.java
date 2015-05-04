@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.planetguy.lib.PlanetguyLib;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 
@@ -14,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public abstract class Debug {
 
@@ -80,10 +82,8 @@ public abstract class Debug {
 							} else {
 								print("   " + f.getName() + "     " + obj);
 							}
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
+						} catch (Exception e) {
+							print(""+e);
 						}
 				}
 				c = c.getSuperclass();
@@ -99,4 +99,12 @@ public abstract class Debug {
 		Debug.dbg_delegate(FMLCommonHandler.instance().getEffectiveSide());
 	}
 
+	/*
+	 * Releases mouse control, so you can go use the debugger controls
+	 */
+	public static void bp() {
+		if(PlanetguyLib.doPLLogging && FMLCommonHandler.instance().getEffectiveSide()==Side.CLIENT){
+			Minecraft.getMinecraft().mouseHelper.ungrabMouseCursor();
+		}
+	}
 }

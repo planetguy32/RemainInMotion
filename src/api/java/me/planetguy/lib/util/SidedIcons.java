@@ -22,7 +22,7 @@ public class SidedIcons {
 		};
 	}
 	
-	private static IIcon[][] iconMatrix;
+	private IIcon[][] iconMatrix;
 	
 	public IIcon getIcon(ForgeDirection facing, int side) {
 		return iconMatrix[facing.ordinal()][side];
