@@ -437,15 +437,32 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public void EstablishPlaceholders(CarriagePackage Package) {
         BlockRecordSet temp = new BlockRecordSet();
+
+        byte[] lightValues = new byte[Package.Body.size()];
+        byte[] lightOpacities = new byte[Package.Body.size()];
+
+        int i = 0;
         if(Package.MotionDirection != null) {
             for (BlockRecord Record : Package.Body) {
+
+                try {
+                    lightValues[i] = (byte) Record.block.getLightValue(worldObj, Record.X, Record.Y, Record.Z);
+                    lightOpacities[i] = (byte) Record.block.getLightOpacity(worldObj, Record.X, Record.Y, Record.Z);
+                } catch (Exception e) {
+                    lightValues[i] = (byte) Record.block.getLightValue();
+                    lightOpacities[i] = (byte) Record.block.getLightOpacity();
+                }
+
                 BlockRecord temp2 = Record.NextInDirection(Package.MotionDirection);
                 temp2.block = Record.block;
                 temp.add(temp2);
+                i++;
             }
         }else {
             temp = Package.Body;
         }
+
+        i = 0;
 
         for (BlockRecord Record : temp) {
             if(Package.MotionDirection != null) {
@@ -489,20 +506,15 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                     // handle camo blocks
                     TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z));
-                    if (Record.block instanceof BlockCamouflageable) {
-                        if (Record.entityRecord != null) {
-                            Block b2 = Block.getBlockById(Record.entityRecord.getInteger("DecorationId"));
-                            if (b2 != null) {
-                                tile.setLight(b2);
-                            }
-                        }
-                    } else {
-                        tile.setLight(Record.block);
-                    }
+
+                    tile.setLight(lightValues[i], lightOpacities[i]);
+
                     //tile.setBoundingBox(nbt);
                 }
             }
+            i++;
         }
+
         for(BlockRecord Record : Package.Body)
         {
             if(temp.contains(Record)) continue;
@@ -522,7 +534,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                 }
                 if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
                     worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
-                    ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight(Blocks.air);
+                    ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight((byte)0,(byte)0);
                 }
                 Package.spectersToDestroy.add(new BlockRecord(Record));
             }
