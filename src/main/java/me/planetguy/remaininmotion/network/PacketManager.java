@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.network;
 
 import java.util.List;
 
+import me.planetguy.lib.prefab.GuiHandlerPrefab;
 import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +19,8 @@ public class PacketManager {
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new PacketManager());
 		wrapper.registerMessage(Message.class, Message.class, 0, Side.CLIENT);
+		
+		
 	}
 
 	public static void BroadcastPacketFromBlock(int X, int Y, int Z, World world, PacketTypes pt, NBTTagCompound tag) {

@@ -8,11 +8,15 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import me.planetguy.remaininmotion.network.PacketSpecterVelocity;
 import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
+import me.planetguy.lib.prefab.GuiHandlerPrefab;
 import me.planetguy.lib.util.Debug;
+import me.planetguy.remaininmotion.drive.gui.ContainerDrive;
+import me.planetguy.remaininmotion.drive.gui.GuiDriveCommon;
 import me.planetguy.remaininmotion.motion.BlacklistManager;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -33,6 +37,9 @@ public class ModRiM {
 	public static final String	Channel		= "JAKJ_RIM";
 
 	public static PLHelper		plHelper;
+
+	@Instance(ModRiM.Handle)
+	public static Object instance;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent Event) {
@@ -64,6 +71,14 @@ public class ModRiM {
 
 		Core.HandlePostInit();
 		RemIMPluginsCommon.instance.postInit();
+		
+		
+		GuiHandlerPrefab.create(this, new Class[]{
+				ContainerDrive.class,
+				
+		}, new Class[]{
+				GuiDriveCommon.class
+		});
 	}
 
 	@EventHandler

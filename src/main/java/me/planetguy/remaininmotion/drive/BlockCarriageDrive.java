@@ -8,12 +8,15 @@ import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.Core;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
+import me.planetguy.remaininmotion.core.RiMItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -165,7 +168,20 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	@Override
 	public boolean onBlockActivated(World World, int X, int Y, int Z, EntityPlayer Player, int Side, float HitX,
 			float HitY, float HitZ) {
-
+		
+		TileEntity te = World.getTileEntity(X, Y, Z);
+		if (te instanceof TileEntityCarriageDrive){
+			if(!(((TileEntityCarriageDrive) te).requiresScrewdriverToOpen
+					//if need screwdriver
+					&& (Player.getHeldItem() == null || Player.getHeldItem().getItem() != RiMItems.ToolItemSet))){
+				//and using something else
+				Player.openGui(ModRiM.instance, 0, World, X, Y, Z);
+				return true;
+			}
+		}
+			
+		return false;
+		/*
 		if (World.isRemote) { return (false); }
 
 		try {
@@ -182,6 +198,7 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 			Throwable.printStackTrace();
 			return (false);
 		}
+		*/
 
 	}
 

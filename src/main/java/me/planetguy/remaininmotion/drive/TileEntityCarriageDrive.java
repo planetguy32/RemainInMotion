@@ -71,6 +71,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     private int ticksExisted = 0;
 
     public boolean isCreative = false;
+    
+    public boolean requiresScrewdriverToOpen=false;
 
     @Override
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
