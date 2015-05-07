@@ -23,6 +23,15 @@ public class TileEntitySupportiveSpectre extends TileEntityRiM {
     {
         lightValue = block.getLightValue();
         lightOpacity = block.getLightOpacity();
+
+        worldObj.updateLightByType(EnumSkyBlock.Block, xCoord,yCoord,zCoord);
+        worldObj.updateLightByType(EnumSkyBlock.Sky, xCoord,yCoord,zCoord);
+    }
+
+    public void setLight(byte lightValue, byte lightOpacity) {
+        this.lightValue = lightValue;
+        this.lightOpacity = lightOpacity;
+
         worldObj.updateLightByType(EnumSkyBlock.Block, xCoord,yCoord,zCoord);
         worldObj.updateLightByType(EnumSkyBlock.Sky, xCoord,yCoord,zCoord);
     }
