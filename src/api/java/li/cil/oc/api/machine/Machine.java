@@ -8,7 +8,6 @@ import java.util.Map;
  * This interface allows interacting with a Machine obtained via the factory
  * method {@link li.cil.oc.api.Machine#create(MachineHost)}.
  */
-@SuppressWarnings("unused")
 public interface Machine extends ManagedEnvironment, Context {
     /**
      * The owner of the machine, usually a tile entity hosting the machine.

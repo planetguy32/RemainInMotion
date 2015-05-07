@@ -17,7 +17,6 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Nodes in such a network can communicate with each other, or just use the
  * network as an index structure to find other nodes connected to them.
  */
-@SuppressWarnings("UnusedDeclaration")
 public abstract class TileEntitySidedEnvironment extends TileEntity implements SidedEnvironment {
     // See constructor.
     protected Node[] nodes = new Node[6];
