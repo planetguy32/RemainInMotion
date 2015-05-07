@@ -32,7 +32,7 @@ public class ModRiM {
 
 	public static final String	Title		= "Remain In motion";
 
-	public static final String	Version		= "2.6.1";
+	public static final String	Version		= "2.7.0";
 
 	public static final String	Channel		= "JAKJ_RIM";
 
