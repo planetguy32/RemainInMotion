@@ -42,7 +42,7 @@ public class TileEntitySupportiveSpectre extends TileEntityRiM {
         TagCompound.setInteger("lightValue", lightValue);
         TagCompound.setInteger("lightOpacity", lightOpacity);
 
-        AABBUtil.writeAABBListToNBT(BB, TagCompound);
+        //AABBUtil.writeAABBListToNBT(BB, TagCompound);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class TileEntitySupportiveSpectre extends TileEntityRiM {
             worldObj.updateLightByType(EnumSkyBlock.Sky, xCoord, yCoord, zCoord);
         }
 
-        BB = AABBUtil.readAABBsFromNBT(TagCompound);
+        //BB = AABBUtil.readAABBsFromNBT(TagCompound);
     }
 
     public int getLightValue()

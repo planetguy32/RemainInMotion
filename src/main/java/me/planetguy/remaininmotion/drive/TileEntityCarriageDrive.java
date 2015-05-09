@@ -31,6 +31,7 @@ import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -475,6 +476,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     if(block.isOpaqueCube()) {
                         SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.Supportive.ordinal());
+                    } else if(block instanceof BlockRailBase) {
+                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.RailSpectre,
+                                worldObj.getBlockMetadata(Record.X, Record.Y, Record.Z));
                     } else if(block.getCollisionBoundingBoxFromPool(worldObj, Record.X - Package.MotionDirection.deltaX, Record.Y, Record.Z - Package.MotionDirection.deltaZ) == null) {
                         SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.SupportiveNoCollide.ordinal());
