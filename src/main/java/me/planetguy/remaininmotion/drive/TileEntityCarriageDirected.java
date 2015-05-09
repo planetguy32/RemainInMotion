@@ -7,6 +7,7 @@ import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -121,8 +122,8 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 		}
 	}
 	
-    public void setConfiguration(long flags){
-    	super.setConfiguration(flags);
+    public void setConfiguration(long flags, EntityPlayerMP changer){
+    	super.setConfiguration(flags, changer);
     	pointedDir=Directions.values()[(int) (flags&8)];
     }
 }

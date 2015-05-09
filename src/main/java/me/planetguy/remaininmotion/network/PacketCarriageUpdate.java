@@ -32,7 +32,7 @@ public class PacketCarriageUpdate {
 		if(senderDistanceSq<PLAYER_REACH){
 			TileEntity te=playerEntity.worldObj.getTileEntity(x, y, z);
 			if(te instanceof TileEntityCarriageDrive){
-				((TileEntityCarriageDrive) te).setConfiguration(body.getLong("flags"));
+				((TileEntityCarriageDrive) te).setConfiguration(body.getLong("flags"), playerEntity);
 			}
 		}
 	}

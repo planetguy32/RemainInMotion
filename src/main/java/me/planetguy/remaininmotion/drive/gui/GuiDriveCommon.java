@@ -15,6 +15,7 @@ import me.planetguy.lib.prefab.GuiPrefab;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
+import me.planetguy.remaininmotion.network.PacketCarriageUpdate;
 
 public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 
@@ -22,17 +23,32 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	
 	public TileEntityCarriageDrive cde;
 	
+	int buttonID=0;
+
+	private long state=0;
+	
+	
 	public GuiDriveCommon(InventoryPlayer playerInv, TileEntity te) {
 		super(new ContainerDrive(playerInv, te), rl);
 		cde=(TileEntityCarriageDrive) te;
+		readState(cde);
+	}
+	
+	public void readState(TileEntityCarriageDrive te){
+		for(int i=0; i<6; i++){
+			if(te.SideClosed[i])
+				state=state|(1<<(i+3+Buttons.DOWN.ordinal()));
+		}
+		if(te.Continuous)
+			state=state|(1<<(3+Buttons.CONTINUOUS_MODE.ordinal()));
+		if(te.requiresScrewdriverToOpen)
+			state=state|(1<<(3+Buttons.SCREWDRIVER_MODE.ordinal()));
 	}
 	
 	@Override
 	public String getLabel() {
 		return "Carriage Drive";
 	}
-	
-	int buttonID=0;
 	
 	public void initGui(){		
 		super.initGui();
@@ -61,7 +77,7 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	}
 	
 	public void onGuiClosed(){
-		
+		PacketCarriageUpdate.send(cde, state);
 	}
     
     //TODO draw tooltips:  protected void drawHoveringText(List lines, int x, int y, FontRenderer renderer)

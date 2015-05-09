@@ -75,9 +75,12 @@ public class ModRiM {
 		
 		GuiHandlerPrefab.create(this, new Class[]{
 				ContainerDrive.class,
-				
+				ContainerDrive.class,
+				ContainerDrive.class,
 		}, new Class[]{
-				GuiDriveCommon.class
+				GuiDriveCommon.class,
+				GuiDriveCommon.class,
+				GuiDriveCommon.class,
 		});
 	}
 
