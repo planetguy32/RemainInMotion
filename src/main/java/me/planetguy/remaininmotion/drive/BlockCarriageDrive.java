@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.drive;
 
 import java.util.List;
 
+import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.SidedIcons;
 import me.planetguy.remaininmotion.util.Registry;
 import me.planetguy.remaininmotion.base.ToolItemSet;
@@ -168,7 +169,6 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	@Override
 	public boolean onBlockActivated(World World, int X, int Y, int Z, EntityPlayer Player, int Side, float HitX,
 			float HitY, float HitZ) {
-		
 		TileEntity te = World.getTileEntity(X, Y, Z);
 		if (te instanceof TileEntityCarriageDrive){
 			if(!(((TileEntityCarriageDrive) te).requiresScrewdriverToOpen

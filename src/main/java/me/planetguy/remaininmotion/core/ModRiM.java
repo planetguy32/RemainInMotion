@@ -125,6 +125,6 @@ public class ModRiM {
     public void onJoin(PlayerEvent.PlayerLoggedInEvent event){
         if(!(event.player instanceof EntityPlayerMP)) return;
         if(((EntityPlayerMP) event.player).isClientWorld())
-            PacketSpecterVelocity.Dispatch((EntityPlayerMP) event.player);
+            PacketSpecterVelocity.send((EntityPlayerMP) event.player);
     }
 }

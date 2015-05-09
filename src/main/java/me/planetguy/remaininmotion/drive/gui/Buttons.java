@@ -1,5 +1,10 @@
 package me.planetguy.remaininmotion.drive.gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.core.ModRiM;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,19 +37,25 @@ public enum Buttons {
 	EAST,
 	SCREWDRIVER_MODE,
 	CONTINUOUS_MODE,
-	HEADING_PLUS,
-	HEADING_MINUS,
 	
 	;
 	
 	int posX, posY;
 	
+	List<String> tooltip;
+	
 	Buttons() {
-		posX=ordinal()%16; //12*20 fits into 256 pixels
+		posX=16*(ordinal()%16); //12*20 fits into 256 pixels
 		//integer division intended, skips last button row's 2 states (active/inactive) and 20px for button outlines
-		posY=20+2*(ordinal()/16);
+		posY=20+32*(ordinal()/16);
+		tooltip=new ArrayList<String>();
+		tooltip.addAll(Arrays.asList(Lang.translate(ModRiM.Handle+":"+this.name()+".tooltip").split("##/##")));
 	}
 	
 	public static ResourceLocation icons=new ResourceLocation(ModRiM.Handle+":textures/gui/container/buttons.png");
+
+	public List getTooltip() {
+		return tooltip;
+	}
 	
 }

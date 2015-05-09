@@ -18,7 +18,8 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
-import me.planetguy.remaininmotion.network.RenderPacket;
+import me.planetguy.remaininmotion.drive.gui.Buttons;
+import me.planetguy.remaininmotion.network.PacketRenderData;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
@@ -86,6 +87,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         TagCompound.setInteger("Tier", Tier);
         TagCompound.setInteger("energyStored", energyStored);
+        
+        TagCompound.setBoolean("screwdriver", requiresScrewdriverToOpen);
     }
 
     @Override
@@ -112,6 +115,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         Tier = TagCompound.getInteger("Tier");
 
         energyStored = TagCompound.getInteger("energyStored");
+        
+        requiresScrewdriverToOpen=TagCompound.getBoolean("screwdriver");
     }
 
     @Override
@@ -407,7 +412,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         Package.RenderCacheKey = GeneratePositionObject();
 
         worldObj.theProfiler.startSection("SendRenderPacket");
-        RenderPacket.Dispatch(Package);
+        PacketRenderData.send(Package);
 
         worldObj.theProfiler.endStartSection("PreMovementModInteraction");
         doPreMovementModInteraction(Package);
@@ -651,5 +656,18 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public boolean onRightClicked(int side, EntityPlayer player) {
         return false;
     }
-
+    
+    public void setConfiguration(long flags){
+    	flags=flags << 3; //save space for heading - it's special-cased.
+    	SideClosed[0]=(flags & Buttons.DOWN.ordinal()) == 1;
+    	SideClosed[1]=(flags & Buttons.UP.ordinal()) == 1;
+    	SideClosed[2]=(flags & Buttons.NORTH.ordinal()) == 1;
+    	SideClosed[3]=(flags & Buttons.SOUTH.ordinal()) == 1;
+    	SideClosed[4]=(flags & Buttons.WEST.ordinal()) == 1;
+    	SideClosed[5]=(flags & Buttons.EAST.ordinal()) == 1;
+    	requiresScrewdriverToOpen=(flags & Buttons.SCREWDRIVER_MODE.ordinal()) == 1;
+    	Continuous=(flags & Buttons.CONTINUOUS_MODE.ordinal()) == 1;
+    	
+    }
+    
 }

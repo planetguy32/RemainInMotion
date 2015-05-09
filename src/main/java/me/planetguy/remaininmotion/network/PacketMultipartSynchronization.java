@@ -10,8 +10,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public abstract class MultipartPropagationPacket {
-	public static void Dispatch(EntityPlayerMP Player, Collection<TileEntity> Tiles) {
+public class PacketMultipartSynchronization {
+	
+	public static void send(EntityPlayerMP Player, Collection<TileEntity> Tiles) {
 		NBTTagCompound Packet = new NBTTagCompound();
 
 		Packet.setInteger("Id", Block.getIdFromBlock(TileEntityMotiveSpectre.MultipartContainerBlockId));
@@ -30,10 +31,10 @@ public abstract class MultipartPropagationPacket {
 
 		Packet.setTag("Body", Body);
 
-		PacketManager.SendPacketToPlayer(Player, PacketTypes.MultipartPropagation, Packet);
+		PacketManager.SendPacketToPlayer(Player, TypesDown.MULTIPART_PROPAGATION, Packet);
 	}
 
-	public static void Handle(NBTTagCompound Packet, World World) {
+	public static void receive(NBTTagCompound Packet, World World) {
 		Block Id = Block.getBlockById(Packet.getInteger("Id"));
 
 		NBTTagList Body = (NBTTagList) Packet.getTag("Body");

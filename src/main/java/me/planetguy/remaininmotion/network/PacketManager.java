@@ -18,25 +18,29 @@ public class PacketManager {
 
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new PacketManager());
-		wrapper.registerMessage(Message.class, Message.class, 0, Side.CLIENT);
-		
+		wrapper.registerMessage(NBTPacketDown.class, NBTPacketDown.class, 0, Side.CLIENT);
+		wrapper.registerMessage(NBTPacketUp.class, NBTPacketUp.class, 1, Side.SERVER);
 		
 	}
 
-	public static void BroadcastPacketFromBlock(int X, int Y, int Z, World world, PacketTypes pt, NBTTagCompound tag) {
+	public static void BroadcastPacketFromBlock(int X, int Y, int Z, World world, TypesDown pt, NBTTagCompound tag) {
 		if (!world.isRemote) {
 			for (EntityPlayerMP player : ((List<EntityPlayerMP>) world.playerEntities)) {
-				send_do(player, new Message(pt, tag));
+				send_do(player, new NBTPacketDown(pt, tag));
 			}
-
 		}
 	}
 
-	public static void SendPacketToPlayer(EntityPlayerMP player, PacketTypes pt, NBTTagCompound tag) {
-		send_do(player, new Message(pt, tag));
+	public static void SendPacketToPlayer(EntityPlayerMP player, TypesDown pt, NBTTagCompound tag) {
+		send_do(player, new NBTPacketDown(pt, tag));
 	}
 
-	public static void send_do(EntityPlayerMP player, Message msg) {
+	public static void send_do(EntityPlayerMP player, NBTPacketDown msg) {
 		wrapper.sendTo(msg, player);
 	}
+	
+	public static void sendPacketToServer(TypesUp pt, NBTTagCompound tag){
+		wrapper.sendToServer(new NBTPacketUp(pt, tag));
+	}
+	
 }

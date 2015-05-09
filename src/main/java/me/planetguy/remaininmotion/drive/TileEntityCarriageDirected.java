@@ -120,4 +120,9 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 			return (Blocks.iron_block.getIcon(0, 0));
 		}
 	}
+	
+    public void setConfiguration(long flags){
+    	super.setConfiguration(flags);
+    	pointedDir=Directions.values()[(int) (flags&8)];
+    }
 }
