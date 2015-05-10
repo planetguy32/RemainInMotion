@@ -93,7 +93,7 @@ item.JAKJ_RedstoneInMotion_SimpleItemSet.2.name=Carriage Framework
 item.hollowCarriage.name=Hollow Carriage
 
 #Specter
-tile.JAKJ_RedstoneInMotion_RailSpectre.0.name=Moving Rail
+tile.JAKJ_RedstoneInMotion_RailSpecter.0.name=Moving Rail
 tile.JAKJ_RedstoneInMotion_Spectre.0.name=Moving Block
 tile.JAKJ_RedstoneInMotion_Spectre.1.name=Moving Block
 tile.JAKJ_RedstoneInMotion_Spectre.2.name=Moving Block
