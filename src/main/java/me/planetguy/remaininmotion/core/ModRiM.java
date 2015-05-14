@@ -70,8 +70,6 @@ public class ModRiM {
 		ClientSetupProxy.Instance.Execute();
 
 		Core.HandlePostInit();
-		RemIMPluginsCommon.instance.postInit();
-		
 		
 		GuiHandlerPrefab.create(this, new Class[]{
 				ContainerDrive.class,
