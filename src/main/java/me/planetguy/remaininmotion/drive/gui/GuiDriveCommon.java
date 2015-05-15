@@ -31,10 +31,10 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	public GuiDriveCommon(InventoryPlayer playerInv, TileEntity te) {
 		super(new ContainerDrive(playerInv, te), rl);
 		cde=(TileEntityCarriageDrive) te;
-		readState(cde);
+		stateFromTE(cde);
 	}
 	
-	public void readState(TileEntityCarriageDrive te){
+	public void stateFromTE(TileEntityCarriageDrive te){
 		for(int i=0; i<6; i++){
 			if(te.SideClosed[i])
 				state=state|(1<<(i+3+Buttons.DOWN.ordinal()));
@@ -45,6 +45,14 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 			state=state|(1<<(3+Buttons.SCREWDRIVER_MODE.ordinal()));
 	}
 	
+	public void stateFromButtons(){
+		for(GuiButton b: (List<GuiButton>) this.buttonList){
+			if(b instanceof IconButton){
+				state=((IconButton) b).writeInto(state);
+			}
+		}
+	}
+	
 	@Override
 	public String getLabel() {
 		return "Carriage Drive";
@@ -53,22 +61,34 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	public void initGui(){		
 		super.initGui();
 		int iconID=0;
-		for(int i=0; i<4; i++){
-			for(int k=0; k<4; k++){
-				buttonList.add(new IconButton(buttonID++, width/2 - 50 + i* 22, height/2 - 50 + k * 22, true, Buttons.values()[iconID++], this));
-			}
-		}
+		
+		createButton(-80, -60, Buttons.SCREWDRIVER_MODE);
+		
+		createButton(-58, -60, Buttons.CONTINUOUS_MODE);
+		
+		createButton(-58, -30, Buttons.NORTH);
+		createButton(-36, -30, Buttons.DOWN);
+		createButton(-80, -8, Buttons.WEST);
+		createButton(-58, -8, Buttons.UP);
+		createButton(-36, -8, Buttons.EAST);
+		createButton(-58, 14, Buttons.NORTH);
+		
+	}
+	
+	private void createButton(int x, int y, Buttons button){
+		buttonList.add(new IconButton(buttonID++, width/2 + x, height/2 + y, ((state & (1L<<button.ordinal()))!=0), button, this));
 	}
 	
 	
-	public boolean handle(GuiButton b){
-		Debug.dbg(b.enabled);
-		b.enabled=!b.enabled;
-		return false;
+	public boolean handle(IconButton b){
+		Debug.dbg(b.isActive);
+		b.isActive=!b.isActive;
+		return true;
 	}
 	
     protected void actionPerformed(GuiButton b) {
-    	handle(b);
+    	if(b instanceof IconButton)
+    		handle((IconButton) b);
     }
 
 	@Override

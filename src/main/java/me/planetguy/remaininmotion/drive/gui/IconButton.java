@@ -62,4 +62,12 @@ public class IconButton extends GuiButton{
 	public void setIsActive(boolean b){
 		isActive=b;
 	}
+	
+	public boolean isActive(){
+		return isActive;
+	}
+
+	public long writeInto(long state) {
+		return (state & (~(1 << (icon.ordinal()+3)))) | (1 << (icon.ordinal()+3));
+	}
 }

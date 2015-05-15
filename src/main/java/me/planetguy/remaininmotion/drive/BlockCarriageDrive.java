@@ -175,7 +175,12 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 					//if need screwdriver
 					&& (Player.getHeldItem() == null || Player.getHeldItem().getItem() != RiMItems.ToolItemSet))){
 				//and using something else
-				Player.openGui(ModRiM.instance, 0, World, X, Y, Z);
+				if(te instanceof TileEntityCarriageTranslocator)
+					Player.openGui(ModRiM.instance, 1, World, X, Y, Z);
+				else if(te instanceof TileEntityCarriageDirected)
+					Player.openGui(ModRiM.instance, 2, World, X, Y, Z);
+				else
+					Player.openGui(ModRiM.instance, 0, World, X, Y, Z);
 				return true;
 			}
 		}
@@ -201,7 +206,7 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 		*/
 
 	}
-
+	
 	@Override
 	public void onNeighborBlockChange(World World, int X, int Y, int Z, Block Id) {
 		try {
