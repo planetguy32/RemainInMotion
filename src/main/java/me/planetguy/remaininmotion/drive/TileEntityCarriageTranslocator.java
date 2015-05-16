@@ -30,9 +30,9 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		RiMRegistry.registerEventHandler(new TranslocatorMoveListener());
 	}
 	
-	public String																Player;
+	public String Player;
 
-	public int																	Label;
+	public int Label;
 	
 	static {
 		
@@ -131,6 +131,9 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	@Override
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
+		
+		if(Player==null)
+			Player=""; //salvage test world
 
 		TagCompound.setString("Player", Player);
 
@@ -267,7 +270,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
     	if((flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) == 1){
     		Player=changer.getDisplayName();
     	}else{
-    		Player=null;
+    		Player="";
     	}
     }
 }

@@ -28,8 +28,8 @@ public class IconButton extends GuiButton{
 	 * Draws this button to the screen.
 	 */
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-		mc.getTextureManager().bindTexture(Buttons.icons);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.getTextureManager().bindTexture(Buttons.icons);
 		boolean shouldDrawHighlighted = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 
 		int xDifference=0;
@@ -56,7 +56,7 @@ public class IconButton extends GuiButton{
 				icon.posX, posY, 
 				this.width-4, this.height-4);
 		
-		tooltips.drawTooltip(icon, mouseX, mouseY);
+		tooltips.drawTooltip(icon.tooltip, mouseX, mouseY);
 	}
 
 	public void setIsActive(boolean b){
@@ -68,6 +68,7 @@ public class IconButton extends GuiButton{
 	}
 
 	public long writeInto(long state) {
-		return (state & (~(1 << (icon.ordinal()+3)))) | (1 << (icon.ordinal()+3));
+		return (state & (~(1 << (icon.ordinal()+3)))) 
+				| (isActive ? (1 << (icon.ordinal()+3)) : 0);
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import me.planetguy.lib.prefab.ContainerPrefab;
 import me.planetguy.lib.prefab.GuiPrefab;
 import me.planetguy.lib.util.Debug;
@@ -19,13 +20,15 @@ import me.planetguy.remaininmotion.network.PacketCarriageUpdate;
 
 public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 
+	public boolean initialized=false;
+	
 	private static ResourceLocation rl=new ResourceLocation(ModRiM.Handle+":textures/gui/container/disposer.png");
 	
 	public TileEntityCarriageDrive cde;
 	
 	int buttonID=0;
 
-	private long state=0;
+	protected long state=0;
 	
 	
 	public GuiDriveCommon(InventoryPlayer playerInv, TileEntity te) {
@@ -45,6 +48,14 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 			state=state|(1<<(3+Buttons.SCREWDRIVER_MODE.ordinal()));
 	}
 	
+	public void stateToButtons(){
+		for(GuiButton b: (List<GuiButton>) this.buttonList){
+			if(b instanceof IconButton){
+				((IconButton) b).setIsActive(((state) & (1 << ((IconButton) b).icon.ordinal()+3))!=0);
+			}
+		}
+	}
+	
 	public void stateFromButtons(){
 		for(GuiButton b: (List<GuiButton>) this.buttonList){
 			if(b instanceof IconButton){
@@ -62,20 +73,20 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 		super.initGui();
 		int iconID=0;
 		
-		createButton(-80, -60, Buttons.SCREWDRIVER_MODE);
+		createButton(-81, -60, Buttons.SCREWDRIVER_MODE);
 		
-		createButton(-58, -60, Buttons.CONTINUOUS_MODE);
+		createButton(-59, -60, Buttons.CONTINUOUS_MODE);
 		
-		createButton(-58, -30, Buttons.NORTH);
-		createButton(-36, -30, Buttons.DOWN);
-		createButton(-80, -8, Buttons.WEST);
-		createButton(-58, -8, Buttons.UP);
-		createButton(-36, -8, Buttons.EAST);
-		createButton(-58, 14, Buttons.NORTH);
-		
+		createButton(-59, -30, Buttons.NORTH);
+		createButton(-37, -30, Buttons.DOWN);
+		createButton(-81, -8, Buttons.WEST);
+		createButton(-59, -8, Buttons.UP);
+		createButton(-37, -8, Buttons.EAST);
+		createButton(-59, 14, Buttons.SOUTH);
+		stateToButtons();
 	}
 	
-	private void createButton(int x, int y, Buttons button){
+	protected void createButton(int x, int y, Buttons button){
 		buttonList.add(new IconButton(buttonID++, width/2 + x, height/2 + y, ((state & (1L<<button.ordinal()))!=0), button, this));
 	}
 	
@@ -92,15 +103,26 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
     }
 
 	@Override
-	public void drawTooltip(Buttons icon, int mouseX, int mouseY) {
-		drawHoveringText(icon.getTooltip(), mouseX, mouseY, Minecraft.getMinecraft().fontRenderer);
+	public void drawTooltip(List<String> icon, int mouseX, int mouseY) {
+		drawHoveringText(icon, mouseX, mouseY, Minecraft.getMinecraft().fontRenderer);
 	}
 	
 	public void onGuiClosed(){
-		PacketCarriageUpdate.send(cde, state);
+		if(initialized){
+			stateFromButtons();
+			PacketCarriageUpdate.send(cde, state);
+		}
 	}
     
-    //TODO draw tooltips:  protected void drawHoveringText(List lines, int x, int y, FontRenderer renderer)
-
+	@Override
+	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
+		FontRenderer fr=Minecraft.getMinecraft().fontRenderer;
+		//draw text and stuff here
+		//the parameters for drawString are: string, x, y, color
+		fr.drawString(getLabel(), 8, 6, 4210752);
+		
+		initialized=true;
+	}
+	
 
 }

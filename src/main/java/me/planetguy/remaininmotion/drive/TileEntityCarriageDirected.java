@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 
-	private Directions	pointedDir=Directions.NegY;
+	public Directions	pointedDir=Directions.NegY;
 	
 	public static SidedIcons helper;
 	
