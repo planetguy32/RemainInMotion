@@ -32,6 +32,7 @@ import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -483,6 +484,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     if(block.isOpaqueCube()) {
                         SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.Supportive.ordinal());
+                    } else if(block instanceof BlockRailBase) {
+                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.RailSpectre,
+                                worldObj.getBlockMetadata(Record.X, Record.Y, Record.Z));
                     } else if(block.getCollisionBoundingBoxFromPool(worldObj, Record.X - Package.MotionDirection.deltaX, Record.Y, Record.Z - Package.MotionDirection.deltaZ) == null) {
                         SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.SupportiveNoCollide.ordinal());
@@ -660,14 +664,14 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     
     public void setConfiguration(long flags, EntityPlayerMP changer){
     	flags=flags >> 3; //save space for heading - it's special-cased.
-    	SideClosed[0]=(flags & 1<<Buttons.DOWN.ordinal()) == 1;
-    	SideClosed[1]=(flags & 1<<Buttons.UP.ordinal()) == 1;
-    	SideClosed[2]=(flags & 1<<Buttons.NORTH.ordinal()) == 1;
-    	SideClosed[3]=(flags & 1<<Buttons.SOUTH.ordinal()) == 1;
-    	SideClosed[4]=(flags & 1<<Buttons.WEST.ordinal()) == 1;
-    	SideClosed[5]=(flags & 1<<Buttons.EAST.ordinal()) == 1;
-    	requiresScrewdriverToOpen=(flags & 1<<Buttons.SCREWDRIVER_MODE.ordinal()) == 1;
-    	Continuous=(flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) == 1;
+    	SideClosed[0]=(flags & 1<<Buttons.DOWN.ordinal()) != 0;
+    	SideClosed[1]=(flags & 1<<Buttons.UP.ordinal()) != 0;
+    	SideClosed[2]=(flags & 1<<Buttons.NORTH.ordinal()) != 0;
+    	SideClosed[3]=(flags & 1<<Buttons.SOUTH.ordinal()) != 0;
+    	SideClosed[4]=(flags & 1<<Buttons.WEST.ordinal()) != 0;
+    	SideClosed[5]=(flags & 1<<Buttons.EAST.ordinal()) != 0;
+    	requiresScrewdriverToOpen=(flags & 1<<Buttons.SCREWDRIVER_MODE.ordinal()) != 0;
+    	Continuous=(flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) != 0;
     	
     	//flush changes to clients and persistence
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);

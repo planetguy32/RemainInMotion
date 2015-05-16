@@ -11,7 +11,9 @@ import me.planetguy.lib.PLHelper;
 import me.planetguy.lib.prefab.GuiHandlerPrefab;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.drive.gui.ContainerDrive;
+import me.planetguy.remaininmotion.drive.gui.GuiDirectional;
 import me.planetguy.remaininmotion.drive.gui.GuiDriveCommon;
+import me.planetguy.remaininmotion.drive.gui.GuiTranslocator;
 import me.planetguy.remaininmotion.motion.BlacklistManager;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.Mod;
@@ -70,8 +72,6 @@ public class ModRiM {
 		ClientSetupProxy.Instance.Execute();
 
 		Core.HandlePostInit();
-		RemIMPluginsCommon.instance.postInit();
-		
 		
 		GuiHandlerPrefab.create(this, new Class[]{
 				ContainerDrive.class,
@@ -79,8 +79,8 @@ public class ModRiM {
 				ContainerDrive.class,
 		}, new Class[]{
 				GuiDriveCommon.class,
-				GuiDriveCommon.class,
-				GuiDriveCommon.class,
+				GuiTranslocator.class,
+				GuiDirectional.class,
 		});
 	}
 

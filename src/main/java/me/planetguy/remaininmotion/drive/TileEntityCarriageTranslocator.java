@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
+import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.transformations.Directions;
@@ -18,6 +19,8 @@ import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -30,9 +33,9 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		RiMRegistry.registerEventHandler(new TranslocatorMoveListener());
 	}
 	
-	public String																Player;
+	public String Player;
 
-	public int																	Label;
+	public int Label;
 	
 	static {
 		
@@ -131,6 +134,9 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	@Override
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
+		
+		if(Player==null)
+			Player=""; //salvage test world
 
 		TagCompound.setString("Player", Player);
 
@@ -230,13 +236,59 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 
 	@Override
 	public void EstablishPlaceholders(CarriagePackage Package) {
-		for (BlockRecord Record : Package.NewPositions) {
-			SneakyWorldUtil.SetBlock(worldObj, Record.X + xCoord, Record.Y + yCoord, Record.Z + zCoord,
-					RIMBlocks.Spectre, BlockSpectre.Types.Supportive.ordinal());
+		byte[] lightValues = new byte[Package.Body.size()];
+		byte[] lightOpacities = new byte[Package.Body.size()];
 
-			SneakyWorldUtil.SetBlock(Package.Translocator.worldObj, Record.X + Package.Translocator.xCoord, Record.Y
-					+ Package.Translocator.yCoord, Record.Z + Package.Translocator.zCoord, RIMBlocks.Spectre,
-					BlockSpectre.Types.Supportive.ordinal());
+		int i = 0;
+		for (BlockRecord Record : Package.NewPositions) {
+
+			try {
+				lightValues[i] = (byte) Record.block.getLightValue(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z);
+				lightOpacities[i] = (byte) Record.block.getLightOpacity(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z);
+			} catch (Exception e) {
+				lightValues[i] = (byte) Record.block.getLightValue();
+				lightOpacities[i] = (byte) Record.block.getLightOpacity();
+			}
+			i++;
+		}
+
+		i = 0;
+		for (BlockRecord Record : Package.NewPositions) {
+			Block block = Record.block;
+
+			if(block.isOpaqueCube()) {
+				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
+						BlockSpectre.Types.Supportive.ordinal());
+
+				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+						BlockSpectre.Types.Supportive.ordinal());
+			} else if(block instanceof BlockRailBase) {
+				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.RailSpectre,
+						worldObj.getBlockMetadata(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z));
+
+				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.RailSpectre,
+						Package.Translocator.getWorldObj().getBlockMetadata(Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z));
+			} else if(block.getCollisionBoundingBoxFromPool(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z) == null) {
+				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
+						BlockSpectre.Types.SupportiveNoCollide.ordinal());
+
+				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+						BlockSpectre.Types.SupportiveNoCollide.ordinal());
+			} else {
+				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
+						BlockSpectre.Types.Supportive.ordinal());
+
+				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+						BlockSpectre.Types.Supportive.ordinal());
+			}
+			worldObj.setTileEntity(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, new TileEntitySupportiveSpectre());
+			TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z));
+			tile.setLight(lightValues[i], lightOpacities[i]);
+
+			Package.Translocator.getWorldObj().setTileEntity(Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, new TileEntitySupportiveSpectre());
+			tile = ((TileEntitySupportiveSpectre) Package.Translocator.getWorldObj().getTileEntity(Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z));
+			tile.setLight(lightValues[i], lightOpacities[i]);
+			i++;
 		}
 	}
 
@@ -267,7 +319,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
     	if((flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) == 1){
     		Player=changer.getDisplayName();
     	}else{
-    		Player=null;
+    		Player="";
     	}
     }
 }

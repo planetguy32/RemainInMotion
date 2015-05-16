@@ -9,6 +9,7 @@ import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.BlockSimpleFrame;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
+import me.planetguy.remaininmotion.spectre.BlockRailSpecter;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -19,6 +20,7 @@ public abstract class RIMBlocks {
 	public static BlockCarriageDrive	CarriageDrive;
 
 	public static BlockSpectre			Spectre;
+	public static BlockRailSpecter		RailSpectre;
 
 	public static Block					air	= Blocks.air;
 	
@@ -34,5 +36,7 @@ public abstract class RIMBlocks {
 		CarriageDrive = new BlockCarriageDrive();
 
 		Spectre = new BlockSpectre();
+
+		RailSpectre = new BlockRailSpecter();
 	}
 }

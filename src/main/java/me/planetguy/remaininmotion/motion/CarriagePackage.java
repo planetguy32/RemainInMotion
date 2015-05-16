@@ -140,8 +140,10 @@ public class CarriagePackage {
 		}
 
 		if (MotionDirection == null) {
-			NewPositions.add(new BlockRecord(record.X - driveRecord.X, record.Y - driveRecord.Y, record.Z
-					- driveRecord.Z));
+			BlockRecord record1 = new BlockRecord(record.X - driveRecord.X, record.Y - driveRecord.Y, record.Z
+					- driveRecord.Z);
+			record1.block = record.block;
+			NewPositions.add(record1);
 		} else {
 			NewPositions.add(record.NextInDirection(MotionDirection));
 		}
