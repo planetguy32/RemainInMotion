@@ -24,6 +24,7 @@ public class GuiTranslocator extends GuiDriveCommon {
 	
 	public void stateFromTE(TileEntityCarriageDrive te){
 		state |= (((long)((TileEntityCarriageTranslocator)te).Label)<<3);
+		state |= (((TileEntityCarriageTranslocator)te).Player.equals("") ? 0 : 1L<< (Buttons.PRIVATE.ordinal()+3));
 		super.stateFromTE(te);
 	}
 	

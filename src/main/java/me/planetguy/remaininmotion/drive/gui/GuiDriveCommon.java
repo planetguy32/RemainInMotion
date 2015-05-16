@@ -26,7 +26,7 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	
 	public TileEntityCarriageDrive cde;
 	
-	int buttonID=0;
+	protected int buttonID=0;
 
 	protected long state=0;
 	
@@ -71,7 +71,6 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	
 	public void initGui(){		
 		super.initGui();
-		int iconID=0;
 		
 		createButton(-81, -60, Buttons.SCREWDRIVER_MODE);
 		

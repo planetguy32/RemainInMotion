@@ -18,7 +18,8 @@ public class GuiDirectional extends GuiDriveCommon {
 	
 	public void initGui(){
 		super.initGui();
-		
+		buttonList.add(new ReorientButton(buttonID++, width/2, height/2 - 30, false, this));
+		buttonList.add(new ReorientButton(buttonID++, width/2, height/2 - 8, true, this));
 	}
 	
 	public String getLabel() {
@@ -29,5 +30,16 @@ public class GuiDirectional extends GuiDriveCommon {
 		super.stateFromButtons();
 		state |= heading;
 	}
+	
+    protected void actionPerformed(GuiButton b) {
+    	super.actionPerformed(b);
+    	if(b instanceof ReorientButton){
+    		if(((ReorientButton) b).isUpAdjust){
+    			heading=(heading+1)%6;
+    		}else{
+    			heading=(heading+5)%6; // +6-1 -> avoid having negative modulus results
+    		}
+    	}
+    }
 
 }

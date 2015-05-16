@@ -46,7 +46,7 @@ public class ReorientButton extends GuiButton{
 
 		//draw widget
 		this.drawTexturedModalRect(this.xPosition+2, this.yPosition+2,
-				0, 44+(isUpAdjust ? 1 : 0),
+				40+(isUpAdjust ? 16 : 0), 0,
 				this.width-4, this.height-4);
 		
 		tooltips.drawTooltip(tooltip, mouseX, mouseY);
