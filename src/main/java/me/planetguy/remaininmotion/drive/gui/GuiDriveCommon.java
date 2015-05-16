@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -30,6 +31,7 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 
 	protected long state=0;
 	
+	private List<String> deferredTooltipLines;
 	
 	public GuiDriveCommon(InventoryPlayer playerInv, TileEntity te) {
 		super(new ContainerDrive(playerInv, te), rl);
@@ -103,7 +105,7 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 
 	@Override
 	public void drawTooltip(List<String> icon, int mouseX, int mouseY) {
-		drawHoveringText(icon, mouseX, mouseY, Minecraft.getMinecraft().fontRenderer);
+		deferredTooltipLines=icon;
 	}
 	
 	public void onGuiClosed(){
@@ -122,6 +124,13 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 		
 		initialized=true;
 	}
+	
+    public void drawScreen(int mouseX, int mouseY, float p_73863_3_) {
+        deferredTooltipLines=null;
+        super.drawScreen(mouseX, mouseY, p_73863_3_);
+        if(deferredTooltipLines != null)
+        	drawHoveringText(deferredTooltipLines, mouseX, mouseY, Minecraft.getMinecraft().fontRenderer);
+    }
 	
 
 }

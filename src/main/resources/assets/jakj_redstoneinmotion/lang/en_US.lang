@@ -36,6 +36,36 @@ JAKJ_RedstoneInMotiondyeOrange=Orange
 JAKJ_RedstoneInMotiondyeWhite=White
 
 
+#Tooltips for GUI
+JAKJ_RedstoneInMotion:REORIENT_UP.tooltip=Change heading
+JAKJ_RedstoneInMotion:REORIENT_DOWN.tooltip=Change heading
+JAKJ_RedstoneInMotion:DYE_0.tooltip=Black Channel
+JAKJ_RedstoneInMotion:DYE_1.tooltip=Red Channel
+JAKJ_RedstoneInMotion:DYE_2.tooltip=Green Channel
+JAKJ_RedstoneInMotion:DYE_3.tooltip=Brown Channel
+JAKJ_RedstoneInMotion:DYE_4.tooltip=Blue Channel
+JAKJ_RedstoneInMotion:DYE_5.tooltip=Purple Channel
+JAKJ_RedstoneInMotion:DYE_6.tooltip=Cyan Channel
+JAKJ_RedstoneInMotion:DYE_7.tooltip=Light Gray Channel
+JAKJ_RedstoneInMotion:DYE_8.tooltip=Gray Channel
+JAKJ_RedstoneInMotion:DYE_9.tooltip=Pink Channel
+JAKJ_RedstoneInMotion:DYE_10.tooltip=Lime Channel
+JAKJ_RedstoneInMotion:DYE_11.tooltip=Yellow Channel
+JAKJ_RedstoneInMotion:DYE_12.tooltip=Light Blue Channel
+JAKJ_RedstoneInMotion:DYE_13.tooltip=Magenta Channel
+JAKJ_RedstoneInMotion:DYE_14.tooltip=Orange Channel
+JAKJ_RedstoneInMotion:DYE_15.tooltip=White Channel
+JAKJ_RedstoneInMotion:PRIVATE.tooltip=Private Channels
+JAKJ_RedstoneInMotion:DOWN.tooltip=Close bottom
+JAKJ_RedstoneInMotion:UP.tooltip=Close top
+JAKJ_RedstoneInMotion:NORTH.tooltip=Close north
+JAKJ_RedstoneInMotion:SOUTH.tooltip=Close south
+JAKJ_RedstoneInMotion:WEST.tooltip=Close west
+JAKJ_RedstoneInMotion:EAST.tooltip=Close east
+JAKJ_RedstoneInMotion:SCREWDRIVER_MODE.tooltip=Toggle screwdriver-only opening
+JAKJ_RedstoneInMotion:CONTINUOUS_MODE.tooltip=Toggle once-per-signal motion
+
+
 
 #Items and blocks
 #    (JAKJ-style tooltips replace ##/## -> newline)

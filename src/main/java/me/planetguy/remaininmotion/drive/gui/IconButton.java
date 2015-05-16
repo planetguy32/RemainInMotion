@@ -55,8 +55,9 @@ public class IconButton extends GuiButton{
 		this.drawTexturedModalRect(this.xPosition+2, this.yPosition+2,
 				icon.posX, posY, 
 				this.width-4, this.height-4);
-		
-		tooltips.drawTooltip(icon.tooltip, mouseX, mouseY);
+
+		if(shouldDrawHighlighted)
+			tooltips.drawTooltip(icon.tooltip, mouseX, mouseY);
 	}
 
 	public void setIsActive(boolean b){
