@@ -6,14 +6,15 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public abstract class PacketSpecterVelocity {
-    public static void Dispatch(EntityPlayerMP Player) {
+public class PacketSpecterVelocity {
+	
+    public static void send(EntityPlayerMP Player) {
         NBTTagCompound Packet = new NBTTagCompound();
         Packet.setInteger("MotionDuration", RiMConfiguration.CarriageMotion.MotionDuration);
-        PacketManager.SendPacketToPlayer(Player, PacketTypes.SpecterVelocity, Packet);
+        PacketManager.SendPacketToPlayer(Player, TypesDown.SPECTRE_VELOCITY, Packet);
     }
 
-    public static void Handle(NBTTagCompound Packet, World World) {
+    public static void receive(NBTTagCompound Packet, World World) {
         if(!World.isRemote) return;
         RiMConfiguration.CarriageMotion.MotionDuration = Packet.getInteger("MotionDuration");
         TileEntityMotiveSpectre.velocity = 1 / ((double) RiMConfiguration.CarriageMotion.MotionDuration);

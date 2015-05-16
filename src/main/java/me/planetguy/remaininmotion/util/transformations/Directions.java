@@ -3,8 +3,12 @@ package me.planetguy.remaininmotion.util.transformations;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public enum Directions {
-	NegY(ForgeDirection.DOWN), PosY(ForgeDirection.UP), NegZ(ForgeDirection.NORTH), PosZ(ForgeDirection.SOUTH), NegX(
-			ForgeDirection.WEST), PosX(ForgeDirection.EAST),
+	NegY(ForgeDirection.DOWN), 
+	PosY(ForgeDirection.UP), 
+	NegZ(ForgeDirection.NORTH), 
+	PosZ(ForgeDirection.SOUTH), 
+	NegX(ForgeDirection.WEST), 
+	PosX(ForgeDirection.EAST),
 
 	Null(null);
 

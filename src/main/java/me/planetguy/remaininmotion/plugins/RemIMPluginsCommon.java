@@ -36,8 +36,4 @@ public class RemIMPluginsCommon {
         if(Loader.isModLoaded("ForgeMultipart")) FMPCarriagePlugin.init();
     }
 
-    public void postInit() {
-        if(Loader.isModLoaded("BuildCraft|Transport")) FMPCarriagePlugin.postInit();
-    }
-
 }

@@ -7,6 +7,7 @@ import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 
-	private Directions	pointedDir=Directions.NegY;
+	public Directions	pointedDir=Directions.NegY;
 	
 	public static SidedIcons helper;
 	
@@ -120,4 +121,9 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 			return (Blocks.iron_block.getIcon(0, 0));
 		}
 	}
+	
+    public void setConfiguration(long flags, EntityPlayerMP changer){
+    	super.setConfiguration(flags, changer);
+    	pointedDir=Directions.values()[(int) (flags&7)];
+    }
 }

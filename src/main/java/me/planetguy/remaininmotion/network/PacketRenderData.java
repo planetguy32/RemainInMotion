@@ -11,10 +11,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
-public abstract class RenderPacket {
-	public static void Dispatch(CarriagePackage Package) {
-
-		// Debug.dbg("Dispatching render packet");
+public class PacketRenderData {
+	
+	public static void send(CarriagePackage Package) {
 		NBTTagCompound Packet = new NBTTagCompound();
 
 		Packet.setInteger("DriveX", Package.driveRecord.X);
@@ -41,25 +40,22 @@ public abstract class RenderPacket {
 
 		Packet.setInteger("axis", Package.axis);
 
-		// Debug.dbg("RemIM tags:"+((NBTTagList)
-		// Packet.getTag("Body")).tagCount());
-
 		if (Package.MotionDirection == null) {
 			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X, Package.AnchorRecord.Y,
-					Package.AnchorRecord.Z, Package.world, PacketTypes.Render, Packet);
+					Package.AnchorRecord.Z, Package.world, TypesDown.RENDER, Packet);
 
 			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X - Package.driveRecord.X
 					+ Package.Translocator.xCoord, Package.AnchorRecord.Y - Package.driveRecord.Y
 					+ Package.Translocator.yCoord, Package.AnchorRecord.Z - Package.driveRecord.Z
-					+ Package.Translocator.zCoord, Package.Translocator.getWorldObj(), PacketTypes.Render, Packet);
+					+ Package.Translocator.zCoord, Package.Translocator.getWorldObj(), TypesDown.RENDER, Packet);
 		} else {
 			PacketManager.BroadcastPacketFromBlock(Package.AnchorRecord.X + Package.MotionDirection.deltaX,
 					Package.AnchorRecord.Y + Package.MotionDirection.deltaY, Package.AnchorRecord.Z
-							+ Package.MotionDirection.deltaZ, Package.world, PacketTypes.Render, Packet);
+							+ Package.MotionDirection.deltaZ, Package.world, TypesDown.RENDER, Packet);
 		}
 	}
 
-	public static void Handle(NBTTagCompound Packet, World World) {
+	public static void receive(NBTTagCompound Packet, World World) {
 		int DriveX = Packet.getInteger("DriveX");
 		int DriveY = Packet.getInteger("DriveY");
 		int DriveZ = Packet.getInteger("DriveZ");

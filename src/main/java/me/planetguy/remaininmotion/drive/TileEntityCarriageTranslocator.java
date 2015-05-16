@@ -13,6 +13,7 @@ import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
@@ -21,6 +22,7 @@ import me.planetguy.remaininmotion.util.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -31,9 +33,9 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		RiMRegistry.registerEventHandler(new TranslocatorMoveListener());
 	}
 	
-	public String																Player;
+	public String Player;
 
-	public int																	Label;
+	public int Label;
 	
 	static {
 		
@@ -132,6 +134,9 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	@Override
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
+		
+		if(Player==null)
+			Player=""; //salvage test world
 
 		TagCompound.setString("Player", Player);
 
@@ -305,4 +310,16 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		((TileEntityTeleportativeSpectre) Package.Translocator.worldObj.getTileEntity(NewX, NewY, NewZ))
 				.AbsorbSink(Package);
 	}
+	
+    public void setConfiguration(long flags, EntityPlayerMP changer){
+    	super.setConfiguration(flags, changer);
+    	flags=flags>>3;
+    	//take 16 bits
+    	Label=(int) (flags&0xFFFFl);
+    	if((flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) == 1){
+    		Player=changer.getDisplayName();
+    	}else{
+    		Player="";
+    	}
+    }
 }

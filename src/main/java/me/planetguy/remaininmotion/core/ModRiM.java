@@ -8,11 +8,17 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import me.planetguy.remaininmotion.network.PacketSpecterVelocity;
 import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
+import me.planetguy.lib.prefab.GuiHandlerPrefab;
 import me.planetguy.lib.util.Debug;
+import me.planetguy.remaininmotion.drive.gui.ContainerDrive;
+import me.planetguy.remaininmotion.drive.gui.GuiDirectional;
+import me.planetguy.remaininmotion.drive.gui.GuiDriveCommon;
+import me.planetguy.remaininmotion.drive.gui.GuiTranslocator;
 import me.planetguy.remaininmotion.motion.BlacklistManager;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -28,11 +34,14 @@ public class ModRiM {
 
 	public static final String	Title		= "Remain In motion";
 
-	public static final String	Version		= "2.6.1";
+	public static final String	Version		= "2.7.0";
 
 	public static final String	Channel		= "JAKJ_RIM";
 
 	public static PLHelper		plHelper;
+
+	@Instance(ModRiM.Handle)
+	public static Object instance;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent Event) {
@@ -63,7 +72,16 @@ public class ModRiM {
 		ClientSetupProxy.Instance.Execute();
 
 		Core.HandlePostInit();
-		RemIMPluginsCommon.instance.postInit();
+		
+		GuiHandlerPrefab.create(this, new Class[]{
+				ContainerDrive.class,
+				ContainerDrive.class,
+				ContainerDrive.class,
+		}, new Class[]{
+				GuiDriveCommon.class,
+				GuiTranslocator.class,
+				GuiDirectional.class,
+		});
 	}
 
 	@EventHandler
@@ -110,6 +128,6 @@ public class ModRiM {
     public void onJoin(PlayerEvent.PlayerLoggedInEvent event){
         if(!(event.player instanceof EntityPlayerMP)) return;
         if(((EntityPlayerMP) event.player).isClientWorld())
-            PacketSpecterVelocity.Dispatch((EntityPlayerMP) event.player);
+            PacketSpecterVelocity.send((EntityPlayerMP) event.player);
     }
 }
