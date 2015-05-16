@@ -105,6 +105,7 @@ public abstract class Debug {
 	public static void bp() {
 		if(PlanetguyLib.doPLLogging && FMLCommonHandler.instance().getEffectiveSide()==Side.CLIENT){
 			Minecraft.getMinecraft().mouseHelper.ungrabMouseCursor();
+			Debug.dbg_delegate("Ready for debugging!");
 		}
 	}
 }
