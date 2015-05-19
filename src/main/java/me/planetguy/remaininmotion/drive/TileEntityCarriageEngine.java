@@ -71,13 +71,18 @@ public class TileEntityCarriageEngine extends TileEntityCarriageDrive {
 	
 	public void setConfigurationSuper(long flags, EntityPlayerMP changer){
 		super.setConfiguration(flags, changer);
+		isAnchored=(flags & (1<<(Buttons.MOVE_WITH_CARRIAGE.ordinal() + 3))) != 0;
 	}
 	
 	public void setConfiguration(long flags, EntityPlayerMP changer){
-		super.setConfiguration(flags, changer);
-		if((flags & (1<<(Buttons.MOVE_WITH_CARRIAGE.ordinal() + 3))) != 0){
-			isAnchored=true;
+		setConfigurationSuper(flags, changer);
+		if(isAnchored){
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, BlockCarriageDrive.Types.Motor.ordinal(), 2);
+			TileEntity te=new TileEntityCarriageMotor();
+			NBTTagCompound tag=new NBTTagCompound();
+			this.writeToNBT(tag);
+			te.readFromNBT(tag);
+			worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
 		}
 	}
 
