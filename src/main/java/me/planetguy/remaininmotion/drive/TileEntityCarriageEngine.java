@@ -13,8 +13,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCarriageEngine extends TileEntityCarriageDrive {
 	
-	public boolean isAnchored=false;
-	
 	@Override
 	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
 			throws CarriageMotionException {
@@ -71,7 +69,7 @@ public class TileEntityCarriageEngine extends TileEntityCarriageDrive {
 	
 	public void setConfigurationSuper(long flags, EntityPlayerMP changer){
 		super.setConfiguration(flags, changer);
-		isAnchored=(flags & (1<<(Buttons.MOVE_WITH_CARRIAGE.ordinal() + 3))) != 0;
+		isAnchored=(flags & (1<<(Buttons.MOVE_WITH_CARRIAGE.ordinal() + 3))) == 0;
 	}
 	
 	public void setConfiguration(long flags, EntityPlayerMP changer){

@@ -48,6 +48,8 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 			state=state|(1<<(3+Buttons.CONTINUOUS_MODE.ordinal()));
 		if(te.requiresScrewdriverToOpen)
 			state=state|(1<<(3+Buttons.SCREWDRIVER_MODE.ordinal()));
+		if(!te.isAnchored)
+			state=state|(1<<(3+Buttons.MOVE_WITH_CARRIAGE.ordinal()));
 	}
 	
 	public void stateToButtons(){

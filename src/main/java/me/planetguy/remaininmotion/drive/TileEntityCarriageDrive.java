@@ -171,6 +171,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public boolean Stale = true;
 
+	public boolean isAnchored=false;
+
     @Override
     public void Initialize() {
         Stale = true;
