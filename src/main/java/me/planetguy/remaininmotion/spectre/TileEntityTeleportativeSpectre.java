@@ -211,7 +211,12 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 			EntityPlayerMP Player = (EntityPlayerMP) entity;
 
 			if (Transdimensional) {
+				int dimension = Player.dimension;
 				Server.getConfigurationManager().transferPlayerToDimension(Player, TargetDimension, Teleporter);
+
+				if(dimension == 0 && TargetDimension == 1) {
+                    Server.getConfigurationManager().respawnPlayer(Player, 0, true);
+				}
 			}
 
 			Player.playerNetServerHandler.setPlayerLocation(X, Y, Z, Yaw, Pitch);
