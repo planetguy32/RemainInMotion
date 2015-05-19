@@ -78,7 +78,7 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 		
 		createButton(-81, -60, Buttons.SCREWDRIVER_MODE);
 		createButton(-59, -60, Buttons.CONTINUOUS_MODE);
-		createButton(-37, -60, Buttons.MOVE_WITH_CARRIAGE);
+		createContinuousButton();
 		
 		
 		createButton(-59, -30, Buttons.NORTH);
@@ -88,6 +88,10 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 		createButton(-37, -8, Buttons.EAST);
 		createButton(-59, 14, Buttons.SOUTH);
 		stateToButtons();
+	}
+	
+	protected void createContinuousButton(){
+		createButton(-37, -60, Buttons.MOVE_WITH_CARRIAGE);
 	}
 	
 	protected void createButton(int x, int y, Buttons button){

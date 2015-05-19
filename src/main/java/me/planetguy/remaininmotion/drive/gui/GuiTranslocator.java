@@ -31,5 +31,10 @@ public class GuiTranslocator extends GuiDriveCommon {
 	public String getLabel() {
 		return "Carriage Translocator";
 	}
+	
+	// Do nothing - translocators 
+	protected void createContinuousButton(){
+		
+	}
 
 }
