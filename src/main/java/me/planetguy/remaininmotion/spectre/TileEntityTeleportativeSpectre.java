@@ -214,8 +214,8 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 				int dimension = Player.dimension;
 				Server.getConfigurationManager().transferPlayerToDimension(Player, TargetDimension, Teleporter);
 
-				if(dimension == 0 && TargetDimension == 1) {
-                    Server.getConfigurationManager().respawnPlayer(Player, 0, true);
+				if(dimension == 1) {
+					TargetWorld.spawnEntityInWorld(Player);
 				}
 			}
 
