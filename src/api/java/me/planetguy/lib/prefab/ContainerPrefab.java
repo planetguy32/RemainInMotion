@@ -1,6 +1,5 @@
 package me.planetguy.lib.prefab;
 
-import me.planetguy.gizmos.content.inventory.TileEntityInvenswapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
