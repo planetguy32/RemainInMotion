@@ -37,6 +37,7 @@ public enum Buttons {
 	EAST,
 	SCREWDRIVER_MODE,
 	CONTINUOUS_MODE,
+	MOVE_WITH_CARRIAGE
 	
 	;
 	

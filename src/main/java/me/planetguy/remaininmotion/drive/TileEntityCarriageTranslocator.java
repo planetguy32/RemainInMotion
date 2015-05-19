@@ -316,7 +316,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
     	flags=flags>>3;
     	//take 16 bits
     	Label=(int) (flags&0xFFFFl);
-    	if((flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) == 1){
+    	if((flags & (1<<(Buttons.PRIVATE.ordinal() + 3))) != 0){
     		Player=changer.getDisplayName();
     	}else{
     		Player="";

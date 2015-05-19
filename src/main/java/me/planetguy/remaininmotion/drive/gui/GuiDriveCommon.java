@@ -75,8 +75,9 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 		super.initGui();
 		
 		createButton(-81, -60, Buttons.SCREWDRIVER_MODE);
-		
 		createButton(-59, -60, Buttons.CONTINUOUS_MODE);
+		createButton(-37, -60, Buttons.MOVE_WITH_CARRIAGE);
+		
 		
 		createButton(-59, -30, Buttons.NORTH);
 		createButton(-37, -30, Buttons.DOWN);

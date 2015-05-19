@@ -1,39 +1,27 @@
 package me.planetguy.remaininmotion.drive;
 
+import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriageObstructionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityCarriageMotor extends TileEntityCarriageDrive {
-	@Override
-	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
-			throws CarriageMotionException {
-		if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(
-				"motor cannot push carriage away from itself")); }
-
-		if (MotionDirection == CarriageDirection.opposite()) { throw (new CarriageMotionException(
-				"motor cannot pull carriage into itself")); }
-
-		CarriagePackage Package = new CarriagePackage(this, carriage, MotionDirection);
-
-		MultiTypeCarriageUtil.fillPackage(Package, carriage);
-
-		if (Package.Body.contains(Package.driveRecord)) { throw (new CarriageMotionException(
-				"carriage is attempting to move motor")); }
-
-		if (Package.Body.contains(Package.driveRecord.NextInDirection(MotionDirection.opposite()))) { throw (new CarriageObstructionException(
-				"carriage motion is obstructed by motor", xCoord, yCoord, zCoord)); }
-
-		Package.Finalize();
-
-		return (Package);
+public class TileEntityCarriageMotor extends TileEntityCarriageEngine {
+	
+	public TileEntityCarriageMotor(){
+		super();
+		isAnchored=true;
+	}
+	
+	public void setConfiguration(long flags, EntityPlayerMP changer){
+		setConfigurationSuper(flags, changer);
+		if((flags & (1<<(Buttons.MOVE_WITH_CARRIAGE.ordinal() +3))) == 0){
+			isAnchored=false;
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, BlockCarriageDrive.Types.Engine.ordinal(), 2);
+		}
 	}
 
-	@Override
-	public boolean Anchored() {
-		return (true);
-	}
 }
