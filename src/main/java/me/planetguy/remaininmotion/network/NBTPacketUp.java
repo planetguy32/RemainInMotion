@@ -29,4 +29,9 @@ public class NBTPacketUp extends NBTPacket implements IMessage, IMessageHandler<
 		return null;
 	}
 
+	@Override
+	protected NBTSizeTracker createTracker() {
+		return new NBTSizeTracker(1000L);
+	}
+
 }

@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class NBTPacket {
+public abstract class NBTPacket {
 	
 	/* Only for Netty's use */
 	@Deprecated
@@ -42,12 +42,13 @@ public class NBTPacket {
 			}
 			
 			//Use size limiter
-			body = CompressedStreamTools.func_152457_a(fixedBytes, new NBTSizeTracker(1000L));
+			body = CompressedStreamTools.func_152457_a(fixedBytes, createTracker());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
+	
+	protected abstract NBTSizeTracker createTracker();
 
 	public void toBytes(ByteBuf buf) {
 		try {

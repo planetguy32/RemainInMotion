@@ -34,4 +34,9 @@ public class NBTPacketDown extends NBTPacket implements IMessage, IMessageHandle
         }
 		return null;
 	}
+
+	@Override
+	protected NBTSizeTracker createTracker() {
+		return NBTSizeTracker.field_152451_a;
+	}
 }
