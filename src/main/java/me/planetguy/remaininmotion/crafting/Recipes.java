@@ -117,13 +117,15 @@ public abstract class Recipes {
 
 		'R', Stack.New(Blocks.redstone_block), 'F', Stack.New(Blocks.furnace), 'I', Stack.New(Blocks.iron_block));
 
+		/* Toggle this in the GUI
 		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Engine,
 
 		"TTT", "TMT", "TTT",
 
 		'M', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Motor.ordinal(), 0), 'T',
 				Stack.New(Blocks.redstone_torch));
-
+		*/
+		
 		RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Translocator,
 
 		"OOO", "OEO", "PCP",
