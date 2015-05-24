@@ -11,8 +11,10 @@ import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.base.BlockRiM;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
@@ -83,7 +85,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		super.Setup(Player, Item);
 
 		this.Player = ItemCarriageDrive.GetPrivateFlag(Item) ? Player.getDisplayName() : "";
-
+		
 		Label = ItemCarriageDrive.GetLabel(Item);
 
 		if (!worldObj.isRemote) {
@@ -312,6 +314,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	}
 	
     public void setConfiguration(long flags, EntityPlayerMP changer){
+    	unregisterLabel();
     	super.setConfiguration(flags, changer);
     	flags=flags>>3;
     	//take 16 bits
@@ -321,5 +324,15 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
     	}else{
     		Player="";
     	}
+    	registerLabel();
+    }
+    
+    public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
+    	if(!requiresScrewdriverToOpen || 
+    			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
+    		player.openGui(ModRiM.instance, 1, worldObj, xCoord, yCoord, zCoord);
+    		return true;
+    	}
+    	return false;
     }
 }

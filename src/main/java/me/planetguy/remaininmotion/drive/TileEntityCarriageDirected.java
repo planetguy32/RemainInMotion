@@ -5,6 +5,8 @@ import me.planetguy.lib.util.SidedIcons;
 import me.planetguy.remaininmotion.motion.CarriageMatchers;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.Moveable;
+import me.planetguy.remaininmotion.core.ModRiM;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.gui.Buttons;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,23 +36,6 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 		super.Setup(Player, Item);
 		int l = BlockPistonBase.determineOrientation(Player.worldObj, xCoord, yCoord, zCoord, Player);
 		pointedDir = Directions.values()[l].opposite();
-	}
-
-	@Override
-	public boolean onRightClicked(int side, EntityPlayer player) {
-		if (player.getHeldItem() == null) {
-			if(player.isSneaking()) {
-				//rotate the pointed direction
-				pointedDir=Directions.values()[(pointedDir.ordinal() + 1) % 6];
-			}else {
-				pointedDir = Directions.values()[side].opposite();
-				Debug.dbg(pointedDir.ordinal());
-			}
-			Propagate();
-			return true;
-		}else {
-			return super.onRightClicked(side, player);
-		}
 	}
 
 	public void HandleNeighbourBlockChange() {
@@ -126,5 +111,14 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
     public void setConfiguration(long flags, EntityPlayerMP changer){
     	setConfigurationSuper(flags, changer);
     	pointedDir=Directions.values()[(int) (flags&7)];
+    }
+    
+    public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
+    	if(!requiresScrewdriverToOpen || 
+    			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
+    		player.openGui(ModRiM.instance, 2, worldObj, xCoord, yCoord, zCoord);
+    		return true;
+    	}
+    	return false;
     }
 }

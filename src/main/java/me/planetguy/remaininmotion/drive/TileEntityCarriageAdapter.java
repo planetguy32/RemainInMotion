@@ -6,12 +6,13 @@ import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implements ISpecialMoveBehavior {
 
 	public boolean	alreadyMoving;
-
+	
 	static {
 		// BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
 	}
@@ -82,7 +83,7 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 	}
 
 	@Override
-	public void HandleToolUsage(int clickedSide, boolean sneaking) {
+	public boolean HandleToolUsage(int clickedSide, boolean sneaking, EntityPlayer player) {
 		if(sneaking) {
 			//rotate
 			boolean sideClosedAtIMinus1=SideClosed[SideClosed.length-1];
@@ -97,6 +98,7 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 			}
 		}
 		Propagate();
+		return true;
 	}
 
 }

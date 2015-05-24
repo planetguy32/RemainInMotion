@@ -21,17 +21,16 @@ import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.Rotator;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCarriageRotator extends TileEntityCarriageDrive implements ISpecialMoveBehavior {
+public class TileEntityCarriageRotator extends TileEntityCarriageDirected implements ISpecialMoveBehavior {
 
 	public boolean  	alreadyMoving;
-
-	private int		axisOfRotationIndex;
 
 	@Override
 	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
@@ -41,15 +40,11 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		CarriagePackage Package = new CarriagePackage(this, carriage, Directions.Null);
 
-		Package.axis = axisOfRotationIndex;
+		Package.axis = pointedDir.ordinal();
 
 		Package.blacklistByRotation = true;
 
-		Package.AddBlock(Package.driveRecord);
-
         MultiTypeCarriageUtil.fillPackage(Package, carriage);
-
-		Directions axis = Directions.values()[axisOfRotationIndex];
 
 		BlockRecordSet dests = new BlockRecordSet();
 
@@ -58,7 +53,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 				continue;
 			}
 
-			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), axis,
+			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), pointedDir,
 					record);
 
             Package.AddPotentialObstruction(dest);
@@ -67,11 +62,6 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
         Package.Finalize();
 
 		return (Package);
-	}
-
-	@Override
-	public boolean Anchored() {
-		return false;
 	}
 
 	// don't establish placeholders yet - it's very hard to predict where things
@@ -96,7 +86,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 		TileEntityRotativeSpectre theEntity = new TileEntityRotativeSpectre();
 
-		theEntity.setAxis(axisOfRotationIndex);
+		theEntity.setAxis(pointedDir.ordinal());
 
 		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, theEntity);
 
@@ -107,33 +97,12 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	}
 
 	@Override
-	public void HandleToolUsage(int side, boolean sneaking) {
-		if (sneaking) {
-			super.HandleToolUsage(side, true);
-		} else {
-			axisOfRotationIndex = (axisOfRotationIndex + 1) % 6;
-		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		markDirty();
-	}
-
-	@Override
-	public void WriteCommonRecord(NBTTagCompound tag) {
-		tag.setByte("axis", (byte) axisOfRotationIndex);
-	}
-
-	@Override
-	public void ReadCommonRecord(NBTTagCompound tag) {
-		axisOfRotationIndex = tag.getByte("axis");
-	}
-
-	@Override
 	public IIcon getIcon(int side, int meta) {
 		try {
 			if (drawSideClosed(side)) {
 				return BlockCarriageDrive.InactiveIcon;
 			} else {
-				return icons[axisOfRotationIndex][side];
+				return icons[pointedDir.ordinal()][side];
 			}
 		} catch (ArrayIndexOutOfBoundsException e) { // testing only
 			return Blocks.activator_rail.getIcon(0, 0);
@@ -156,7 +125,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	}
 
 	public void setAxis(int axis) {
-		axisOfRotationIndex = axis;
+		pointedDir = Directions.validDirections()[axis];
 	}
 
 	public boolean drawSideClosed(int side) {
@@ -165,7 +134,8 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 
 	@Override
 	public void updateEntity() {
-		if (!(CarriageDirection != null && (CarriageDirection.ordinal() == axisOfRotationIndex || CarriageDirection.oppositeOrdinal == axisOfRotationIndex))) {
+		if (!(CarriageDirection != null 
+				&& (CarriageDirection == pointedDir || CarriageDirection.oppositeOrdinal == pointedDir.ordinal()))) {
 			CarriageDirection = null;
 		}
 		super.updateEntity();
@@ -174,7 +144,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDrive implement
 	@Override
 	public void rotateSpecial(ForgeDirection axis) {
 		super.rotateSpecial(axis);
-		axisOfRotationIndex = Rotator.newSide(axisOfRotationIndex, axis);
+		pointedDir = Directions.values()[Rotator.newSide(pointedDir.ordinal(), axis)];
 	}
 
 	@Override

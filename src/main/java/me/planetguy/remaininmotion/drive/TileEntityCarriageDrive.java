@@ -16,6 +16,7 @@ import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.drive.gui.Buttons;
@@ -148,14 +149,13 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         isCreative = Player != null ? Player.capabilities.isCreativeMode : false;
     }
 
-    public void HandleToolUsage(int Side, boolean Sneaking) {
-        if (Sneaking) {
-            SideClosed[Side] = !SideClosed[Side];
-        } else {
-            Continuous = !Continuous;
-        }
-
-        Propagate();
+    public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
+    	if(!requiresScrewdriverToOpen || 
+    			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
+    		player.openGui(ModRiM.instance, 0, worldObj, xCoord, yCoord, zCoord);
+    		return true;
+    	}
+    	return false;
     }
 
     public void ToggleActivity() {
@@ -660,10 +660,6 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         SignalDirection = signalDirection;
     }
 
-    public boolean onRightClicked(int side, EntityPlayer player) {
-        return false;
-    }
-    
     public void setConfiguration(long flags, EntityPlayerMP changer){
     	flags=flags >> 3; //save space for heading - it's special-cased.
     	SideClosed[0]=(flags & 1<<Buttons.DOWN.ordinal()) != 0;

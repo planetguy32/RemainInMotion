@@ -223,6 +223,7 @@ import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import me.planetguy.remaininmotion.util.general.ECIExpose;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.Optional;
 import dan200.computercraft.api.lua.ILuaContext;
@@ -252,11 +253,6 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 	public int						ObstructionZ;
 
 	private volatile boolean		finishedMoving	= false;
-
-	@Override
-	public void HandleToolUsage(int Side, boolean Sneaking) {
-
-	}
 
 	@Override
 	public void updateEntity() {

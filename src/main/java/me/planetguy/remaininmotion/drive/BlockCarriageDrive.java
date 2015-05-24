@@ -176,41 +176,10 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	public boolean onBlockActivated(World World, int X, int Y, int Z, EntityPlayer Player, int Side, float HitX,
 			float HitY, float HitZ) {
 		TileEntity te = World.getTileEntity(X, Y, Z);
-		if (te instanceof TileEntityCarriageDrive){
-			if(!(((TileEntityCarriageDrive) te).requiresScrewdriverToOpen
-					//if need screwdriver
-					&& (Player.getHeldItem() == null || Player.getHeldItem().getItem() != RiMItems.ToolItemSet))){
-				//and using something else
-				if(te instanceof TileEntityCarriageTranslocator)
-					Player.openGui(ModRiM.instance, 1, World, X, Y, Z);
-				else if(te instanceof TileEntityCarriageDirected)
-					Player.openGui(ModRiM.instance, 2, World, X, Y, Z);
-				else
-					Player.openGui(ModRiM.instance, 0, World, X, Y, Z);
-				return true;
-			}
+		if (te instanceof TileEntityCarriageDrive && Player != null){
+			return ((TileEntityCarriageDrive) te).HandleToolUsage(Side, Player.isSneaking(), Player);
 		}
-			
 		return false;
-		/*
-		if (World.isRemote) { return (false); }
-
-		try {
-			TileEntityCarriageDrive cde = (TileEntityCarriageDrive) World.getTileEntity(X, Y, Z);
-			cde.lastUsingPlayer = Player;
-			if (ToolItemSet.IsScrewdriverOrEquivalent(Player.inventory.getCurrentItem())) {
-				cde.HandleToolUsage(Side, Player.isSneaking());
-			} else {
-				return cde.onRightClicked(Side, Player);
-			}
-
-			return true;
-		} catch (Throwable Throwable) {
-			Throwable.printStackTrace();
-			return (false);
-		}
-		*/
-
 	}
 	
 	@Override
