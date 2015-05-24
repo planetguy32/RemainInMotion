@@ -113,7 +113,7 @@ JAKJ_RedstoneInMotion.drive.tooltip.3=Teleports the carriage to a remote positio
 JAKJ_RedstoneInMotion.drive.tooltip.4=Copies the carriage to both its##/##current and paired locations
 JAKJ_RedstoneInMotion.drive.tooltip.5=When moved by a carriage, picks##/##up another carriage
 JAKJ_RedstoneInMotion.drive.tooltip.6=[WIP] When powered, turns the connected carriages.##/##Note: May not handle mod blocks properly
-
+JAKJ_RedstoneInMotion.drive.tooltip.7=Moves in one fixed direction
 
 #Misc items
 JAKJ_RedstoneInMotion.screwdriver=Screwdriver
