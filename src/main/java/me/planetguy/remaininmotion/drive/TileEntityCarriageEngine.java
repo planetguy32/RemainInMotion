@@ -19,9 +19,6 @@ public class TileEntityCarriageEngine extends TileEntityCarriageDrive {
 		
 		if(Anchored()){
 
-			if (MotionDirection == CarriageDirection) { throw (new CarriageMotionException(
-					"motor cannot push carriage away from itself")); }
-
 			if (MotionDirection == CarriageDirection.opposite()) { throw (new CarriageMotionException(
 					"motor cannot pull carriage into itself")); }
 
