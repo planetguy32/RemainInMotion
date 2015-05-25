@@ -73,15 +73,13 @@ public class ModRiM {
 
 		Core.HandlePostInit();
 		
+		
 		GuiHandlerPrefab.create(this, new Class[]{
 				ContainerDrive.class,
 				ContainerDrive.class,
 				ContainerDrive.class,
-		}, new Class[]{
-				GuiDriveCommon.class,
-				GuiTranslocator.class,
-				GuiDirectional.class,
-		});
+		},
+		ClientSetupProxy.Instance.clientClasses());
 	}
 
 	@EventHandler

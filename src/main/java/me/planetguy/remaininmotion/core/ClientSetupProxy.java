@@ -10,4 +10,7 @@ public class ClientSetupProxy {
 	public static ClientSetupProxy	Instance;
 
 	public void Execute() {}
+	
+	public Class[] clientClasses(){return new Class[0];}
+	
 }
