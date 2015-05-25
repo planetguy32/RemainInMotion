@@ -18,8 +18,8 @@ public class GuiDirectional extends GuiDriveCommon {
 	
 	public void initGui(){
 		super.initGui();
-		buttonList.add(new ReorientButton(buttonID++, width/2, height/2 - 30, false, this));
-		buttonList.add(new ReorientButton(buttonID++, width/2, height/2 - 8, true, this));
+		buttonList.add(new ReorientButton(buttonID++, width/2, height/2 - 31, false, this));
+		buttonList.add(new ReorientButton(buttonID++, width/2, height/2 - 9, true, this));
 	}
 	
 	public String getLabel() {

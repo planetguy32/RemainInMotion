@@ -81,12 +81,12 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 		createContinuousButton();
 		
 		
-		createButton(-59, -30, Buttons.NORTH);
-		createButton(-37, -30, Buttons.DOWN);
-		createButton(-81, -8, Buttons.WEST);
-		createButton(-59, -8, Buttons.UP);
-		createButton(-37, -8, Buttons.EAST);
-		createButton(-59, 14, Buttons.SOUTH);
+		createButton(-59, -31, Buttons.NORTH);
+		createButton(-37, -31, Buttons.DOWN);
+		createButton(-81, -9, Buttons.WEST);
+		createButton(-59, -9, Buttons.UP);
+		createButton(-37, -9, Buttons.EAST);
+		createButton(-59, 13, Buttons.SOUTH);
 		stateToButtons();
 	}
 	

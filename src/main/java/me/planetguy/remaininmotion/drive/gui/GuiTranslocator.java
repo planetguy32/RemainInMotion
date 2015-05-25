@@ -16,7 +16,7 @@ public class GuiTranslocator extends GuiDriveCommon {
 		int button=0;
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
-				createButton(22*i-5, -30+22*j, Buttons.values()[button++]);
+				createButton(22*i-5, -31+22*j, Buttons.values()[button++]);
 			}
 		}
 		super.initGui();
