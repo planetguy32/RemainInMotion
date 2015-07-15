@@ -24,7 +24,9 @@ public class RemIMPluginsCommon {
     public void preInit() {
         try {
             if(Loader.isModLoaded("ForgeMultipart")) FMPCarriagePlugin.tryLoad();
-        }catch(NoClassDefFoundError noClassDefFoundError) {}
+        }catch(NoClassDefFoundError e) {
+        	e.printStackTrace();
+        }
         try {
             if(Loader.isModLoaded("BuildCraft|Transport")) BCFacadePlugin.tryLoad();
         }catch(NoClassDefFoundError noClassDefFoundError) {
@@ -35,5 +37,9 @@ public class RemIMPluginsCommon {
     public void init() {
         if(Loader.isModLoaded("ForgeMultipart")) FMPCarriagePlugin.init();
     }
+
+	public static void postInit() {
+		if(Loader.isModLoaded("ForgeMultipart")) FMPCarriagePlugin.postInit();
+	}
 
 }

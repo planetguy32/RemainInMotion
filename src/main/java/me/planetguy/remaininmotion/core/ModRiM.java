@@ -80,6 +80,8 @@ public class ModRiM {
 				ContainerDrive.class,
 		},
 		ClientSetupProxy.Instance.clientClasses());
+		
+		RemIMPluginsCommon.postInit();
 	}
 
 	@EventHandler
