@@ -10,98 +10,98 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public abstract class SneakyWorldUtil {
 
-    public static boolean SetBlock(World world, int x, int y, int z, Block block, int meta) {
+    public static boolean SetBlock(World world, int x, int y, int z, Block newBlock, int meta) {
         int chunkX = x & 0xF;
         int chunkZ = z & 0xF;
 
         Chunk chunk = world.getChunkFromBlockCoords(x, z);
 
-        int i1 = chunkZ << 4 | chunkX;
+        int xzCombinedPosition = chunkZ << 4 | chunkX;
 
-        if (y >= chunk.precipitationHeightMap[i1] - 1)
+        if (y >= chunk.precipitationHeightMap[xzCombinedPosition] - 1)
         {
-            chunk.precipitationHeightMap[i1] = -999;
+            chunk.precipitationHeightMap[xzCombinedPosition] = -999;
         }
 
-        int j1 = chunk.heightMap[i1];
-        Block block1 = chunk.getBlock(chunkX, y, chunkZ);
-        int k1 = chunk.getBlockMetadata(chunkX, y, chunkZ);
+        int heightMapAtTarget = chunk.heightMap[xzCombinedPosition];
+        Block oldBlock = chunk.getBlock(chunkX, y, chunkZ);
+        int metadata = chunk.getBlockMetadata(chunkX, y, chunkZ);
 
-        if (block1 == block && k1 == meta)
+        if (oldBlock == newBlock && metadata == meta)
         {
             return false;
         }
         else
         {
-            ExtendedBlockStorage extendedblockstorage = chunk.storageArrays[y >> 4];
-            boolean flag = false;
+            ExtendedBlockStorage xbs = chunk.storageArrays[y >> 4];
+            boolean heightMapChanged = false;
 
-            if (extendedblockstorage == null)
+            if (xbs == null)
             {
-                if (block == Blocks.air)
+                if (newBlock == Blocks.air)
                 {
                     return false;
                 }
 
-                extendedblockstorage = chunk.storageArrays[y >> 4] = new ExtendedBlockStorage(y >> 4 << 4, !world.provider.hasNoSky);
-                flag = y >= j1;
+                xbs = chunk.storageArrays[y >> 4] = new ExtendedBlockStorage(y >> 4 << 4, !world.provider.hasNoSky);
+                heightMapChanged = y >= heightMapAtTarget;
             }
 
             int l1 = x;
             int i2 = z;
 
-            int k2 = block1.getLightOpacity(world, l1, y, i2);
+            int oldOpacity = oldBlock.getLightOpacity(world, l1, y, i2);
 
-            extendedblockstorage.func_150818_a(chunkX, y & 15, chunkZ, block);
-            extendedblockstorage.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta); // This line duplicates the one below, so breakBlock fires with valid worldstate
+            xbs.func_150818_a(chunkX, y & 15, chunkZ, newBlock);
+            xbs.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta); // This line duplicates the one below, so breakBlock fires with valid worldstate
 
             if (!world.isRemote)
             {
                 // After breakBlock a phantom TE might have been created with incorrect meta. This attempts to kill that phantom TE so the normal one can be create properly later
                 TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
-                if (te != null && te.shouldRefresh(block1, chunk.getBlock(chunkX & 0x0F, y, chunkZ & 0x0F), k1, chunk.getBlockMetadata(chunkX & 0x0F, y, chunkZ & 0x0F), world, l1, y, i2))
+                if (te != null && te.shouldRefresh(oldBlock, chunk.getBlock(chunkX & 0x0F, y, chunkZ & 0x0F), metadata, chunk.getBlockMetadata(chunkX & 0x0F, y, chunkZ & 0x0F), world, l1, y, i2))
                 {
                     chunk.removeTileEntity(chunkX & 0x0F, y, chunkZ & 0x0F);
                 }
             }
-            else if (block1.hasTileEntity(k1))
+            else if (oldBlock.hasTileEntity(metadata))
             {
                 TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
-                if (te != null && te.shouldRefresh(block1, block, k1, meta, world, l1, y, i2))
+                if (te != null && te.shouldRefresh(oldBlock, newBlock, metadata, meta, world, l1, y, i2))
                 {
                     world.removeTileEntity(l1, y, i2);
                 }
             }
 
-            if (extendedblockstorage.getBlockByExtId(chunkX, y & 15, chunkZ) != block)
+            if (xbs.getBlockByExtId(chunkX, y & 15, chunkZ) != newBlock)
             {
                 return false;
             }
             else
             {
-                extendedblockstorage.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta);
+                xbs.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta);
 
-                if (flag)
+                if (heightMapChanged)
                 {
                     chunk.generateSkylightMap();
                 }
                 else
                 {
-                    int j2 = block.getLightOpacity(world, l1, y, i2);
+                    int newOpacity = newBlock.getLightOpacity(world, l1, y, i2);
 
-                    if (j2 > 0)
+                    if (newOpacity > 0)
                     {
-                        if (y >= j1)
+                        if (y >= heightMapAtTarget)
                         {
                             chunk.relightBlock(chunkX, y + 1, chunkZ);
                         }
                     }
-                    else if (y == j1 - 1)
+                    else if (y == heightMapAtTarget - 1)
                     {
                         chunk.relightBlock(chunkX, y, chunkZ);
                     }
 
-                    if (j2 != k2 && (j2 < k2 || chunk.getSavedLightValue(EnumSkyBlock.Sky, chunkX, y, chunkZ) > 0 || chunk.getSavedLightValue(EnumSkyBlock.Block, chunkX, y, chunkZ) > 0))
+                    if (newOpacity != oldOpacity && (newOpacity < oldOpacity || chunk.getSavedLightValue(EnumSkyBlock.Sky, chunkX, y, chunkZ) > 0 || chunk.getSavedLightValue(EnumSkyBlock.Block, chunkX, y, chunkZ) > 0))
                     {
                         chunk.propagateSkylightOcclusion(chunkX, chunkZ);
                     }
@@ -109,7 +109,7 @@ public abstract class SneakyWorldUtil {
 
                 TileEntity tileentity;
 
-                if (block.hasTileEntity(meta))
+                if (newBlock.hasTileEntity(meta))
                 {
                     tileentity = chunk.func_150806_e(chunkX, y, chunkZ);
 
