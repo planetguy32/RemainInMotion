@@ -14,9 +14,9 @@ import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import buildcraft.core.TileBuildCraft;
+import buildcraft.builders.TileQuarry;
+import buildcraft.core.lib.block.TileBuildCraft;
 import buildcraft.factory.BlockTank;
-import buildcraft.factory.TileQuarry;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
 

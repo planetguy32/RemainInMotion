@@ -188,7 +188,7 @@ public class PartCarriageFMP extends McBlockPart implements JNormalOcclusion, IC
 					Debug.dbg(part.getClass());
 				}
 				CommonMicroblock mb = (CommonMicroblock) part;
-				if (mb.getShape() == side) {
+				if (mb.getSlot() == side) {
 					int size = mb.getSize();
 					return size == 1;
 				}
