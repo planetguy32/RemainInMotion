@@ -102,12 +102,11 @@ public abstract class CarriageRenderCache {
 					Throwable.printStackTrace();
 				}
 
-				if (Tessellator.instance.isDrawing) {
-					try {
-						Tessellator.instance.draw();
-					} catch (Throwable Throwable) {
-						Throwable.printStackTrace();
-					}
+				try {
+					Tessellator.instance.draw();
+				} catch (IllegalStateException ignored) {
+				} catch (Throwable t){
+					t.printStackTrace();
 				}
 
 				Render.PopMatrix();
