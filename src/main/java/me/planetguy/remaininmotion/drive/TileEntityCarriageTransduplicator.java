@@ -95,14 +95,14 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 	}
 
 	@Override
-	public void EstablishPlaceholders(CarriagePackage Package) {
-		for (BlockRecord Record : Package.NewPositions) {
+	public void EstablishPlaceholders(CarriagePackage pack) {
+		for (BlockRecord Record : pack.NewPositions) {
 			// SneakyWorldUtil . SetBlock ( worldObj , Record . X + xCoord ,
 			// Record . Y + yCoord , Record . Z + zCoord , RIMBlocks . Spectre ,
 			// Spectre . Types . Supportive . ordinal ( ) ) ;
 
-			SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Record.X + Package.Translocator.xCoord,
-					Record.Y + Package.Translocator.yCoord, Record.Z + Package.Translocator.zCoord, RIMBlocks.Spectre,
+			SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), Record.X + pack.Translocator.xCoord,
+					Record.Y + pack.Translocator.yCoord, Record.Z + pack.Translocator.zCoord, RIMBlocks.Spectre,
 					BlockSpectre.Types.Supportive.ordinal());
 		}
 	}

@@ -2,6 +2,8 @@ package me.planetguy.remaininmotion.core.interop.mod;
 
 import java.util.HashMap;
 
+import buildcraft.core.TileBuildCraft;
+import buildcraft.factory.TileQuarry;
 import buildcraft.transport.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -14,8 +16,6 @@ import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import buildcraft.builders.TileQuarry;
-import buildcraft.core.lib.block.TileBuildCraft;
 import buildcraft.factory.BlockTank;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;

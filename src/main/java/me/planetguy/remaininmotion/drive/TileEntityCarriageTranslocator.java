@@ -237,12 +237,12 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	}
 
 	@Override
-	public void EstablishPlaceholders(CarriagePackage Package) {
-		byte[] lightValues = new byte[Package.Body.size()];
-		byte[] lightOpacities = new byte[Package.Body.size()];
+	public void EstablishPlaceholders(CarriagePackage pack) {
+		byte[] lightValues = new byte[pack.Body.size()];
+		byte[] lightOpacities = new byte[pack.Body.size()];
 
 		int i = 0;
-		for (BlockRecord Record : Package.NewPositions) {
+		for (BlockRecord Record : pack.NewPositions) {
 
 			try {
 				lightValues[i] = (byte) Record.block.getLightValue(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z);
@@ -255,40 +255,43 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 		}
 
 		i = 0;
-		for (BlockRecord Record : Package.NewPositions) {
+		for (BlockRecord Record : pack.NewPositions) {
 			Block block = Record.block;
 
 			if(block.isOpaqueCube()) {
 				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 
-				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 			} else if(block instanceof BlockRailBase) {
 				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.RailSpectre,
 						worldObj.getBlockMetadata(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z));
 
-				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.RailSpectre,
-						Package.Translocator.getWorldObj().getBlockMetadata(Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z));
+				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.RailSpectre,
+						pack.Translocator.getWorldObj().getBlockMetadata(pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z));
 			} else if(block.getCollisionBoundingBoxFromPool(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z) == null) {
 				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.SupportiveNoCollide.ordinal());
 
-				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.SupportiveNoCollide.ordinal());
 			} else {
 				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 
-				SneakyWorldUtil.SetBlock(Package.Translocator.getWorldObj(), Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 			}
+
+            pack.spectersToDestroy.add(new BlockRecord(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z));
+
 			worldObj.setTileEntity(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, new TileEntitySupportiveSpectre());
 			TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z));
 			tile.setLight(lightValues[i], lightOpacities[i]);
 
-			Package.Translocator.getWorldObj().setTileEntity(Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z, new TileEntitySupportiveSpectre());
-			tile = ((TileEntitySupportiveSpectre) Package.Translocator.getWorldObj().getTileEntity(Package.Translocator.xCoord + Record.X, Package.Translocator.yCoord + Record.Y, Package.Translocator.zCoord + Record.Z));
+			pack.Translocator.getWorldObj().setTileEntity(pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, new TileEntitySupportiveSpectre());
+			tile = ((TileEntitySupportiveSpectre) pack.Translocator.getWorldObj().getTileEntity(pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z));
 			tile.setLight(lightValues[i], lightOpacities[i]);
 			i++;
 		}
