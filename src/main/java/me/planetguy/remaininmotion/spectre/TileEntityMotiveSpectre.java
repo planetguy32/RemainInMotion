@@ -175,13 +175,15 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         } catch (Throwable Throwable) {
             // Throwable . printStackTrace ( ) ;
         }
-
+        
         SneakyWorldUtil.RefreshBlock(worldObj, xCoord, yCoord, zCoord,
                 RIMBlocks.Spectre, Blocks.air);
 
         for (BlockRecord Record : body) {
+        	onMotionFinalized(Record);
             SneakyWorldUtil.RefreshBlock(worldObj, Record.X, Record.Y,
                     Record.Z, Blocks.air, Record.block);
+            
         }
 
         if(!spectersToDestroy.isEmpty()){
@@ -200,7 +202,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
-            onMotionFinalized(record);
             CancelableOnBlockAddedEvent event = new CancelableOnBlockAddedEvent(worldObj,record.X,record.Y,record.Z);
             RiMRegistry.blockMoveBus.post(event);
             //if(!event.isCanceled()) 

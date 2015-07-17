@@ -50,7 +50,11 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
     
 	@Override
 	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
-		if (worldObj.isRemote) { return; }/*
+		entity.posX=capture.InitialX;
+		entity.posY=capture.InitialY;
+		entity.posZ=capture.InitialZ;
+		entity.motionX=entity.motionY=entity.motionZ=0;
+		/*
 		Matrix entityPos = new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
 		double partialAngle = Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
 		RemIMRotator.rotatePartial(driveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
