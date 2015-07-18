@@ -53,12 +53,6 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
     
 	@Override
 	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
-		/*
-		entity.posX=capture.InitialX;
-		entity.posY=capture.InitialY+entity.getEyeHeight();
-		entity.posZ=capture.InitialZ;
-		entity.motionX=entity.motionY=entity.motionZ=0;
-		*/
 		if(capture.startingPosition == null) {
 			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
 		}
@@ -66,9 +60,6 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		double fractionOfCircle = Math.PI * 0.25 * 0.3333333333333333333 * Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1d);
 		if(driveRecord != null)
 			RemIMRotator.rotatePartialEntity(driveRecord, Directions.values()[axisOfRotation], newPos, fractionOfCircle);
-		// Start 'This might be Wrong'
-		
-		me.planetguy.lib.util.Debug.side();
 		
 		entity.setLocationAndAngles(
 				newPos.matrix[0][0],
@@ -87,26 +78,6 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		entity.isAirBorne = true;
 	}
 
-	/*
-	 * 
-	 * public void applyVelocityToEntity(Entity entity, double time) {
-	 * double[][] pos=new double[][] { {entity.posX}, {entity.posY},
-	 * {entity.posZ} }; Matrix entityMatrix=new Matrix(pos);
-	 * RemIMRotator.rotatePartial(this.driveRecord,
-	 * Directions.values()[axisOfRotation], entityMatrix, time / 4.0);
-	 * 
-	 * entityMatrix.scalarMultiply(velocity); Debug.dbg(entityMatrix);
-	 * entity.motionX=0;//entityMatrix.matrix[0][0];
-	 * entity.motionY=0;//entityMatrix.matrix[1][0];
-	 * entity.motionZ=0;//entityMatrix.matrix[2][0]; }
-	 * 
-	 * public Matrix shiftPosition(Matrix m, double time, int ticks, Entity
-	 * entity) { Matrix entityMatrix=new Matrix(new double[][] { {entity.posX},
-	 * {entity.posY}, {entity.posZ} });
-	 * RemIMRotator.rotatePartial(this.driveRecord,
-	 * Directions.values()[axisOfRotation], entityMatrix, time/4.0); return
-	 * entityMatrix; }
-	 */
 
 	public void setAxis(int axis) {
 		axisOfRotation = axis;
@@ -127,17 +98,6 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		super.ReadCommonRecord(tag);
 		readSyncableDataFromNBT(tag);
 	}
-
-	/*
-	 * @Override public Packet getDescriptionPacket(){ NBTTagCompound syncData =
-	 * new NBTTagCompound(); this.writeSyncableDataToNBT(syncData); return new
-	 * S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1,
-	 * syncData); }
-	 * 
-	 * @Override public void onDataPacket(NetworkManager net,
-	 * S35PacketUpdateTileEntity pkt){
-	 * readSyncableDataFromNBT(pkt.func_148857_g()); }
-	 */
 
 	private void readSyncableDataFromNBT(NBTTagCompound tag) {
 		axisOfRotation = tag.getInteger("axisOfRotation");
