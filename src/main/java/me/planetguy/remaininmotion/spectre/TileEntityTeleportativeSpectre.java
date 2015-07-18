@@ -146,7 +146,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 		if (worldObj.isRemote) { return; }
 
-		if (ticksExisted < RiMConfiguration.CarriageMotion.TeleportationDuration) { return; }
+		if (ticksExisted < getTeleportDuration()) { return; }
 
 		if (Source) {
 			try {
@@ -166,6 +166,10 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 		}
 
 		Release();
+	}
+	
+	public int getTeleportDuration() {
+		return RiMConfiguration.CarriageMotion.TeleportationDuration;
 	}
 
 	@Override

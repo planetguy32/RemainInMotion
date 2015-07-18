@@ -1,5 +1,7 @@
 package me.planetguy.remaininmotion.spectre;
 
+import net.minecraft.entity.Entity;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 
 public class TileEntityTransduplicativeSpectre extends TileEntityTeleportativeSpectre {
@@ -27,5 +29,9 @@ public class TileEntityTransduplicativeSpectre extends TileEntityTeleportativeSp
         Record.Y -= ShiftY;
         Record.Z -= ShiftZ;
     }
+    
+	public int getTeleportDuration() {
+		return 2;
+	}
 
 }
