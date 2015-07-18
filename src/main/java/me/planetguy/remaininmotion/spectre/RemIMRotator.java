@@ -42,11 +42,12 @@ public class RemIMRotator {
 	}
 
 	public static void rotatePartial(BlockRecord pivot, Directions clockwiseFace, Matrix pos, double partialAngle) {
-		double offset = 0;
-		double px = pivot.X + offset;
-		double py = pivot.Y + offset;
-		double pz = pivot.Z + offset;
-		Matrix coordsMatrixNew = new Matrix(new double[][] { { pos.matrix[0][0] - px }, { pos.matrix[1][0] - py },
+		double px = pivot.X;
+		double py = pivot.Y;
+		double pz = pivot.Z;
+		Matrix coordsMatrixNew = new Matrix(new double[][] 
+				{ { pos.matrix[0][0] - px }, 
+				{ pos.matrix[1][0] - py },
 				{ pos.matrix[2][0] - pz } });
 		Matrix rotation = Matrices.fromAxisAndAngle(clockwiseFace.ordinal(), partialAngle);
 		Matrix newCoords = rotation.crossProduct(coordsMatrixNew);
@@ -54,5 +55,20 @@ public class RemIMRotator {
 		pos.matrix[1][0] = (newCoords.matrix[1][0] + py);
 		pos.matrix[2][0] = (newCoords.matrix[2][0] + pz);
 	}
-
+	
+	public static void rotatePartialEntity(BlockRecord pivot, Directions clockwiseFace, Matrix pos, double partialAngle) {
+		double px = pivot.X + 0.5;
+		double py = pivot.Y + 0.5;
+		double pz = pivot.Z + 0.5;
+		Matrix coordsMatrixNew = new Matrix(new double[][] 
+				{ { pos.matrix[0][0] - px }, 
+				{ pos.matrix[1][0] - py },
+				{ pos.matrix[2][0] - pz } });
+		Matrix rotation = Matrices.fromAxisAndAngle(clockwiseFace.ordinal(), partialAngle);
+		Matrix newCoords = rotation.crossProduct(coordsMatrixNew);
+		pos.matrix[0][0] = (newCoords.matrix[0][0] + px);
+		pos.matrix[1][0] = (newCoords.matrix[1][0] + py);
+		pos.matrix[2][0] = (newCoords.matrix[2][0] + pz);
+	}
+	
 }

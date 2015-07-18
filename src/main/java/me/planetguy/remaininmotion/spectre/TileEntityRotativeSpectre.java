@@ -3,16 +3,19 @@ package me.planetguy.remaininmotion.spectre;
 import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.transformations.Directions;
+import me.planetguy.remaininmotion.util.transformations.Matrix;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.BlockRotateEvent;
 import me.planetguy.remaininmotion.api.event.RotatingTEPreUnpackEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;
+import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.Teleporter;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
@@ -50,41 +53,38 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
     
 	@Override
 	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
+		/*
 		entity.posX=capture.InitialX;
-		entity.posY=capture.InitialY;
+		entity.posY=capture.InitialY+entity.getEyeHeight();
 		entity.posZ=capture.InitialZ;
 		entity.motionX=entity.motionY=entity.motionZ=0;
-		/*
-		Matrix entityPos = new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
-		double partialAngle = Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1);
-		RemIMRotator.rotatePartial(driveRecord, Directions.values()[axisOfRotation], entityPos, partialAngle);
+		*/
+		if(capture.startingPosition == null) {
+			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
+		}
+		Matrix newPos=new Matrix(Matrix.copy(capture.startingPosition.matrix));
+		double fractionOfCircle = Math.PI * 0.25 * 0.3333333333333333333 * Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1d);
+		if(driveRecord != null)
+			RemIMRotator.rotatePartialEntity(driveRecord, Directions.values()[axisOfRotation], newPos, fractionOfCircle);
 		// Start 'This might be Wrong'
-		entity.posX = entityPos.matrix[0][0];
-		entity.posY = entityPos.matrix[1][0];
-		entity.posZ = entityPos.matrix[2][0];
-		// End 'This might be Wrong
+		
+		me.planetguy.lib.util.Debug.side();
+		
+		entity.setLocationAndAngles(
+				newPos.matrix[0][0],
+				newPos.matrix[1][0],
+				newPos.matrix[2][0], entity.rotationYaw, entity.rotationPitch);
 		
 		entity.fallDistance = 0;
 		if (ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
-			// Start 'This is Wrong'
-			capture.SetPosition(motionDirection.deltaX, motionDirection.deltaY, motionDirection.deltaZ);
-			// End 'This is Wrong'
-			capture.stop(entity);
+			capture.stop();
 			entity.onGround = capture.WasOnGround;
 			entity.isAirBorne = capture.WasAirBorne;
 			return;
 		}
+		capture.stop();
 		entity.onGround = false;
 		entity.isAirBorne = true;
-		// Start 'This is Wrong'
-		entity.motionX = velocity * motionDirection.deltaX;
-		entity.motionY = velocity * motionDirection.deltaY;
-		entity.motionZ = velocity * motionDirection.deltaZ;
-		capture.SetPosition(entity.posX, entity.posY, entity.posZ);
-		// End 'This is Wrong'
-		entity.prevPosX = entity.posX - entity.motionX;
-		entity.prevPosY = entity.posY - entity.motionY;
-		entity.prevPosZ = entity.posZ - entity.motionZ;*/
 	}
 
 	/*
@@ -146,5 +146,5 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	private void writeSyncableDataToNBT(NBTTagCompound tag) {
 		tag.setInteger("axisOfRotation", axisOfRotation);
 	}
-
+	
 }

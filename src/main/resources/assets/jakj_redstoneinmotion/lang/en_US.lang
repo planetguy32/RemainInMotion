@@ -83,7 +83,7 @@ tile.JAKJ_RedstoneInMotion_Carriage.4.name=Template Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.5.name=Memory Carriage
 
 tile.simpleFrame.name=Frame Carriage
-tile.simpleFrame.tooltip.1=Carries blocks directly touching it
+simpleFrame.tooltip.1=Carries blocks directly touching it
 
 
 #Other carriages' tooltips

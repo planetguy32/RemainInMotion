@@ -18,6 +18,7 @@ import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
+import me.planetguy.remaininmotion.util.transformations.Matrix;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -276,6 +277,12 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         TagCompound.setInteger("RenderCacheKeyZ", renderCacheKey.Z);
 
         TagCompound.setInteger("RenderCacheKeyD", renderCacheKey.Dimension);
+        
+        if(driveRecord != null) {
+            NBTTagCompound tag = new NBTTagCompound();
+            driveRecord.writeToNBT(tag);
+            TagCompound.setTag("driveRecord", tag);
+        }
     }
 
     @Override
@@ -287,15 +294,21 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 TagCompound.getInteger("RenderCacheKeyY"),
                 TagCompound.getInteger("RenderCacheKeyZ"),
                 TagCompound.getInteger("RenderCacheKeyD"));
+        
+        if(TagCompound.hasKey("driveRecord")) {
+        	NBTTagCompound drt=TagCompound.getCompoundTag("driveRecord");
+            driveRecord = new BlockRecord(drt.getInteger("DriveX"),
+                    drt.getInteger("DriveY"),
+                    drt.getInteger("DriveZ"));
+        }
+
+        if(TagCompound.hasKey("driveRecord")) {
+            driveRecord = BlockRecord.createFromNBT(TagCompound.getCompoundTag("driveRecord"));
+        }
     }
 
     @Override
     public void WriteServerRecord(NBTTagCompound TagCompound) {
-        if(driveRecord != null) {
-            NBTTagCompound tag = new NBTTagCompound();
-            driveRecord.writeToNBT(tag);
-            TagCompound.setTag("driveRecord", tag);
-        }
 
         TagCompound.setBoolean("driveIsAnchored", driveIsAnchored);
 
@@ -336,15 +349,6 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     @Override
     public void ReadServerRecord(NBTTagCompound TagCompound) {
-        if(TagCompound.hasKey("DriveX")) {
-            driveRecord = new BlockRecord(TagCompound.getInteger("DriveX"),
-                    TagCompound.getInteger("DriveY"),
-                    TagCompound.getInteger("DriveZ"));
-        }
-
-        if(TagCompound.hasKey("driveRecord")) {
-            driveRecord = BlockRecord.createFromNBT(TagCompound.getCompoundTag("driveRecord"));
-        }
 
         driveIsAnchored = TagCompound.getBoolean("driveIsAnchored");
 
@@ -705,6 +709,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         public double InitialX;
         public double InitialY;
         public double InitialZ;
+        
+        public Matrix startingPosition;
 
         public double netMotionX = 0;
         public double netMotionY = 0;
@@ -738,8 +744,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         public void SetPosition(double OffsetX, double OffsetY, double OffsetZ) {
-            entity.setPosition(entity.posX + OffsetX, entity.posY + OffsetY, entity.posZ + OffsetZ);
-            //entity.moveEntity(OffsetX, OffsetY, OffsetZ);
+            entity.setPosition(entity.posX, entity.posY, entity.posZ);
         }
 
         public void SetYPosition(double OffsetY) {
@@ -754,6 +759,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             entity.lastTickPosX = entity.prevPosX = entity.posX;
             entity.lastTickPosY = entity.prevPosY = entity.posY;
             entity.lastTickPosZ = entity.prevPosZ = entity.posZ;
+            
+            entity.motionX=entity.motionY=entity.motionZ=0;
         }
     }
 
