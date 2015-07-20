@@ -1,6 +1,8 @@
 package me.planetguy.remaininmotion.core;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.UUID;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -24,7 +26,10 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 @Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib;after:CoFHCore;after:BuildCraft|Transport")
 public class ModRiM {
@@ -41,7 +46,9 @@ public class ModRiM {
 	public static PLHelper		plHelper;
 
 	@Instance(ModRiM.Handle)
-	public static Object instance;
+	public static ModRiM instance;
+
+    //public HashMap<UUID,Integer> playerMountMap = new HashMap<UUID, Integer>();
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent Event) {
@@ -130,4 +137,15 @@ public class ModRiM {
         if(((EntityPlayerMP) event.player).isClientWorld())
             PacketSpecterVelocity.send((EntityPlayerMP) event.player);
     }
+
+    /*@SubscribeEvent
+    public void onFinishTeleporting(EntityJoinWorldEvent event){
+        if(!(event.entity instanceof EntityPlayerMP)) return;
+        Integer mount = playerMountMap.get(event.entity.getUniqueID());
+        if(mount != null) {
+            Entity entity = event.world.getEntityByID(mount);
+            ((EntityPlayerMP)event.entity).mountEntity(entity);
+            playerMountMap.remove(event.entity.getUniqueID());
+        }
+    }*/
 }

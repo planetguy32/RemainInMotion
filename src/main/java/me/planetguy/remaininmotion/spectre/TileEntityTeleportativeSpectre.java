@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.spectre;
 
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
@@ -209,6 +210,7 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 			entity.mountEntity(null);
 
 			Mount = TeleportEntity(Mount);
+            //ModRiM.instance.playerMountMap.put(entity.getUniqueID(), Mount.getEntityId());
 		}
 
 		if (entity instanceof EntityPlayerMP) {

@@ -464,7 +464,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             capture.SetYPosition(motionDirection.deltaY + 0.025);
         } else {
             if(motionX != 0 || motionZ != 0) {
-                double[] motion = handleCollision(entity, motionX, motionZ);
+                double[] motion = handleEntityCollision(entity, motionX, motionZ);
                 capture.netMotionX += motion[0];
                 capture.netMotionZ += motion[1];
             }
@@ -472,7 +472,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     }
 
-    public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
+    public void doPerSpectreEntityUpdate(CapturedEntity capture, Entity entity) {
         entity.fallDistance = 0;
 
         if(motionDirection.deltaX != capture.netMotionX || motionDirection.deltaZ != capture.netMotionZ || motionDirection.deltaY != capture.netMotionY) {
@@ -490,7 +490,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                 capture.SetPosition(motionX, 0, motionZ);
                 capture.SetYPosition(capture.netMotionY);
             } else {
-                double[] motion = handleCollision(entity, motionX, motionZ);
+                double[] motion = handleEntityCollision(entity, motionX, motionZ);
 
                 motionX = motion[0];
                 motionZ = motion[1];
@@ -507,7 +507,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
     }
 
-    private double[] handleCollision(Entity entity, double motionX, double motionZ) {
+    private double[] handleEntityCollision(Entity entity, double motionX, double motionZ) {
         double X = motionX;
         double Z = motionZ;
         List list = this.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox.addCoord(X, 0, Z));
@@ -752,7 +752,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         public void Update() {
-            doPerSpectreUpdate(this, entity);
+            doPerSpectreEntityUpdate(this, entity);
         }
 
         public void stop() {
