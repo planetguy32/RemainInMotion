@@ -54,7 +54,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	@Override
 	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
 		if(capture.startingPosition == null) {
-			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY }, { entity.posZ } });
+			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY - entity.getEyeHeight() }, { entity.posZ } });
 		}
 		Matrix newPos=new Matrix(Matrix.copy(capture.startingPosition.matrix));
 		double fractionOfCircle = Math.PI * 0.25 * 0.3333333333333333333 * Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1d);

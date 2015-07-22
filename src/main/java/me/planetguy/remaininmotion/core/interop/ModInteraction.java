@@ -91,7 +91,9 @@ public abstract class ModInteraction {
 
 	private static Method getMethod(Class c, String string, Class... params) {
 		try {
-			return c.getDeclaredMethod(string, params);
+			Method m=c.getDeclaredMethod(string, params);
+			m.setAccessible(true);
+			return m;
 		} catch (Exception e) {
 
 		}

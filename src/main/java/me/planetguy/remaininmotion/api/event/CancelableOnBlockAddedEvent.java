@@ -14,6 +14,7 @@ public class CancelableOnBlockAddedEvent extends Event {
     public int xCoord;
     public int yCoord;
     public int zCoord;
+    
     public CancelableOnBlockAddedEvent(World world, int x, int y, int z) {
         worldObj = world;
         xCoord = x;

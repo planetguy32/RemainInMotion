@@ -9,6 +9,7 @@ import me.planetguy.remaininmotion.network.PacketSpecterVelocity;
 import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
 import me.planetguy.lib.prefab.GuiHandlerPrefab;
+import me.planetguy.lib.util.Blacklist;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.drive.gui.ContainerDrive;
 import me.planetguy.remaininmotion.drive.gui.GuiDirectional;
@@ -94,33 +95,34 @@ public class ModRiM {
 		for (final FMLInterModComms.IMCMessage message : event.getMessages()) {
 			try {
 				if (message.key.equals("blacklistHard")) {
-					String block = message.getStringValue();
-					try {
-						BlacklistManager.blacklistHard.blacklist(Block.getBlockFromName(block));
-
-					} catch (Exception e) {
-						System.err.println("Received bad blacklist request from " + message.getSender() + ": " + block);
-					}
+					handleBlacklistIMC(message.getStringValue(), BlacklistManager.blacklistHard, message.getSender());
 				}else if (message.key.equals("blacklistSoft")) {
-					String block = message.getStringValue();
-					try {
-						BlacklistManager.blacklistSoft.blacklist(Block.getBlockFromName(block));
-
-					} catch (Exception e) {
-						System.err.println("Received bad blacklist request from " + message.getSender() + ": " + block);
-					}
+					handleBlacklistIMC(message.getStringValue(), BlacklistManager.blacklistSoft, message.getSender());
 				}else if (message.key.equals("blacklistRotation")) {
-					String block = message.getStringValue();
-					try {
-						BlacklistManager.blacklistRotation.blacklist(Block.getBlockFromName(block));
-
-					} catch (Exception e) {
-						System.err.println("Received bad blacklist request from " + message.getSender() + ": " + block);
-					}
+					handleBlacklistIMC(message.getStringValue(), BlacklistManager.blacklistRotation, message.getSender());
 				}
 			}catch(Exception e) {
 				System.err.println("Utterly incomprehensible IMC from "+message.getSender());
 			}
+		}
+	}
+	
+	private void handleBlacklistIMC(String message, Blacklist targetList, String sender) {
+		String[] parts=message.split(":");
+		if(parts.length==1) {
+			try {
+				BlacklistManager.blacklistRotation.blacklist(Block.getBlockFromName(message));
+			} catch (Exception e) {
+				System.err.println("Received bad blacklist request from " + sender + ": " + message);
+			}
+		}else if(parts.length==3){
+			try {
+				BlacklistManager.blacklistRotation.blacklist(Block.getBlockFromName(parts[0]), Integer.parseInt(parts[2]));
+			} catch (Exception e) {
+				System.err.println("Received bad blacklist request from " + sender + ": " + message);
+			}
+		} else {
+			System.err.println("Received impossible blacklist request from " + sender + ": " + message);
 		}
 	}
 
