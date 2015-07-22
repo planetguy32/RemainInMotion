@@ -52,7 +52,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
     }
     
 	@Override
-	public void doPerSpectreUpdate(CapturedEntity capture, Entity entity) {
+	public void doPerSpectreEntityUpdate(CapturedEntity capture, Entity entity) {
 		if(capture.startingPosition == null) {
 			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY - entity.getEyeHeight() }, { entity.posZ } });
 		}
