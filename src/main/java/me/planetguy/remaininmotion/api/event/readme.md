@@ -6,7 +6,7 @@ The event-based API is designed to isolate users from
 All events are posted to RiMRegistry.blockMoveBus, which can be subscribed to by calling me.planetguy.remaininmotion.api.event.EventManager.registerEventHandler(Object) with the intended handler.
 
 1. If TileEntity exists, it is saved. Otherwise the IBlockPos may have a null TileEntity and NBT tag.
-2. A BlockSelectForMoveEvent is posted. The event can be canceled using Forge's canceling API, but calling cancel(String) lets you specify a player-readable reason that the move is impossible. The event can also be excluded, which causes the block to stay in place but allows the rest of the blocks being moved to move. This is the only opportunity to stop movement.
+2. A BlockSelectForMoveEvent is posted. The event can be canceled using Forge's canceling API, but calling cancel(String) lets you specify a player-readable reason that the move is impossible. The event can also be excluded, which causes the block to stay in place but allows the rest of the blocks being moved to move. This is the only opportunity to stop movement. If the motion is rotation, the subclass BlockSelectForRotateEvent will be posted instead.
 3. A BlockPreMoveEvent is posted when the block is about to be overwritten with RemIM's spectres.
 4. All blocks are moved and placed at their new positions, without triggering block updates or other callbacks.
 5. One BlocksReplacedEvent is posted for the entire move operation.

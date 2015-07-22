@@ -12,6 +12,7 @@ import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.BlockSelectForMoveEvent;
+import me.planetguy.remaininmotion.api.event.BlockSelectForRotateEvent;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -122,7 +123,7 @@ public class CarriagePackage {
 		//  dependency on CarriagePackage in the event API. Passed to ISpecialMoveBehaviors. 
 		synchronized(CarriagePackage.class) {
 			activePackage=this;
-			BlockSelectForMoveEvent event=new BlockSelectForMoveEvent(record);
+			BlockSelectForMoveEvent event=blacklistByRotation ? new BlockSelectForRotateEvent(record, axis) : new BlockSelectForMoveEvent(record);
 			RiMRegistry.blockMoveBus.post(event);
 			if(event.isExcluded()) {
 				return;
