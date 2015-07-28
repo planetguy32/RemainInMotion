@@ -22,6 +22,7 @@ import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.crafting.Recipes;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageTransduplicator;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import me.planetguy.remaininmotion.drive.gui.ContainerDrive;
 import me.planetguy.remaininmotion.drive.gui.GuiDirectional;
@@ -144,11 +145,8 @@ public class ModRiM {
 
 	@EventHandler
 	public void ServerStopping(FMLServerStoppingEvent Event) {
-		try {
-			TileEntityCarriageTranslocator.ActiveTranslocatorSets.clear();
-		} catch (Error e) {
-			// e.printStackTrace();
-		}
+		TileEntityCarriageTranslocator.ActiveTranslocatorSets.clear();
+		TileEntityCarriageTransduplicator.ActiveTranslocatorSets.clear();
 	}
 
 	@EventHandler
