@@ -54,7 +54,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	@Override
 	public void doPerSpectreEntityUpdate(CapturedEntity capture, Entity entity) {
 		if(capture.startingPosition == null) {
-			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY - entity.getEyeHeight() }, { entity.posZ } });
+			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY - 2*entity.getEyeHeight() }, { entity.posZ } });
 		}
 		Matrix newPos=new Matrix(Matrix.copy(capture.startingPosition.matrix));
 		double fractionOfCircle = Math.PI * 0.25 * 0.3333333333333333333 * Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1d);
@@ -90,21 +90,12 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 	@Override
 	public void WriteCommonRecord(NBTTagCompound tag) {
 		super.WriteCommonRecord(tag);
-		writeSyncableDataToNBT(tag);
+		tag.setInteger("axisOfRotation", axisOfRotation);
 	}
 
 	@Override
 	public void ReadCommonRecord(NBTTagCompound tag) {
 		super.ReadCommonRecord(tag);
-		readSyncableDataFromNBT(tag);
-	}
-
-	private void readSyncableDataFromNBT(NBTTagCompound tag) {
 		axisOfRotation = tag.getInteger("axisOfRotation");
 	}
-
-	private void writeSyncableDataToNBT(NBTTagCompound tag) {
-		tag.setInteger("axisOfRotation", axisOfRotation);
-	}
-	
 }
