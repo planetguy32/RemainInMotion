@@ -8,7 +8,6 @@ import me.planetguy.remaininmotion.util.Registry;
 import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
-import me.planetguy.remaininmotion.core.Core;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
@@ -86,7 +85,7 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	@Override
 	public void AddShowcaseStacks(List Showcase) {
 		for (Types Type : Types.values()) {
-			if ((Type == Types.Controller) && (Core.CarriageControllerEntity == null)) {
+			if ((Type == Types.Controller) && (ModRiM.CarriageControllerEntity == null)) {
 				continue;
 			}
 
@@ -98,7 +97,7 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 	public void registerBlockIcons(IIconRegister IconRegister) {
 		for (Types Type : Types.values()) {
 			if (Type == Types.Controller) {
-				if (Core.CarriageControllerEntity == null) {
+				if (ModRiM.CarriageControllerEntity == null) {
 					continue;
 				}
 			} else {

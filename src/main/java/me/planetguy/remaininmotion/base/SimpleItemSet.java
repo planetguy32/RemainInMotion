@@ -2,18 +2,23 @@ package me.planetguy.remaininmotion.base;
 
 import java.util.List;
 
+import me.planetguy.lib.prefab.ItemBase;
 import me.planetguy.remaininmotion.util.Stack;
 import me.planetguy.remaininmotion.core.ItemTypes;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.util.Registry;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class SimpleItemSet extends ItemRiM {
+public class SimpleItemSet extends ItemBase {
 
 	public SimpleItemSet() {
-		super();
+		//for legacy compatibility...
+		super("item."+ModRiM.Handle + "_SimpleItemSet");
 	}
 
 	@Override
@@ -22,7 +27,7 @@ public class SimpleItemSet extends ItemRiM {
 	}
 
 	@Override
-	public void AddShowcaseStacks(List Showcase) {
+	public void getSubItems(Item i, CreativeTabs CreativeTab, List Showcase) {
 		for (ItemTypes Type : ItemTypes.values()) {
 			Showcase.add(Stack.New(this, Type));
 		}

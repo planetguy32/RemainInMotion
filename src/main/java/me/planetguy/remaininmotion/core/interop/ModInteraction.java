@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.Side;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.EventManager;
-import me.planetguy.remaininmotion.core.Core;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.interop.mod.Buildcraft;
 import me.planetguy.remaininmotion.core.interop.mod.BuildcraftClient;
 import me.planetguy.remaininmotion.core.interop.mod.CarpentersBlocks;
@@ -70,7 +70,7 @@ public abstract class ModInteraction {
 		Computers.setup();
 
 		if (Computers.load) {
-			Core.CarriageControllerEntity = TileEntityCarriageController.class;
+			ModRiM.CarriageControllerEntity = TileEntityCarriageController.class;
 		}
 
 		PendingBlockUpdateSetField = getField(net.minecraft.world.WorldServer.class, "tickEntryQueue");

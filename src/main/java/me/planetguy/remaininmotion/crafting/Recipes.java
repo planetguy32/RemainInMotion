@@ -7,7 +7,7 @@ import me.planetguy.remaininmotion.core.ItemTypes;
 import me.planetguy.remaininmotion.util.Vanilla;
 import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.carriage.ItemCarriage;
-import me.planetguy.remaininmotion.core.Core;
+import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
@@ -133,7 +133,7 @@ public abstract class Recipes {
 		'E', ItemCarriageDrive.Stack(BlockCarriageDrive.Types.Engine.ordinal(), 0), 'O', Stack.New(Blocks.obsidian),
 				'P', Stack.New(Items.ender_pearl), 'C', Stack.New(Items.compass));
 
-		if (Core.CarriageControllerEntity != null) {
+		if (ModRiM.CarriageControllerEntity != null) {
 			RegisterCarriageDriveRecipe(BlockCarriageDrive.Types.Controller,
 
 			"RRR", "RMR", "RRR",

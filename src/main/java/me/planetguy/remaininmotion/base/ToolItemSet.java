@@ -1,17 +1,26 @@
 package me.planetguy.remaininmotion.base;
 
+import java.util.List;
+
+import me.planetguy.lib.prefab.ItemBase;
 import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.util.Stack;
+import me.planetguy.remaininmotion.api.ISpecialScrewdriverPunchBehavior;
 import me.planetguy.remaininmotion.core.interop.ModInteraction.Wrenches;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.util.Registry;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
-public class ToolItemSet extends ItemRiM {
+public class ToolItemSet extends ItemBase {
 	public static int	Id;
 
 	public enum Types {
@@ -25,7 +34,7 @@ public class ToolItemSet extends ItemRiM {
 	}
 
 	public ToolItemSet() {
-		super();
+		super("item."+ModRiM.Handle + "_ToolItemSet");
 
 		setMaxStackSize(1);
 	}
@@ -61,7 +70,7 @@ public class ToolItemSet extends ItemRiM {
 	}
 
 	@Override
-	public void AddShowcaseStacks(java.util.List Showcase) {
+	public void getSubItems(Item i, CreativeTabs CreativeTab, List Showcase) {
 		for (Types Type : Types.values()) {
 			Showcase.add(Stack.New(this, Type));
 		}
@@ -96,4 +105,19 @@ public class ToolItemSet extends ItemRiM {
 
 		return (false);
 	}
+	
+    public boolean onBlockStartBreak(ItemStack itemstack, int x, int y, int z, EntityPlayer player) {
+    	Block b=player.worldObj.getBlock(x, y, z);
+    	if(b instanceof ISpecialScrewdriverPunchBehavior) {
+    		return ((ISpecialScrewdriverPunchBehavior) b).onPunched(player.worldObj, x, y, z);
+    	} else {
+    		return false;
+    	}
+    }
+    
+	@Override
+	public boolean doesSneakBypassUse(World w, int X, int Y, int Z, EntityPlayer player) {
+		return (true);
+	}
+	
 }

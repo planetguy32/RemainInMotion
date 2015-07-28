@@ -7,17 +7,28 @@ import java.util.UUID;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import me.planetguy.remaininmotion.network.PacketManager;
 import me.planetguy.remaininmotion.network.PacketSpecterVelocity;
 import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
 import me.planetguy.lib.prefab.GuiHandlerPrefab;
+import me.planetguy.lib.prefab.IPrefabItem;
 import me.planetguy.lib.util.Blacklist;
 import me.planetguy.lib.util.Debug;
+import me.planetguy.remaininmotion.api.FrameCarriageMatcher;
+import me.planetguy.remaininmotion.api.ICloseable;
+import me.planetguy.remaininmotion.api.ICloseableFactory;
+import me.planetguy.remaininmotion.api.RiMRegistry;
+import me.planetguy.remaininmotion.carriage.TileEntityFrameCarriage;
+import me.planetguy.remaininmotion.core.interop.ModInteraction;
+import me.planetguy.remaininmotion.crafting.Recipes;
+import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
 import me.planetguy.remaininmotion.drive.gui.ContainerDrive;
 import me.planetguy.remaininmotion.drive.gui.GuiDirectional;
 import me.planetguy.remaininmotion.drive.gui.GuiDriveCommon;
 import me.planetguy.remaininmotion.drive.gui.GuiTranslocator;
 import me.planetguy.remaininmotion.motion.BlacklistManager;
+import me.planetguy.remaininmotion.motion.NativeCarriageMatcher;
 import me.planetguy.remaininmotion.plugins.RemIMPluginsCommon;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -29,7 +40,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 @Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib;after:CoFHCore;after:BuildCraft|Transport")
@@ -45,9 +58,13 @@ public class ModRiM {
 	public static final String	Channel		= "JAKJ_RIM";
 
 	public static PLHelper		plHelper;
+	
+	public static HashMap<String, IPrefabItem> content=new HashMap<String, IPrefabItem>();
 
 	@Instance(ModRiM.Handle)
 	public static ModRiM instance;
+
+	public static Class	CarriageControllerEntity;
 
     //public HashMap<UUID,Integer> playerMountMap = new HashMap<UUID, Integer>();
 
@@ -60,18 +77,38 @@ public class ModRiM {
 			oldFile.renameTo(newFile);
 		}
 		(new RiMConfiguration(newFile)).Process();
+		
 
         FMLCommonHandler.instance().bus().register(this);
 
-		Core.HandlePreInit();
+        ModInteraction.Establish();
+
+        CreativeTab.Prepare();
+
+        RIMBlocks.Initialize();
+
+        RiMItems.Initialize(plHelper);
+
+        CreativeTab.Initialize(Item.getItemFromBlock(RIMBlocks.Carriage));
 		
 		RemIMPluginsCommon.instance.preInit();
 	}
 
 	@EventHandler
 	public void Init(FMLInitializationEvent Event) {
+		RiMRegistry.registerFrameCarriageMatcher(new FrameCarriageMatcher() {
+			@Override
+			public boolean isFrameCarriage(Block block1, int meta1, TileEntity entity1) {
+				return entity1 instanceof TileEntityFrameCarriage;
+			}
+		});
 
-        Core.HandleInit();
+		RiMRegistry.registerMatcher(new NativeCarriageMatcher());
+		
+		PacketManager.init();
+		
+		ModInteraction.init();
+		
 		RemIMPluginsCommon.instance.init();
 	}
 
@@ -79,8 +116,21 @@ public class ModRiM {
 	public void PostInit(FMLPostInitializationEvent Event) {
 		ClientSetupProxy.Instance.Execute();
 
-		Core.HandlePostInit();
-		
+		Recipes.Register();
+
+		BlacklistManager.Initialize();
+
+        RiMRegistry.registerCloseableFactory(new ICloseableFactory() {
+            @Override
+            public ICloseable retrieve(TileEntity te) {
+                return (ICloseable) te;
+            }
+
+            @Override
+            public Class validClass() {
+                return TileEntityFrameCarriage.class;
+            }
+        });
 		
 		GuiHandlerPrefab.create(this, new Class[]{
 				ContainerDrive.class,
@@ -94,7 +144,11 @@ public class ModRiM {
 
 	@EventHandler
 	public void ServerStopping(FMLServerStoppingEvent Event) {
-		Core.HandleServerStopping();
+		try {
+			TileEntityCarriageTranslocator.ActiveTranslocatorSets.clear();
+		} catch (Error e) {
+			// e.printStackTrace();
+		}
 	}
 
 	@EventHandler
