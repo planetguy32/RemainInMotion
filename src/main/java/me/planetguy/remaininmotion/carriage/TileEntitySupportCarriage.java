@@ -115,7 +115,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 					}
 
                     if(TargetRecord.entity != null && TargetRecord.entity instanceof TileEntitySupportCarriage) {
-                        if(((TileEntityPlatformCarriage)TargetRecord.entity).treatSideAsClosed(SupportDirection.oppositeOrdinal)) {
+                        if(((TileEntityCarriage)TargetRecord.entity).treatSideAsClosed(SupportDirection.oppositeOrdinal)) {
                             terminatedByReversal = true;
                         }
                     }
