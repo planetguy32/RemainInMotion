@@ -79,61 +79,65 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public boolean requiresScrewdriverToOpen=false;
 
     @Override
-    public void WriteCommonRecord(NBTTagCompound TagCompound) {
-        TagCompound.setBoolean("Continuous", Continuous);
+    public void WriteCommonRecord(NBTTagCompound tag) {
+        tag.setBoolean("Continuous", Continuous);
 
         for (Directions Direction : Directions.values()) {
-            TagCompound.setBoolean("SideClosed" + Direction.ordinal(), SideClosed[Direction.ordinal()]);
+            tag.setBoolean("SideClosed" + Direction.ordinal(), SideClosed[Direction.ordinal()]);
         }
 
-        TagCompound.setBoolean("Active", Active);
+        tag.setBoolean("Active", Active);
 
-        TagCompound.setInteger("Tier", Tier);
-        TagCompound.setInteger("energyStored", energyStored);
+        tag.setInteger("Tier", Tier);
+        tag.setInteger("energyStored", energyStored);
         
-        TagCompound.setBoolean("screwdriver", requiresScrewdriverToOpen);
+        tag.setBoolean("screwdriver", requiresScrewdriverToOpen);
+        
+        tag.setBoolean("anchored", this.isAnchored);
     }
 
     @Override
-    public void WriteServerRecord(NBTTagCompound TagCompound) {
-        TagCompound.setBoolean("Signalled", Signalled);
+    public void WriteServerRecord(NBTTagCompound tag) {
+        tag.setBoolean("Signalled", Signalled);
 
-        TagCompound.setInteger("CooldownRemaining", CooldownRemaining);
+        tag.setInteger("CooldownRemaining", CooldownRemaining);
 
-        if(lastUsingPlayer != null) TagCompound.setString("player", lastUsingPlayer.getCommandSenderName());
+        if(lastUsingPlayer != null) tag.setString("player", lastUsingPlayer.getCommandSenderName());
 
-        TagCompound.setBoolean("creative", isCreative);
+        tag.setBoolean("creative", isCreative);
     }
 
     @Override
-    public void ReadCommonRecord(NBTTagCompound TagCompound) {
-        Continuous = TagCompound.getBoolean("Continuous");
+    public void ReadCommonRecord(NBTTagCompound tag) {
+        Continuous = tag.getBoolean("Continuous");
 
         for (Directions Direction : Directions.values()) {
-            SideClosed[Direction.ordinal()] = TagCompound.getBoolean("SideClosed" + Direction.ordinal());
+            SideClosed[Direction.ordinal()] = tag.getBoolean("SideClosed" + Direction.ordinal());
         }
 
-        Active = TagCompound.getBoolean("Active");
+        Active = tag.getBoolean("Active");
 
-        Tier = TagCompound.getInteger("Tier");
+        Tier = tag.getInteger("Tier");
 
-        energyStored = TagCompound.getInteger("energyStored");
+        energyStored = tag.getInteger("energyStored");
         
-        requiresScrewdriverToOpen=TagCompound.getBoolean("screwdriver");
+        requiresScrewdriverToOpen=tag.getBoolean("screwdriver");
+        
+        isAnchored=tag.getBoolean("anchored");
     }
 
     @Override
-    public void ReadServerRecord(NBTTagCompound TagCompound) {
-        Signalled = TagCompound.getBoolean("Signalled");
+    public void ReadServerRecord(NBTTagCompound tag) {
+        Signalled = tag.getBoolean("Signalled");
 
-        CooldownRemaining = TagCompound.getInteger("CooldownRemaining");
+        CooldownRemaining = tag.getInteger("CooldownRemaining");
 
         try {
-            if (TagCompound.hasKey("player"))
-                lastUsingPlayer = worldObj.getPlayerEntityByName(TagCompound.getString("player"));
+            if (tag.hasKey("player"))
+                lastUsingPlayer = worldObj.getPlayerEntityByName(tag.getString("player"));
         } catch(Exception e) {}
 
-        isCreative = TagCompound.getBoolean("creative");
+        isCreative = tag.getBoolean("creative");
     }
 
     @Override
