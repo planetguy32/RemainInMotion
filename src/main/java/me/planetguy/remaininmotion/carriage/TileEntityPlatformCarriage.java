@@ -12,50 +12,54 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPlatformCarriage extends TileEntityCarriage {
 
-	public void FailBecauseOverburdened() throws CarriageMotionException {
-		throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".overburdened").replace("##BURDEN##",
-				RiMConfiguration.Carriage.MaxPlatformBurden + "")));
-	}
+    // Note this is actually the Support Carriage...
 
-	@Override
-	public void fillPackage(CarriagePackage pkg) throws CarriageMotionException {
-		BlockRecordSet checked = new BlockRecordSet();
-		checked.add(pkg.driveRecord);
-		BlockRecordSet todo = new BlockRecordSet();
-		todo.add(pkg.AnchorRecord);
+    public void FailBecauseOverburdened() throws CarriageMotionException {
+        throw (new CarriageMotionException(Lang.translate(ModRiM.Handle + ".overburdened").replace("##BURDEN##",
+                RiMConfiguration.Carriage.MaxPlatformBurden + "")));
+    }
 
-		int positionsCarried = 0;
+    @Override
+    public void fillPackage(CarriagePackage pkg) throws CarriageMotionException {
+        BlockRecordSet checked = new BlockRecordSet();
+        checked.add(pkg.driveRecord);
+        BlockRecordSet todo = new BlockRecordSet();
+        todo.add(pkg.AnchorRecord);
 
-		while (!todo.isEmpty()) {
-			BlockRecord inProgress = todo.pollFirst();
-			if (canAdd(inProgress, positionsCarried)) {
-				positionsCarried++;
-				// plan neighbours
-				for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-					// special case for side closing
-					if (inProgress != pkg.AnchorRecord || !SideClosed[dir.ordinal()]) {
-						BlockRecord neighbour = new BlockRecord(inProgress).shift(dir);
-						if (!checked.contains(neighbour)) {
-							todo.add(neighbour);
-						}
-					}
-				}
-				// add to package
-				inProgress.Identify(worldObj);
-				pkg.AddBlock(inProgress);
-			} else {
-				pkg.AddPotentialObstruction(inProgress);
-			}
-			checked.add(inProgress);
-		}
+        int positionsCarried = 0;
 
-	}
+        while (!todo.isEmpty()) {
+            BlockRecord inProgress = todo.pollFirst();
+            if (canAdd(inProgress, positionsCarried)) {
+                positionsCarried++;
+                // plan neighbours
+                for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+                    // special case for side closing
+                    if (inProgress != pkg.AnchorRecord || !SideClosed[dir.ordinal()]) {
+                        BlockRecord neighbour = new BlockRecord(inProgress).shift(dir);
+                        if (!checked.contains(neighbour)) {
+                            todo.add(neighbour);
+                        }
+                    }
+                }
+                // add to package
+                inProgress.Identify(worldObj);
+                pkg.AddBlock(inProgress);
+            } else {
+                pkg.AddPotentialObstruction(inProgress);
+            }
+            checked.add(inProgress);
+        }
 
-	private boolean canAdd(BlockRecord record, int count) {
-		return !worldObj.isAirBlock(record.X, record.Y, record.Z)
-				&& count < RiMConfiguration.Carriage.MaxPlatformBurden
-				&& !BlacklistManager.blacklistSoft.lookup(worldObj, record.X, record.Y, record.Z);
-	}
+    }
+
+    private boolean canAdd(BlockRecord record, int count) {
+        if(worldObj.isAirBlock(record.X, record.Y, record.Z)) return false;
+        if(count > RiMConfiguration.Carriage.MaxPlatformBurden) return false;
+        if(BlacklistManager.blacklistSoft.lookup(worldObj, record.X, record.Y, record.Z)) return false;
+
+        return true;
+    }
 
 	/*
 	 * @Override public void fillPackage ( CarriagePackage Package ) throws

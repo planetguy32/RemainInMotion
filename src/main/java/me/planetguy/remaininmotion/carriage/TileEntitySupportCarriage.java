@@ -8,6 +8,9 @@ import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 
 public class TileEntitySupportCarriage extends TileEntityCarriage {
+
+    // Note this is actually the platform carriage
+
 	public TileEntitySupportCarriage() {
 		for (Directions Direction : Directions.values()) {
 			if (Direction != Directions.PosY) {
@@ -68,6 +71,8 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 
 		int BlocksCarried = 0;
 
+        boolean terminatedByReversal = false;
+
 		while (CarriagesToCheck.size() > 0) {
 			BlockRecord CarriageRecord = CarriagesToCheck.pollFirst();
 
@@ -98,7 +103,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 
 				TargetRecord.Identify(worldObj);
 
-				if (TargetDirection == SupportDirection) {
+				if (TargetDirection == SupportDirection && !terminatedByReversal) {
 					Package.AddBlock(TargetRecord);
 
 					BlocksToCheck.add(TargetRecord);
@@ -108,6 +113,12 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 					if (BlocksCarried > RiMConfiguration.Carriage.MaxSupportBurden) {
 						FailBecauseOverburdened();
 					}
+
+                    if(TargetRecord.entity != null && TargetRecord.entity instanceof TileEntitySupportCarriage) {
+                        if(((TileEntityPlatformCarriage)TargetRecord.entity).treatSideAsClosed(SupportDirection.oppositeOrdinal)) {
+                            terminatedByReversal = true;
+                        }
+                    }
 
 					continue;
 				}
@@ -125,6 +136,8 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 				}
 			}
 		}
+
+        terminatedByReversal = false;
 
 		while (BlocksToCheck.size() > 0) {
 			BlockRecord BlockRecord = BlocksToCheck.pollFirst();
@@ -154,6 +167,14 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 				}
 
 				TargetRecord.Identify(worldObj);
+
+                if(SupportDirection == TargetDirection && terminatedByReversal) continue;
+
+                if(TargetRecord.entity != null && TargetRecord.entity instanceof TileEntitySupportCarriage) {
+                    if(!((TileEntityCarriage)TargetRecord.entity).treatSideAsClosed(SupportDirection.oppositeOrdinal)) {
+                        terminatedByReversal = true;
+                    }
+                }
 
 				Package.AddBlock(TargetRecord);
 
