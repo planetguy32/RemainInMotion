@@ -22,8 +22,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ToolItemSet extends ItemBase {
-	public static int	Id;
-
+	
 	public enum Types {
 		Screwdriver;
 
@@ -58,16 +57,11 @@ public class ToolItemSet extends ItemBase {
 	@Override
 	public String getItemStackDisplayName(ItemStack Item) {
 		try {
-			switch (Types.values()[Item.getItemDamage()]) {
-				case Screwdriver:
-
-					return (Lang.translate(ModRiM.Handle + ".screwdriver"));
-			}
+			return (Lang.translate(ModRiM.Handle + ".screwdriver"));
 		} catch (Throwable Throwable) {
 			Throwable.printStackTrace();
+			return ("INVALID ITEM");
 		}
-
-		return ("INVALID ITEM");
 	}
 
 	@Override

@@ -18,23 +18,31 @@ public class ItemCarriage extends ItemBlockRiM {
 		super(b);
 	}
 
+	//Helpers for accessing data in carriage items
+	//Current system uses NBT data
+	//Really old system used itemstack metadata
 	public static Block GetDecorationBlock(ItemStack Item) {
-		if (Item.stackTagCompound != null) { return Block
-				.getBlockById(Item.getTagCompound().getInteger("DecorationId")); }
-
-		return Block.getBlockFromItem(Item.getItem());
+		if (Item.stackTagCompound != null) {
+			return Block.getBlockById(Item.getTagCompound().getInteger("DecorationId")); 
+		} else {
+			return Block.getBlockFromItem(Item.getItem());
+		}
 	}
 
 	public static int GetDecorationMeta(ItemStack Item) {
-		if (Item.stackTagCompound != null) { return (Item.stackTagCompound.getInteger("DecorationMeta")); }
-
-		return Item.getItemDamage();
+		if (Item.stackTagCompound != null) {
+			return (Item.stackTagCompound.getInteger("DecorationMeta"));
+		} else {
+			return Item.getItemDamage();
+		}
 	}
 
 	public static int GetTier(ItemStack Item) {
-		if (Item.stackTagCompound != null) { return (Item.stackTagCompound.getInteger("Tier")); }
-
-		return (0);
+		if (Item.stackTagCompound != null) {
+			return (Item.stackTagCompound.getInteger("Tier"));
+		} else {
+			return (0);
+		}
 	}
 
 	public static ItemStack Stack(int Type) {
@@ -51,33 +59,6 @@ public class ItemCarriage extends ItemBlockRiM {
 		return (Item);
 	}
 
-	/*
-	 * @Override public String getItemDisplayName ( net . minecraft . item .
-	 * ItemStack Item ) { try { switch ( Carriage . Types . values ( ) [
-	 * GetBlockType ( Item ) ] ) { case Frame :
-	 * 
-	 * return ( "Frame Carriage" ) ;
-	 * 
-	 * case Platform :
-	 * 
-	 * /* renaming is intentional * / return ( "Support Carriage" ) ;
-	 * 
-	 * case Structure :
-	 * 
-	 * return ( "Structure Carriage" ) ;
-	 * 
-	 * case Support :
-	 * 
-	 * /* renaming is intentional * / return ( "Platform Carriage" ) ;
-	 * 
-	 * case Template :
-	 * 
-	 * return ( "Template Carriage" ) ; } } catch ( Throwable Throwable ) {
-	 * Throwable . printStackTrace ( ) ; }
-	 * 
-	 * return ( "INVALID CARRIAGE" ) ; }
-	 */
-
 	@Override
 	public void AddTooltip(ItemStack Item, List TooltipLines) {
 		if (RiMConfiguration.Cosmetic.ShowHelpInTooltips) {
@@ -86,46 +67,6 @@ public class ItemCarriage extends ItemBlockRiM {
 						.split("##/##")) {
 					TooltipLines.add(s);
 				}
-
-				/*
-				 * switch ( Carriage . Types . values ( ) [ GetBlockType ( Item
-				 * ) ] ) { case Frame :
-				 * 
-				 * TooltipLines . add ( "Carries blocks directly touching it" )
-				 * ;
-				 * 
-				 * break ;
-				 * 
-				 * case Support :
-				 * 
-				 * TooltipLines . add ( "Carries straight line of blocks" ) ;
-				 * TooltipLines . add (
-				 * "(Formerly known as 'Support Carriage'.)" ) ;
-				 * 
-				 * break ;
-				 * 
-				 * case Structure :
-				 * 
-				 * TooltipLines . add ( "Carries entire cuboid of world" ) ;
-				 * 
-				 * break ;
-				 * 
-				 * case Platform :
-				 * 
-				 * TooltipLines . add (
-				 * "Carries entire body of blocks it's connected to" ) ;
-				 * TooltipLines . add (
-				 * "(Formerly known as 'Platform Carriage'.)" ) ;
-				 * 
-				 * break ;
-				 * 
-				 * case Template :
-				 * 
-				 * TooltipLines . add (
-				 * "Carries blocks in the exact pattern prepared" ) ;
-				 * 
-				 * break ; }
-				 */
 			} catch (Throwable Throwable) {
 				Throwable.printStackTrace();
 
