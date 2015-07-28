@@ -100,7 +100,6 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	
 	
 	public boolean handle(IconButton b){
-		Debug.dbg(b.isActive);
 		b.isActive=!b.isActive;
 		return true;
 	}

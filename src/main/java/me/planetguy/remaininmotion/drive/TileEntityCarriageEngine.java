@@ -59,9 +59,6 @@ public class TileEntityCarriageEngine extends TileEntityCarriageDrive {
 	
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);
-		if(Anchored()){
-			TagCompound.setString("id", "");
-		}
 	}
 	
 	public void setConfigurationSuper(long flags, EntityPlayerMP changer){
