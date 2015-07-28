@@ -7,6 +7,7 @@ import me.planetguy.lib.util.Lang;
 import me.planetguy.remaininmotion.util.Stack;
 import me.planetguy.remaininmotion.api.ISpecialScrewdriverPunchBehavior;
 import me.planetguy.remaininmotion.core.interop.ModInteraction.Wrenches;
+import me.planetguy.remaininmotion.core.CreativeTab;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMItems;
@@ -35,8 +36,8 @@ public class ToolItemSet extends ItemBase {
 
 	public ToolItemSet() {
 		super("item."+ModRiM.Handle + "_ToolItemSet");
-
 		setMaxStackSize(1);
+		setCreativeTab(CreativeTab.Instance);
 	}
 
 	@Override

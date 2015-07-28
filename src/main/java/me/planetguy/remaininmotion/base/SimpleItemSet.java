@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.planetguy.lib.prefab.ItemBase;
 import me.planetguy.remaininmotion.util.Stack;
+import me.planetguy.remaininmotion.core.CreativeTab;
 import me.planetguy.remaininmotion.core.ItemTypes;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
@@ -19,6 +20,7 @@ public class SimpleItemSet extends ItemBase {
 	public SimpleItemSet() {
 		//for legacy compatibility...
 		super("item."+ModRiM.Handle + "_SimpleItemSet");
+		setCreativeTab(CreativeTab.Instance);
 	}
 
 	@Override
@@ -49,5 +51,10 @@ public class SimpleItemSet extends ItemBase {
 
 			return (RIMBlocks.Spectre.getIcon(0, 0));
 		}
+	}
+	
+	@Override
+	public int countTooltipLines() {
+		return 1;
 	}
 }

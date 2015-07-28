@@ -117,9 +117,12 @@ JAKJ_RedstoneInMotion.drive.tooltip.7=Moves in one fixed direction
 
 #Misc items
 JAKJ_RedstoneInMotion.screwdriver=Screwdriver
-item.JAKJ_RedstoneInMotion_SimpleItemSet.0.name=Carriage Crosspiece
-item.JAKJ_RedstoneInMotion_SimpleItemSet.1.name=Carriage Panel
-item.JAKJ_RedstoneInMotion_SimpleItemSet.2.name=Carriage Framework
+item.item.JAKJ_RedstoneInMotion_ToolItemSet.tooltip.1=R-click: toggle closed
+item.item.JAKJ_RedstoneInMotion_ToolItemSet.tooltip.2=  (sneak to change opposite side)
+item.item.JAKJ_RedstoneInMotion_SimpleItemSet.0.name=Carriage Crosspiece
+item.item.JAKJ_RedstoneInMotion_SimpleItemSet.1.name=Carriage Panel
+item.item.JAKJ_RedstoneInMotion_SimpleItemSet.2.name=Carriage Framework
+item.item.JAKJ_RedstoneInMotion_SimpleItemSet.tooltip.1=Crafting ingredient
 item.hollowCarriage.name=Hollow Carriage
 
 #Specter
