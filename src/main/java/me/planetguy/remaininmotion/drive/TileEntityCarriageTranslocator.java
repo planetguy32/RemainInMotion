@@ -328,6 +328,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
     }
     
     public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
+        if(Active) return false;
     	if(!requiresScrewdriverToOpen || 
     			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
     		player.openGui(ModRiM.instance, 1, worldObj, xCoord, yCoord, zCoord);
