@@ -272,11 +272,15 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public void WriteCommonRecord(NBTTagCompound TagCompound) {
         TagCompound.setInteger("motion", motionDirection.ordinal());
 
-        TagCompound.setInteger("RenderCacheKeyX", renderCacheKey.X);
-        TagCompound.setInteger("RenderCacheKeyY", renderCacheKey.Y);
-        TagCompound.setInteger("RenderCacheKeyZ", renderCacheKey.Z);
+        if(renderCacheKey != null) {
 
-        TagCompound.setInteger("RenderCacheKeyD", renderCacheKey.Dimension);
+        	TagCompound.setInteger("RenderCacheKeyX", renderCacheKey.X);
+        	TagCompound.setInteger("RenderCacheKeyY", renderCacheKey.Y);
+        	TagCompound.setInteger("RenderCacheKeyZ", renderCacheKey.Z);
+
+        	TagCompound.setInteger("RenderCacheKeyD", renderCacheKey.Dimension);
+
+        }
         
         if(driveRecord != null) {
             NBTTagCompound tag = new NBTTagCompound();
