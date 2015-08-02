@@ -53,7 +53,7 @@ public abstract class SneakyWorldUtil {
             int oldOpacity = oldBlock.getLightOpacity(world, x, y, z);
 
             xbs.func_150818_a(chunkX, y & 15, chunkZ, newBlock);
-            xbs.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta); // This line duplicates the one below, so breakBlock fires with valid worldstate
+            xbs.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta); 
 
             if (!world.isRemote)
             {
@@ -61,7 +61,7 @@ public abstract class SneakyWorldUtil {
                 TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
                 if (te != null && te.shouldRefresh(oldBlock, chunk.getBlock(chunkX & 0x0F, y, chunkZ & 0x0F), metadata, chunk.getBlockMetadata(chunkX & 0x0F, y, chunkZ & 0x0F), world, x, y, z))
                 {
-                	world.restoringBlockSnapshots=true;
+                	world.restoringBlockSnapshots=true; //suppress item drops from TileEntity.invalidate()
                     chunk.removeTileEntity(chunkX & 0x0F, y, chunkZ & 0x0F);
                     world.restoringBlockSnapshots=false;
                 }
@@ -71,7 +71,7 @@ public abstract class SneakyWorldUtil {
                 TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
                 if (te != null && te.shouldRefresh(oldBlock, newBlock, metadata, meta, world, x, y, z))
                 {
-                    world.restoringBlockSnapshots=true;
+                    world.restoringBlockSnapshots=true; //suppress item drops from TileEntity.invalidate()
                     world.removeTileEntity(x, y, z);
                     world.restoringBlockSnapshots=false;
                 }
@@ -140,8 +140,9 @@ public abstract class SneakyWorldUtil {
         if (entity == null) { throw new NullPointerException(); }
         // This does exactly the same thing, except without reflection
         world.addTileEntity(entity);
-        
+        world.restoringBlockSnapshots=true;
         world.getChunkFromBlockCoords(X, Z).func_150812_a(X & 0xF, Y, Z & 0xF, entity);
+        world.restoringBlockSnapshots=false;
     }
 
     public static void NotifyBlocks(World world, int X, int Y, int Z, Block OldId, Block NewId) {
