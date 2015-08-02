@@ -17,6 +17,7 @@ import me.planetguy.remaininmotion.core.interop.mod.CarpentersBlocks;
 import me.planetguy.remaininmotion.core.interop.mod.ChickenChunks;
 import me.planetguy.remaininmotion.core.interop.mod.EnderIO;
 import me.planetguy.remaininmotion.core.interop.mod.ForgeMultipart;
+import me.planetguy.remaininmotion.core.interop.mod.ImmersiveEngineering;
 import me.planetguy.remaininmotion.core.interop.mod.QmunityMultipart;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
@@ -37,8 +38,7 @@ public abstract class ModInteraction {
         	EventManager.registerEventHandler(new ChickenChunks());
         }
         
-    	if(Loader.isModLoaded("ForgeMultipart"))
-		{
+    	if(Loader.isModLoaded("ForgeMultipart")) {
     		if(Loader.isModLoaded("qmunitylib")){
     			qlInteraction=new QmunityMultipart();
     			EventManager.registerEventHandler(qlInteraction);
@@ -47,22 +47,23 @@ public abstract class ModInteraction {
     		EventManager.registerEventHandler(new ForgeMultipart());
 		}
     	
-    	if(Loader.isModLoaded("BuildCraft|Transport"))
-    	{
+    	if(Loader.isModLoaded("BuildCraft|Transport")) {
     		if(FMLCommonHandler.instance().getEffectiveSide()==Side.CLIENT){
     			EventManager.registerEventHandler(new BuildcraftClient());
     		}
     		EventManager.registerEventHandler(new Buildcraft());
     	}
     	
-    	if(Loader.isModLoaded("EnderIO"))
-    	{
+    	if(Loader.isModLoaded("EnderIO")) {
     		EventManager.registerEventHandler(new EnderIO());
     	}
 
-        if(Loader.isModLoaded("CarpentersBlocks"))
-        {
+        if(Loader.isModLoaded("CarpentersBlocks")) {
         	EventManager.registerEventHandler(new CarpentersBlocks());
+        }
+        
+        if(true) {//Loader.isModLoaded("ImmersiveEngineering")) {
+        	EventManager.registerEventHandler(new ImmersiveEngineering());
         }
     	
 		Wrenches.init();
