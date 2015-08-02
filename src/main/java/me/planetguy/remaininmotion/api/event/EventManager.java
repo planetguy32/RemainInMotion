@@ -12,7 +12,7 @@ public class EventManager {
 		try {
 			blockMoveBus.register(o);
 		}catch(Error e) {
-			Debug.dbg("Failed to register plugin for "+o);
+			Debug.dbg("Failed to register plugin for "+o+" - is it out of date?");
 		}
 	}
 
