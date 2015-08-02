@@ -15,6 +15,9 @@ public abstract class SneakyWorldUtil {
         int chunkZ = z & 0xF;
 
         Chunk chunk = world.getChunkFromBlockCoords(x, z);
+        
+        if(chunk==null)
+        	return false;
 
         int xzCombinedPosition = chunkZ << 4 | chunkX;
 
@@ -47,10 +50,7 @@ public abstract class SneakyWorldUtil {
                 heightMapChanged = y >= heightMapAtTarget;
             }
 
-            int l1 = x;
-            int i2 = z;
-
-            int oldOpacity = oldBlock.getLightOpacity(world, l1, y, i2);
+            int oldOpacity = oldBlock.getLightOpacity(world, x, y, z);
 
             xbs.func_150818_a(chunkX, y & 15, chunkZ, newBlock);
             xbs.setExtBlockMetadata(chunkX, y & 15, chunkZ, meta); // This line duplicates the one below, so breakBlock fires with valid worldstate
@@ -59,17 +59,21 @@ public abstract class SneakyWorldUtil {
             {
                 // After breakBlock a phantom TE might have been created with incorrect meta. This attempts to kill that phantom TE so the normal one can be create properly later
                 TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
-                if (te != null && te.shouldRefresh(oldBlock, chunk.getBlock(chunkX & 0x0F, y, chunkZ & 0x0F), metadata, chunk.getBlockMetadata(chunkX & 0x0F, y, chunkZ & 0x0F), world, l1, y, i2))
+                if (te != null && te.shouldRefresh(oldBlock, chunk.getBlock(chunkX & 0x0F, y, chunkZ & 0x0F), metadata, chunk.getBlockMetadata(chunkX & 0x0F, y, chunkZ & 0x0F), world, x, y, z))
                 {
+                	world.restoringBlockSnapshots=true;
                     chunk.removeTileEntity(chunkX & 0x0F, y, chunkZ & 0x0F);
+                    world.restoringBlockSnapshots=false;
                 }
             }
             else if (oldBlock.hasTileEntity(metadata))
             {
                 TileEntity te = chunk.getTileEntityUnsafe(chunkX & 0x0F, y, chunkZ & 0x0F);
-                if (te != null && te.shouldRefresh(oldBlock, newBlock, metadata, meta, world, l1, y, i2))
+                if (te != null && te.shouldRefresh(oldBlock, newBlock, metadata, meta, world, x, y, z))
                 {
-                    world.removeTileEntity(l1, y, i2);
+                    world.restoringBlockSnapshots=true;
+                    world.removeTileEntity(x, y, z);
+                    world.restoringBlockSnapshots=false;
                 }
             }
 
@@ -87,7 +91,7 @@ public abstract class SneakyWorldUtil {
                 }
                 else
                 {
-                    int newOpacity = newBlock.getLightOpacity(world, l1, y, i2);
+                    int newOpacity = newBlock.getLightOpacity(world, x, y, z);
 
                     if (newOpacity > 0)
                     {

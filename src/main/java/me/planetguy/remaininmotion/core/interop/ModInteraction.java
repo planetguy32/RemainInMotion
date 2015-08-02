@@ -17,7 +17,6 @@ import me.planetguy.remaininmotion.core.interop.mod.CarpentersBlocks;
 import me.planetguy.remaininmotion.core.interop.mod.ChickenChunks;
 import me.planetguy.remaininmotion.core.interop.mod.EnderIO;
 import me.planetguy.remaininmotion.core.interop.mod.ForgeMultipart;
-import me.planetguy.remaininmotion.core.interop.mod.ImmersiveEngineering;
 import me.planetguy.remaininmotion.core.interop.mod.QmunityMultipart;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
@@ -62,10 +61,6 @@ public abstract class ModInteraction {
         	EventManager.registerEventHandler(new CarpentersBlocks());
         }
         
-        if(true) {//Loader.isModLoaded("ImmersiveEngineering")) {
-        	EventManager.registerEventHandler(new ImmersiveEngineering());
-        }
-    	
 		Wrenches.init();
 
 		Computers.setup();
