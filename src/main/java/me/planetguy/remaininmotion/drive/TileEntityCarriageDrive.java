@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.Moveable;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
+import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
@@ -48,6 +49,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
@@ -445,7 +447,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     record,
                     carriagePackage.MotionDirection != null
                             ? record.NextInDirection(carriagePackage.MotionDirection)
-                            : record));
+                            : record,
+                    (Set) carriagePackage.Body));
         }
 
     }
