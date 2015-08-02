@@ -489,7 +489,6 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 
 	@Override
 	public String getType() {
-		Debug.mark();
 		return type();
 	}
 
@@ -506,6 +505,7 @@ public class TileEntityCarriageController extends TileEntityCarriageDrive implem
 		}
 	}
 
+	@Optional.Method(modid = "ComputerCraft")
 	@Override
 	public void attach(IComputerAccess computer) {}
 
