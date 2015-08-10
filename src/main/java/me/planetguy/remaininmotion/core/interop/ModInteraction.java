@@ -62,7 +62,7 @@ public abstract class ModInteraction {
         	EventManager.registerEventHandler(new CarpentersBlocks());
         }
         
-        if(true) { //for debugging - I've had to change IE's modID Loader.isModLoaded("ImmersiveEngineering")) {
+        if(Loader.isModLoaded("ImmersiveEngineering")) {
         	EventManager.registerEventHandler(new ImmersiveEngineering());
         }
         
