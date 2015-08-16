@@ -18,7 +18,7 @@ public class BlockRecord implements Comparable<BlockRecord>, IBlockPos {
 		return ("(" + X + "," + Y + "," + Z + ")");
 	}
 
-	public BlockRecord(TileEntityRiM te) {
+	public BlockRecord(TileEntity te) {
 		this(te.xCoord, te.yCoord, te.zCoord);
 		Identify(te.getWorldObj());
 	}
@@ -33,6 +33,11 @@ public class BlockRecord implements Comparable<BlockRecord>, IBlockPos {
 		X = Record.X;
 		Y = Record.Y;
 		Z = Record.Z;
+	}
+
+	public BlockRecord(ForgeDirection offset, BlockRecord base) {
+		this(base);
+		shift(offset);
 	}
 
 	public void Shift(Directions Direction) {

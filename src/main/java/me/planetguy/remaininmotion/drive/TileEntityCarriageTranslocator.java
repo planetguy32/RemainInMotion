@@ -177,7 +177,7 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 				boolean targetValid = true;
 
 				for (BlockRecord record : Package.NewPositions) {
-					if (targetBlockReplaceable(translocator, record) != 0) {
+					if (targetBlockFromOffsetReplaceable(translocator, record) != 0) {
 						targetValid = false;
 
 						break;

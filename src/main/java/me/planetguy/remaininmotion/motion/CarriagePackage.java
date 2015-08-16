@@ -90,7 +90,7 @@ public class CarriagePackage {
 
 	private double			Mass			= 0;
 
-	public void AddBlock(BlockRecord record) throws CarriageMotionException {
+	public boolean AddBlock(BlockRecord record) throws CarriageMotionException {
 
 		if ((MotionDirection == Directions.PosY) && (record.Y >= 254)) { throw (new CarriageObstructionException(
 				"cannot move carriage above height limit", record.X, record.Y, record.Z)); }
@@ -104,11 +104,11 @@ public class CarriagePackage {
 		if (blacklistByRotation && BlacklistManager.lookup(BlacklistManager.blacklistRotation, record)) { throw (new CarriageObstructionException(
 				Lang.translate(ModRiM.Handle + ".bannedTurningBlock"), record.X, record.Y, record.Z)); }
 
-		if (BlacklistManager.lookup(BlacklistManager.blacklistSoft, record)) { return; }
+		if (BlacklistManager.lookup(BlacklistManager.blacklistSoft, record)) { return false; }
 
         if(record.X == driveRecord.X && record.Y == driveRecord.Y && record.Z == driveRecord.Z)
         {
-            if(record.entity instanceof TileEntityCarriageTranslocator) return;
+            if(record.entity instanceof TileEntityCarriageTranslocator) return false;
         }
         
 		if (record.entity != null) {
@@ -126,7 +126,7 @@ public class CarriagePackage {
 			BlockSelectForMoveEvent event=blacklistByRotation ? new BlockSelectForRotateEvent(record, axis) : new BlockSelectForMoveEvent(record);
 			RiMRegistry.blockMoveBus.post(event);
 			if(event.isExcluded()) {
-				return;
+				return false;
 			}else if(event.isCanceled()) {
 				throw new CarriageMotionException("motion killed by block at "+record+": "+event.getCancelMessag());
 			}
@@ -177,6 +177,8 @@ public class CarriagePackage {
 
 			}
 		}
+		
+		return true;
 	}
 
 	public void FailBecauseObstructed(BlockRecord Record, String Type) throws CarriageMotionException {
@@ -190,10 +192,8 @@ public class CarriagePackage {
 	public void AssertNotObstruction(BlockRecord record) throws CarriageMotionException {
 		if (Body.contains(record)) { return; }
 
-        TileEntityCarriageDrive tile = ((TileEntityCarriageDrive) world.getTileEntity(driveRecord.X, driveRecord.Y, driveRecord.Z));
-
         // Now we only modify TileEntityCarriageDrive.targetBlockReplaceable
-		int i = TileEntityCarriageDrive.targetBlockReplaceableNoTranslate(tile, record);
+		int i = TileEntityCarriageDrive.isBlockReplaceable(world, record);
         switch(i)
         {
             case 0: return;

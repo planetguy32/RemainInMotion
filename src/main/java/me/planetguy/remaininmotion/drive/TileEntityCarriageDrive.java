@@ -45,6 +45,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
@@ -343,20 +344,20 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     /**
      * @return 0 -> did not fail, 1 -> fragile, 2 -> liquid, 3 -> block
      */
-    public static int targetBlockReplaceable(TileEntity translocator, BlockRecord record) {
-        return targetBlockReplaceableNoTranslate(translocator, new BlockRecord(record.X + translocator.xCoord,
+    public static int targetBlockFromOffsetReplaceable(TileEntity translocator, BlockRecord record) {
+        return isBlockReplaceable(translocator.getWorldObj(), new BlockRecord(record.X + translocator.xCoord,
                 record.Y + translocator.yCoord, record.Z + translocator.zCoord));
     }
 
     /**
      * @return 1 -> fragile, 2 -> liquid, 3 -> block
      */
-    public static int targetBlockReplaceableNoTranslate(TileEntity translocator, BlockRecord record) {
-        if (translocator.getWorldObj().isAirBlock(record.X, record.Y, record.Z)) {
+    public static int isBlockReplaceable(World w, BlockRecord record) {
+        if (w.isAirBlock(record.X, record.Y, record.Z)) {
             return 0;
         }
 
-        Block block = translocator.getWorldObj().getBlock(record.X, record.Y, record.Z);
+        Block block = w.getBlock(record.X, record.Y, record.Z);
         if (block != null) {
             if (!CarriagePackage.ObstructedByLiquids && (FluidRegistry.lookupFluidForBlock(block) != null)) {
                 return 0;
