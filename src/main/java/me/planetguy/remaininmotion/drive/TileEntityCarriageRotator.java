@@ -53,9 +53,13 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 				continue;
 			}
 
-			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(xCoord, yCoord, zCoord), pointedDir,
+			BlockRecord dest = RemIMRotator.simulateRotateOrthogonal(new BlockRecord(this), pointedDir,
 					record);
-
+			
+			if(dest.Y > 255 || dest.Y < 0) {
+				throw new CarriageMotionException("Cannot rotate block at "+new BlockRecord(this)+ " to "+dest+": out of bounds");
+			}
+			
             Package.AddPotentialObstruction(dest);
 		}
 
