@@ -33,21 +33,13 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 	}
 
 	public void FailBecauseOverburdened() throws CarriageMotionException {
-		throw (new CarriageMotionException("support carriage exceeds maximum burden of "
+		throw (new CarriageMotionException("support carriage exceeds size limit of "
 				+ RiMConfiguration.Carriage.MaxSupportBurden + " blocks carried"));
 	}
 
 	@Override
 	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {
-		Directions SupportDirection = null;
-
-		for (Directions Direction : Directions.values()) {
-			if (!SideClosed[Direction.ordinal()]) {
-				SupportDirection = Direction;
-
-				break;
-			}
-		}
+		Directions SupportDirection = getHeadingDirection();
 
 		if (SupportDirection == null) { return; }
 
@@ -74,16 +66,17 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
         boolean terminatedByReversal = false;
 
 		while (CarriagesToCheck.size() > 0) {
-			BlockRecord CarriageRecord = CarriagesToCheck.pollFirst();
+			BlockRecord checkingRecord = CarriagesToCheck.pollFirst();
 
-			if (((TileEntitySupportCarriage) CarriageRecord.entity).SideClosed[SupportDirection.ordinal()]) { throw (new CarriageMotionException(
+			if (((TileEntitySupportCarriage) checkingRecord.entity).getHeadingDirection() != SupportDirection) { 
+				throw (new CarriageMotionException(
 					"support carriage must have all open sides in the same direction")); }
 
-			ValidColumns.add(new BlockRecord(CarriageRecord.X * ValidColumnCheckFactorX, CarriageRecord.Y
-					* ValidColumnCheckFactorY, CarriageRecord.Z * ValidColumnCheckFactorZ));
+			ValidColumns.add(new BlockRecord(checkingRecord.X * ValidColumnCheckFactorX, checkingRecord.Y
+					* ValidColumnCheckFactorY, checkingRecord.Z * ValidColumnCheckFactorZ));
 
 			if (Package.MotionDirection == SupportDirection.opposite()) {
-				Package.AddPotentialObstruction(CarriageRecord.NextInDirection(Package.MotionDirection));
+				Package.AddPotentialObstruction(checkingRecord.NextInDirection(Package.MotionDirection));
 			}
 
 			for (Directions TargetDirection : Directions.values()) {
@@ -91,9 +84,9 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 					continue;
 				}
 
-				BlockRecord TargetRecord = CarriageRecord.NextInDirection(TargetDirection);
+				BlockRecord TargetRecord = checkingRecord.NextInDirection(TargetDirection);
 
-				if (!BlocksChecked.add(TargetRecord)) {
+				if (!BlocksChecked.add(TargetRecord)) { //already checked
 					continue;
 				}
 
@@ -124,10 +117,9 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 				}
 
 				if (Package.MatchesCarriageType(TargetRecord)) {
-					Package.AddBlock(TargetRecord);
-
-					CarriagesToCheck.add(TargetRecord);
-
+					if(Package.AddBlock(TargetRecord)) {
+						CarriagesToCheck.add(TargetRecord);
+					}
 					continue;
 				}
 
@@ -162,10 +154,6 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
 					continue;
 				}
 
-				if (worldObj.isAirBlock(TargetRecord.X, TargetRecord.Y, TargetRecord.Z)) {
-					continue;
-				}
-
 				TargetRecord.Identify(worldObj);
 
                 if(SupportDirection == TargetDirection && terminatedByReversal) continue;
@@ -176,16 +164,26 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
                     }
                 }
 
-				Package.AddBlock(TargetRecord);
+				if(!Package.AddBlock(TargetRecord))
+					continue;
 
 				BlocksToCheck.add(TargetRecord);
 
-				BlocksCarried++;
-
-				if (BlocksCarried > RiMConfiguration.Carriage.MaxSupportBurden) {
+				if (++BlocksCarried > RiMConfiguration.Carriage.MaxSupportBurden) {
 					FailBecauseOverburdened();
 				}
 			}
 		}
+	}
+	
+	public Directions getHeadingDirection() {
+		Directions heading = null;
+		for (Directions Direction : Directions.values()) {
+			if (!SideClosed[Direction.ordinal()]) {
+				heading = Direction;
+				break;
+			}
+		}
+		return heading;
 	}
 }

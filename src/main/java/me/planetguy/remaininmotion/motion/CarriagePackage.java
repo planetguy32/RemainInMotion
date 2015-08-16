@@ -91,6 +91,14 @@ public class CarriagePackage {
 	private double			Mass			= 0;
 
 	public boolean AddBlock(BlockRecord record) throws CarriageMotionException {
+		boolean couldAddBlock=AddBlock_impl(record);
+		if(!couldAddBlock) {
+			this.AddPotentialObstruction(record);
+		}
+		return couldAddBlock;
+	}
+	
+	private boolean AddBlock_impl(BlockRecord record) throws CarriageMotionException {
 
 		if ((MotionDirection == Directions.PosY) && (record.Y >= 254)) { throw (new CarriageObstructionException(
 				"cannot move carriage above height limit", record.X, record.Y, record.Z)); }
