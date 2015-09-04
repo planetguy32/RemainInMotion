@@ -1,8 +1,8 @@
 package me.planetguy.remaininmotion.spectre;
 
+import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.position.AABBUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

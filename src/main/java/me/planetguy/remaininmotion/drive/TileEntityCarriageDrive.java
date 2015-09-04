@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.drive;
 //import codechicken.chunkloader.TileChunkLoaderBase;
 import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.motion.CarriageMatchers;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriageObstructionException;
@@ -25,7 +26,6 @@ import me.planetguy.remaininmotion.network.PacketRenderData;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.position.AABBUtil;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
@@ -492,24 +492,24 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     //Block block1 = worldObj.getBlock(Record.X, Record.Y, Record.Z);
                     //Block block2 = worldObj.getBlock(Record.X + Package.MotionDirection.deltaX, Record.Y, Record.Z + Package.MotionDirection.deltaZ);
                     if(block.isOpaqueCube()) {
-                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.Supportive.ordinal());
                     } else if(block instanceof BlockRailBase) {
-                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.RailSpectre,
+                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.RailSpectre,
                                 worldObj.getBlockMetadata(Record.X, Record.Y, Record.Z));
                     } else if(block.getCollisionBoundingBoxFromPool(worldObj, Record.X - Package.MotionDirection.deltaX, Record.Y, Record.Z - Package.MotionDirection.deltaZ) == null) {
-                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.SupportiveNoCollide.ordinal());
                     } else {
                         //AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
-                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.Supportive.ordinal());
                     }
                 } else {
                     // we do want things like walls to get in our way, though
                     if(!Package.Body.contains(Record)) {
                         //if(worldObj.getBlock(Record.X, Record.Y, Record.Z).isBlockNormalCube() || worldObj.getBlock(Record.X, Record.Y, Record.Z).getCollisionBoundingBoxFromPool(worldObj, Record.X, Record.Y, Record.Z) == null) {
-                            SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                            SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                     BlockSpectre.Types.SupportiveNoCollide.ordinal());
                         //} else {
                         //    AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
@@ -518,7 +518,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                         //}
                     } else {
                         //AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
-                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.Supportive.ordinal());
                     }
                 }
@@ -544,14 +544,14 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                 // Specters get in our way on elevators
                 if(Package.MotionDirection.deltaY == 0) {
                     if(Record.block.getCollisionBoundingBoxFromPool(worldObj, Record.X,Record.Y,Record.Z) == null) {
-                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.SupportiveNoCollide.ordinal());
                     } else {
-                        SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                 BlockSpectre.Types.Supportive.ordinal());
                     }
                 } else {
-                    SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                    SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                             BlockSpectre.Types.SupportiveNoCollide.ordinal());
                 }
                 if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
@@ -568,7 +568,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
 	public void RefreshWorld(CarriagePackage Package) {
 		for (BlockRecord Record : Package.Body) {
-			SneakyWorldUtil.RefreshBlock(worldObj, Record.X, Record.Y, Record.Z, Record.block, Blocks.air);
+			SneakyWorldUtil.refreshBlock(worldObj, Record.X, Record.Y, Record.Z, Record.block, Blocks.air);
 		}
 	}
 

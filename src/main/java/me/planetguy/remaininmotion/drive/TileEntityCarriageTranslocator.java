@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.drive;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
@@ -19,7 +20,6 @@ import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
@@ -256,28 +256,28 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 			Block block = Record.block;
 
 			if(block.isOpaqueCube()) {
-				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.setBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 
-				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.setBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 			} else if(block instanceof BlockRailBase) {
-				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.RailSpectre,
+				SneakyWorldUtil.setBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.RailSpectre,
 						worldObj.getBlockMetadata(xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z));
 
-				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.RailSpectre,
+				SneakyWorldUtil.setBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.RailSpectre,
 						pack.Translocator.getWorldObj().getBlockMetadata(pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z));
 			} else if(block.getCollisionBoundingBoxFromPool(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z) == null) {
-				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.setBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.SupportiveNoCollide.ordinal());
 
-				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.setBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.SupportiveNoCollide.ordinal());
 			} else {
-				SneakyWorldUtil.SetBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.setBlock(worldObj, xCoord + Record.X, yCoord + Record.Y, zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 
-				SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
+				SneakyWorldUtil.setBlock(pack.Translocator.getWorldObj(), pack.Translocator.xCoord + Record.X, pack.Translocator.yCoord + Record.Y, pack.Translocator.zCoord + Record.Z, RIMBlocks.Spectre,
 						BlockSpectre.Types.Supportive.ordinal());
 			}
 

@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.drive;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
@@ -13,7 +14,6 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTransduplicativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -101,7 +101,7 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 			// Record . Y + yCoord , Record . Z + zCoord , RIMBlocks . Spectre ,
 			// Spectre . Types . Supportive . ordinal ( ) ) ;
 
-			SneakyWorldUtil.SetBlock(pack.Translocator.getWorldObj(), Record.X + pack.Translocator.xCoord,
+			SneakyWorldUtil.setBlock(pack.Translocator.getWorldObj(), Record.X + pack.Translocator.xCoord,
 					Record.Y + pack.Translocator.yCoord, Record.Z + pack.Translocator.zCoord, RIMBlocks.Spectre,
 					BlockSpectre.Types.Supportive.ordinal());
 		}

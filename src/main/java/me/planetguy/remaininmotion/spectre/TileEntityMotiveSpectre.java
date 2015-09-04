@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion.spectre;
 
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.*;
@@ -13,7 +14,6 @@ import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
@@ -139,14 +139,14 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         if(!spectersToDestroy.isEmpty()) {
             for (BlockRecord Record : spectersToDestroy) {
-                SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y,
+                SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y,
                         Record.Z, Blocks.air, 0);
             }
         }
 
         for (BlockRecord record : body) {
             record.World = worldObj;
-            SneakyWorldUtil.SetBlock(worldObj, record.X, record.Y, record.Z,
+            SneakyWorldUtil.setBlock(worldObj, record.X, record.Y, record.Z,
                     record.block, record.Meta);
         }
         
@@ -177,19 +177,19 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             // Throwable . printStackTrace ( ) ;
         }
         
-        SneakyWorldUtil.RefreshBlock(worldObj, xCoord, yCoord, zCoord,
+        SneakyWorldUtil.refreshBlock(worldObj, xCoord, yCoord, zCoord,
                 RIMBlocks.Spectre, Blocks.air);
 
         for (BlockRecord Record : body) {
         	onMotionFinalized(Record);
-            SneakyWorldUtil.RefreshBlock(worldObj, Record.X, Record.Y,
+            SneakyWorldUtil.refreshBlock(worldObj, Record.X, Record.Y,
                     Record.Z, Blocks.air, Record.block);
             
         }
 
         if(!spectersToDestroy.isEmpty()){
             for (BlockRecord Record : spectersToDestroy) {
-                SneakyWorldUtil.RefreshBlock(worldObj, Record.X, Record.Y,
+                SneakyWorldUtil.refreshBlock(worldObj, Record.X, Record.Y,
                         Record.Z, Blocks.air, Blocks.air);
             }
         }
@@ -250,7 +250,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
 
         if (record.entity != null) {
-        	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
+        	SneakyWorldUtil.setTileEntity(worldObj, record.X, record.Y,
         			record.Z, record.entity);
         }
         

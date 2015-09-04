@@ -1,6 +1,7 @@
 package me.planetguy.remaininmotion.drive;
 
 import me.planetguy.lib.util.Lang;
+import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
@@ -16,7 +17,6 @@ import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.RemIMRotator;
 import me.planetguy.remaininmotion.spectre.TileEntityRotativeSpectre;
 import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
-import me.planetguy.remaininmotion.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.Rotator;
 import net.minecraft.client.renderer.IconFlipped;
@@ -74,7 +74,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 	public void EstablishPlaceholders(CarriagePackage pkg) {
 		for (BlockRecord Record : pkg.Body) {
 			{
-				SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.air, 0);
+				SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.air, 0);
 			}
 		}
 	}
