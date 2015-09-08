@@ -31,10 +31,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	
-	static {
-		RiMRegistry.registerEventHandler(new TranslocatorMoveListener());
-	}
-	
 	public String Player="";
 
 	public int Label;
@@ -335,5 +331,17 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
     		return true;
     	}
     	return false;
+    }
+
+    @Override
+    public void invalidate() {
+    	super.invalidate();
+    	unregisterLabel();
+    }
+    
+    @Override
+    public void validate() {
+    	super.validate();
+    	registerLabel();
     }
 }

@@ -46,7 +46,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
-@Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib@[1.7,);after:CoFHCore;after:BuildCraft|Transport")
+@Mod(modid = ModRiM.Handle, name = ModRiM.Title, version = ModRiM.Version, dependencies = "required-after:planetguyLib@[1.8.2,);after:CoFHCore;after:BuildCraft|Transport")
 public class ModRiM {
 	public static final String	Namespace	= "me.planetguy.remaininmotion.";
 
