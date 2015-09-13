@@ -27,6 +27,7 @@ import me.planetguy.remaininmotion.network.PacketRenderData;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
+import me.planetguy.remaininmotion.util.FastWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.position.AABBUtil;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
@@ -456,13 +457,17 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public void EstablishPlaceholders(CarriagePackage Package) {
         BlockRecordSet temp = new BlockRecordSet();
 
+        
+        /*
         byte[] lightValues = new byte[Package.Body.size()];
         byte[] lightOpacities = new byte[Package.Body.size()];
-
+        */
+        
         int i = 0;
         if(Package.MotionDirection != null) {
             for (BlockRecord Record : Package.Body) {
 
+            	/*
                 try {
                     lightValues[i] = (byte) Record.block.getLightValue(worldObj, Record.X, Record.Y, Record.Z);
                     lightOpacities[i] = (byte) Record.block.getLightOpacity(worldObj, Record.X, Record.Y, Record.Z);
@@ -470,6 +475,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     lightValues[i] = (byte) Record.block.getLightValue();
                     lightOpacities[i] = (byte) Record.block.getLightOpacity();
                 }
+                */
 
                 BlockRecord temp2 = Record.NextInDirection(Package.MotionDirection);
                 temp2.block = Record.block;
@@ -524,11 +530,12 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
                 // only set Light if we're moving
                 if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
-                    worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
+                	FastWorldUtil.unsafeAddSpectre(worldObj, Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
+                	//worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                     // handle camo blocks
                     TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z));
 
-                    tile.setLight(lightValues[i], lightOpacities[i]);
+                    //tile.setLight(lightValues[i], lightOpacities[i]);
 
                     //tile.setBoundingBox(nbt);
                 }
@@ -553,10 +560,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                             BlockSpectre.Types.SupportiveNoCollide.ordinal());
                 }
-                if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
+                /*if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
                     worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                     ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight((byte)0,(byte)0);
-                }
+                }*/
                 Package.spectersToDestroy.add(new BlockRecord(Record));
             }
 
@@ -579,7 +586,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         WorldUtil.SetBlock(worldObj, CarriageX, CarriageY, CarriageZ, RIMBlocks.Spectre,
                 BlockSpectre.Types.Motive.ordinal());
 
-        worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, new TileEntityMotiveSpectre());
+        //The above setBlock already creates the TE
+        //worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, new TileEntityMotiveSpectre());
 
         ((TileEntityMotiveSpectre) worldObj.getTileEntity(CarriageX, CarriageY, CarriageZ)).Absorb(Package);
     }

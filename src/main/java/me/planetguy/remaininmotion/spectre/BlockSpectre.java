@@ -96,6 +96,7 @@ public class BlockSpectre extends BlockRiM {
      */
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
+    	/*
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityMotiveSpectre) {
             return ((TileEntityMotiveSpectre) te).getLightValue();
@@ -103,6 +104,7 @@ public class BlockSpectre extends BlockRiM {
         {
             return ((TileEntitySupportiveSpectre) te).getLightValue();
         }
+        */
         return super.getLightValue(world, x, y, z);
 
     }
