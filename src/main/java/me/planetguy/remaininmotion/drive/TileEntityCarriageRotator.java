@@ -88,11 +88,9 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 		WorldUtil.SetBlock(worldObj, CarriageX, CarriageY, CarriageZ, RIMBlocks.Spectre,
 				BlockSpectre.Types.Rotative.ordinal());
 
-		TileEntityRotativeSpectre theEntity = new TileEntityRotativeSpectre();
+		TileEntityRotativeSpectre theEntity = (TileEntityRotativeSpectre) worldObj.getTileEntity(CarriageX, CarriageY, CarriageZ);
 
 		theEntity.setAxis(pointedDir.ordinal());
-
-		worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, theEntity);
 
 		theEntity.Absorb(Package);
 

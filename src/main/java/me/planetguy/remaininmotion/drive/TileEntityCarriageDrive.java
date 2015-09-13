@@ -27,7 +27,6 @@ import me.planetguy.remaininmotion.network.PacketRenderData;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
-import me.planetguy.remaininmotion.util.FastWorldUtil;
 import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.position.AABBUtil;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
@@ -530,7 +529,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
                 // only set Light if we're moving
                 if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
-                	FastWorldUtil.unsafeAddSpectre(worldObj, Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
+                	WorldUtil.unsafeAddSpectre(worldObj, Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                 	//worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                     // handle camo blocks
                     TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z));

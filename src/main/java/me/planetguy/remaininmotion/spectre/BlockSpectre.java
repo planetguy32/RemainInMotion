@@ -111,6 +111,9 @@ public class BlockSpectre extends BlockRiM {
 
     @Override
     public int getLightOpacity(IBlockAccess world, int x, int y, int z) {
+    	/* 
+    	 * Strangely enough, this seems to be a bottleneck in moving blocks...
+    	 * 
         TileEntity te = world.getTileEntity(x, y, z);
         if (te instanceof TileEntityMotiveSpectre) {
             return ((TileEntityMotiveSpectre) te).getLightOpacity();
@@ -118,6 +121,7 @@ public class BlockSpectre extends BlockRiM {
         {
             return ((TileEntitySupportiveSpectre) te).getLightOpacity();
         }
+        */
         return super.getLightOpacity(world, x, y, z);
     }
 }
