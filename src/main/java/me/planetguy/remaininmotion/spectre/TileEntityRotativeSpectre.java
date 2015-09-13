@@ -11,6 +11,7 @@ import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPreUnpackEvent;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.interop.EventPool;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,12 +44,12 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 		Block b = worldObj.getBlock(record.X, record.Y, record.Z);
 		if (!worldObj.isRemote) {
 			b.rotateBlock(worldObj, record.X, record.Y, record.Z, ForgeDirection.values()[axisOfRotation]);
-			RiMRegistry.blockMoveBus.post(new BlockRotateEvent(record, ForgeDirection.values()[axisOfRotation]));
+			EventPool.postBlockRotateEvent(record, ForgeDirection.values()[axisOfRotation]);
 		}
 	}
     
     public void announceTEConstruction(BlockRecord record) {
-    	RiMRegistry.blockMoveBus.post(new RotatingTEPreUnpackEvent(this, record, ForgeDirection.getOrientation(axisOfRotation)));
+    	EventPool.postRotatingTEPreUnpackEvent(this, record, ForgeDirection.getOrientation(axisOfRotation));
     }
     
 	@Override

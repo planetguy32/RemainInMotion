@@ -7,6 +7,7 @@ import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.PostRenderDuringMovementEvent;
 import me.planetguy.remaininmotion.api.event.PreRenderDuringMovementEvent;
+import me.planetguy.remaininmotion.core.interop.EventPool;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+
 import org.lwjgl.opengl.GL11;
 
 public abstract class CarriageRenderCache {
@@ -60,11 +62,9 @@ public abstract class CarriageRenderCache {
 				}
 
 				try {
-					PreRenderDuringMovementEvent evt1 = new PreRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass);
-					RiMRegistry.blockMoveBus.post(evt1);
-					if(!evt1.isCanceled()) blockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
-					PostRenderDuringMovementEvent evt2 = new PostRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass);
-					RiMRegistry.blockMoveBus.post(evt2);
+					if(!EventPool.postPreRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass))
+						blockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
+					EventPool.postPostRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass);
 				} catch (Throwable Throwable) {
 					Throwable.printStackTrace();
 				}

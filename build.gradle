@@ -36,7 +36,6 @@ compileScala {
         }
     }
     dependencies {
-        //compile 'codechicken:CodeChickenLib:1.7.10-1.1.1.106:dev'
         compile 'codechicken:ForgeMultipart:1.7.10-1.2.0.345:dev'
         //compile 'com.mod-buildcraft:buildcraft:7.0.17:dev'
         compile files('libs')

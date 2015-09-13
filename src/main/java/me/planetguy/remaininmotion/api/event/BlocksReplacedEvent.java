@@ -5,10 +5,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public class BlocksReplacedEvent extends Event {
 	
-	public final TileEntity unpackingEntity;
-	
-	public BlocksReplacedEvent(TileEntity unpacker) {
-		this.unpackingEntity=unpacker;
-	}
+	public TileEntity unpackingEntity;
 
 }

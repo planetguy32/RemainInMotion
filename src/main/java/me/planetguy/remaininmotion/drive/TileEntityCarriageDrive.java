@@ -20,6 +20,7 @@ import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
+import me.planetguy.remaininmotion.core.interop.EventPool;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive.Types;
 import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.network.PacketRenderData;
@@ -444,12 +445,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     {
         for(BlockRecord record : carriagePackage.Body)
         {
-        	RiMRegistry.blockMoveBus.post(new BlockPreMoveEvent(
-                    record,
-                    carriagePackage.MotionDirection != null
+        	EventPool.postBlockPreMoveEvent(record,
+					carriagePackage.MotionDirection != null
                             ? record.NextInDirection(carriagePackage.MotionDirection)
-                            : record,
-                    (Set) carriagePackage.Body));
+                            : record, (Set) carriagePackage.Body);
         }
 
     }

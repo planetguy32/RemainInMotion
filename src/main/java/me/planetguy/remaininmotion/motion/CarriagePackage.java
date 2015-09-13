@@ -17,6 +17,7 @@ import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
+import me.planetguy.remaininmotion.core.interop.EventPool;
 import me.planetguy.remaininmotion.core.interop.ModInteraction;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageTranslocator;
@@ -127,18 +128,11 @@ public class CarriagePackage {
 			
 		}
 
-		//This is a hack to publish the active carriage package without introducing a
-		//  dependency on CarriagePackage in the event API. Passed to ISpecialMoveBehaviors. 
-		synchronized(CarriagePackage.class) {
-			activePackage=this;
-			BlockSelectForMoveEvent event=blacklistByRotation ? new BlockSelectForRotateEvent(record, axis) : new BlockSelectForMoveEvent(record);
-			RiMRegistry.blockMoveBus.post(event);
-			if(event.isExcluded()) {
-				return false;
-			}else if(event.isCanceled()) {
-				throw new CarriageMotionException("motion killed by block at "+record+": "+event.getCancelMessag());
-			}
-			activePackage=null;
+		String result=EventPool.postBlockSelectForMoveEvent(this,blacklistByRotation, record, axis);
+		if(result!=null && result.equals("<skipme>")) {
+			return false;
+		}else if(result!=null) {
+			throw new CarriageMotionException("motion killed by block at "+record+": "+result);
 		}
 
 		Body.add(record);
