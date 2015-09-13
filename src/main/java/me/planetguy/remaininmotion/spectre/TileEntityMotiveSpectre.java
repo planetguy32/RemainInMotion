@@ -10,6 +10,7 @@ import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.core.RiMConfiguration.CarriageMotion;
+import me.planetguy.remaininmotion.core.interop.EventPool;
 import me.planetguy.remaininmotion.drive.BlockCarriageDrive;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDrive;
 import me.planetguy.remaininmotion.render.CarriageRenderCache;
@@ -150,7 +151,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
                     record.block, record.Meta);
         }
         
-        RiMRegistry.blockMoveBus.post(new BlocksReplacedEvent(this));
+        EventPool.postBlocksReplacedEvent(this);
 
         for (BlockRecord record : body) {
 
@@ -203,11 +204,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
-            CancelableOnBlockAddedEvent event = new CancelableOnBlockAddedEvent(worldObj,record.X,record.Y,record.Z);
-            RiMRegistry.blockMoveBus.post(event);
+            EventPool.postCancelableOnBlockAddedEvent(worldObj,record.X,record.Y,record.Z);
             //if(!event.isCanceled()) 
             //	record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
-            RiMRegistry.blockMoveBus.post(new MotionFinalizeEvent(record));
+            EventPool.postMotionFinalizeEvent(record);
         }
 
         cleanupSpecter();
@@ -230,8 +230,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         return getOffset();
     }
     
+    //we must keep this out so rotating spectre can overload it
     public void announceTEConstruction(BlockRecord record) {
-    	RiMRegistry.blockMoveBus.post(new TEPreUnpackEvent(this, record));
+    	EventPool.postTEPreUnpackEvent(this, record);
     }
     
     public void constructTE(BlockRecord record) {
@@ -247,14 +248,14 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         			.createAndLoadEntity(record.entityRecord);
         }catch(Exception ignored){}
         
-        RiMRegistry.blockMoveBus.post(new TEPrePlaceEvent(this, record));
+        EventPool.postTEPrePlaceEvent(this, record);
 
         if (record.entity != null) {
         	SneakyWorldUtil.SetTileEntity(worldObj, record.X, record.Y,
         			record.Z, record.entity);
         }
         
-        RiMRegistry.blockMoveBus.post(new TEPostPlaceEvent(this, record));
+        EventPool.postTEPostPlaceEvent(this, record);
     }
 
     public void onMotionFinalized(BlockRecord Record) {

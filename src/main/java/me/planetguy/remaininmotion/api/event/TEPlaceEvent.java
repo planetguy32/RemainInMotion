@@ -4,11 +4,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TEPlaceEvent extends AbstractBlockMoveEvent{
 	
-    public final TileEntity spectre;
+    public TileEntity spectre;
 	
-	public TEPlaceEvent(TileEntity spectre, IBlockPos location) {
-		super(location);
-        this.spectre = spectre;
-	}
-
 }

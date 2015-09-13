@@ -4,15 +4,11 @@ import cpw.mods.fml.common.eventhandler.Cancelable;
 import net.minecraft.nbt.NBTTagCompound;
 
 @Cancelable
-public class BlockSelectForMoveEvent extends AbstractTEMoveEvent {
+public class BlockSelectForMoveEvent extends AbstractBlockMoveEvent {
 	
 	private boolean excluded=false;
 	
 	private String cancelled=null;
-	
-	public BlockSelectForMoveEvent(IBlockPos location) {
-		super(location);
-	}
 	
 	public boolean isCancelable() {
 		return true;
