@@ -48,6 +48,9 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 
 		BlockRecordSet dests = new BlockRecordSet();
 
+		BlockRecordSet temp = Package.Body;
+
+		label0:
 		for (BlockRecord record : Package.Body) {
 			if ((record.X == xCoord || record.Y == yCoord || record.Z == zCoord)) {
 				continue;
@@ -59,8 +62,17 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 			if(dest.Y > 255 || dest.Y < 0) {
 				throw new CarriageMotionException("Cannot rotate block at "+new BlockRecord(this)+ " to "+dest+": out of bounds");
 			}
-			
-            Package.AddPotentialObstruction(dest);
+
+			for(BlockRecord record2 : temp)
+			{
+				if(record2.X == dest.X && record2.Y == dest.Y && record2.X == dest.X)
+				{
+					continue label0;
+				}
+			}
+
+			if (isBlockReplaceable(this.getWorldObj(), dest) != 0) { throw new CarriageMotionException(
+					"motion obstructed at " + dest.X + ", " + dest.Y + ", " + dest.Z); }
 		}
 
         Package.Finalize();
