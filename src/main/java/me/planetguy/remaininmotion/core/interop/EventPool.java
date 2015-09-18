@@ -50,7 +50,9 @@ public class EventPool {
 		try {
 			eventPhase=Event.class.getDeclaredField("phase");
 			eventPhase.setAccessible(true);
-		} catch (SecurityException | NoSuchFieldException e) {
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
 		}
 	}
@@ -161,7 +163,9 @@ public class EventPool {
 	private static void postEvent(Event e) {
 		try {
 			eventPhase.set(e, null);
-		} catch (IllegalArgumentException | IllegalAccessException e1) {
+		} catch (IllegalArgumentException e1) {
+			throw(new RuntimeException(e1));
+		} catch (IllegalAccessException e1) {
 			throw(new RuntimeException(e1));
 		}
 		RiMRegistry.blockMoveBus.post(e);

@@ -48,7 +48,7 @@ public class ChickenChunks {
         if(te != null){
             if(te instanceof TileChunkLoaderBase){
                 // are we still in the same chunk? If so, don't destroy the ticket and cause unnecessary lag.
-                if(record.X >> 4 != newPosition.X >> 4 && record.Z >> 4 != newPosition.Z >> 4){
+                if(!(record.X >> 4 == newPosition.X >> 4 && record.Z >> 4 == newPosition.Z >> 4)){
                     // store the chunk loader so chunks are not unloaded prematurely
                     if(((TileChunkLoaderBase)te).active){
                         NBTTagCompound tag = new NBTTagCompound();
