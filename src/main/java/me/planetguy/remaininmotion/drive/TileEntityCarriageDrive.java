@@ -457,16 +457,16 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         BlockRecordSet temp = new BlockRecordSet();
 
         
-        /*
+
         byte[] lightValues = new byte[Package.Body.size()];
         byte[] lightOpacities = new byte[Package.Body.size()];
-        */
+
         
         int i = 0;
         if(Package.MotionDirection != null) {
             for (BlockRecord Record : Package.Body) {
 
-            	/*
+
                 try {
                     lightValues[i] = (byte) Record.block.getLightValue(worldObj, Record.X, Record.Y, Record.Z);
                     lightOpacities[i] = (byte) Record.block.getLightOpacity(worldObj, Record.X, Record.Y, Record.Z);
@@ -474,7 +474,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     lightValues[i] = (byte) Record.block.getLightValue();
                     lightOpacities[i] = (byte) Record.block.getLightOpacity();
                 }
-                */
+
 
                 BlockRecord temp2 = Record.NextInDirection(Package.MotionDirection);
                 temp2.block = Record.block;
@@ -515,11 +515,11 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                         //if(worldObj.getBlock(Record.X, Record.Y, Record.Z).isBlockNormalCube() || worldObj.getBlock(Record.X, Record.Y, Record.Z).getCollisionBoundingBoxFromPool(worldObj, Record.X, Record.Y, Record.Z) == null) {
                             SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                                     BlockSpectre.Types.SupportiveNoCollide.ordinal());
-                        //} else {
-                        //    AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
-                        //    SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                        //            BlockSpectre.Types.SupportiveNoCollide.ordinal());
-                        //}
+                        /*} else {
+                            AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
+                            SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                    BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                        }*/
                     } else {
                         //AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
                         SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
@@ -534,7 +534,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     // handle camo blocks
                     TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z));
 
-                    //tile.setLight(lightValues[i], lightOpacities[i]);
+                    tile.setLight(lightValues[i], lightOpacities[i]);
 
                     //tile.setBoundingBox(nbt);
                 }
@@ -559,10 +559,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                     SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
                             BlockSpectre.Types.SupportiveNoCollide.ordinal());
                 }
-                /*if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
-                    worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
+                if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
+                //    worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                     ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight((byte)0,(byte)0);
-                }*/
+                }
                 Package.spectersToDestroy.add(new BlockRecord(Record));
             }
 

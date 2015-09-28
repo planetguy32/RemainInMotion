@@ -20,6 +20,7 @@ public class SimpleItemSet extends ItemBase {
 	public SimpleItemSet() {
 		//for legacy compatibility...
 		super("item."+ModRiM.Handle + "_SimpleItemSet");
+		this.setHasSubtypes(true);
 		setCreativeTab(CreativeTab.Instance);
 	}
 
