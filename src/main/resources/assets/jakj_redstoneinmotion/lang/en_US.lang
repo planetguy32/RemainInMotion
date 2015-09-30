@@ -64,6 +64,7 @@ JAKJ_RedstoneInMotion:WEST.tooltip=Close west
 JAKJ_RedstoneInMotion:EAST.tooltip=Close east
 JAKJ_RedstoneInMotion:SCREWDRIVER_MODE.tooltip=Toggle screwdriver-only opening
 JAKJ_RedstoneInMotion:CONTINUOUS_MODE.tooltip=Toggle continuous motion
+JAKJ_RedstoneInMotion:ZERO_COOLDOWN.tooltip=Toggle Continuous Mode Cooldown
 JAKJ_RedstoneInMotion:MOVE_WITH_CARRIAGE.tooltip=Toggle anchored mode
 
 

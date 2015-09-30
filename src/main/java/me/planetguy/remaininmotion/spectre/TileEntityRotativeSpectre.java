@@ -58,7 +58,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 			capture.startingPosition=new Matrix(new double[][] { { entity.posX }, { entity.posY - 2*entity.getEyeHeight() }, { entity.posZ } });
 		}
 		Matrix newPos=new Matrix(Matrix.copy(capture.startingPosition.matrix));
-		double fractionOfCircle = Math.PI * 0.25 * 0.3333333333333333333 * Math.min(((double) ticksExisted) / RiMConfiguration.CarriageMotion.MotionDuration, 1d);
+		double fractionOfCircle = Math.PI * 0.25 * 0.3333333333333333333 * Math.min(((double) ticksExisted) / personalDurationInTicks, 1d);
 		if(driveRecord != null)
 			RemIMRotator.rotatePartialEntity(driveRecord, Directions.values()[axisOfRotation], newPos, fractionOfCircle);
 		
@@ -68,7 +68,7 @@ public class TileEntityRotativeSpectre extends TileEntityMotiveSpectre {
 				newPos.matrix[2][0], entity.rotationYaw, entity.rotationPitch);
 		
 		entity.fallDistance = 0;
-		if (ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+		if (ticksExisted >= personalDurationInTicks) {
 			capture.stop();
 			entity.onGround = capture.WasOnGround;
 			entity.isAirBorne = capture.WasAirBorne;

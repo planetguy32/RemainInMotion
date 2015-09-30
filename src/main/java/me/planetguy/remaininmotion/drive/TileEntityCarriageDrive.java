@@ -9,10 +9,6 @@ import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriageObstructionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.api.Moveable;
-import me.planetguy.remaininmotion.api.RiMRegistry;
-import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
-import me.planetguy.remaininmotion.api.event.IBlockPos;
-import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.BlockRiM;
 import me.planetguy.remaininmotion.base.TileEntityCamouflageable;
 import me.planetguy.remaininmotion.core.ModRiM;
@@ -28,7 +24,6 @@ import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityMotiveSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
 import me.planetguy.remaininmotion.util.WorldUtil;
-import me.planetguy.remaininmotion.util.position.AABBUtil;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
@@ -36,14 +31,12 @@ import me.planetguy.remaininmotion.util.transformations.ArrayRotator;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -52,7 +45,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable implements IEnergyHandler {
@@ -82,6 +74,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     
     public boolean requiresScrewdriverToOpen=false;
 
+    // Elevator mode
+    public int personalDurationInTicks = CarriageMotion.MotionDuration;
+    public boolean zeroContinuousCooldown = false;
+
     @Override
     public void WriteCommonRecord(NBTTagCompound tag) {
         tag.setBoolean("Continuous", Continuous);
@@ -98,6 +94,13 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         tag.setBoolean("screwdriver", requiresScrewdriverToOpen);
         
         tag.setBoolean("anchored", this.isAnchored);
+
+        // Elevator Mode
+        // in common to ensure rendering is synced
+        // should also fix #118
+        tag.setInteger("PersonalDuration", personalDurationInTicks);
+
+        tag.setBoolean("ForceZeroCooldown", zeroContinuousCooldown);
     }
 
     @Override
@@ -128,6 +131,13 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         requiresScrewdriverToOpen=tag.getBoolean("screwdriver");
         
         isAnchored=tag.getBoolean("anchored");
+
+        // Elevator Mode
+        // in common to ensure rendering is synced
+        // should also fix #118
+        personalDurationInTicks = tag.getInteger("PersonalDuration");
+
+        zeroContinuousCooldown = tag.getBoolean("ForceZeroCooldown");
     }
 
     @Override
@@ -167,7 +177,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     }
 
     public void ToggleActivity() {
-        if (Active && Continuous) {
+        if (Active && Continuous && !zeroContinuousCooldown) {
             CooldownRemaining = RiMConfiguration.CarriageDrive.ContinuousCooldown;
         }else if(Active){
         	Signalled=true;
@@ -250,7 +260,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         if(Active) {
             if (ticksExisted > 0
-                    && ticksExisted < CarriageMotion.MotionDuration
+                    && ticksExisted < personalDurationInTicks
                     && ticksExisted % 20 == 0) {
                 if (Anchored()) {
                     ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord,
@@ -258,7 +268,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                 }
             }
             ticksExisted++;
-            if (ticksExisted >= CarriageMotion.MotionDuration) ticksExisted = 0;
+            if (ticksExisted >= personalDurationInTicks) ticksExisted = 0;
         } else {
             if(ticksExisted != 0) ticksExisted = 0;
         }
@@ -588,7 +598,12 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         //The above setBlock already creates the TE
         //worldObj.setTileEntity(CarriageX, CarriageY, CarriageZ, new TileEntityMotiveSpectre());
 
-        ((TileEntityMotiveSpectre) worldObj.getTileEntity(CarriageX, CarriageY, CarriageZ)).Absorb(Package);
+        TileEntityMotiveSpectre specter = ((TileEntityMotiveSpectre) worldObj.getTileEntity(CarriageX, CarriageY, CarriageZ));
+        specter.Absorb(Package);
+
+        // Elevator Mode
+        specter.personalDurationInTicks = this.personalDurationInTicks;
+        specter.personalVelocity = 1 / ((double) specter.personalDurationInTicks);
     }
 
     public abstract CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection,
@@ -684,6 +699,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     	SideClosed[5]=(flags & 1<<Buttons.EAST.ordinal()) != 0;
     	requiresScrewdriverToOpen=(flags & 1<<Buttons.SCREWDRIVER_MODE.ordinal()) != 0;
     	Continuous=(flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) != 0;
+        zeroContinuousCooldown =(flags & 1<<Buttons.ZERO_COOLDOWN.ordinal()) != 0;
     	
     	//flush changes to clients and persistence
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
