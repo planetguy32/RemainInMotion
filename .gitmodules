@@ -1,9 +1,6 @@
 [submodule "ForgeMultipart"]
 	path = ForgeMultipart
 	url = https://github.com/Chicken-Bones/ForgeMultipart.git
-[submodule "utils/Utils"]
-	path = utils/Utils
-	url = https://github.com/planetguy32/Utils
 [submodule "Utils"]
 	path = Utils
 	url = https://github.com/planetguy32/Utils
