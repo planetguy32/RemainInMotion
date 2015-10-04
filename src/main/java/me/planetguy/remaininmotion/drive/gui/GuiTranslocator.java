@@ -33,7 +33,7 @@ public class GuiTranslocator extends GuiDriveCommon {
 	}
 	
 	// Do nothing - translocators 
-	protected void createContinuousButton(){
+	protected void createAnchorButton(){
 		
 	}
 

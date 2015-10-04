@@ -16,10 +16,10 @@ public class MotiveSpectreRenderer extends RIMTileEntityRenderer {
 			double Offset;
 
 			if (RiMConfiguration.CarriageMotion.RenderInFinalPositionDuringLag
-					&& (Spectre.ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration)) {
+					&& (Spectre.ticksExisted >= Spectre.personalDurationInTicks)) {
 				Offset = 1;
 			} else {
-				Offset = Math.min(TileEntityMotiveSpectre.velocity * (Spectre.ticksExisted + PartialTick), 1.0D);
+				Offset = Math.min(Spectre.personalVelocity * (Spectre.ticksExisted + PartialTick), 1.0D);
 			}
 
 			Render.Translate(Offset * Spectre.motionDirection.deltaX - Spectre.xCoord, Offset

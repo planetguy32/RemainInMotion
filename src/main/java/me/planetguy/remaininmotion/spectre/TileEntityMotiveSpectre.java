@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileEntityMotiveSpectre extends TileEntityRiM {
-    public static double velocity;
     public static Block MultipartContainerBlockId;
     public Directions motionDirection = Directions.Null;
     public BlockPosition renderCacheKey;
@@ -48,6 +47,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
     public java.util.ArrayList<CapturedEntity> CapturedEntities = new ArrayList<CapturedEntity>();
     private boolean initialized;
+
+    // Elevator mode
+    public int personalDurationInTicks = CarriageMotion.MotionDuration;
+    public double personalVelocity = 1 / ((double) personalDurationInTicks);
 
     public void ShiftBlockPosition(BlockRecord Record) {
         Record.Shift(motionDirection);
@@ -86,7 +89,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         if (ticksExisted > 0
-                && ticksExisted < RiMConfiguration.CarriageMotion.MotionDuration
+                && ticksExisted < personalDurationInTicks
                 && ticksExisted % 20 == 0) {
             if (bodyHasCarriageDrive()) {
                 ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord,
@@ -94,7 +97,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             }
         }
 
-        if (ticksExisted < RiMConfiguration.CarriageMotion.MotionDuration) {
+        if (ticksExisted < personalDurationInTicks) {
             worldObj.theProfiler.endSection();
             return;
         }
@@ -252,7 +255,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         if (record.entity != null) {
         	SneakyWorldUtil.setTileEntity(worldObj, record.X, record.Y,
-        			record.Z, record.entity);
+                    record.Z, record.entity);
         }
         
         EventPool.postTEPostPlaceEvent(this, record);
@@ -288,6 +291,11 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             driveRecord.writeToNBT(tag);
             TagCompound.setTag("driveRecord", tag);
         }
+
+        // Elevator Mode
+        // in common to ensure rendering is synced
+        // should also fix #118
+        TagCompound.setInteger("PersonalDuration", personalDurationInTicks);
     }
 
     @Override
@@ -310,6 +318,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         if(TagCompound.hasKey("driveRecord")) {
             driveRecord = BlockRecord.createFromNBT(TagCompound.getCompoundTag("driveRecord"));
         }
+
+        personalDurationInTicks = TagCompound.getInteger("PersonalDuration");
+        personalVelocity = 1 / ((double) personalDurationInTicks);
     }
 
     @Override
@@ -481,9 +492,9 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         entity.fallDistance = 0;
 
         if(motionDirection.deltaX != capture.netMotionX || motionDirection.deltaZ != capture.netMotionZ || motionDirection.deltaY != capture.netMotionY) {
-            double motionX = velocity * (double) motionDirection.deltaX;
-            double motionY = velocity * (double) motionDirection.deltaY;
-            double motionZ = velocity * (double) motionDirection.deltaZ;
+            double motionX = personalVelocity * (double) motionDirection.deltaX;
+            double motionY = personalVelocity * (double) motionDirection.deltaY;
+            double motionZ = personalVelocity * (double) motionDirection.deltaZ;
 
             motionX = fixDouble(motionX, (double) motionDirection.deltaX, capture.netMotionX + motionX, false);
             motionZ = fixDouble(motionZ, (double) motionDirection.deltaZ, capture.netMotionZ + motionZ, false);
@@ -505,7 +516,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             }
         }
 
-        if (ticksExisted >= RiMConfiguration.CarriageMotion.MotionDuration) {
+        if (ticksExisted >= personalDurationInTicks) {
             fixLagError(capture, entity);
             capture.stop();
             return;
@@ -550,11 +561,11 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             if(net < goal){
                 out = goal - net;
             }
-        }else {
-            if (Math.abs(net) > Math.abs(goal)) {
-                out = goal - net;
-            }
         }
+        if (Math.abs(net) > Math.abs(goal)) {
+            out = goal - net;
+        }
+
         return out;
     }
 

@@ -8,7 +8,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import me.planetguy.remaininmotion.network.PacketManager;
-import me.planetguy.remaininmotion.network.PacketSpecterVelocity;
 import net.minecraft.block.Block;
 import me.planetguy.lib.PLHelper;
 import me.planetguy.lib.prefab.GuiHandlerPrefab;
@@ -184,13 +183,6 @@ public class ModRiM {
 			System.err.println("Received impossible blacklist request from " + sender + ": " + message);
 		}
 	}
-
-    @SubscribeEvent
-    public void onJoin(PlayerEvent.PlayerLoggedInEvent event){
-        if(!(event.player instanceof EntityPlayerMP)) return;
-        if(((EntityPlayerMP) event.player).isClientWorld())
-            PacketSpecterVelocity.send((EntityPlayerMP) event.player);
-    }
 
     /*@SubscribeEvent
     public void onFinishTeleporting(EntityJoinWorldEvent event){

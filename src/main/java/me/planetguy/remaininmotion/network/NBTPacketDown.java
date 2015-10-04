@@ -29,9 +29,7 @@ public class NBTPacketDown extends NBTPacket implements IMessage, IMessageHandle
 			PacketRenderData.receive(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
 		} else if (message.type==TypesDown.MULTIPART_PROPAGATION.ordinal()) {
 			PacketMultipartSynchronization.receive(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
-		} else if (message.type==TypesDown.SPECTRE_VELOCITY.ordinal()) {
-            PacketSpecterVelocity.receive(message.body, Minecraft.getMinecraft().thePlayer.worldObj);
-        }
+		}
 		return null;
 	}
 
