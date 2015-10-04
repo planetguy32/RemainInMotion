@@ -46,7 +46,6 @@ import cofh.api.energy.IEnergyHandler;
 
 import java.util.Set;
 
-@Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
 public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable implements IEnergyHandler {
     public boolean Continuous;
 
