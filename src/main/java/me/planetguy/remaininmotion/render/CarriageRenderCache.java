@@ -7,7 +7,7 @@ import me.planetguy.lib.util.Reflection;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.PostRenderDuringMovementEvent;
 import me.planetguy.remaininmotion.api.event.PreRenderDuringMovementEvent;
-import me.planetguy.remaininmotion.core.interop.EventPool;
+import me.planetguy.remaininmotion.core.interop.EventPoolClient;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.position.BlockRecordSet;
@@ -62,9 +62,9 @@ public abstract class CarriageRenderCache {
 				}
 
 				try {
-					if(!EventPool.postPreRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass))
+					if(!EventPoolClient.postPreRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass))
 						blockRenderer.renderBlockByRenderType(Record.block, Record.X, Record.Y, Record.Z);
-					EventPool.postPostRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass);
+					EventPoolClient.postPostRenderDuringMovementEvent(blockRenderer, Record.X, Record.Y, Record.Z, Record.entity, Pass);
 				} catch (Throwable Throwable) {
 					Throwable.printStackTrace();
 				}

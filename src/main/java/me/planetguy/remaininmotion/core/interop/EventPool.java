@@ -6,7 +6,6 @@ import java.util.Set;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.EventPriority;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -19,8 +18,6 @@ import me.planetguy.remaininmotion.api.event.BlocksReplacedEvent;
 import me.planetguy.remaininmotion.api.event.CancelableOnBlockAddedEvent;
 import me.planetguy.remaininmotion.api.event.IBlockPos;
 import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
-import me.planetguy.remaininmotion.api.event.PostRenderDuringMovementEvent;
-import me.planetguy.remaininmotion.api.event.PreRenderDuringMovementEvent;
 import me.planetguy.remaininmotion.api.event.RotatingTEPreUnpackEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.api.event.TEPrePlaceEvent;
@@ -33,8 +30,6 @@ public class EventPool {
 	private static BlockPreMoveEvent theBlockPreMoveEvent=new BlockPreMoveEvent();
 	private static BlockSelectForMoveEvent theBlockSelectForMoveEvent=new BlockSelectForMoveEvent();
 	private static BlockSelectForRotateEvent theBlockSelectForRotateEvent=new BlockSelectForRotateEvent();
-	private static PreRenderDuringMovementEvent thePreRenderDuringMovementEvent=new PreRenderDuringMovementEvent();
-	private static PostRenderDuringMovementEvent thePostRenderDuringMovementEvent=new PostRenderDuringMovementEvent();
 	private static CancelableOnBlockAddedEvent theCancelableOnBlockAddedEvent=new CancelableOnBlockAddedEvent();
 	private static MotionFinalizeEvent theMotionFinalizeEvent=new MotionFinalizeEvent();
 	private static BlocksReplacedEvent theBlocksReplacedEvent=new BlocksReplacedEvent();
@@ -89,27 +84,6 @@ public class EventPool {
 		}
 	}
 	
-	public static boolean postPreRenderDuringMovementEvent(RenderBlocks blockRenderer, int x, int y, int z, TileEntity entity, int pass) {
-		thePreRenderDuringMovementEvent.renderBlocks=blockRenderer;
-		thePreRenderDuringMovementEvent.x=x;
-		thePreRenderDuringMovementEvent.y=y;
-		thePreRenderDuringMovementEvent.z=z;
-		thePreRenderDuringMovementEvent.tile=entity;
-		thePreRenderDuringMovementEvent.pass=pass;
-		postEvent(thePreRenderDuringMovementEvent);
-		return thePreRenderDuringMovementEvent.isCanceled();
-	}
-	
-	public static void postPostRenderDuringMovementEvent(RenderBlocks blockRenderer, int x, int y, int z, TileEntity entity, int pass) {
-		thePostRenderDuringMovementEvent.renderBlocks=blockRenderer;
-		thePostRenderDuringMovementEvent.x=x;
-		thePostRenderDuringMovementEvent.y=y;
-		thePostRenderDuringMovementEvent.z=z;
-		thePostRenderDuringMovementEvent.tile=entity;
-		thePostRenderDuringMovementEvent.pass=pass;
-		postEvent(thePostRenderDuringMovementEvent);
-	}
-	
 	public static boolean postCancelableOnBlockAddedEvent(World worldObj, int x, int y, int z) {
 		theCancelableOnBlockAddedEvent.worldObj=worldObj;
 		theCancelableOnBlockAddedEvent.xCoord=x;
@@ -160,7 +134,7 @@ public class EventPool {
 		postEvent(theBlockRotateEvent);
 	}
 
-	private static void postEvent(Event e) {
+	static void postEvent(Event e) {
 		try {
 			eventPhase.set(e, null);
 		} catch (IllegalArgumentException e1) {
