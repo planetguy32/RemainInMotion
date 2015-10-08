@@ -11,13 +11,14 @@ import blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorLV
 import blusunrize.immersiveengineering.common.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import me.planetguy.remaininmotion.api.event.BlockPreMoveEvent;
+import me.planetguy.remaininmotion.api.event.MotionFinalizeEvent;
 import me.planetguy.remaininmotion.api.event.TEPostPlaceEvent;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 
 public class ImmersiveEngineering {
 	
 	@SubscribeEvent
-	public void onBlockPreMoveEvent(BlockPreMoveEvent e) {
+	public void saveConnections(BlockPreMoveEvent e) {
 		if(e.location.entity() instanceof IImmersiveConnectable) {
    			ChunkCoordinates teLoc=Utils.toCC(e.location.entity());
 			NBTTagList ls=new NBTTagList();
@@ -61,7 +62,7 @@ public class ImmersiveEngineering {
 	}
 	
 	@SubscribeEvent
-	public void onTEPostPlaceEvent(TEPostPlaceEvent e) {
+	public void loadConnections(MotionFinalizeEvent e) {
 		if(e.location.entity() instanceof IImmersiveConnectable) {
 			ChunkCoordinates teLoc=Utils.toCC(e.location.entity());
 			NBTTagList tag=e.location.entityTag().getTagList("RemIM_links", 10);
