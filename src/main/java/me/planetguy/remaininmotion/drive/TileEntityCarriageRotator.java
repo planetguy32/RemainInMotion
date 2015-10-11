@@ -30,6 +30,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCarriageRotator extends TileEntityCarriageDirected implements ISpecialMoveBehavior {
 
+	static IIcon[][] icons;
+	
 	public boolean  	alreadyMoving;
 
 	@Override
@@ -114,7 +116,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 	public IIcon getIcon(int side, int meta) {
 		try {
 			if (drawSideClosed(side)) {
-				return BlockCarriageDrive.InactiveIcon;
+				return super.getIcon(side, meta);
 			} else {
 				return icons[pointedDir.ordinal()][side];
 			}
@@ -122,8 +124,6 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 			return Blocks.activator_rail.getIcon(0, 0);
 		}
 	}
-
-	public static IIcon[][]	icons;
 
 	public static void onRegisterIcons(IIconRegister iconRegister) {
 		IIcon pivotCCW = Registry.RegisterIcon(iconRegister, "RotatorArrowCCW");

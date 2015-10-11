@@ -128,7 +128,7 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 				Registry.RegisterIcon(IconRegister, "DirectedSide1"),
 				Registry.RegisterIcon(IconRegister, "DirectedSide2"),
 				Types.Adapter.NormalIcon);
-
+		
 		TileEntityCarriageRotator.onRegisterIcons(IconRegister);
 	}
 

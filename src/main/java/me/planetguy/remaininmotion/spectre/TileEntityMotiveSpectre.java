@@ -207,7 +207,8 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
         for (BlockRecord record : body) {
-            EventPool.postCancelableOnBlockAddedEvent(worldObj,record.X,record.Y,record.Z);
+            //If we don't onBlockAdded() anyway, why post events?
+        	//EventPool.postCancelableOnBlockAddedEvent(worldObj,record.X,record.Y,record.Z);
             //if(!event.isCanceled()) 
             //	record.block.onBlockAdded(worldObj,record.X,record.Y,record.Z);
             EventPool.postMotionFinalizeEvent(record);

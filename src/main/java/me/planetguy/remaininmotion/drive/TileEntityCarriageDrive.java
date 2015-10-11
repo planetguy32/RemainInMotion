@@ -79,6 +79,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void WriteCommonRecord(NBTTagCompound tag) {
+    	super.WriteCommonRecord(tag);
+    	
         tag.setBoolean("Continuous", Continuous);
 
         for (Directions Direction : Directions.values()) {
@@ -104,6 +106,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void WriteServerRecord(NBTTagCompound tag) {
+    	super.WriteServerRecord(tag);
+    	
         tag.setBoolean("Signalled", Signalled);
 
         tag.setInteger("CooldownRemaining", CooldownRemaining);
@@ -115,6 +119,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void ReadCommonRecord(NBTTagCompound tag) {
+    	super.ReadCommonRecord(tag);
+    	
         Continuous = tag.getBoolean("Continuous");
 
         for (Directions Direction : Directions.values()) {
@@ -141,6 +147,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void ReadServerRecord(NBTTagCompound tag) {
+    	super.ReadServerRecord(tag);
+    	
         Signalled = tag.getBoolean("Signalled");
 
         CooldownRemaining = tag.getInteger("CooldownRemaining");

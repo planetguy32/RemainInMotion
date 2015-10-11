@@ -100,12 +100,16 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 			if(SideClosed[side])
 				return super.getIcon(side, meta);
 			else
-				return helper.getIcon(ForgeDirection.values()[pointedDir.ordinal()], side);
+				return getIconHelper().getIcon(ForgeDirection.values()[pointedDir.ordinal()], side);
 		} catch (Throwable Throwable) {
 			 Throwable . printStackTrace ( ) ;
 
 			return (Blocks.iron_block.getIcon(0, 0));
 		}
+	}
+	
+	public SidedIcons getIconHelper() {
+		return helper;
 	}
 	
     public void setConfiguration(long flags, EntityPlayerMP changer){
