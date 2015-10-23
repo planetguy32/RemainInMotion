@@ -11,14 +11,7 @@ import me.planetguy.lib.util.Debug;
 import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.api.event.EventManager;
 import me.planetguy.remaininmotion.core.ModRiM;
-import me.planetguy.remaininmotion.core.interop.mod.Buildcraft;
-import me.planetguy.remaininmotion.core.interop.mod.BuildcraftClient;
-import me.planetguy.remaininmotion.core.interop.mod.CarpentersBlocks;
-import me.planetguy.remaininmotion.core.interop.mod.ChickenChunks;
-import me.planetguy.remaininmotion.core.interop.mod.EnderIO;
-import me.planetguy.remaininmotion.core.interop.mod.ForgeMultipart;
-import me.planetguy.remaininmotion.core.interop.mod.ImmersiveEngineering;
-import me.planetguy.remaininmotion.core.interop.mod.QmunityMultipart;
+import me.planetguy.remaininmotion.core.interop.mod.*;
 import me.planetguy.remaininmotion.drive.TileEntityCarriageController;
 import me.planetguy.remaininmotion.util.general.Computers;
 import net.minecraft.item.ItemStack;
@@ -60,6 +53,10 @@ public abstract class ModInteraction {
 
         if(Loader.isModLoaded("CarpentersBlocks")) {
         	EventManager.registerEventHandler(new CarpentersBlocks());
+        }
+
+        if(Loader.isModLoaded("ProjRed|Illumination")) {
+            EventManager.registerEventHandler(new ProjectRed());
         }
         
         if(Loader.isModLoaded("ImmersiveEngineering")) {
