@@ -16,7 +16,13 @@ public class ContainerDrive extends ContainerPrefab {
 	}
 	
 	@Override
-	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer){}
+	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer){
+    	for (int i = 0; i < 36; i++) {
+    		addSlotToContainer(new Slot(inventoryPlayer, i,
+    				100000000, 100000000)); 
+    		//Player inventory slots still get added, but they're rendered in the stratosphere
+    	}
+	}
 
 	@Override
 	public void makeSlots(TileEntity teGeneral) {
