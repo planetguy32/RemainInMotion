@@ -539,7 +539,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
 
         for (j = 0; j < list.size(); ++j)
         {
-            Z = ((AxisAlignedBB)list.get(j)).calculateZOffset(entity.boundingBox, motionZ);
+            Z = ((AxisAlignedBB)list.get(j)).calculateZOffset(entity.boundingBox, Z);
         }
 
         entity.boundingBox.offset(0.0D, 0.0D, Z);
