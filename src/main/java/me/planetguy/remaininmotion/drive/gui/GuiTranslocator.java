@@ -12,7 +12,7 @@ public class GuiTranslocator extends GuiDriveCommon {
 	}
 	
 	public void initGui(){		
-		createButton(-5, -60, Buttons.PRIVATE);
+		createButton(8, -60, Buttons.PRIVATE);
 		int button=0;
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
@@ -34,7 +34,6 @@ public class GuiTranslocator extends GuiDriveCommon {
 	
 	// Do nothing - translocators 
 	protected void createAnchorButton(){
-		
 	}
 
 }
