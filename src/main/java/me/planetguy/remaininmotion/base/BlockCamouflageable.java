@@ -25,7 +25,9 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
         		// included for compatibility with blocks that use position-sensitive but
         		// not TE-sensitive icon logic, like applying biome colour
                 if(((TileEntityCamouflageable) te).Decoration instanceof BlockCamouflageable) throw new Exception("Making a frame look like another? Interesting....");
-                if(((TileEntityCamouflageable) te).DecorationMeta != 0) throw new Exception("This method will almost always attempt to get metadata from world, resulting in the wrong texture.");
+
+                // This line causes White Wool to have issues (and other metadata 0 blocks), we need to find a better way
+                // if(((TileEntityCamouflageable) te).DecorationMeta != 0) throw new Exception("This method will almost always attempt to get metadata from world, resulting in the wrong texture.");
                 return ((TileEntityCamouflageable) te).Decoration.getIcon
                 		(world, x, y, z, side);
         	} catch(Exception e) {
