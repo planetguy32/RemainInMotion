@@ -27,7 +27,7 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
                 if(((TileEntityCamouflageable) te).Decoration instanceof BlockCamouflageable) throw new Exception("Making a frame look like another? Interesting....");
 
                 // This line causes White Wool to have issues (and other metadata 0 blocks), we need to find a better way
-                // if(((TileEntityCamouflageable) te).DecorationMeta != 0) throw new Exception("This method will almost always attempt to get metadata from world, resulting in the wrong texture.");
+                if(true || ((TileEntityCamouflageable) te).DecorationMeta != 0) throw new Exception("This method will almost always attempt to get metadata from world, resulting in the wrong texture.");
                 return ((TileEntityCamouflageable) te).Decoration.getIcon
                 		(world, x, y, z, side);
         	} catch(Exception e) {
