@@ -116,13 +116,7 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
     	setConfigurationSuper(flags, changer);
     	pointedDir=Directions.values()[(int) (flags&7)];
     }
-    
-    public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
-    	if(!requiresScrewdriverToOpen || 
-    			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
-    		player.openGui(ModRiM.instance, 2, worldObj, xCoord, yCoord, zCoord);
-    		return true;
-    	}
-    	return false;
-    }
+
+    @Override
+    public int getGuiIndex() { return 2; }
 }

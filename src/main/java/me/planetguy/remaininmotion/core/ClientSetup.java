@@ -3,6 +3,7 @@ package me.planetguy.remaininmotion.core;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.drive.gui.GuiDirectional;
 import me.planetguy.remaininmotion.drive.gui.GuiDriveCommon;
+import me.planetguy.remaininmotion.drive.gui.GuiRotator;
 import me.planetguy.remaininmotion.drive.gui.GuiTranslocator;
 import me.planetguy.remaininmotion.render.CarriageDriveRenderer;
 import me.planetguy.remaininmotion.render.CarriageRenderer;
@@ -46,6 +47,7 @@ public class ClientSetup extends ClientSetupProxy {
 				GuiDriveCommon.class,
 				GuiTranslocator.class,
 				GuiDirectional.class,
+                GuiRotator.class,
 		};
 	}
 	

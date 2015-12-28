@@ -322,16 +322,9 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
     	}
     	registerLabel();
     }
-    
-    public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
-        if(Active) return false;
-    	if(!requiresScrewdriverToOpen || 
-    			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
-    		player.openGui(ModRiM.instance, 1, worldObj, xCoord, yCoord, zCoord);
-    		return true;
-    	}
-    	return false;
-    }
+
+    @Override
+    public int getGuiIndex() { return 1; }
 
     @Override
     public void invalidate() {

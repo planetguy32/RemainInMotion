@@ -136,6 +136,7 @@ public class ModRiM {
 				ContainerDrive.class,
 				ContainerDrive.class,
 				ContainerDrive.class,
+                ContainerDrive.class,
 		},
 		ClientSetupProxy.Instance.clientClasses());
 		

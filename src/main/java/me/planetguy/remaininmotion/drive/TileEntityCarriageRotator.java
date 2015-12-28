@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.drive;
 
 import me.planetguy.lib.util.Lang;
 import me.planetguy.lib.util.SneakyWorldUtil;
+import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriagePackage;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
@@ -22,6 +23,7 @@ import me.planetguy.remaininmotion.util.transformations.Rotator;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -33,6 +35,8 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 	static IIcon[][] icons;
 	
 	public boolean  	alreadyMoving;
+
+    public boolean isAdapter = true;
 
 	@Override
 	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)
@@ -169,7 +173,7 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 		if(!alreadyMoving) {
 			alreadyMoving = true;
 			pkg.AddBlock(record);
-			if (CarriageDirection != null && CarriageDirection != Directions.Null) {
+			if (CarriageDirection != null && CarriageDirection != Directions.Null && isAdapter) {
 				BlockRecord oldAnchor = pkg.AnchorRecord;
 				
 				pkg.AnchorRecord = new BlockRecord(xCoord + CarriageDirection.deltaX,
@@ -183,5 +187,14 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 			}
 		}
 	}
+
+    @Override
+    public int getGuiIndex() { return 3; }
+
+    @Override
+    public void setConfiguration(long flags, EntityPlayerMP changer){
+        super.setConfiguration(flags, changer);
+        isAdapter=(flags & (1<<(Buttons.TOGGLE_ADAPTER.ordinal() + 3))) == 0;
+    }
 
 }

@@ -177,7 +177,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
     	if(!requiresScrewdriverToOpen || 
     			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
-    		player.openGui(ModRiM.instance, 0, worldObj, xCoord, yCoord, zCoord);
+    		player.openGui(ModRiM.instance, getGuiIndex(), worldObj, xCoord, yCoord, zCoord);
     		return true;
     	}
     	return false;
@@ -711,6 +711,10 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     	//flush changes to clients and persistence
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         markDirty();
+    }
+
+    public int getGuiIndex() {
+        return 0;
     }
     
 }
