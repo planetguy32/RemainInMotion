@@ -197,4 +197,15 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
         isAdapter=(flags & (1<<(Buttons.TOGGLE_ADAPTER.ordinal() + 3))) == 0;
     }
 
+    @Override
+    public void WriteServerRecord(NBTTagCompound tag) {
+        super.WriteServerRecord(tag);
+        tag.setBoolean("adapter", isAdapter);
+    }
+
+    @Override
+    public void ReadServerRecord(NBTTagCompound tag) {
+        super.ReadServerRecord(tag);
+        isAdapter = tag.getBoolean("adapter");
+    }
 }
