@@ -1,7 +1,5 @@
 package me.planetguy.remaininmotion.drive.gui;
 
-import java.util.List;
-
 import me.planetguy.remaininmotion.drive.TileEntityCarriageDirected;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;

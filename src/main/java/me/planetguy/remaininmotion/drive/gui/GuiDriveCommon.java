@@ -36,6 +36,8 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	}
 	
 	public void stateFromTE(TileEntityCarriageDrive te){
+        // reset just to be sure
+        state = 0;
 		for(int i=0; i<6; i++){
 			if(te.SideClosed[i])
 				state=state|(1<<(i+3+Buttons.DOWN.ordinal()));
@@ -59,6 +61,8 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	}
 	
 	public void stateFromButtons(){
+        //reset just to be sure
+        state = 0;
 		for(GuiButton b: (List<GuiButton>) this.buttonList){
 			if(b instanceof IconButton){
 				state=((IconButton) b).writeInto(state);
@@ -112,7 +116,8 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
 	public void drawTooltip(List<String> icon, int mouseX, int mouseY) {
 		deferredTooltipLines=icon;
 	}
-	
+
+    // This shouldn't be needed now, but whatever
 	public void onGuiClosed(){
 		if(initialized){
 			stateFromButtons();
@@ -136,6 +141,33 @@ public class GuiDriveCommon extends GuiPrefab implements ITooltipDrawer {
         if(deferredTooltipLines != null)
         	drawHoveringText(deferredTooltipLines, mouseX, mouseY, Minecraft.getMinecraft().fontRenderer);
     }
-	
 
+    // This only checks to see if a click was on a button
+    private boolean clickOnButton(int x, int y) {
+        for(Object button : buttonList) {
+            if(button instanceof GuiButton) {
+                if(x >= ((GuiButton) button).xPosition) {
+                    if(x <= ((GuiButton) button).xPosition + ((GuiButton) button).width) {
+                        if(y >= ((GuiButton) button).yPosition) {
+                            if(y <= ((GuiButton) button).yPosition + ((GuiButton) button).height) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected void mouseClicked(int screenX, int screenY, int key) {
+        super.mouseClicked(screenX, screenY, key);
+
+        // inited and left click and on a button
+        if(initialized && key == 0 && clickOnButton(screenX,screenY)) {
+            stateFromButtons();
+            PacketCarriageUpdate.send(cde, state);
+        }
+    }
 }
