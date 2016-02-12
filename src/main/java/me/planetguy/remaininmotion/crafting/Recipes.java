@@ -100,7 +100,7 @@ public abstract class Recipes {
 
 		RegisterCarriageRecipe(BlockCarriage.Types.Template, Vanilla.DyeTypes.Purple);
 
-RegisterCarriageRecipe(BlockCarriage.Types.Memory, Vanilla.DyeTypes.Red);
+        RegisterCarriageRecipe(BlockCarriage.Types.Memory, Vanilla.DyeTypes.Red);
 
 		// allow un-dyeing carriages
 		GameRegistry.addShapelessRecipe(ItemTypes.CarriageFramework.Stack(),

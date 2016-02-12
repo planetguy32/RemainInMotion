@@ -94,11 +94,12 @@ public class CarriagePackage {
 	public boolean AddBlock(BlockRecord record) throws CarriageMotionException {
 		boolean couldAddBlock=AddBlock_impl(record);
 		if(!couldAddBlock) {
-			this.AddPotentialObstruction(record);
+			//this.AddPotentialObstruction(record);
+            return RiMConfiguration.CarriageMotion.SupportCarriageRecurseSoftBL;
 		}
 		return couldAddBlock;
 	}
-	
+
 	private boolean AddBlock_impl(BlockRecord record) throws CarriageMotionException {
 
 		if ((MotionDirection == Directions.PosY) && (record.Y >= 254)) { throw (new CarriageObstructionException(
