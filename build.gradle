@@ -24,11 +24,11 @@ buildscript {
 }
 
 
-apply plugin: 'scala'
+//apply plugin: 'scala'
 apply plugin: 'forge'
 apply plugin: 'eclipse'
 
-compileScala {
+//compileScala {
     repositories {
         maven {
             name = "chickenbones"
@@ -38,11 +38,11 @@ compileScala {
     dependencies {
         compile 'codechicken:ForgeMultipart:1.7.10-1.2.0.345:dev'
         //compile 'com.mod-buildcraft:buildcraft:7.0.17:dev'
-        compile files('libs')
-        compile group: 'com.googlecode.efficient-java-matrix-library', name: 'core', version: '0.26'
-        compile group: 'com.googlecode.efficient-java-matrix-library', name: 'equation', version: '0.26'
+        //compile files('libs')
+        //compile group: 'com.googlecode.efficient-java-matrix-library', name: 'core', version: '0.26'
+        //compile group: 'com.googlecode.efficient-java-matrix-library', name: 'equation', version: '0.26'
     }
-}
+//}
 
 
 version = "2.8.10"

@@ -13,7 +13,7 @@ public class GuiRotator extends GuiDirectional {
     public void initGui() {
         super.initGui();
 
-        createButton(0,-53,Buttons.TOGGLE_ADAPTER);
+        createButton(0,13,Buttons.TOGGLE_ADAPTER);
         stateToButtons();
     }
 

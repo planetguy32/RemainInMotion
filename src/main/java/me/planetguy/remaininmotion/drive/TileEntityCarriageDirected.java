@@ -113,8 +113,10 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 	}
 	
     public void setConfiguration(long flags, EntityPlayerMP changer){
+        // make sure nothing fucks with 'flags' before setting the heading
+        // add a server side mod to fix a weird error where an arrayindexoutofboundsexception is thrown
+        pointedDir=Directions.values()[(int) (flags&7)%6];
     	setConfigurationSuper(flags, changer);
-    	pointedDir=Directions.values()[(int) (flags&7)];
     }
 
     @Override

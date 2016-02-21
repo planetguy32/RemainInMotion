@@ -2,6 +2,7 @@ package me.planetguy.remaininmotion.base;
 
 import me.planetguy.remaininmotion.core.RiMConfiguration;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -27,7 +28,10 @@ public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
                 if(((TileEntityCamouflageable) te).Decoration instanceof BlockCamouflageable) throw new Exception("Making a frame look like another? Interesting....");
 
                 // This line causes White Wool to have issues (and other metadata 0 blocks), we need to find a better way
-                if(true || ((TileEntityCamouflageable) te).DecorationMeta != 0) throw new Exception("This method will almost always attempt to get metadata from world, resulting in the wrong texture.");
+                Item item = Item.getItemFromBlock(((TileEntityCamouflageable) te).Decoration);
+
+                if(item.getHasSubtypes()) throw new Exception("Subtypes almost always attempt to get metadata from world, resulting in the wrong texture.");
+                if(((TileEntityCamouflageable) te).DecorationMeta != 0) throw new Exception("This method will almost always attempt to get metadata from world, resulting in the wrong texture.");
                 return ((TileEntityCamouflageable) te).Decoration.getIcon
                 		(world, x, y, z, side);
         	} catch(Exception e) {

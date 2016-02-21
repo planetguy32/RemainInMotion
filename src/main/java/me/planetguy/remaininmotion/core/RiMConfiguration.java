@@ -47,7 +47,9 @@ public class RiMConfiguration extends Config {
 		public static int		SoundIndex						= 0;
 		public static String	SoundFile						= "hum";
 		
-		public static float volume=1.2f;
+		public static float     volume                          = 1.2f;
+
+        public static boolean   SupportCarriageRecurseSoftBL    = false;
 
 	}
 
@@ -205,13 +207,16 @@ public class RiMConfiguration extends Config {
 			CarriageMotion.RenderInFinalPositionDuringLag = Boolean("StopAnimationDuringLag",
 					"Animation of motion should stop during severe lag", CarriageMotion.RenderInFinalPositionDuringLag);
 
+            CarriageMotion.SupportCarriageRecurseSoftBL = Boolean("SupportCarriageRecurseSoftBlacklist",
+                    "When adding blocks, should the support carriage 'see' through soft blacklisted blocks", CarriageMotion.SupportCarriageRecurseSoftBL);
+
 			CarriageMotion.MotionDuration = BoundedInteger("MotionDurationInTicks", "Duration of motion in ticks", 1,
 					CarriageMotion.MotionDuration, Integer.MAX_VALUE);
 
 			CarriageMotion.TeleportationDuration = BoundedInteger("TeleportDurationInTicks",
 					"Duration of translocation in ticks", 1, CarriageMotion.TeleportationDuration, Integer.MAX_VALUE);
 
-            // Allow for adding more sounds without bother people's configs.
+            // Allow for adding more sounds without bothering people's configs.
 			CarriageMotion.SoundIndex = BoundedInteger("Sound File Index",
 					"Which Sounds to use. 0 is Default, 1-3 are sounds DA3DSOUL made, 10 is silence", 0, CarriageMotion.SoundIndex,
 					10);
