@@ -7,6 +7,10 @@ import me.planetguy.remaininmotion.base.BlockRiM;
 
 public class TileEntityMemoryCarriage extends TileEntityTemplateCarriage {
 
+    public TileEntityMemoryCarriage() {
+        super();
+    }
+
 	@Override
 	public void EmitDrops(BlockRiM block, int meta) {
 		emitParentDrops(block, meta);

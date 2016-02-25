@@ -66,6 +66,7 @@ JAKJ_RedstoneInMotion:SCREWDRIVER_MODE.tooltip=Toggle screwdriver-only opening
 JAKJ_RedstoneInMotion:CONTINUOUS_MODE.tooltip=Toggle continuous motion
 JAKJ_RedstoneInMotion:ZERO_COOLDOWN.tooltip=Toggle Continuous Mode Cooldown
 JAKJ_RedstoneInMotion:MOVE_WITH_CARRIAGE.tooltip=Toggle anchored mode
+JAKJ_RedstoneInMotion:TOGGLE_ADAPTER.tooltip=Toggle adapter mode
 
 
 #Items and blocks
@@ -84,7 +85,8 @@ tile.JAKJ_RedstoneInMotion_Carriage.4.name=Template Carriage
 tile.JAKJ_RedstoneInMotion_Carriage.5.name=Memory Carriage
 
 tile.simpleFrame.name=Frame Carriage
-simpleFrame.tooltip.1=Carries blocks directly touching it
+JAKJ_RedstoneInMotion.simpleFrame.tooltip.0=Carries blocks directly touching it
+simpleFrame.tooltip.0=Carries blocks directly touching it
 
 
 #Other carriages' tooltips

@@ -8,7 +8,9 @@ import me.planetguy.remaininmotion.util.MultiTypeCarriageUtil;
 import net.minecraft.item.ItemStack;
 
 public class TileEntityFrameCarriage extends TileEntityCarriage {
-	public TileEntityFrameCarriage() {}
+	public TileEntityFrameCarriage() {
+        super();
+    }
 
 	@Override
 	public void fillPackage(CarriagePackage Package) throws CarriageMotionException {

@@ -14,6 +14,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityStructureCarriage extends TileEntityCarriage {
+
+    public TileEntityStructureCarriage() {
+        super();
+    }
+
 	public enum EdgeTypes {
 		X(Directions.NegX, Directions.PosX), Y(Directions.NegY, Directions.PosY), Z(Directions.NegZ, Directions.PosZ);
 

@@ -10,7 +10,6 @@ import me.planetguy.remaininmotion.util.position.BlockRecordSet;
 import me.planetguy.remaininmotion.util.transformations.Directions;
 import me.planetguy.remaininmotion.util.Registry;
 import me.planetguy.remaininmotion.api.ISpecialMoveBehavior;
-import me.planetguy.remaininmotion.carriage.BlockCarriage;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration.DirtyHacks;
@@ -22,7 +21,6 @@ import me.planetguy.remaininmotion.util.WorldUtil;
 import me.planetguy.remaininmotion.util.transformations.Rotator;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,6 +35,10 @@ public class TileEntityCarriageRotator extends TileEntityCarriageDirected implem
 	public boolean  	alreadyMoving;
 
     public boolean isAdapter = true;
+
+    public TileEntityCarriageRotator() {
+        super();
+    }
 
 	@Override
 	public CarriagePackage GeneratePackage(TileEntity carriage, Directions CarriageDirection, Directions MotionDirection)

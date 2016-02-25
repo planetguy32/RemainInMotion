@@ -14,6 +14,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityCarriage extends TileEntityCamouflageable implements Moveable, ICloseable {
+
+    public TileEntityCarriage() {
+        super();
+    }
+
 	@Override
 	public boolean canUpdate() {
 		return (false);

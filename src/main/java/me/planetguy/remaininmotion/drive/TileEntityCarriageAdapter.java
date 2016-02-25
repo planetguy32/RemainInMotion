@@ -17,6 +17,10 @@ public class TileEntityCarriageAdapter extends TileEntityCarriageEngine implemen
 		// BlacklistManager.blacklistSoft.blacklist(RIMBlocks.CarriageDrive,5);
 	}
 
+    public TileEntityCarriageAdapter() {
+        super();
+    }
+
 	@Override
 	public void updateEntity() {
 		if (worldObj.isRemote) { return; }

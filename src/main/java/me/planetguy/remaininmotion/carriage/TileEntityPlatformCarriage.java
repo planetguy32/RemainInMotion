@@ -12,6 +12,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPlatformCarriage extends TileEntityCarriage {
 
+    public TileEntityPlatformCarriage() {
+        super();
+    }
+
     // Note this is actually the Support Carriage...
 
     public void FailBecauseOverburdened() throws CarriageMotionException {

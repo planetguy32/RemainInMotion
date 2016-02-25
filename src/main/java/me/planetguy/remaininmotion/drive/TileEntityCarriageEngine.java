@@ -1,6 +1,5 @@
 package me.planetguy.remaininmotion.drive;
 
-import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.motion.CarriageMotionException;
 import me.planetguy.remaininmotion.motion.CarriageObstructionException;

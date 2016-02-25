@@ -1,7 +1,6 @@
 package me.planetguy.remaininmotion.drive;
 
 //import codechicken.chunkloader.TileChunkLoaderBase;
-import cpw.mods.fml.common.Optional;
 import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.SneakyWorldUtil;
 import me.planetguy.remaininmotion.motion.CarriageMatchers;
@@ -36,14 +35,19 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import cofh.api.energy.IEnergyHandler;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable implements IEnergyHandler {
@@ -65,22 +69,26 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public Directions CarriageDirection;
 
-	protected Directions SignalDirection;
+    protected Directions SignalDirection;
     protected double extraEnergy = 1;
     private int ticksExisted = 0;
 
     public boolean isCreative = false;
-    
+
     public boolean requiresScrewdriverToOpen=false;
 
     // Elevator mode
     public int personalDurationInTicks = CarriageMotion.MotionDuration;
     public boolean zeroContinuousCooldown = false;
 
+    public TileEntityCarriageDrive() {
+        super();
+    }
+
     @Override
     public void WriteCommonRecord(NBTTagCompound tag) {
-    	super.WriteCommonRecord(tag);
-    	
+        super.WriteCommonRecord(tag);
+
         tag.setBoolean("Continuous", Continuous);
 
         for (Directions Direction : Directions.values()) {
@@ -91,9 +99,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
         tag.setInteger("Tier", Tier);
         tag.setInteger("energyStored", energyStored);
-        
+
         tag.setBoolean("screwdriver", requiresScrewdriverToOpen);
-        
+
         tag.setBoolean("anchored", this.isAnchored);
 
         // Elevator Mode
@@ -106,8 +114,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void WriteServerRecord(NBTTagCompound tag) {
-    	super.WriteServerRecord(tag);
-    	
+        super.WriteServerRecord(tag);
+
         tag.setBoolean("Signalled", Signalled);
 
         tag.setInteger("CooldownRemaining", CooldownRemaining);
@@ -119,8 +127,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void ReadCommonRecord(NBTTagCompound tag) {
-    	super.ReadCommonRecord(tag);
-    	
+        super.ReadCommonRecord(tag);
+
         Continuous = tag.getBoolean("Continuous");
 
         for (Directions Direction : Directions.values()) {
@@ -132,9 +140,9 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         Tier = tag.getInteger("Tier");
 
         energyStored = tag.getInteger("energyStored");
-        
+
         requiresScrewdriverToOpen=tag.getBoolean("screwdriver");
-        
+
         isAnchored=tag.getBoolean("anchored");
 
         // Elevator Mode
@@ -147,8 +155,8 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     @Override
     public void ReadServerRecord(NBTTagCompound tag) {
-    	super.ReadServerRecord(tag);
-    	
+        super.ReadServerRecord(tag);
+
         Signalled = tag.getBoolean("Signalled");
 
         CooldownRemaining = tag.getInteger("CooldownRemaining");
@@ -175,19 +183,19 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     }
 
     public boolean HandleToolUsage(int Side, boolean Sneaking, EntityPlayer player) {
-    	if(!requiresScrewdriverToOpen || 
-    			(player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
-    		player.openGui(ModRiM.instance, getGuiIndex(), worldObj, xCoord, yCoord, zCoord);
-    		return true;
-    	}
-    	return false;
+        if(!requiresScrewdriverToOpen ||
+                (player.getHeldItem() != null && player.getHeldItem().getItem() == RiMItems.ToolItemSet)){
+            player.openGui(ModRiM.instance, getGuiIndex(), worldObj, xCoord, yCoord, zCoord);
+            return true;
+        }
+        return false;
     }
 
     public void ToggleActivity() {
         if (Active && Continuous && !zeroContinuousCooldown) {
             CooldownRemaining = RiMConfiguration.CarriageDrive.ContinuousCooldown;
         }else if(Active){
-        	Signalled=true;
+            Signalled=true;
         }
         Active = !Active;
 
@@ -196,7 +204,7 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
 
     public boolean Stale = true;
 
-	public boolean isAnchored=false;
+    public boolean isAnchored=false;
 
     @Override
     public void Initialize() {
@@ -260,99 +268,109 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     @Override
     public void updateEntity() {
         worldObj.theProfiler.startSection("RiMCarriageDrive");
-        if (worldObj.isRemote) {
-            worldObj.theProfiler.endSection();
-            return;
-        }
-
-        if(Active) {
-            if (ticksExisted > 0
-                    && ticksExisted < personalDurationInTicks
-                    && ticksExisted % 20 == 0) {
-                if (Anchored()) {
-                    ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord,
-                            CarriageMotion.SoundFile, CarriageMotion.volume, 1f);
-                }
-            }
-            ticksExisted++;
-            if (ticksExisted >= personalDurationInTicks) ticksExisted = 0;
-        } else {
-            if(ticksExisted != 0) ticksExisted = 0;
-        }
-
-        if (Stale) {
-            HandleNeighbourBlockChange();
-        }
-
-        if (CooldownRemaining > 0) {
-            CooldownRemaining--;
-
-            MarkServerRecordDirty();
-
-            worldObj.theProfiler.endSection();
-            return;
-        }
-
-        if (Active) {
-
-            worldObj.theProfiler.endSection();
-            return;
-        }
-
-		if (SignalDirection == null) {
-			if (Signalled) {
-				Signalled = false;
-
-                MarkServerRecordDirty();
-            }
-
-            worldObj.theProfiler.endSection();
-            return;
-        }
-
-        if (CarriageDirection == null) {
-            worldObj.theProfiler.endSection();
-            return;
-        }
-
-        if (Signalled) {
-            if (!Continuous) {
+        { // RimCarriageDrive
+            if (worldObj.isRemote) {
                 worldObj.theProfiler.endSection();
                 return;
             }
-        } else {
-            Signalled = true;
 
-            MarkServerRecordDirty();
-        }
-        worldObj.theProfiler.startSection("InitiateMotion");
-        try {
-            InitiateMotion(PreparePackage(getSignalDirection().opposite()));
-
-            ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, CarriageMotion.volume, 1f);
-        } catch (CarriageMotionException Exception) {
-
-            String Message = "Drive at (" + xCoord + "," + yCoord + "," + zCoord + ") in dimension "
-                    + worldObj.provider.dimensionId + " failed to move carriage: " + Exception.getMessage();
-
-            if (Exception instanceof CarriageObstructionException) {
-                CarriageObstructionException ObstructionException = (CarriageObstructionException) Exception;
-
-                Message += " - (" + ObstructionException.X + "," + ObstructionException.Y + ","
-                        + ObstructionException.Z + ")";
+            if (Active) {
+                if (ticksExisted > 0
+                        && ticksExisted < personalDurationInTicks
+                        && ticksExisted % 20 == 0) {
+                    if (Anchored()) {
+                        ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord,
+                                CarriageMotion.SoundFile, CarriageMotion.volume, 1f);
+                    }
+                }
+                ticksExisted++;
+                if (ticksExisted >= personalDurationInTicks) ticksExisted = 0;
+            } else {
+                if (ticksExisted != 0) ticksExisted = 0;
             }
 
-            if (RiMConfiguration.Debug.LogMotionExceptions) {
-                Debug.dbg(Message);
+            if (Stale) {
+                HandleNeighbourBlockChange();
             }
 
-            if (lastUsingPlayer != null) {
-                lastUsingPlayer.addChatComponentMessage(new ChatComponentText(Message));
+            if (CooldownRemaining > 0) {
+                CooldownRemaining--;
+
+                MarkServerRecordDirty();
+
+                worldObj.theProfiler.endSection();
+                return;
             }
+
+            if (Active) {
+
+                worldObj.theProfiler.endSection();
+                return;
+            }
+
+            if (SignalDirection == null) {
+                if (Signalled) {
+                    Signalled = false;
+
+                    MarkServerRecordDirty();
+                }
+
+                worldObj.theProfiler.endSection();
+                return;
+            }
+
+            if (CarriageDirection == null) {
+                worldObj.theProfiler.endSection();
+                return;
+            }
+
+            if (Signalled) {
+                if (!Continuous) {
+                    worldObj.theProfiler.endSection();
+                    return;
+                }
+            } else {
+                Signalled = true;
+
+                MarkServerRecordDirty();
+            }
+            worldObj.theProfiler.startSection("InitiateMotion");
+            { // InitiateMotion
+                try {
+                    InitiateMotion(PreparePackage(getSignalDirection().opposite()));
+
+                    ModRiM.plHelper.playSound(worldObj, xCoord, yCoord, zCoord, CarriageMotion.SoundFile, CarriageMotion.volume, 1f);
+                } catch (CarriageMotionException Exception) {
+
+                    String Message = "Drive at (" + xCoord + "," + yCoord + "," + zCoord + ") in dimension "
+                            + worldObj.provider.dimensionId + " failed to move carriage: " + Exception.getMessage();
+
+                    if (Exception instanceof CarriageObstructionException) {
+                        CarriageObstructionException ObstructionException = (CarriageObstructionException) Exception;
+
+                        Message += " - (" + ObstructionException.X + "," + ObstructionException.Y + ","
+                                + ObstructionException.Z + ")";
+                    }
+
+                    if (RiMConfiguration.Debug.LogMotionExceptions) {
+                        Debug.dbg(Message);
+                    }
+
+                    if (lastUsingPlayer != null) {
+                        lastUsingPlayer.addChatComponentMessage(new ChatComponentText(Message));
+                    }
+                }
+            }
+            worldObj.theProfiler.endSection();
         }
         worldObj.theProfiler.endSection();
-        worldObj.theProfiler.endSection();
-        
+        List<Profiler.Result> results = worldObj.theProfiler.getProfilingData(worldObj.theProfiler.getNameOfLastSection());
+        if(results != null) {
+            for (Profiler.Result result : results) {
+                if(result == null) continue;
+                Debug.dbg(result.field_76331_c + " " + result.field_76332_a + " " + result.field_76330_b);
+            }
+        }
     }
 
     public CarriagePackage PreparePackage(Directions dir) throws CarriageMotionException {
@@ -402,10 +420,11 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                 worldObj.getTileEntity(xCoord + CarriageDirection.deltaX, yCoord + CarriageDirection.deltaY, zCoord
                         + CarriageDirection.deltaZ));
 
+        worldObj.theProfiler.startSection("GeneratePackage");
         CarriagePackage _package = GeneratePackage(
                 worldObj.getTileEntity(xCoord + CarriageDirection.deltaX, yCoord + CarriageDirection.deltaY, zCoord
                         + CarriageDirection.deltaZ), CarriageDirection, MotionDirection);
-
+        worldObj.theProfiler.endSection();
         return (_package);
     }
 
@@ -447,10 +466,18 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
         doPreMovementModInteraction(Package);
 
         worldObj.theProfiler.endStartSection("Placeholders");
-        EstablishPlaceholders(Package);
+        if(!RiMConfiguration.Debug.SkipPlaceholders) {
+            if (RiMConfiguration.Debug.SimplePlaceholders) {
+                EstablishSimplePlaceholders(Package);
+            } else {
+                EstablishPlaceholders(Package);
+            }
+        } else {
+            prepareCleanupSimple(Package);
+        }
 
         worldObj.theProfiler.endStartSection("UpdateBlocks");
-        RefreshWorld(Package);
+        if(!RiMConfiguration.Debug.SkipPlaceholderNotify) RefreshWorld(Package);
 
         worldObj.theProfiler.endStartSection("MotiveSpecter");
         EstablishSpectre(Package);
@@ -462,76 +489,127 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     {
         for(BlockRecord record : carriagePackage.Body)
         {
-        	EventPool.postBlockPreMoveEvent(record,
-					carriagePackage.MotionDirection != null
+            EventPool.postBlockPreMoveEvent(record,
+                    carriagePackage.MotionDirection != null
                             ? record.NextInDirection(carriagePackage.MotionDirection)
                             : record, (Set) carriagePackage.Body);
         }
 
     }
 
-    public void EstablishPlaceholders(CarriagePackage Package) {
+    public void prepareCleanupSimple(CarriagePackage Package) {
+        if(Package.MotionDirection == null) return;
         BlockRecordSet temp = new BlockRecordSet();
+        for(BlockRecord record : Package.Body) {
+            temp.add(record.NextInDirection(Package.MotionDirection));
+        }
+        for(BlockRecord record : Package.Body) {
+            if(temp.contains(record)) continue;
+            Package.spectersToDestroy.add(new BlockRecord(record));
+        }
+        for(BlockRecord record : Package.Body) {
+            //if(record.X == Package.driveRecord.X && record.Y == Package.driveRecord.Y && record.Z == Package.driveRecord.Z) continue;
+            SneakyWorldUtil.setBlock(worldObj, record.X, record.Y, record.Z, Blocks.air, 0, true);
+        }
+    }
 
-        
+    public void EstablishSimplePlaceholders(CarriagePackage Package) {
+        if(Package.MotionDirection == null) return;
+        BlockRecordSet temp = new BlockRecordSet();
+        for(BlockRecord record : Package.Body) {
+            temp.add(record.NextInDirection(Package.MotionDirection));
+        }
+        for(BlockRecord record : Package.Body) {
+            if(temp.contains(record)) continue;
+            Package.spectersToDestroy.add(new BlockRecord(record));
+        }
+        for(BlockRecord Record : Package.Body)
+        {
+            if(Package.MotionDirection != null) {
+                // Specters get in our way on elevators
+                if(Package.MotionDirection.deltaY == 0) {
+                    SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                            BlockSpectre.Types.Supportive.ordinal(), true);
+                } else {
+                    SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                            BlockSpectre.Types.SupportiveNoCollide.ordinal(), true);
+                }
+            }
+        }
+    }
 
+    // Split this up for profiling
+    public void EstablishPlaceholders(CarriagePackage Package) {
         byte[] lightValues = new byte[Package.Body.size()];
         byte[] lightOpacities = new byte[Package.Body.size()];
 
-        
         int i = 0;
+        BlockRecordSet temp = storeLighting(Package,lightValues,lightOpacities,i);
+
+        placePlaceholderMain(Package, temp, lightValues,lightOpacities,i);
+
+        placePlacerholdersToBeDestroyed(Package,temp);
+    }
+
+    private BlockRecordSet storeLighting(CarriagePackage Package, byte[] lightValues, byte[] lightOpacities, int i) {
+        BlockRecordSet temp = new BlockRecordSet();
         if(Package.MotionDirection != null) {
             for (BlockRecord Record : Package.Body) {
 
-
-                try {
-                    lightValues[i] = (byte) Record.block.getLightValue(worldObj, Record.X, Record.Y, Record.Z);
-                    lightOpacities[i] = (byte) Record.block.getLightOpacity(worldObj, Record.X, Record.Y, Record.Z);
-                } catch (Exception e) {
-                    lightValues[i] = (byte) Record.block.getLightValue();
-                    lightOpacities[i] = (byte) Record.block.getLightOpacity();
+                if(!RiMConfiguration.Cosmetic.DisablePlaceholderLighting) {
+                    try {
+                        lightValues[i] = (byte) Record.block.getLightValue(worldObj, Record.X, Record.Y, Record.Z);
+                        lightOpacities[i] = (byte) Record.block.getLightOpacity(worldObj, Record.X, Record.Y, Record.Z);
+                    } catch (Exception e) {
+                        lightValues[i] = (byte) Record.block.getLightValue();
+                        lightOpacities[i] = (byte) Record.block.getLightOpacity();
+                    }
                 }
-
 
                 BlockRecord temp2 = Record.NextInDirection(Package.MotionDirection);
                 temp2.block = Record.block;
                 temp.add(temp2);
+
+                //chunks.put(new ChunkCoordIntPair(Record.X >> 4, Record.Z >> 4), new ChunkCoordinates(Record.X, Record.Y, Record.Z));
                 i++;
             }
         }else {
             temp = Package.Body;
         }
+        return temp;
+    }
 
+    private void placePlaceholderMain(CarriagePackage Package, BlockRecordSet temp, byte[] lightValues, byte[] lightOpacities, int i) {
         i = 0;
-
         for (BlockRecord Record : temp) {
             if(Package.MotionDirection != null) {
                 //NBTTagCompound nbt = new NBTTagCompound();
                 // Specters get in our way on elevators
+                boolean matchesChunkMap = true; //!(new ChunkCoordinates(Record.X, Record.Y, Record.Z)).equals(chunks.get(new ChunkCoordIntPair(Record.X >> 4, Record.Z >> 4)));
                 if(Package.MotionDirection.deltaY == 0) {
                     Block block = Record.block;
                     //Block block1 = worldObj.getBlock(Record.X, Record.Y, Record.Z);
                     //Block block2 = worldObj.getBlock(Record.X + Package.MotionDirection.deltaX, Record.Y, Record.Z + Package.MotionDirection.deltaZ);
                     if(block.isOpaqueCube()) {
-                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                                BlockSpectre.Types.Supportive.ordinal());
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.Supportive.ordinal(), matchesChunkMap, true);
                     } else if(block instanceof BlockRailBase) {
-                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.RailSpectre,
-                                worldObj.getBlockMetadata(Record.X, Record.Y, Record.Z));
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.RailSpectre,
+                                worldObj.getBlockMetadata(Record.X, Record.Y, Record.Z), matchesChunkMap, true);
                     } else if(block.getCollisionBoundingBoxFromPool(worldObj, Record.X - Package.MotionDirection.deltaX, Record.Y, Record.Z - Package.MotionDirection.deltaZ) == null) {
-                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                                BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.SupportiveNoCollide.ordinal(), matchesChunkMap, true);
                     } else {
                         //AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
-                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                                BlockSpectre.Types.Supportive.ordinal());
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.Supportive.ordinal(), matchesChunkMap, true);
                     }
                 } else {
                     // we do want things like walls to get in our way, though
                     if(!Package.Body.contains(Record)) {
                         //if(worldObj.getBlock(Record.X, Record.Y, Record.Z).isBlockNormalCube() || worldObj.getBlock(Record.X, Record.Y, Record.Z).getCollisionBoundingBoxFromPool(worldObj, Record.X, Record.Y, Record.Z) == null) {
-                            SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                                    BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.SupportiveNoCollide.ordinal(), matchesChunkMap, true);
                         /*} else {
                             AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
                             SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
@@ -539,60 +617,63 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
                         }*/
                     } else {
                         //AABBUtil.writeCollisionBoundingBoxesToNBT(worldObj, Record.X, Record.Y, Record.Z, nbt);
-                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                                BlockSpectre.Types.Supportive.ordinal());
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.Supportive.ordinal(), matchesChunkMap, true);
                     }
                 }
 
                 // only set Light if we're moving
                 if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
-                	WorldUtil.unsafeAddSpectre(worldObj, Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
-                	//worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
+                    //worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
                     // handle camo blocks
-                    TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z));
+                    if(!RiMConfiguration.Cosmetic.DisablePlaceholderLighting) {
+                        WorldUtil.unsafeAddSpectre(worldObj, Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
+                        TileEntitySupportiveSpectre tile = ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z));
 
-                    tile.setLight(lightValues[i], lightOpacities[i]);
+                        tile.setLight(lightValues[i], lightOpacities[i]);
+                    }
 
                     //tile.setBoundingBox(nbt);
                 }
             }
             i++;
         }
+    }
 
+    private void placePlacerholdersToBeDestroyed(CarriagePackage Package, BlockRecordSet temp) {
         for(BlockRecord Record : Package.Body)
         {
             if(temp.contains(Record)) continue;
+            boolean matchesCunkMap = true; //!(new ChunkCoordinates(Record.X, Record.Y, Record.Z)).equals(chunks.get(new ChunkCoordIntPair(Record.X >> 4, Record.Z >> 4)));
             if(Package.MotionDirection != null) {
                 // Specters get in our way on elevators
                 if(Package.MotionDirection.deltaY == 0) {
                     if(Record.block.getCollisionBoundingBoxFromPool(worldObj, Record.X,Record.Y,Record.Z) == null) {
-                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                                BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.SupportiveNoCollide.ordinal(), matchesCunkMap, true);
                     } else {
-                        SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                                BlockSpectre.Types.Supportive.ordinal());
+                        SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                                BlockSpectre.Types.Supportive.ordinal(), matchesCunkMap, true);
                     }
                 } else {
-                    SneakyWorldUtil.setBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
-                            BlockSpectre.Types.SupportiveNoCollide.ordinal());
+                    SneakyWorldUtil.setBlockWithoutTileEntity(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.Spectre,
+                            BlockSpectre.Types.SupportiveNoCollide.ordinal(), matchesCunkMap, true);
                 }
                 if (Package.MotionDirection.ordinal() != ForgeDirection.UNKNOWN.ordinal()) {
-                //    worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
-                    ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight((byte)0,(byte)0);
+                    //    worldObj.setTileEntity(Record.X, Record.Y, Record.Z, new TileEntitySupportiveSpectre());
+                    if(!RiMConfiguration.Cosmetic.DisablePlaceholderLighting) ((TileEntitySupportiveSpectre) worldObj.getTileEntity(Record.X, Record.Y, Record.Z)).setLight((byte)0,(byte)0);
                 }
                 Package.spectersToDestroy.add(new BlockRecord(Record));
             }
-
-            // SneakyWorldUtil.SetBlock(worldObj, Record.X, Record.Y, Record.Z, RIMBlocks.air, 0);
         }
     }
 
 
-	public void RefreshWorld(CarriagePackage Package) {
-		for (BlockRecord Record : Package.Body) {
-			SneakyWorldUtil.refreshBlock(worldObj, Record.X, Record.Y, Record.Z, Record.block, Blocks.air);
-		}
-	}
+    public void RefreshWorld(CarriagePackage Package) {
+        for (BlockRecord Record : Package.Body) {
+            SneakyWorldUtil.refreshBlock(worldObj, Record.X, Record.Y, Record.Z, Record.block, Blocks.air);
+        }
+    }
 
     public void EstablishSpectre(CarriagePackage Package) {
         int CarriageX = Package.AnchorRecord.X + Package.MotionDirection.deltaX;
@@ -697,18 +778,18 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     }
 
     public void setConfiguration(long flags, EntityPlayerMP changer){
-    	flags=flags >> 3; //save space for heading - it's special-cased.
-    	SideClosed[0]=(flags & 1<<Buttons.DOWN.ordinal()) != 0;
-    	SideClosed[1]=(flags & 1<<Buttons.UP.ordinal()) != 0;
-    	SideClosed[2]=(flags & 1<<Buttons.NORTH.ordinal()) != 0;
-    	SideClosed[3]=(flags & 1<<Buttons.SOUTH.ordinal()) != 0;
-    	SideClosed[4]=(flags & 1<<Buttons.WEST.ordinal()) != 0;
-    	SideClosed[5]=(flags & 1<<Buttons.EAST.ordinal()) != 0;
-    	requiresScrewdriverToOpen=(flags & 1<<Buttons.SCREWDRIVER_MODE.ordinal()) != 0;
-    	Continuous=(flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) != 0;
+        flags=flags >> 3; //save space for heading - it's special-cased.
+        SideClosed[0]=(flags & 1<<Buttons.DOWN.ordinal()) != 0;
+        SideClosed[1]=(flags & 1<<Buttons.UP.ordinal()) != 0;
+        SideClosed[2]=(flags & 1<<Buttons.NORTH.ordinal()) != 0;
+        SideClosed[3]=(flags & 1<<Buttons.SOUTH.ordinal()) != 0;
+        SideClosed[4]=(flags & 1<<Buttons.WEST.ordinal()) != 0;
+        SideClosed[5]=(flags & 1<<Buttons.EAST.ordinal()) != 0;
+        requiresScrewdriverToOpen=(flags & 1<<Buttons.SCREWDRIVER_MODE.ordinal()) != 0;
+        Continuous=(flags & 1<<Buttons.CONTINUOUS_MODE.ordinal()) != 0;
         zeroContinuousCooldown =(flags & 1<<Buttons.ZERO_COOLDOWN.ordinal()) != 0;
-    	
-    	//flush changes to clients and persistence
+
+        //flush changes to clients and persistence
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         markDirty();
     }
@@ -716,5 +797,5 @@ public abstract class TileEntityCarriageDrive extends TileEntityCamouflageable i
     public int getGuiIndex() {
         return 0;
     }
-    
+
 }

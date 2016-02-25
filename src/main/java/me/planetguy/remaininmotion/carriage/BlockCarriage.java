@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -18,9 +19,7 @@ import net.minecraft.world.World;
 
 public class BlockCarriage extends BlockCamouflageable {
 	public BlockCarriage() {
-		super(Blocks.planks, ItemCarriage.class, TileEntityFrameCarriage.class, TileEntitySupportCarriage.class,
-				TileEntityStructureCarriage.class, TileEntityPlatformCarriage.class, TileEntityTemplateCarriage.class,
-				TileEntityMemoryCarriage.class);
+		super(Blocks.planks, ItemCarriage.class);
 
 		this.setHarvestLevel(HarvestToolTypes.Hatchet, 0);
 	}
@@ -133,4 +132,16 @@ public class BlockCarriage extends BlockCamouflageable {
 		return super.getPickBlock(target, world, x, y, z);
 	}
 
+    @Override
+    public TileEntity createTileEntity(World World, int Meta) {
+        switch(Meta) {
+            case 0: return new TileEntityFrameCarriage();
+            case 1: return new TileEntitySupportCarriage();
+            case 2: return new TileEntityStructureCarriage();
+            case 3: return new TileEntityPlatformCarriage();
+            case 4: return new TileEntityTemplateCarriage();
+            case 5: return new TileEntityMemoryCarriage();
+        }
+        return null;
+    }
 }

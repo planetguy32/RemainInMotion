@@ -36,6 +36,10 @@ public class TileEntityTeleportativeSpectre extends TileEntityMotiveSpectre {
 
 	public int		TargetDimension;
 
+    public TileEntityTeleportativeSpectre() {
+        super();
+    }
+
 	@Override
 	public void WriteCommonRecord(NBTTagCompound TagCompound) {
 		super.WriteCommonRecord(TagCompound);

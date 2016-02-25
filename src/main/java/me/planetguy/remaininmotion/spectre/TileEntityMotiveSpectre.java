@@ -32,6 +32,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class TileEntityMotiveSpectre extends TileEntityRiM {
@@ -42,7 +43,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     public BlockRecord driveRecord;
     public boolean driveIsAnchored;
     public BlockRecordSet body;
-    public BlockRecordSet spectersToDestroy;
+    public HashSet<BlockRecord> spectersToDestroy;
     public int ticksExisted = 0;
 
     public java.util.ArrayList<CapturedEntity> CapturedEntities = new ArrayList<CapturedEntity>();
@@ -51,6 +52,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
     // Elevator mode
     public int personalDurationInTicks = CarriageMotion.MotionDuration;
     public double personalVelocity = 1 / ((double) personalDurationInTicks);
+
+    public TileEntityMotiveSpectre() {
+        super();
+    }
 
     public void ShiftBlockPosition(BlockRecord Record) {
         Record.Shift(motionDirection);
@@ -135,7 +140,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             body = new BlockRecordSet(); // clear list - prevents giga-dupe with
             // Gizmos temporal dislocator
             if(!spectersToDestroy.isEmpty())
-                spectersToDestroy = new BlockRecordSet();
+                spectersToDestroy = new HashSet<BlockRecord>();
         }
     }
     
@@ -387,7 +392,7 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
             body.add(Record);
         }
 
-        spectersToDestroy = new BlockRecordSet();
+        spectersToDestroy = new HashSet<BlockRecord>();
 
         if(TagCompound.hasKey("spectersToDestroy")) {
             BodyRecord = TagCompound.getTagList("spectersToDestroy", 10);
@@ -488,6 +493,10 @@ public class TileEntityMotiveSpectre extends TileEntityRiM {
         }
 
     }
+
+    /*
+        TODO Separate Client and Server Movement (Player vs everything else)
+     */
 
     public void doPerSpectreEntityUpdate(CapturedEntity capture, Entity entity) {
         entity.fallDistance = 0;

@@ -10,12 +10,9 @@ import me.planetguy.remaininmotion.spectre.TileEntitySupportiveSpectre;
 import me.planetguy.remaininmotion.util.position.BlockPosition;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 import me.planetguy.remaininmotion.util.transformations.Directions;
-import me.planetguy.remaininmotion.api.RiMRegistry;
 import me.planetguy.remaininmotion.base.BlockRiM;
-import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
 import me.planetguy.remaininmotion.core.RiMConfiguration;
-import me.planetguy.remaininmotion.core.RiMItems;
 import me.planetguy.remaininmotion.drive.gui.Buttons;
 import me.planetguy.remaininmotion.spectre.BlockSpectre;
 import me.planetguy.remaininmotion.spectre.TileEntityTeleportativeSpectre;
@@ -34,12 +31,12 @@ public class TileEntityCarriageTranslocator extends TileEntityCarriageDrive {
 	public String Player="";
 
 	public int Label;
-	
-	static {
-		
-	}
 
-	public static HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets	= new HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>();
+    public TileEntityCarriageTranslocator() {
+        super();
+    }
+
+    public static HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>	ActiveTranslocatorSets	= new HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>>();
 
 	public HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>> getRegistry(){
 		return ActiveTranslocatorSets;

@@ -2,15 +2,12 @@ package me.planetguy.remaininmotion.drive;
 
 import java.util.List;
 
-import me.planetguy.lib.util.Debug;
 import me.planetguy.lib.util.SidedIcons;
 import me.planetguy.remaininmotion.util.Registry;
-import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.base.BlockCamouflageable;
 import me.planetguy.remaininmotion.base.TileEntityRiM;
 import me.planetguy.remaininmotion.core.ModRiM;
 import me.planetguy.remaininmotion.core.RIMBlocks;
-import me.planetguy.remaininmotion.core.RiMItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,10 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCarriageDrive extends BlockCamouflageable {
 	public BlockCarriageDrive() {
-		super(Blocks.iron_block, ItemCarriageDrive.class, TileEntityCarriageEngine.class,
-				TileEntityCarriageMotor.class, TileEntityCarriageController.class,
-				TileEntityCarriageTranslocator.class, TileEntityCarriageTransduplicator.class,
-				TileEntityCarriageAdapter.class, TileEntityCarriageRotator.class, TileEntityCarriageDirected.class);
+		super(Blocks.iron_block, ItemCarriageDrive.class);
 		this.setHarvestLevel(HarvestToolTypes.Pickaxe, 0);
 	}
 
@@ -204,4 +198,18 @@ public class BlockCarriageDrive extends BlockCamouflageable {
 		return super.getPickBlock(target, world, x, y, z);
 	}
 
+    @Override
+    public TileEntity createTileEntity(World World, int Meta) {
+        switch(Meta) {
+            case 0: return new TileEntityCarriageEngine();
+            case 1: return new TileEntityCarriageMotor();
+            case 2: return new TileEntityCarriageController();
+            case 3: return new TileEntityCarriageTranslocator();
+            case 4: return new TileEntityCarriageTransduplicator();
+            case 5: return new TileEntityCarriageAdapter();
+            case 6: return new TileEntityCarriageRotator();
+            case 7: return new TileEntityCarriageDirected();
+        }
+        return null;
+    }
 }

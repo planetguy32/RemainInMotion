@@ -19,6 +19,10 @@ public class TileEntitySupportiveSpectre extends TileEntityRiM {
 
     public ArrayList<AxisAlignedBB> BB = new ArrayList<AxisAlignedBB>();
 
+    public TileEntitySupportiveSpectre() {
+        super();
+    }
+
     public void setLight(Block block)
     {
         lightValue = block.getLightValue();

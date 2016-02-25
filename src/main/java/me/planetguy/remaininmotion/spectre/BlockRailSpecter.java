@@ -33,14 +33,7 @@ public class BlockRailSpecter extends BlockRailBase implements ITileEntityProvid
 
     @Override
     public TileEntity createNewTileEntity(World p_149915_1_, int meta) {
-        try {
-            return TileEntitySupportiveSpectre.class.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return new TileEntitySupportiveSpectre();
     }
 
     @Override
@@ -50,14 +43,7 @@ public class BlockRailSpecter extends BlockRailBase implements ITileEntityProvid
 
     @Override
     public TileEntity createTileEntity(World World, int Meta) {
-        try {
-            return TileEntitySupportiveSpectre.class.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return new TileEntitySupportiveSpectre();
     }
 
     public int getRenderType() {

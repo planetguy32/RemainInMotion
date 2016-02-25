@@ -27,6 +27,10 @@ public class TileEntityCarriageTransduplicator extends TileEntityCarriageTranslo
 	public HashMap<String, HashMap<Integer, LinkedList<BlockPosition>>> getRegistry(){
 		return ActiveTranslocatorSets;
 	}
+
+    public TileEntityCarriageTransduplicator() {
+        super();
+    }
 	
 	@Override
 	public void EmitDrops(BlockRiM Block, int Meta) {

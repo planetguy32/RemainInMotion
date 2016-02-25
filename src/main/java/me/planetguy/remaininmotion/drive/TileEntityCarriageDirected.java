@@ -22,6 +22,10 @@ public class TileEntityCarriageDirected extends TileEntityCarriageEngine {
 	public Directions	pointedDir=Directions.NegY;
 	
 	public static SidedIcons helper;
+
+    public TileEntityCarriageDirected() {
+        super();
+    }
 	
 	@Override
 	public Directions getSignalDirection() {

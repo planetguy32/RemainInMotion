@@ -1,5 +1,6 @@
 package me.planetguy.remaininmotion.motion;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -72,7 +73,7 @@ public class CarriagePackage {
 	}
 
 	public BlockRecordSet Body			= new BlockRecordSet();
-    public BlockRecordSet spectersToDestroy = new BlockRecordSet();
+    public HashSet<BlockRecord> spectersToDestroy = new HashSet<BlockRecord>();
 
 	public static int		MaxBlockCount;
 
@@ -185,6 +186,7 @@ public class CarriagePackage {
 	}
 
 	public void FailBecauseObstructed(BlockRecord Record, String Type) throws CarriageMotionException {
+        if(RiMConfiguration.Debug.IgnoreObstructions) return;
 		throw (new CarriageObstructionException("Carriage motion obstructed by " + Type, Record.X, Record.Y, Record.Z));
 	}
 

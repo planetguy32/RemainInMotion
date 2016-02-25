@@ -12,6 +12,7 @@ public class TileEntitySupportCarriage extends TileEntityCarriage {
     // Note this is actually the platform carriage
 
 	public TileEntitySupportCarriage() {
+        super();
 		for (Directions Direction : Directions.values()) {
 			if (Direction != Directions.PosY) {
 				SideClosed[Direction.ordinal()] = true;

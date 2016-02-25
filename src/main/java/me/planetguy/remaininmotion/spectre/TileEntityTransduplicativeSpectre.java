@@ -1,10 +1,12 @@
 package me.planetguy.remaininmotion.spectre;
 
-import net.minecraft.entity.Entity;
-import me.planetguy.remaininmotion.core.RiMConfiguration;
 import me.planetguy.remaininmotion.util.position.BlockRecord;
 
 public class TileEntityTransduplicativeSpectre extends TileEntityTeleportativeSpectre {
+
+    public TileEntityTransduplicativeSpectre() {
+        super();
+    }
 
 	@Override
 	public void Release() {

@@ -9,9 +9,8 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockCamouflageable extends BlockRiM implements ICamouflageable {
 
-    public BlockCamouflageable(Block Template, Class<? extends ItemBlockRiM> BlockItemClass,
-                               Class<? extends TileEntityRiM>... TileEntityList) {
-        super(Template, BlockItemClass, TileEntityList);
+    public BlockCamouflageable(Block Template, Class<? extends ItemBlockRiM> BlockItemClass) {
+        super(Template, BlockItemClass);
 
     }
 

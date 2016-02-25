@@ -59,6 +59,8 @@ public class RiMConfiguration extends Config {
 		public static boolean	renderFallback		= false;
 
 		public static int		maxTags				= -1;
+
+        public static boolean   DisablePlaceholderLighting = true;
 	}
 
 	public abstract static class DirtyHacks {
@@ -75,7 +77,15 @@ public class RiMConfiguration extends Config {
 		public static boolean	MuteMotionExceptions	= true;
 
 		public static boolean	verbose					= false;
-	}
+
+        public static boolean   SkipPlaceholders        = false;
+
+        public static boolean   SkipPlaceholderNotify   = false;
+
+        public static boolean   SimplePlaceholders      = false;
+
+        public static boolean   IgnoreObstructions      = false;
+    }
 
     public abstract static class HardMode {
 
@@ -272,6 +282,10 @@ public class RiMConfiguration extends Config {
 					"PacketMaxSize",
 					"Limit on size of carriage to transmit, or -1 for no limit. Decrease if clients get errors like: Unexpected end of ZLIB input stream",
 					Cosmetic.maxTags);
+
+            Cosmetic.DisablePlaceholderLighting = Boolean("DisableLightingInPlaceholders",
+                    "Placeholders will not mimic lighting of their previous block state if this is enabled",
+                    Cosmetic.DisablePlaceholderLighting);
 		}
 
 		{
@@ -297,6 +311,14 @@ public class RiMConfiguration extends Config {
 					Debug.MuteMotionExceptions);
 
 			Debug.verbose = Boolean("VerboseLogging", "Log everything (will fill up your console/logs)", Debug.verbose);
+
+            Debug.SkipPlaceholders = Boolean("SkipPlaceholders", "Skip the placeholder phase. This will undoubtedly make things lag less, but the entire structure will be unphysicalized during movement.", Debug.SkipPlaceholders);
+
+            Debug.SkipPlaceholderNotify = Boolean("SkipPlaceholderNotify", "Skip the placeholder notify phase. This will cause blocks to not send the update that they changed during the placeholder phase. This may cause issues.", Debug.SkipPlaceholderNotify);
+
+            Debug.SimplePlaceholders = Boolean("SimplePlaceholders", "Use simple placeholders. The way it used to work. It should be faster. A lot faster. Disables a lot of fancy stuff.", Debug.SimplePlaceholders);
+
+            Debug.IgnoreObstructions = Boolean("IgnoreObstructions", "Ignore Obstructions, as in plow through stuff. Nothing will get in my way!", Debug.IgnoreObstructions);
 
 		}
 

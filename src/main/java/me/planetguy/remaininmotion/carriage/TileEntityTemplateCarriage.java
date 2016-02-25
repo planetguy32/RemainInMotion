@@ -21,6 +21,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityTemplateCarriage extends TileEntityCarriage {
 	public BlockRecordList	Pattern;
 
+    public TileEntityTemplateCarriage() {
+        super();
+    }
+
 	/**
 	 * Shim for memory carriage
 	 */

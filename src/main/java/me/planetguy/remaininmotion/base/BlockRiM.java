@@ -36,34 +36,23 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public abstract class BlockRiM extends BlockContainer {
 	public int	RenderId;
 
+    // TODO rewrite this whole init system, it is slow as hell
+
 	@Override
 	public int getRenderType() {
 		return (RenderId);
 	}
 
-	public Class<? extends TileEntityRiM>[]								TileEntityClasses;
 	public static LinkedHashMap<Class<? extends TileEntityRiM>, String>	legacyClassToNameMap;
 
 	@Override
 	public boolean hasTileEntity(int meta) {
-		try {
-			if (meta >= 0 && meta < TileEntityClasses.length) { return (TileEntityClasses[meta] != null); }
-		} catch (Throwable t) {
-			Debug.exception(t);
-		}
-
-		return (false);
+		return true;
 	}
 
 	@Override
 	public TileEntity createTileEntity(World World, int Meta) {
-		try {
-			TileEntityRiM te = TileEntityClasses[Meta].newInstance();
-			return te;
-		} catch (Throwable e) {
-			e.printStackTrace();
-			return (null);
-		}
+		return null;
 	}
 
 	public static void initLegacyClassMap() {
@@ -107,17 +96,17 @@ public abstract class BlockRiM extends BlockContainer {
 		}
 	}
 
-	public BlockRiM(Block Template, Class<? extends ItemBlockRiM> BlockItemClass,
-			Class<? extends TileEntityRiM>... TileEntityList) {
+	public BlockRiM(Block Template, Class<? extends ItemBlockRiM> BlockItemClass) {
 		super(Template.getMaterial());
-
-		TileEntityClasses = TileEntityList;
 
 		setBlockName(ModRiM.Handle + "_" + getClass().getSimpleName().substring(5, getClass().getSimpleName().length()));
 
 		setHardness(Template.getBlockHardness(null, 0, 0, 0));
 
 		setStepSound(Template.stepSound);
+
+        setLightLevel(Template.getLightValue());
+        setLightOpacity(Template.getLightOpacity());
 
 		GameRegistry.registerBlock(this, BlockItemClass, getUnlocalizedName());
 
@@ -176,13 +165,6 @@ public abstract class BlockRiM extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int meta) {
-		try {
-			return TileEntityClasses[meta].newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
 		return null;
 	}
 

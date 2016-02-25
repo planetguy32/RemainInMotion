@@ -17,9 +17,7 @@ import java.util.List;
 
 public class BlockSpectre extends BlockRiM {
 	public BlockSpectre() {
-		super(Blocks.bedrock, ItemSpectre.class, TileEntityMotiveSpectre.class, TileEntitySupportiveSpectre.class,
-				TileEntityTeleportativeSpectre.class, TileEntityTransduplicativeSpectre.class,
-				TileEntityRotativeSpectre.class, TileEntitySupportiveSpectre.class);
+		super(Blocks.bedrock, ItemSpectre.class);
 		RenderId = -1;
 	}
 
@@ -96,32 +94,49 @@ public class BlockSpectre extends BlockRiM {
      */
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
-    	/*
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileEntityMotiveSpectre) {
-            return ((TileEntityMotiveSpectre) te).getLightValue();
-        } else if(te instanceof TileEntitySupportiveSpectre)
-        {
-            return ((TileEntitySupportiveSpectre) te).getLightValue();
+        // This is not the cause of the lag. This was the first call to create the tileentity, which is a very long operation. When commented, the call just moved elsewhere
+        if(!RiMConfiguration.Cosmetic.DisablePlaceholderLighting && !RiMConfiguration.Debug.SimplePlaceholders && !RiMConfiguration.Debug.SkipPlaceholders) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te instanceof TileEntityMotiveSpectre) {
+                return ((TileEntityMotiveSpectre) te).getLightValue();
+            } else if (te instanceof TileEntitySupportiveSpectre) {
+                return ((TileEntitySupportiveSpectre) te).getLightValue();
+            }
         }
-        */
+
         return super.getLightValue(world, x, y, z);
 
     }
 
     @Override
     public int getLightOpacity(IBlockAccess world, int x, int y, int z) {
-    	/* 
-    	 * Strangely enough, this seems to be a bottleneck in moving blocks...
-    	 * 
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TileEntityMotiveSpectre) {
-            return ((TileEntityMotiveSpectre) te).getLightOpacity();
-        } else if(te instanceof TileEntitySupportiveSpectre)
-        {
-            return ((TileEntitySupportiveSpectre) te).getLightOpacity();
+        if(!RiMConfiguration.Cosmetic.DisablePlaceholderLighting && !RiMConfiguration.Debug.SimplePlaceholders && !RiMConfiguration.Debug.SkipPlaceholders) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (te instanceof TileEntityMotiveSpectre) {
+                return ((TileEntityMotiveSpectre) te).getLightOpacity();
+            } else if (te instanceof TileEntitySupportiveSpectre) {
+                return ((TileEntitySupportiveSpectre) te).getLightOpacity();
+            }
         }
-        */
+
         return super.getLightOpacity(world, x, y, z);
+    }
+
+    @Override
+    public boolean hasTileEntity() {
+        return !RiMConfiguration.Cosmetic.DisablePlaceholderLighting && !RiMConfiguration.Debug.SimplePlaceholders && !RiMConfiguration.Debug.SkipPlaceholders;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World World, int Meta) {
+        switch(Meta){
+            case 0: return new TileEntityMotiveSpectre();
+            case 1: return new TileEntitySupportiveSpectre();
+            case 2: return new TileEntityTeleportativeSpectre();
+            case 3: return new TileEntityTransduplicativeSpectre();
+            case 4: return new TileEntityRotativeSpectre();
+            case 5: return new TileEntitySupportiveSpectre();
+        }
+        return null;
     }
 }
