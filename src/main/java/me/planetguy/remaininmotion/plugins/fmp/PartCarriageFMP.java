@@ -3,6 +3,8 @@ package me.planetguy.remaininmotion.plugins.fmp;
 import java.util.Iterator;
 
 import me.planetguy.lib.util.Debug;
+import me.planetguy.lib.util.EmptyIterator;
+import me.planetguy.lib.util.SingleIterator;
 import me.planetguy.remaininmotion.base.ToolItemSet;
 import me.planetguy.remaininmotion.api.ConnectabilityState;
 import me.planetguy.remaininmotion.api.ICloseable;
@@ -20,6 +22,7 @@ import codechicken.lib.vec.Vector3;
 import codechicken.microblock.CommonMicroblock;
 import codechicken.multipart.JNormalOcclusion;
 import codechicken.multipart.TMultiPart;
+import codechicken.multipart.TileMultipart;
 import codechicken.multipart.minecraft.McBlockPart;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
@@ -71,58 +74,13 @@ public class PartCarriageFMP extends McBlockPart implements JNormalOcclusion, IC
 	@Optional.Method(modid = "ForgeMultipart")
 	@Override
 	public Iterable<Cuboid6> getOcclusionBoxes() {
-		return new Iterable() {
-			@Override
-			public Iterator iterator() {
-				return new Iterator() {
-					// empty iterator
-					@Override
-					public boolean hasNext() {
-						return false;
-					}
-
-					@Override
-					public Object next() {
-						return null;
-					}
-
-					@Override
-					public void remove() {}
-				};
-
-			}
-		};
+		return EmptyIterator.instance;
 	}
 
 	@Override
 	@Optional.Method(modid = "ForgeMultipart")
 	public Iterable<Cuboid6> getCollisionBoxes() {
-		return new Iterable() {
-
-			@Override
-			public Iterator iterator() {
-				return new Iterator() {
-
-					boolean	done	= false;
-
-					@Override
-					public boolean hasNext() {
-						return !done;
-					}
-
-					@Override
-					public Object next() {
-						done=true;
-						return Cuboid6.full;
-					}
-
-					@Override
-					public void remove() {}
-
-				};
-			}
-
-		};
+		return new SingleIterator(Cuboid6.full);
 	}
 
 	@Optional.Method(modid = "ForgeMultipart")
@@ -250,6 +208,10 @@ public class PartCarriageFMP extends McBlockPart implements JNormalOcclusion, IC
 	@Override
 	public ItemStack pickItem(MovingObjectPosition hit) {
 		return new ItemStack(FMPCarriagePlugin.hollowCarriage);
+	}
+	
+	public Iterable<ItemStack> getDrops() {
+		return new SingleIterator(pickItem(null));
 	}
 
 }
